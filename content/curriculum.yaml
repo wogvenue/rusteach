@@ -1,0 +1,688 @@
+# Rusteach — Müfredat planı (sıfırdan uzmanlığa)
+# Each module lists: its tier, the lessons to write (title + what MUST be covered),
+# and `new_concepts` (concepts introduced here). Authors may freely use every concept
+# introduced in EARLIER modules plus the module's own concepts once taught; anything else
+# only as a clearly labeled preview (see `previews`).
+#
+# Global previews allowed everywhere (explain in one sentence when first used in a module):
+#   - println!/print!/format! with {}, {:?}, {x} inline args (from m01)
+#   - .unwrap() / .expect("...") on parse() results (from m02 l06), as "şimdilik"
+#   - String::from, .len(), .push_str() (from m04); Vec via vec![], .push(), .len(), v[i] (from m04)
+#   - #[derive(Debug)] (from m06)
+#   - simple closures |x| x * 2 only as arguments to sort_by_key/retain etc. (from m09 l05)
+#   - for x in &v / v.iter() / s.chars() / .enumerate() (from m09)
+#   - Box<dyn std::error::Error> as main's error type (from m10 l03)
+#   - iterator adaptors map/filter/collect: only from m14 on
+
+tiers:
+  - id: t1
+    title: Başlangıç Koyu
+    subtitle: İlk adımlar — sözdizimi, değişkenler, akış
+    color: "#22C55E"
+    emoji: "🏝️"
+  - id: t2
+    title: Sahiplik Adası
+    subtitle: Rust'ı Rust yapan fikir — sahiplik, ödünç alma, tipler
+    color: "#F97316"
+    emoji: "🌋"
+  - id: t3
+    title: Yapı Limanı
+    subtitle: Kodu düzenlemek, veri toplamak, hatalarla başa çıkmak
+    color: "#0EA5E9"
+    emoji: "⚓"
+  - id: t4
+    title: Soyutlama Ormanı
+    subtitle: Generic'ler, trait'ler, yaşam süreleri ve testler
+    color: "#14B8A6"
+    emoji: "🌲"
+  - id: t5
+    title: Fonksiyonel Vadi
+    subtitle: Closure'lar, iterator'lar ve gerçek bir proje
+    color: "#8B5CF6"
+    emoji: "🏞️"
+  - id: t6
+    title: Eşzamanlılık Dağları
+    subtitle: Akıllı işaretçiler, thread'ler ve async
+    color: "#EC4899"
+    emoji: "⛰️"
+  - id: t7
+    title: Desen Kanyonu
+    subtitle: Trait nesneleri, desenler ve ileri tip sistemi
+    color: "#EAB308"
+    emoji: "🏜️"
+  - id: t8
+    title: Uzman Zirvesi
+    subtitle: Makrolar, unsafe, performans ve gerçek dünya
+    color: "#EF4444"
+    emoji: "🏔️"
+
+modules:
+  # ───────────────────────────── TIER 1 ─────────────────────────────
+  - id: m01
+    dir: 01-merhaba-rust
+    tier: t1
+    title: Merhaba Rust
+    new_concepts: |
+      programming basics, compiled vs interpreted, rustup, rustc, cargo, fn main, println!, macros (the ! sign), comments, format strings, eprintln!, format!, compiler errors, rustfmt, clippy
+    lessons:
+      - title: Programlama nedir, Rust neden var?
+        cover: |
+          what a program is, source code -> compiler -> machine code, compiled vs interpreted (Python/JS vs C/Rust), the memory-safety problem (C/C++ bugs, ~70% of security bugs are memory bugs) and garbage collectors' cost, Rust's promise (safety + speed + fearless concurrency), who uses Rust (Linux kernel, Windows, Android, Firefox, Discord, Cloudflare, AWS), "most admired language" surveys, how this app works (steps, checks, SRS reviews, XP) and how to study (short daily sessions, retrieval > rereading)
+      - title: Kurulum — rustup, rustc ve cargo
+        cover: |
+          installing on Windows via rustup-init.exe (rustup.rs), MSVC build tools vs GNU toolchain, rustc --version, cargo --version, rustup update, rustup doc / The Book offline, editor setup (VS Code + rust-analyzer), the in-app runner (local vs online Rust Playground) — code blocks here run online if Rust is not installed
+      - title: İlk programın — Merhaba, Dünya!
+        cover: |
+          fn main, curly braces, println! is a macro (!), string literals, semicolons, compiling with rustc main.rs and running the .exe, what an executable is, small modifications exercise
+      - title: Cargo ile proje yönetimi
+        cover: |
+          cargo new, project layout (Cargo.toml, src/main.rs, .gitignore), TOML basics, cargo build / cargo run / cargo check, debug vs --release, target/ directory, Cargo.lock intro, why cargo check is fast
+      - title: Yorumlar ve çıktı biçimlendirme
+        cover: |
+          "// and /* */ comments, doc comment preview (///)", "println! placeholders {}, {:?}, positional {0}, named {ad}, inline {x}", "width/alignment/padding {:>8} {:<8} {:^8} {:08}", "precision {:.2}", "escaping {{ }}", "print! vs println!", "eprintln! (stderr)", "format! returns a String"
+      - title: Derleyiciyle dost olmak
+        cover: |
+          anatomy of a compiler error (error[E0425], --> file:line:col, help/note lines), warnings vs errors, rustc --explain E0425, reading errors top-down, rustfmt (cargo fmt), clippy (cargo clippy), a "fix the errors" practice session
+
+  - id: m02
+    dir: 02-degiskenler-ve-tipler
+    tier: t1
+    title: Değişkenler ve Veri Tipleri
+    new_concepts: |
+      let, mut, const, static (intro), shadowing, integer types, overflow, float, bool, char, arithmetic, as casting, tuples, arrays, type inference, annotations, parse + unwrap preview
+    lessons:
+      - title: Değişkenler ve değişmezlik (immutability)
+        cover: |
+          let bindings, immutable by default and WHY (safety, reasoning, concurrency), E0384 error, mut keyword, when to use mut, naming conventions snake_case
+      - title: Sabitler ve gölgeleme (shadowing)
+        cover: |
+          const with mandatory type and SCREAMING_SNAKE_CASE, compile-time evaluation, static intro, shadowing vs mut (can change type, new binding), shadowing in nested scopes, common uses (parsing input, transformations)
+      - title: Tamsayılar ve taşma (overflow)
+        cover: |
+          i8..i128, u8..u128, isize/usize and pointer size, default i32, literals (1_000_000, 0xff, 0o77, 0b1010, b'A', suffixes 5u8), integer overflow (panic in debug, wraps in release), wrapping_add, checked_add (returns Option — preview), saturating_add, overflowing_add, integer division and % remainder
+      - title: Ondalık sayılar, bool ve char
+        cover: |
+          f64 default vs f32, floating point precision (0.1+0.2), arithmetic operators, compound assignment (+=), bool and logical operators (&&, ||, !), comparisons, char is a 4-byte Unicode scalar value ('ş', '🦀'), casting with as (and lossy casts, truncation)
+      - title: Bileşik tipler — tuple ve dizi
+        cover: |
+          tuples with mixed types, access .0 .1, destructuring let (a, b) = t, unit type (), arrays [T; N] fixed size on stack, [0; 5] initializer, indexing, .len(), out-of-bounds panic at runtime (and compile-time detection for constants), when array vs Vec (Vec preview)
+      - title: Tip çıkarımı ve tip belirtme
+        cover: |
+          type inference, explicit annotations, when annotation is required, "\"42\".parse::<i32>() and turbofish ::<>", ".unwrap()/.expect() as preview (Module 10)", type mismatch errors E0308, statically typed vs dynamically typed
+
+  - id: m03
+    dir: 03-fonksiyonlar-ve-akis
+    tier: t1
+    title: Fonksiyonlar ve Kontrol Akışı
+    new_concepts: |
+      fn with params and return, expressions vs statements, blocks as expressions, if/else if/else, if as expression, loop with break value, while, for over ranges and arrays, .rev(), labels, continue, std::io::stdin read_line (in project only), match on Ordering (preview)
+    lessons:
+      - title: Fonksiyonlar
+        cover: |
+          defining functions, parameters must have types, return types with ->, calling order doesn't matter, snake_case, why explicit signatures (documentation, local reasoning)
+      - title: İfadeler ve deyimler (expressions vs statements)
+        cover: |
+          statement vs expression, let is a statement, blocks {} are expressions, the last expression without semicolon is the value, the semicolon pitfall (E0308 with ()), implicit return vs return keyword, early return
+      - title: Koşullar — if / else
+        cover: |
+          if condition must be bool (no truthiness, E0308), else if chains, if as an expression in let, both branches same type, nesting vs early return, a small grade calculator
+      - title: Döngüler — loop, while, for
+        cover: |
+          loop with break, returning a value from loop (break value), while loops, for over arrays and ranges (1..5, 1..=5), .rev(), loop labels 'outer for nested loops, continue, choosing the right loop, off-by-one errors
+      - title: "Proje: Sayı tahmin oyunu"
+        type: project
+        cover: |
+          build the Rust Book guessing game step by step as a cargo project the learner runs locally (rust,norun for stdin parts), std::io::stdin().read_line(&mut s) explained gently, adding the rand crate in Cargo.toml (dependency preview), parse and trim, comparing with if/else (and std::cmp::Ordering + match as a short preview), loop until correct, extracting pure functions (e.g. fn karsilastir(tahmin, gizli) -> &'static str -- or return a simple enum-free String) so in-app exercises can test the logic without stdin
+
+  # ───────────────────────────── TIER 2 ─────────────────────────────
+  - id: m04
+    dir: 04-sahiplik
+    tier: t2
+    title: Sahiplik (Ownership)
+    new_concepts: |
+      stack vs heap, String type, ownership rules, scope and drop, move, clone, Copy types, ownership through functions, Vec as a heap-owning type (preview)
+    lessons:
+      - title: Bellek nasıl çalışır — stack ve heap
+        cover: |
+          memory diagram based explanation, stack (LIFO, fixed size, fast) vs heap (dynamic size, allocation, pointer), how C (manual malloc/free) and Java/Python (GC) handle memory and their failure modes (leaks, double free, use-after-free, dangling pointers, GC pauses), Rust's third way
+      - title: Sahiplik kuralları ve kapsam (scope)
+        cover: |
+          the 3 ownership rules, variable scope, String vs &'static str literal (literal stored in the binary), String::from, push_str, drop called automatically at end of scope, RAII idea
+      - title: Taşıma (move)
+        cover: |
+          let s2 = s1 for String moves ownership (memory diagram with steps), why not a shallow copy (double free), E0382 borrow of moved value — reading the error, moves into function arguments, moves in loops (preview), Vec also moves
+      - title: Clone ve Copy
+        cover: |
+          clone() deep copy and its cost, Copy types (integers, floats, bool, char, tuples/arrays of Copy), why String is not Copy, clone as a conscious decision — not a fix-all
+      - title: Sahiplik ve fonksiyonlar
+        cover: |
+          passing a value moves it (unless Copy), returning values transfers ownership, returning a tuple to give ownership back — and why this is tedious (motivation for references in Module 5)
+
+  - id: m05
+    dir: 05-odunc-alma-ve-dilimler
+    tier: t2
+    title: Ödünç Alma ve Dilimler
+    new_concepts: |
+      "references &T", "dereference *", "mutable references &mut T", borrowing rules, NLL, dangling references, "string slices &str", "array slices &[T]", "&mut [T]"
+    lessons:
+      - title: Referanslar ve ödünç alma
+        cover: |
+          & creates a reference, borrowing analogy (lending a book), functions taking &String, references are immutable by default, memory diagram of a reference pointing to a stack var pointing to heap, dereference with * (and auto-deref for method calls)
+      - title: Değiştirilebilir referanslar
+        cover: |
+          &mut T, the rule — either ONE &mut or ANY number of & (aliasing XOR mutation), E0499 and E0502, why — data races and iterator invalidation in C++, non-lexical lifetimes (NLL) — borrow ends at last use, scopes to separate borrows
+      - title: Sarkan referanslar (dangling)
+        cover: |
+          what a dangling pointer is, Rust prevents it at compile time, E0106 missing lifetime specifier when returning a reference to a local (lifetimes preview Module 12), fix by returning owned String
+      - title: Dilimler — &str ve &[T]
+        cover: |
+          slices as a reference to part of a collection (pointer + length), string slices &s[0..5], range syntax shortcuts, first_word example and how slices keep you safe (s.clear() conflict), string literals are &str, prefer &str parameters, UTF-8 byte boundaries and the panic when slicing in the middle of 'ş', array slices &a[1..3] and &mut [T]
+      - title: Borrow checker ile düşünmek
+        cover: |
+          systematic approach to borrow errors — who owns, who borrows, how long; common fixes (shorten borrow, clone deliberately, restructure, return owned data, index instead of reference), many compiles/doesn't-compile checks, mental model summary
+
+  - id: m06
+    dir: 06-yapilar
+    tier: t2
+    title: Yapılar (Structs)
+    new_concepts: |
+      struct definition, instantiation, field init shorthand, struct update syntax, tuple structs, unit structs, "#[derive(Debug)]", "{:?} {:#?}", dbg!, impl blocks, methods with self/&self/&mut self, associated functions, Self, multiple impl blocks
+    lessons:
+      - title: Struct tanımlamak ve kullanmak
+        cover: |
+          grouping related data, defining a struct, creating instances, accessing and mutating fields (whole instance must be mut), field init shorthand, struct update syntax ..other and its move semantics, ownership of fields (String vs &str fields — why owned for now)
+      - title: Tuple struct'lar ve birim struct'lar
+        cover: |
+          tuple structs (struct Renk(u8,u8,u8)), newtype idea for type safety (Metre vs Fit), unit-like structs, when to use which
+      - title: Debug ile yazdırma
+        cover: |
+          "#[derive(Debug)]", "{:?} and {:#?}", "dbg! macro (returns ownership, prints to stderr with file:line)", "why Display isn't derived (preview of traits in Module 11)"
+      - title: Metotlar
+        cover: |
+          impl block, &self, &mut self, self (consuming) and when each is right, method call syntax and automatic referencing, methods with extra parameters, getters naming convention
+      - title: İlişkili fonksiyonlar ve kurucular
+        cover: |
+          "associated functions without self (String::from style)", "new() constructors convention", Self keyword, "multiple impl blocks", ":: vs . syntax"
+      - title: "Proje: Kütüphane envanteri"
+        type: project
+        cover: |
+          design a small Kitap/Kutuphane model with structs, methods (ekle, odunc_ver, iade_et, listele) using Vec<Kitap> (preview Vec), tests-checked exercises for each method, refactoring from loose variables to structs
+
+  - id: m07
+    dir: 07-enumlar-ve-match
+    tier: t2
+    title: Enum'lar ve Desen Eşleştirme
+    new_concepts: |
+      enum definition, variants with data, enum methods, Option<T>, Some/None, match, exhaustiveness, binding in patterns, "_ placeholder", if let, let else, while let, matches!
+    lessons:
+      - title: Enum'lar — bir değer, birçok olasılık
+        cover: |
+          enum definition, variants with no data / tuple data / struct-like data, enum vs struct choice, impl on enums, example — IpAddr, Mesaj, OyunKomutu
+      - title: Option — null'suz dünya
+        cover: |
+          Tony Hoare's billion dollar mistake, Option<T> with Some and None, why Option<i32> + i32 doesn't compile, getting the value out (match; unwrap_or as preview), Option in struct fields
+      - title: match ifadesi
+        cover: |
+          match arms and patterns, exhaustiveness checking (E0004), binding values from variants, matching Option, catch-all with a variable or _, match as an expression, matching on integers/ranges/chars, arms returning the same type
+      - title: if let, let else ve while let
+        cover: |
+          if let for one interesting pattern, else branch, let ... else for early return (modern idiom), while let with a Vec stack pop(), matches! macro
+      - title: Enum'larla modelleme
+        cover: |
+          making illegal states unrepresentable, state machine example (TrafikIsigi, SiparisDurumu), enum + match vs if-chains, enums with impl and methods that consume self to transition states, combining structs and enums
+
+  # ───────────────────────────── TIER 3 ─────────────────────────────
+  - id: m08
+    dir: 08-moduller-ve-crateler
+    tier: t3
+    title: Modüller, Paketler ve Crate'ler
+    new_concepts: |
+      package, crate (binary/library), module tree, mod, pub, privacy, paths crate::/super::/self::, use, as, pub use re-export, nested/glob imports, splitting modules into files, external dependencies, semver, Cargo.lock, crates.io, docs.rs
+    lessons:
+      - title: Paket, crate ve modül kavramları
+        cover: |
+          package vs crate vs module, binary crate vs library crate, crate root (main.rs / lib.rs), module tree diagram, why modules (organization + privacy)
+      - title: mod, pub ve gizlilik kuralları
+        cover: |
+          inline mod blocks, private by default, pub on modules/functions/structs/fields, pub struct fields vs pub enum variants, E0603 private item error, encapsulation with constructors
+      - title: Yollar ve use
+        cover: |
+          absolute paths crate::, relative paths, super::, self::, use to bring into scope, idiomatic use (function's parent module vs full path for types), as aliases, pub use re-exports, nested paths use std::{io, fmt}, glob imports and when to avoid
+      - title: Modülleri dosyalara bölmek
+        cover: |
+          src/lib.rs + src/main.rs pattern, mod kutuphane; -> kutuphane.rs or kutuphane/mod.rs, nested module files (modern style without mod.rs), project layout of a real crate (rust,ignore for multi-file)
+      - title: Dış crate'ler ve crates.io
+        cover: |
+          adding dependencies in Cargo.toml / cargo add, semantic versioning (^1.2.3), Cargo.lock purpose, crates.io and docs.rs, using rand / regex in code (runnable online), the std library as a crate, choosing quality crates
+
+  - id: m09
+    dir: 09-koleksiyonlar
+    tier: t3
+    title: Koleksiyonlar
+    new_concepts: |
+      Vec<T> in depth, String in depth (UTF-8), HashMap, entry API, HashSet, BTreeMap, VecDeque, BinaryHeap, sorting, searching, simple closures in sort_by_key/retain (preview)
+    lessons:
+      - title: Vec — büyüyebilen diziler
+        cover: |
+          Vec::new, vec![], push, pop, indexing vs get (Option), iterating with for &v and &mut v, borrow rules with vectors (E0502 when pushing while holding a reference — why, reallocation diagram), Vec of enums for mixed data, capacity vs len, with_capacity
+      - title: String derinlemesine
+        cover: |
+          String vs &str recap, UTF-8 encoding (bytes vs chars vs grapheme clusters), why s[0] doesn't compile, push / push_str / + operator (takes ownership of left side) / format!, .chars() .bytes(), Turkish letters take 2 bytes ('ş'.len_utf8()), to_uppercase and Turkish İ/ı caveat, trim, split_whitespace, contains, replace
+      - title: HashMap — anahtar-değer depoları
+        cover: |
+          HashMap::new, insert, get (returns Option<&V>), ownership of keys/values, iterating (order not guaranteed), updating — overwrite, entry().or_insert, modify via returned &mut, word frequency counter, hashing note (SipHash, DoS resistance)
+      - title: Diğer koleksiyonlar
+        cover: |
+          HashSet (uniqueness, set ops union/intersection), BTreeMap (sorted keys), VecDeque (queue from both ends), BinaryHeap (priority queue, max-heap, Reverse), choosing a collection — table of Big-O
+      - title: Sıralama, arama ve filtreleme
+        cover: |
+          sort, sort_unstable, sort_by with cmp, sort_by_key with a simple closure (closure preview — Module 14), reverse, binary_search, contains, dedup, retain, iter().max()/min() returning Option, sorting floats (partial_cmp / total_cmp)
+
+  - id: m10
+    dir: 10-hata-yonetimi
+    tier: t3
+    title: Hata Yönetimi
+    new_concepts: |
+      panic!, unwinding vs abort, RUST_BACKTRACE, Result<T,E>, Ok/Err, matching on Result, unwrap/expect, unwrap_or/unwrap_or_else/unwrap_or_default, ? operator, main returning Result, Box<dyn Error> (preview), "? on Option", custom error enums, map_err, ok_or, when to panic
+    lessons:
+      - title: "panic! — kurtarılamaz hatalar"
+        cover: |
+          panic! macro, what happens on panic (unwinding stack, cleanup), panic = 'abort' profile option, RUST_BACKTRACE=1, panics from library code (index out of bounds), panic is for bugs not for expected failures
+      - title: Result ile kurtarılabilir hatalar
+        cover: |
+          enum Result<T, E>, functions that return Result (parse, File::open), matching Ok/Err, matching on different error kinds, unwrap vs expect (good expect messages), unwrap_or, unwrap_or_else, unwrap_or_default, is_ok/is_err
+      - title: "? operatörü ile hata yayma"
+        cover: |
+          error propagation manually with match then with ?, ? only in functions returning Result/Option (E0277), chaining calls with ?, main() -> Result<(), Box<dyn std::error::Error>> (preview with note), ? on Option, ok_or to convert Option to Result, map_err
+      - title: Kendi hata tiplerin
+        cover: |
+          designing an error enum (HesapHatasi::YetersizBakiye{..}), returning Result<T, HesapHatasi>, matching errors to give user messages, keeping errors as data, preview — Display/Error/From traits make this nicer in Module 11
+      - title: panic mi, Result mı?
+        cover: |
+          guidelines — examples/prototypes/tests vs libraries, invariants and contracts, validation with types (Yas::new returning Result so invalid values can't exist), expect with reasoning when you know more than the compiler, a decision checklist
+
+  # ───────────────────────────── TIER 4 ─────────────────────────────
+  - id: m11
+    dir: 11-genericler-ve-traitler
+    tier: t4
+    title: Generic'ler ve Trait'ler
+    new_concepts: |
+      generic functions, generic structs/enums/methods, monomorphization, trait definition, impl Trait for Type, default methods, trait bounds, where clauses, impl Trait args/returns, derive and std traits (Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default), Display, From/Into, TryFrom, FromStr, AsRef, std::error::Error, orphan rule, blanket impls, const generics
+    lessons:
+      - title: Generic fonksiyonlar
+        cover: |
+          motivation — duplicate largest_i32/largest_char, type parameter <T>, why the naive generic largest needs a bound (E0369 → PartialOrd), turbofish with generic functions
+      - title: Generic struct, enum ve metotlar
+        cover: |
+          struct Nokta<T>, multiple type params <T, U>, Option<T> and Result<T,E> are generic enums, impl<T> Nokta<T>, impl Nokta<f64> specific methods, method generics differ from struct generics, monomorphization — zero runtime cost, code size tradeoff
+      - title: Trait'ler — ortak davranış
+        cover: |
+          trait as shared behavior/contract (interface analogy), defining trait Ozet, impl Ozet for Haber, default implementations, calling other trait methods from defaults, traits vs inheritance
+      - title: Trait sınırları
+        cover: |
+          fn bildir(item: &impl Ozet), generic form <T: Ozet>, multiple bounds T: Ozet + Display, where clauses, returning impl Trait (single concrete type rule), conditional method impls impl<T: Display + PartialOrd> Cift<T>
+      - title: derive ve standart trait'ler
+        cover: |
+          what derive generates, Debug, Clone vs Copy (Copy requires Clone, all fields Copy), PartialEq/Eq, PartialOrd/Ord (lexicographic field order), Hash (for HashMap keys), Default (..Default::default()), when you cannot derive
+      - title: Dönüşüm ve biçimlendirme trait'leri
+        cover: |
+          impl fmt::Display (to_string for free), From and Into (implement From, get Into), TryFrom for fallible conversions, FromStr enabling .parse(), AsRef<str> for flexible params, implementing std::error::Error for a custom error + From so that ? converts errors automatically (completes Module 10)
+      - title: Trait kuralları — orphan rule ve blanket impl
+        cover: |
+          coherence and the orphan rule (E0117), newtype workaround (preview of Module 22), blanket implementations (impl<T: Display> ToString for T), const generics struct Matris<const N: usize>, choosing generic vs concrete
+
+  - id: m12
+    dir: 12-yasam-sureleri
+    tier: t4
+    title: Yaşam Süreleri (Lifetimes)
+    new_concepts: |
+      "lifetime annotations 'a", lifetimes in function signatures, lifetimes in structs, elision rules, "'static", "T: 'a bounds", lifetimes with generics and traits
+    lessons:
+      - title: Yaşam süresi nedir?
+        cover: |
+          every reference has a lifetime, the borrow checker compares scopes (diagram with 'a and 'b brackets), dangling reference example revisited, lifetimes are descriptive not prescriptive — they don't change how long values live
+      - title: Fonksiyonlarda yaşam süresi anotasyonları
+        cover: |
+          longest(x, y) and E0106, syntax &'a str, meaning — result lives at most as long as the shorter input, calls that compile vs don't (compiles checks), when only one parameter needs 'a, returning a reference to a local can never work
+      - title: Referans tutan struct'lar
+        cover: |
+          struct Alinti<'a> { parca: &'a str }, the struct can't outlive the data, impl<'a> blocks, methods returning references to fields, owned vs borrowed struct design tradeoffs
+      - title: Elision kuralları ve 'static
+        cover: |
+          the three elision rules step by step on examples, method elision with &self, 'static lifetime (string literals), misuse of 'static as an error-silencer, T: 'static bound meaning (owns its data), T: 'a
+      - title: Yaşam süreleriyle ustalaşmak
+        cover: |
+          generics + trait bounds + lifetimes together, reading complex signatures, common lifetime errors and fixes (return owned, restructure, split borrows), multiple lifetime params 'a 'b and when needed, a practical text tokenizer returning &str slices
+
+  - id: m13
+    dir: 13-test-yazmak
+    tier: t4
+    title: Test Yazmak
+    new_concepts: |
+      "#[test]", "#[cfg(test)]", assert!, assert_eq!, assert_ne!, custom failure messages, "#[should_panic(expected=...)]", tests returning Result, "#[ignore]", cargo test options, unit vs integration tests, tests/ directory, doc comments /// and //!, doc tests, cargo doc, TDD
+    lessons:
+      - title: İlk testlerin
+        cover: |
+          why automated tests, #[cfg(test)] mod tests with use super::*, #[test] functions, assert!, assert_eq!, assert_ne! (left/right output), custom messages with format args, testing private functions, reading test output
+      - title: Panik ve Result döndüren testler
+        cover: |
+          "#[should_panic] and expected = substring", "tests returning Result<(), String> with ?", "#[ignore]", "cargo test name_filter, -- --nocapture, -- --test-threads=1, --ignored"
+      - title: Birim ve entegrasyon testleri
+        cover: |
+          unit tests next to code, integration tests in tests/ as external users of the crate (only pub API), tests/common/mod.rs for helpers, binary crates and lib.rs pattern (rust,ignore for file layout)
+      - title: Dokümantasyon ve doc testleri
+        cover: |
+          /// item docs with markdown, //! crate/module docs, sections # Examples # Panics # Errors, code examples in docs are tests (doc tests), cargo doc --open, hiding lines in doc tests with # (same as this app!)
+      - title: Test güdümlü geliştirme (TDD)
+        cover: |
+          red-green-refactor cycle, practice — build a function test-first (e.g. Roma rakamı çevirici or şifre doğrulayıcı), edge cases and table-driven tests with arrays of (input, expected), what makes a good test name
+
+  # ───────────────────────────── TIER 5 ─────────────────────────────
+  - id: m14
+    dir: 14-closurelar-ve-iteratorlar
+    tier: t5
+    title: Closure'lar ve Iterator'lar
+    new_concepts: |
+      closure syntax, type inference of closures, capturing by ref/mut ref/move, Fn/FnMut/FnOnce, move keyword, closures as parameters and return values (impl Fn, Box<dyn Fn> preview), Iterator trait and next, iter/iter_mut/into_iter, adaptors (map, filter, enumerate, zip, chain, take, skip, take_while, skip_while, flat_map, filter_map, peekable, rev, step_by, windows, chunks), consumers (collect, sum, product, fold, count, any, all, find, position, min/max/_by_key, last, nth), collecting into Vec/String/HashMap/Result, custom iterators, laziness, zero-cost
+    lessons:
+      - title: "Closure'lar — isimsiz fonksiyonlar"
+        cover: |
+          closure syntax |x| x + 1 and with blocks, type inference fixed on first use (E0308), capturing the environment by reference / mutable reference / by value, comparing to functions, storing closures in variables, unwrap_or_else(|| ...) and sort_by_key revisited
+      - title: Fn, FnMut, FnOnce ve move
+        cover: |
+          the three traits and how the compiler picks, functions accepting impl Fn(i32) -> i32 / generic F: FnMut, move closures (needed for threads — preview), returning closures (impl Fn, Box<dyn Fn> preview), fn pointers vs closures briefly
+      - title: Iterator trait'i
+        cover: |
+          Iterator trait with type Item and next(), iterators are lazy, for loops use IntoIterator, iter() (&T) vs iter_mut() (&mut T) vs into_iter() (T), calling next manually, iterator invalidation impossible in Rust
+      - title: Iterator adaptörleri
+        cover: |
+          map, filter, enumerate, zip, chain, take, skip, take_while, skip_while, step_by, rev, flat_map, filter_map, peekable, windows/chunks on slices, chaining adaptors into pipelines, nothing happens until consumed (lazy evaluation) — predict checks
+      - title: Iterator tüketicileri ve collect
+        cover: |
+          sum, product, count, fold, any, all, find, position, min/max, min_by_key/max_by_key, last, nth, collect into Vec / String / HashMap / HashSet, collect::<Result<Vec<_>, _>>() short-circuit, type annotations for collect (turbofish vs let annotation)
+      - title: Kendi iterator'ın ve performans
+        cover: |
+          implement Iterator for a struct (Sayac, Fibonacci), getting all adaptors for free, iterator vs index loops benchmark story (zero-cost abstraction, bounds-check elimination), refactoring loops into iterator pipelines and when NOT to (readability)
+
+  - id: m15
+    dir: 15-proje-komut-satiri
+    tier: t5
+    title: "Proje: Komut Satırı Aracı (minigrep)"
+    new_concepts: |
+      std::env::args, std::fs::read_to_string, std::process::exit, separating lib and main, Config struct with build(), Box<dyn Error>, env vars std::env::var, eprintln! for errors, clap intro
+    lessons:
+      - title: Proje planı ve komut satırı argümanları
+        type: project
+        cover: |
+          what we build (a grep clone "ara"), cargo new ara, std::env::args().collect(), reading args by index, why args is rust,norun in-app, design — parse args into a Config struct
+      - title: Dosya okuma ve yeniden yapılandırma
+        type: project
+        cover: |
+          fs::read_to_string, separation of concerns (main.rs thin, lib.rs logic), Config::build returning Result<Config, &'static str>, run(config) -> Result<(), Box<dyn Error>>, handling errors in main with process::exit(1)
+      - title: TDD ile arama mantığı
+        type: project
+        cover: |
+          write a failing test for ara(sorgu, icerik) -> Vec<&str>, lifetimes in the signature (Module 12 recap), implement with lines() and contains, case-insensitive variant with to_lowercase, all as tests-checked exercises
+      - title: Ortam değişkenleri ve stderr
+        type: project
+        cover: |
+          std::env::var("IGNORE_CASE").is_ok(), eprintln! so errors don't go to redirected stdout, testing the program by hand (cargo run -- sorgu siir.txt > cikti.txt)
+      - title: Iterator'larla iyileştirme ve clap
+        type: project
+        cover: |
+          refactor Config::build to take impl Iterator<Item = String>, rewrite ara with filter + collect, comparing versions, introduce clap derive API (rust,norun) as the real-world approach, ideas for extensions (line numbers, regex, colored output)
+
+  - id: m16
+    dir: 16-cargo-ve-ekosistem
+    tier: t5
+    title: Cargo ve Ekosistem
+    new_concepts: |
+      release profiles, opt-level, documentation publishing, crates.io publishing, workspaces, features, optional dependencies, cargo install, cargo extensions, rustfmt.toml, clippy lints, editions, MSRV, cargo tree, cargo update
+    lessons:
+      - title: Profiller ve derleme ayarları
+        cover: |
+          "[profile.dev] / [profile.release]", opt-level, debug, lto, codegen-units, panic = "abort", strip, measuring binary size and speed (rust,norun / toml)
+      - title: crates.io'ya yayınlamak
+        cover: |
+          good documentation, pub use for a convenient public API, Cargo.toml metadata (license, description, repository), cargo publish, yanking, semver discipline (breaking changes)
+      - title: Workspace'ler
+        cover: |
+          why workspaces (shared Cargo.lock, target dir), [workspace] members, path dependencies between crates, running cargo commands for one member -p, layout example (rust,ignore / toml)
+      - title: Features ve araç zinciri
+        cover: |
+          "[features] and #[cfg(feature = \"x\")]", optional dependencies, default features, cargo install for binaries, custom cargo subcommands (cargo-watch, cargo-expand, cargo-edit, cargo-nextest, cargo-audit), rustfmt config, clippy lint levels "#[allow(...)]" / "#![deny(...)]", editions (2015/2018/2021/2024) and cargo fix --edition, rust-toolchain.toml
+
+  # ───────────────────────────── TIER 6 ─────────────────────────────
+  - id: m17
+    dir: 17-akilli-isaretciler
+    tier: t6
+    title: Akıllı İşaretçiler
+    new_concepts: |
+      Box<T>, recursive types, Deref trait, deref coercion, Drop trait, std::mem::drop, Rc<T>, Rc::clone and strong_count, RefCell<T>, borrow/borrow_mut runtime checks, interior mutability, Cell<T>, "Rc<RefCell<T>>", Weak<T>, reference cycles, memory leaks
+    lessons:
+      - title: "Box<T> — heap'te tek sahip"
+        cover: |
+          Box::new, when to use Box (unknown size at compile time, large data move, trait objects preview), recursive types — cons list / binary tree with Option<Box<Dugum>>, E0072 infinite size error, memory diagram
+      - title: Deref ve deref zorlaması
+        cover: |
+          * operator on Box, implementing Deref for a custom Kutum<T>, deref coercion (&String → &str, &Box<String> → &str), DerefMut, rules of deref coercion with mutability
+      - title: Drop — temizlik kodu
+        cover: |
+          Drop trait, drop order (reverse of declaration), RAII guard pattern (timer that prints when dropped), std::mem::drop to drop early, E0040 calling drop explicitly not allowed
+      - title: "Rc<T> — paylaşılan sahiplik"
+        cover: |
+          multiple owners scenario (graph, shared list tail), Rc::new, Rc::clone (cheap count increment, not deep clone), Rc::strong_count, Rc only for single-threaded (preview Arc), Rc gives only shared (immutable) access
+      - title: RefCell ve iç değişkenlik
+        cover: |
+          interior mutability pattern, RefCell borrow / borrow_mut with runtime borrow checking and the panic BorrowMutError (should_panic example), Cell<T> for Copy types, Rc<RefCell<T>> for shared mutable data, mock object example from the Book, choosing Box/Rc/RefCell (table)
+      - title: "Referans döngüleri ve Weak<T>"
+        cover: |
+          creating a cycle with Rc<RefCell<..>> leaks memory (strong_count demo), Weak<T> with Rc::downgrade and upgrade() -> Option<Rc<T>>, tree with parent Weak pointers and children Rc, weak_count, ownership design guidelines
+
+  - id: m18
+    dir: 18-eszamanlilik
+    tier: t6
+    title: Korkusuz Eşzamanlılık
+    new_concepts: |
+      thread::spawn, JoinHandle join, move closures with threads, mpsc channels, multiple producers, Mutex<T>, lock and MutexGuard, Arc<T>, deadlock, Send and Sync, RwLock, atomics (AtomicUsize, Ordering), thread::scope, rayon, OnceLock, LazyLock, Condvar (brief), Barrier (brief)
+    lessons:
+      - title: Thread'ler
+        cover: |
+          concurrency vs parallelism, OS threads, thread::spawn, JoinHandle::join and results, main thread ending kills others, move closures to transfer ownership (E0373), thread::sleep, nondeterministic output — use deterministic examples for checks (join results, sort before printing)
+      - title: Kanallarla mesajlaşma
+        cover: |
+          Go proverb "share memory by communicating", mpsc::channel, send/recv, ownership moves through channels, iterating receiver, multiple producers with tx.clone(), sync_channel bounded, closing channels by dropping senders
+      - title: "Paylaşılan durum — Mutex ve Arc"
+        cover: |
+          Mutex<T> API, lock() returns LockResult<MutexGuard>, guard drops unlock, why Rc fails across threads (E0277 Send), Arc<T> atomic refcount, Arc<Mutex<T>> counter example, deadlock example and avoidance, poisoning
+      - title: Send, Sync ve atomikler
+        cover: |
+          Send and Sync marker traits explained, which std types are/aren't (Rc, RefCell, raw pointers), RwLock for read-heavy data, AtomicUsize/AtomicBool with fetch_add, memory Ordering intro (Relaxed / SeqCst / Acquire-Release simply), when to choose atomics vs Mutex
+      - title: Kapsamlı thread'ler ve paralellik araçları
+        cover: |
+          std::thread::scope borrowing local data without Arc, data parallelism with rayon par_iter (runnable online), OnceLock/LazyLock for global init, Condvar and Barrier briefly, practical — parallel word count over chunks
+
+  - id: m19
+    dir: 19-async-await
+    tier: t6
+    title: Async/Await
+    new_concepts: |
+      futures, async fn, .await, runtimes, tokio, "#[tokio::main]", tokio::spawn, JoinHandle, join!, try_join!, select!, JoinSet, tokio::time::sleep/timeout, tokio::sync::mpsc/Mutex/oneshot, streams, async fn in traits, Future trait, poll, Pin/Unpin intuition, blocking vs non-blocking, spawn_blocking, cancellation, Send bounds in async
+    lessons:
+      - title: Async neden var?
+        cover: |
+          I/O-bound vs CPU-bound work, threads are expensive for 10k connections, cooperative multitasking, futures as lazy state machines, async/await syntax at a glance, executors/runtimes (tokio, async-std/smol), comparing with JS promises / Python asyncio
+      - title: async fn ve .await
+        cover: |
+          "#[tokio::main] (runnable online — tokio available)", async fn returns impl Future, futures do nothing until awaited (predict check), sequential awaits, tokio::time::sleep vs std::thread::sleep (never block in async)
+      - title: Eşzamanlı görevler
+        cover: |
+          tokio::spawn and JoinHandle, join! for concurrent futures, try_join! with Results, select! for racing and timeouts, JoinSet for dynamic task sets, tokio::time::timeout, deterministic examples (collect results then print)
+      - title: Async kanallar ve paylaşılan durum
+        cover: |
+          tokio::sync::mpsc producer/consumer, oneshot for responses, broadcast briefly, Arc<tokio::sync::Mutex<T>> vs std Mutex (rule — std Mutex fine if not held across .await), Semaphore for limiting concurrency
+      - title: Future'ın içi — poll, Pin ve stream'ler
+        cover: |
+          the Future trait (poll, Poll::Ready/Pending, Waker) with a hand-written future, why Pin exists (self-referential state machines) intuitively, Unpin, Box::pin, streams (futures::stream / tokio_stream idea, StreamExt::next), async fn in traits (stable since 1.75) and async closures (1.85)
+      - title: Async'te sık hatalar
+        cover: |
+          blocking the executor (std::thread::sleep, heavy CPU) → spawn_blocking, holding a std MutexGuard across .await (future not Send), forgetting to .await (unused future warning), cancellation safety in select!, choosing threads vs async decision table
+
+  # ───────────────────────────── TIER 7 ─────────────────────────────
+  - id: m20
+    dir: 20-trait-nesneleri-ve-oop
+    tier: t7
+    title: Trait Nesneleri ve OOP Desenleri
+    new_concepts: |
+      OOP in Rust (encapsulation, no inheritance), composition, trait objects dyn Trait, Box<dyn Trait>, &dyn Trait, vtables, static vs dynamic dispatch, dyn compatibility (object safety), state pattern, typestate, builder, newtype, strategy, RAII guards, extension traits, Any downcasting (brief)
+    lessons:
+      - title: Rust'ta nesne yönelimli programlama
+        cover: |
+          objects = data + behavior (structs + impl), encapsulation with pub/private, no inheritance — why (fragile base class), code reuse via traits default methods and composition, polymorphism via generics and trait objects
+      - title: "Trait nesneleri — dyn Trait"
+        cover: |
+          heterogeneous collections Vec<Box<dyn Ciz>>, &dyn Trait parameters, fat pointers (data ptr + vtable ptr) memory diagram, dyn keyword, generics vs trait objects (closed vs open set of types)
+      - title: Statik ve dinamik dispatch
+        cover: |
+          monomorphization (static) vs vtable (dynamic), performance and binary size trade-offs, dyn compatibility rules (no generic methods, no Self return, where Self: Sized escape), E0038, enums as a third option for closed sets
+      - title: Durum (state) deseni iki şekilde
+        cover: |
+          Blog Post state pattern with Box<dyn State> (Book version), then the Rust-idiomatic typestate version encoding states as types (TaslakGonderi → InceleniyorGonderi → Gonderi), compile-time guarantees, trade-offs
+      - title: İdiomatik tasarım desenleri
+        cover: |
+          builder pattern (non-consuming and consuming), newtype for invariants and orphan rule, strategy via closures/traits, RAII guards, extension traits, Default + struct update for config, brief note — most GoF patterns are unnecessary or built in
+
+  - id: m21
+    dir: 21-desenler-derinlemesine
+    tier: t7
+    title: Desenler Derinlemesine
+    new_concepts: |
+      all pattern positions, refutable vs irrefutable, literal/named/multiple (|)/range patterns, destructuring structs enums tuples nested, ignoring with _ and .., binding modes ref/ref mut and default binding modes, match guards, @ bindings, slice patterns, box patterns note
+    lessons:
+      - title: Desenlerin kullanıldığı her yer
+        cover: |
+          match arms, if let / else if let chains, let-else, while let, for (index, value), let (a, b, c), function parameters &(x, y), closure parameters
+      - title: Reddedilebilir ve reddedilemez desenler
+        cover: |
+          irrefutable (let, for, fn params) vs refutable (if let, match arms), E0005 refutable pattern in let, let-else as the bridge, warnings for irrefutable if let
+      - title: Desen sözdizimi rehberi
+        cover: |
+          literals, named variables shadowing pitfall in match, multiple patterns with |, ranges ..= for numbers and chars, destructuring structs (with shorthand and renaming), enums, nested enums/structs, tuples, ignoring values (_ , _x vs _ binding difference, ..), ref and ref mut, default binding modes when matching on references
+      - title: Match guard'ları, @ bağlamaları ve dilim desenleri
+        cover: |
+          "match guards if cond (and precedence with |)", "@ bindings id @ 3..=7", "slice patterns [first, .., last], [x], [], [head, tail @ ..]", "recursive slice processing", "exhaustiveness with guards"
+
+  - id: m22
+    dir: 22-ileri-traitler-ve-tipler
+    tier: t7
+    title: İleri Trait'ler ve Tipler
+    new_concepts: |
+      associated types, default generic type params, operator overloading (std::ops), fully qualified syntax, supertraits, newtype pattern, type aliases, never type !, DSTs, Sized and ?Sized, fn pointers, returning closures, higher-ranked trait bounds for<'a>, PhantomData, marker traits, GATs (intro), RPITIT, impl Trait in various positions
+    lessons:
+      - title: İlişkili tipler ve operatör aşırı yükleme
+        cover: |
+          associated types (Iterator::Item) vs generic params — when each, default type params (Add<Rhs=Self>), implementing Add/Sub/Mul/Neg/AddAssign/Index for a Vektor2 or Para type, PartialEq between types
+      - title: Tam nitelikli sözdizimi ve supertrait'ler
+        cover: |
+          same method name in two traits, <Type as Trait>::method, associated functions disambiguation, supertraits trait A: B + Display, newtype pattern to implement external traits on external types (Wrapper(Vec<String>))
+      - title: İleri tipler
+        cover: |
+          type aliases (type Sonuc<T> = Result<T, Hata>), the never type ! (continue, panic!, loop), dynamically sized types (str, [T], dyn Trait), Sized trait and ?Sized, why &str is a fat pointer
+      - title: İleri fonksiyonlar ve closure'lar
+        cover: |
+          fn pointers (fn(i32) -> i32) vs closure traits, passing functions/tuple struct constructors to map, returning closures with impl Fn vs Box<dyn Fn>, higher-ranked trait bounds for<'a> Fn(&'a str) -> &'a str (intuition)
+      - title: PhantomData, marker trait'ler ve GAT'ler
+        cover: |
+          PhantomData for unused type params (units of measure Uzunluk<Metre>), marker traits (Copy, Send, Sync, Unpin, Sized), sealed trait pattern, generic associated types (lending iterator idea, brief), return-position impl Trait in traits (RPITIT)
+
+  # ───────────────────────────── TIER 8 ─────────────────────────────
+  - id: m23
+    dir: 23-makrolar
+    tier: t8
+    title: Makrolar
+    new_concepts: |
+      macro_rules!, fragment specifiers (expr, ident, ty, tt, pat, block, literal, path, stmt, item, vis, lifetime, meta), repetitions $()* $()+ $()?, recursion, hygiene, $crate, macro export/scoping, internal rules, TT munching (intro), debugging with cargo expand, procedural macros (derive, attribute, function-like), syn and quote
+    lessons:
+      - title: Makrolar neden var?
+        cover: |
+          macros vs functions (variadic, code generation, compile time), println!/vec! are macros, macro_rules! basic example (selam!), matching arms, invocation with () [] {}
+      - title: Fragment belirteçleri ve tekrarlar
+        cover: |
+          expr, ident, ty, tt, literal, pat, block; repetitions $( ... ),* with separators and +, ?, build your own vec!-like and hashmap! macro, generating functions/structs with ident
+      - title: İleri makro teknikleri
+        cover: |
+          recursive macros (counting, max!), hygiene (local variables don't leak), $crate for exported macros, #[macro_export], macro ordering/scoping, internal rules @inner, TT munching intro, debugging (cargo expand, trace_macros note)
+      - title: Prosedürel makrolar
+        cover: |
+          the three kinds (custom derive, attribute-like, function-like), proc-macro crate type requirement (rust,ignore for multi-crate code), TokenStream, syn and quote, writing a simple derive(MerhabaMakro) step by step, when to write a proc macro vs macro_rules vs generics
+
+  - id: m24
+    dir: 24-unsafe-ve-ffi
+    tier: t8
+    title: Unsafe Rust ve FFI
+    new_concepts: |
+      unsafe blocks, five superpowers, raw pointers *const/*mut, dereferencing raw pointers, unsafe fn, safe abstractions (split_at_mut), SAFETY comments, extern "C" (unsafe extern in edition 2024), calling C functions (abs from libc), exporting to C with #[unsafe(no_mangle)] and extern "C" fn, static mut and its 2024 restrictions (&raw const/&raw mut), unsafe traits, unions, undefined behavior, Miri, memory layout size_of/align_of, repr(C), MaybeUninit, niche optimization
+    lessons:
+      - title: "Unsafe'in beş süper gücü"
+        cover: |
+          why unsafe exists (hardware, FFI, performance, things the compiler can't verify), unsafe doesn't turn off the borrow checker, the five superpowers list, raw pointers creation in safe code vs dereferencing in unsafe, &raw const / &raw mut syntax, pointer arithmetic with add/offset
+      - title: Güvenli soyutlamalar inşa etmek
+        cover: |
+          unsafe fn and unsafe blocks inside them (edition 2024 unsafe_op_in_unsafe_fn), implementing split_at_mut with raw pointers and slice::from_raw_parts_mut, SAFETY comments documenting invariants, encapsulation keeps unsafe small
+      - title: FFI — C ile konuşmak
+        cover: |
+          "unsafe extern \"C\" { fn abs(input: i32) -> i32; } (edition 2024 syntax) with safe fn items", calling C from Rust (runnable online with libc abs), exporting Rust functions with #[unsafe(no_mangle)] pub extern "C" fn, C strings (CString/CStr), bindgen/cbindgen overview, repr(C) structs
+      - title: Statik değişkenler, unsafe trait'ler ve union'lar
+        cover: |
+          static vs const, static mut is dangerous — edition 2024 denies references to static mut (use &raw mut / atomics / Mutex / OnceLock instead), unsafe trait / unsafe impl Send, unions and reading fields, Undefined Behavior catalog, Miri (cargo miri test) to catch UB
+      - title: Bellek düzeni
+        cover: |
+          std::mem::size_of / align_of, padding and field reordering, repr(C) / repr(u8) / repr(transparent), niche optimization (size_of::<Option<&T>>() == size_of::<&T>()), MaybeUninit briefly, Rustonomicon as the next step
+
+  - id: m25
+    dir: 25-performans-ve-idiomlar
+    tier: t8
+    title: Performans ve İdiomatik Rust
+    new_concepts: |
+      zero-cost abstractions, measuring (Instant, criterion), release builds, allocation awareness, with_capacity, Cow, &str vs String params, impl Into<String>, iterator performance, inlining, clone avoidance, Rust API Guidelines, naming conventions (as_/to_/into_), conversion traits, builder, typestate, sealed traits, thiserror, anyhow, clippy lints, rustfmt
+    lessons:
+      - title: Ölç, sonra optimize et
+        cover: |
+          premature optimization, always measure in --release, std::time::Instant micro-benchmark with std::hint::black_box, criterion crate (rust,norun / toml), profiling tools (perf, flamegraph, cargo-flamegraph) overview, algorithmic complexity first
+      - title: Bellek tahsisini azaltmak
+        cover: |
+          allocations cost, Vec/String::with_capacity and reserve, reusing buffers (clear), &str/&[T] params instead of String/Vec, Cow<'_, str> for maybe-owned data (runnable example), avoiding needless clone (clippy::redundant_clone), Box<[T]>/Box<str> note, small-string/smallvec crates idea
+      - title: İdiomatik API tasarımı
+        cover: |
+          Rust API Guidelines highlights, naming as_ (cheap borrow) / to_ (expensive) / into_ (consuming), iter/iter_mut/into_iter, getters without get_, flexible parameters (impl AsRef<str>, impl Into<String>, impl IntoIterator), implement common traits eagerly (Debug, Clone, Default, PartialEq, Display), builder for many options, must_use
+      - title: Ölçeklenebilir hata yönetimi
+        cover: |
+          thiserror for libraries (derive Error with #[error("...")] and #[from]) — runnable online, anyhow for applications (anyhow::Result, context()/with_context, bail!, ensure!), error design guidance — libraries return typed errors, apps add context
+      - title: Kod kalitesi — clippy, rustfmt ve kalıplar
+        cover: |
+          clippy lint groups (correctness, style, complexity, perf, pedantic), common lints and their idiomatic fixes (needless_return, redundant_clone, len_zero, manual_map, single_match, collapsible_if, map_unwrap_or), rustfmt, typestate recap, sealed traits, CI checklist (fmt --check, clippy -D warnings, test, doc)
+
+  - id: m26
+    dir: 26-gercek-dunya-ve-final
+    tier: t8
+    title: Gerçek Dünya Rust ve Final
+    new_concepts: |
+      ecosystem map (serde, clap, tokio, reqwest, axum, sqlx, tracing, bevy, wasm-bindgen, embassy), serde Serialize/Deserialize and serde_json, TcpListener, HTTP basics, thread pool design, graceful shutdown, learning roadmap
+    lessons:
+      - title: Ekosistem turu
+        cover: |
+          map of the ecosystem by domain (CLI — clap; web — axum/actix; async — tokio; serialization — serde; HTTP client — reqwest; database — sqlx/diesel; logging — tracing; GUI — egui/tauri; games — bevy; WASM — wasm-bindgen/leptos; embedded — embassy; data — polars), how to evaluate crates (downloads, maintenance, docs, unsafe usage, license), blessed.rs
+      - title: serde ile serileştirme
+        cover: |
+          "#[derive(Serialize, Deserialize)] (runnable online)", serde_json::to_string / to_string_pretty / from_str, renaming fields #[serde(rename = ...)], optional fields with Option and #[serde(default)], enums representation, untyped serde_json::Value, error handling
+      - title: "Final projesi 1: Web sunucusu temelleri"
+        type: project
+        cover: |
+          TCP and HTTP basics, TcpListener::bind and incoming() (rust,norun), reading a request line with BufReader, writing a response with status line + headers + body, routing / and 404, simulating slow requests to show the single-thread problem; in-app exercises test pure functions (parse_request_line, build_response)
+      - title: "Final projesi 2: İş parçacığı havuzu (ThreadPool)"
+        type: project
+        cover: |
+          designing ThreadPool API first (compiler-driven development), Worker struct with JoinHandle, channel of Box<dyn FnOnce() + Send + 'static> jobs, Arc<Mutex<Receiver>>, implementing Drop for graceful shutdown, testing the pool with a counter (runnable — no network), connecting it to the server (rust,norun)
+      - title: Sırada ne var?
+        cover: |
+          where to go next — The Rust Book, Rust by Example, Rustlings, Rustonomicon, Async Book, Rust for Rustaceans, Zero To Production, Exercism Rust track, Advent of Code; specializations (backend, systems, embedded, WASM, games, blockchain); contributing to open source; a 30-60-90 day plan; final reflection on the whole journey — celebratory tone

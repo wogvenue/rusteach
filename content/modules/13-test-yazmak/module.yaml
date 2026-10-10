@@ -1,0 +1,18 @@
+id: m13
+title: Test Yazmak
+subtitle: Kodunun doğru çalıştığını kanıtla — bugün, yarın ve her değişiklikten sonra
+icon: "🧪"
+description: |
+  Rust'ın dile gömülü test altyapısıyla **otomatik testler** yazmayı öğreneceksin: `#[test]`,
+  `assert_eq!`, `#[should_panic]`, `Result` döndüren testler ve `cargo test`'in tüm ayarları.
+  Birim testlerini entegrasyon testlerinden ayırmayı, belgelerindeki örnekleri **doc test**'e
+  dönüştürmeyi ve kırmızı-yeşil-yeniden düzenle döngüsüyle **test güdümlü geliştirme (TDD)** yapmayı
+  keşfedeceksin. Modülün sonunda yazdığın her fonksiyonun yanına, onu koruyan bir test ağı örebileceksin.
+lessons:
+  - 01-ilk-testlerin.md
+  - 02-panik-ve-result-testleri.md
+  - 03-birim-ve-entegrasyon-testleri.md
+  - 04-dokumantasyon-ve-doc-testleri.md
+  - 05-test-gudumlu-gelistirme.md
+boss: boss.md
+summary: summary.md

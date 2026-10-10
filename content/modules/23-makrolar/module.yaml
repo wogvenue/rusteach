@@ -1,0 +1,17 @@
+id: m23
+title: Makrolar
+subtitle: Kod yazan kod — macro_rules!'ten prosedürel makrolara
+icon: "🪄"
+description: |
+  `println!` ve `vec!`'in perde arkasını öğrenecek, `macro_rules!` ile kendi bildirimsel makrolarını
+  yazacaksın: fragment belirteçleri, `$( ... ),*` tekrarları, özyineleme, hijyen, `$crate` ve
+  TT munching. Ardından `#[derive(...)]`, attribute ve fonksiyon benzeri **prosedürel makroların**
+  `syn` ve `quote` ile nasıl yazıldığını göreceksin. Modülün sonunda tekrarlayan kodu güvenle
+  üretebilecek ve bir işin makro mu, fonksiyon mu, generic mi gerektirdiğine bilinçli karar verebileceksin.
+lessons:
+  - 01-makrolar-neden-var.md
+  - 02-fragment-belirtecleri-ve-tekrarlar.md
+  - 03-ileri-makro-teknikleri.md
+  - 04-prosedurel-makrolar.md
+boss: boss.md
+summary: summary.md

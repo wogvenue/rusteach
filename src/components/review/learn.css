@@ -1,0 +1,156 @@
+/* Learning engine (Tekrar / Antrenman / İstatistik) — scoped styles and chart tokens.
+   Chart colours were validated for both themes (dataviz palette checks): the categorical pair
+   --lx-chart-1/2 passes lightness band, CVD and contrast checks; the heat ramp is single-hue,
+   monotone and its light end clears 2:1 against the card surface. */
+
+:root,
+[data-theme='dark'] {
+  --lx-chart-1: #f0600f;
+  --lx-chart-2: #4f8ef5;
+  --lx-chart-muted: #4d5770;
+  --lx-grid: #232a3b;
+  --lx-heat-0: #1a2030;
+  --lx-heat-1: #7a3d1f;
+  --lx-heat-2: #ad4f1d;
+  --lx-heat-3: #e2641c;
+  --lx-heat-4: #ff9a5c;
+  --lx-card-shadow: 0 40px 80px -48px rgb(0 0 0 / 0.9), 0 18px 60px -40px rgb(247 76 0 / 0.45);
+  --lx-ember: radial-gradient(120% 90% at 50% 0%, rgb(255 106 31 / 0.16), transparent 60%);
+}
+
+[data-theme='light'] {
+  --lx-chart-1: #e04800;
+  --lx-chart-2: #2563eb;
+  --lx-chart-muted: #b6aea4;
+  --lx-grid: #ece6de;
+  --lx-heat-0: #ece7e1;
+  --lx-heat-1: #f0a47a;
+  --lx-heat-2: #e8783c;
+  --lx-heat-3: #cf5110;
+  --lx-heat-4: #9c3a08;
+  --lx-card-shadow: 0 30px 60px -36px rgb(68 40 20 / 0.35), 0 12px 32px -24px rgb(224 72 0 / 0.25);
+  --lx-ember: radial-gradient(120% 90% at 50% 0%, rgb(224 72 0 / 0.08), transparent 60%);
+}
+
+/* ---------------------------------------------------------------- prose (trusted content HTML) */
+
+.lx-prose {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.lx-prose > * + * {
+  margin-top: 0.6em;
+}
+.lx-prose p {
+  margin: 0;
+}
+.lx-prose strong {
+  font-weight: 650;
+  color: var(--c-fg);
+}
+.lx-prose em {
+  font-style: italic;
+}
+.lx-prose a {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lx-prose ul,
+.lx-prose ol {
+  padding-left: 1.25em;
+}
+.lx-prose ul {
+  list-style: disc;
+}
+.lx-prose ol {
+  list-style: decimal;
+}
+.lx-prose li + li {
+  margin-top: 0.25em;
+}
+.lx-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 0.08em 0.36em;
+  border-radius: 0.4em;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  color: var(--c-fg);
+  white-space: break-spaces;
+}
+.lx-prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  line-height: 1.65;
+  padding: 0.85em 1em;
+  border-radius: 0.75rem;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  overflow-x: auto;
+  text-align: left;
+}
+.lx-prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+.lx-prose .shiki span {
+  color: var(--shiki-dark);
+}
+[data-theme='light'] .lx-prose .shiki span {
+  color: var(--shiki-light);
+}
+.lx-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.lx-prose th,
+.lx-prose td {
+  border: 1px solid var(--c-border);
+  padding: 0.35em 0.6em;
+  text-align: left;
+}
+
+/* ---------------------------------------------------------------- 3D flashcard */
+
+.lx-flip {
+  perspective: 1800px;
+}
+.lx-flip-inner {
+  display: grid;
+  transform-style: preserve-3d;
+}
+.lx-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.lx-face-back {
+  transform: rotateY(180deg);
+}
+
+.lx-card-surface {
+  background: var(--lx-ember), var(--c-elevated);
+  box-shadow: var(--lx-card-shadow);
+}
+
+/* ---------------------------------------------------------------- misc */
+
+.lx-hairline-grid {
+  background-image: linear-gradient(var(--c-border) 1px, transparent 1px), linear-gradient(90deg, var(--c-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(70% 70% at 50% 40%, black, transparent);
+}
+
+.lx-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}

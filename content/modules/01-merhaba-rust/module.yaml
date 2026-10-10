@@ -1,0 +1,20 @@
+id: m01
+title: Merhaba Rust
+subtitle: Programlamaya ilk adım — Rust'ı kur, ilk programını yaz, derleyiciyle dost ol
+icon: "🦀"
+description: |
+  Programın ne olduğunu, Rust'ın hangi sorunu çözmek için doğduğunu ve bu uygulamayla en verimli
+  nasıl öğreneceğini keşfedeceksin. Rust'ı Windows'a kuracak, `rustc` ve `cargo` ile ilk
+  programlarını derleyip çalıştıracak, `println!` ile çıktıyı hizalayıp biçimlendirmeyi
+  öğreneceksin. Modülün sonunda derleyicinin hata mesajlarını bir öğretmenin notları gibi okuyup
+  kodunu kendi başına düzeltebileceksin.
+lessons:
+  - 01-programlama-ve-rust.md
+  - 02-kurulum.md
+  - 03-ilk-program.md
+  - 04-cargo.md
+  - 05-yorumlar-ve-yer-tutucular.md
+  - 06-bicimlendirme.md
+  - 07-derleyiciyle-dost-olmak.md
+boss: boss.md
+summary: summary.md

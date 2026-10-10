@@ -1,0 +1,4263 @@
+# Rusteach — derleyici hata rehberi (rustc hata kodları)
+# Her "bad" programı tam olarak belirtilen hata koduyla derlenmez, her "fix" programı derlenir
+# (main varsa başarıyla çalışır). Doğrulama:
+#   node scripts/verify-rust.mjs --reference
+
+- code: E0765
+  title: "Kapatılmamış çift tırnak"
+  module: m01
+  explanation: |
+    Derleyici bir dize değişmezini (string literal) açtığını ama dosyanın sonuna kadar kapatmadığını söylüyor: `"` ile başlayan metin, bir `"` daha görmeden bitmiyor.
+
+    Bu bir **sözdizimi** hatasıdır; yani Rust daha kodun anlamına bakmadan, onu ayrıştırırken (parse) tıkanır. Mesajdaki `unterminated double quote string` ifadesi "kapatılmamış çift tırnaklı dize" demektir. Hata çoğu zaman gerçek sorunun olduğu satırı değil, açılan tırnağın satırını gösterir; çünkü derleyici geri kalan her şeyi o metnin içi sanır.
+
+    Önce işaret edilen satırdaki `"` sayısına bak: kapanış tırnağı `)` karakterinden önce mi gelmeli? Editörün renklendirmesi de bir ipucudur; tırnak kapanmamışsa sonraki satırların hepsi dize rengine boyanır.
+  bad: |
+    fn main() {
+        println!("Merhaba, dünya!);
+    }
+  fix: |
+    fn main() {
+        println!("Merhaba, dünya!");
+    }
+  fix_explanation: |
+    Kapanış tırnağını `)` karakterinden **önce** koyduk: `println!("Merhaba, dünya!");`. Metnin içinde gerçekten tırnak göstermek istiyorsan `\"` kaçış dizisini kullan; tırnak dolu uzun metinler için ham dize `r#"..."#` da işini görür.
+
+- code: E0601
+  title: "main fonksiyonu bulunamadı"
+  module: m01
+  explanation: |
+    Çalıştırılabilir (binary) bir Rust programının başlangıç noktası, crate'in kök dosyasındaki `fn main()` fonksiyonudur. Derleyici bu fonksiyonu **kökte** bulamazsa `E0601` verir: `main function not found in crate`.
+
+    Burada `main` bir `mod` içine konmuş. Modül içindeki `main` sıradan bir fonksiyondur; işletim sistemi programı başlatırken onu aramaz. Aynı hata `main` adını yanlış yazdığında ya da dosyayı kütüphane (`lib.rs`) olarak derlediğinde de çıkar.
+
+    Kural basit: kök dosyada, modüllerin dışında, tam olarak bir tane `fn main` olmalı.
+  bad: |
+    mod uygulama {
+        pub fn main() {
+            println!("Merhaba!");
+        }
+    }
+  fix: |
+    mod uygulama {
+        pub fn calistir() {
+            println!("Merhaba!");
+        }
+    }
+
+    fn main() {
+        uygulama::calistir();
+    }
+  fix_explanation: |
+    Modül içindeki fonksiyona başka bir ad verdik (`calistir`), gerçek `main`'i kökte yazıp `uygulama::calistir()` ile çağırdık. Modülleri Modül 8'de ayrıntılı göreceğiz; şimdilik "başlangıç noktası her zaman kökteki `main`" kuralını hatırla.
+
+- code: E0425
+  title: "Çözümlenemeyen ad"
+  module: m02
+  explanation: |
+    Derleyici kodda geçen bir adı (değişken, fonksiyon, sabit) o noktada **tanımlı bulamıyor**: `cannot find value `ogrenci_sayis` in this scope`.
+
+    Nedenleri genelde şunlardır:
+
+    - Ad yanlış yazılmıştır (örnekte `ogrenci_sayis` yerine `ogrenci_sayisi` olmalı).
+    - Değişken henüz tanımlanmamıştır ya da başka bir kapsamda (scope) tanımlanmıştır ve kapsam bittiği için yok olmuştur.
+    - Bir `use` satırı unutulmuştur.
+
+    Aynı kod **tip adları** için de geçerlidir: güncel derleyici, tanımsız bir tip adını (`Kitab`, `HashMap`, bildirilmemiş `T`) da `cannot find type ... in this scope` mesajıyla `E0425` olarak bildirir; eski sürümlerde bu `E0412` koduyla gelirdi.
+
+    Rust büyük/küçük harfe duyarlıdır; `Puan` ile `puan` farklı adlardır. Derleyici sık sık `help: a local variable with a similar name exists` diyerek doğru adı önerir; bu öneriyi okumak çoğu zaman yeterlidir.
+  bad: |
+    fn main() {
+        let ogrenci_sayisi = 24;
+        let sinif_sayisi = 3;
+        let ortalama = ogrenci_sayis / sinif_sayisi;
+        println!("Sınıf başına {ortalama} öğrenci");
+    }
+  fix: |
+    fn main() {
+        let ogrenci_sayisi = 24;
+        let sinif_sayisi = 3;
+        let ortalama = ogrenci_sayisi / sinif_sayisi;
+        println!("Sınıf başına {ortalama} öğrenci");
+    }
+  fix_explanation: |
+    Adı doğru yazdık: `ogrenci_sayisi`. Değişken bir iç bloğun içinde tanımlandıysa ve dışarıda kullanılacaksa, `let` satırını dış kapsama taşı.
+
+- code: E0384
+  title: "Değişmez değişkene ikinci atama"
+  module: m02
+  explanation: |
+    `let` ile tanımlanan değişkenler Rust'ta varsayılan olarak **değişmezdir (immutable)**. Bir kez değer verdikten sonra tekrar atama yaparsan: `cannot assign twice to immutable variable `puan``.
+
+    Neden böyle? Değerin hiç değişmeyeceğini bilmek kodu okumayı, hata aramayı ve eşzamanlı programlamayı kolaylaştırır. Değişebilirlik, bilinçli ve açıkça yazılan bir tercihtir.
+
+    Mesajdaki ``help: consider making this binding mutable: `mut puan` `` önerisi tam olarak çözümü söyler.
+  bad: |
+    fn main() {
+        let puan = 10;
+        println!("Başlangıç puanı: {puan}");
+        puan = 20;
+        println!("Yeni puan: {puan}");
+    }
+  fix: |
+    fn main() {
+        let mut puan = 10;
+        println!("Başlangıç puanı: {puan}");
+        puan = 20;
+        println!("Yeni puan: {puan}");
+    }
+  fix_explanation: |
+    Tanımı `let mut puan = 10;` yaptık. Değeri aslında "değiştirmek" değil de yeni bir değer üretmek istiyorsan **gölgeleme** (`let puan = 20;`) da bir seçenektir; bu yeni bir değişken yaratır ve tipini bile değiştirebilirsin.
+
+- code: E0308
+  title: "Tip uyuşmazlığı"
+  module: m02
+  explanation: |
+    Rust'ta en sık göreceğin hatalardan biri: derleyici bir yerde **bir tip beklerken başka bir tip buldu**. Mesaj `mismatched types` ile başlar ve altında `expected `u32`, found `&str`` gibi iki bilgi verir: beklenen ve bulunan.
+
+    Örnekte `yas: u32` diye belirttin ama sağ tarafa `"25"` yazdın; bu bir metindir (`&str`), sayı değil. Rust, JavaScript veya Python gibi tipleri sessizce dönüştürmez.
+
+    Aynı hata şu durumlarda da çıkar: `if`/`else` kolları farklı tipte değer döndürüyorsa, fonksiyon `i32` döndürmeliyken son satırın sonuna `;` koyup `()` döndürüyorsa, ya da `i32` bekleyen yere `i64` verdiysen.
+  bad: |
+    fn main() {
+        let yas: u32 = "25";
+        println!("Yaşın: {yas}");
+    }
+  fix: |
+    fn main() {
+        let yas: u32 = 25;
+        println!("Yaşın: {yas}");
+    }
+  fix_explanation: |
+    Sağ tarafı gerçek bir sayı yaptık: `25`. Eldeki bir metni sayıya çevirmek gerekirse `"25".parse::<u32>()` kullan; sayısal tipler arasında dönüşüm için `as` veya `u32::try_from(...)` var.
+
+- code: E0284
+  title: "Tip belirsiz (dönüş tipi çıkarılamadı)"
+  module: m02
+  explanation: |
+    `parse()` gibi **dönüş tipini çağıran tarafın seçtiği** fonksiyonlarda derleyici hangi tipi üretmesi gerektiğini bilmek zorundadır. Burada `"42".parse().unwrap()` sonucu hiçbir yerde tip bilgisi vermeyen bir `println!`'e gidiyor; derleyici tahmin etmez: `type annotations needed`.
+
+    Rust'ta tip çıkarımı güçlüdür ama sihirli değildir: bir değerin tipini ya bir belirtimden (`let x: i32`) ya da sonraki kullanımdan çıkarabilmelidir.
+
+    `E0282` ve `E0283` bu hatanın akrabalarıdır; üçünün de çözümü aynıdır: tipi açıkça söyle.
+  bad: |
+    fn main() {
+        let sayi = "42".parse().unwrap();
+        println!("Sayı: {sayi}");
+    }
+  fix: |
+    fn main() {
+        let sayi: i32 = "42".parse().unwrap();
+        let iki_kati = "21".parse::<i32>().unwrap() * 2;
+        println!("Sayı: {sayi}, iki katı: {iki_kati}");
+    }
+  fix_explanation: |
+    Değişkene tip yazdık (`let sayi: i32`) ve ikinci örnekte **turbofish** söz dizimini kullandık: `parse::<i32>()`. İkisi de aynı bilgiyi verir; hangisi daha okunaklıysa onu seç.
+
+- code: E0600
+  title: "Tipe uygulanamayan tekli işleç"
+  module: m02
+  explanation: |
+    `-` (negatif) gibi tekli (unary) işleçler her tipte tanımlı değildir. İşaretsiz bir tamsayıyı (`u32`) negatifleştirmeye çalışırsan derleyici şunu söyler: `cannot apply unary operator `-` to type `u32``.
+
+    İşaretsiz tipler negatif sayı tutamaz; `-5` değerini `u32` içine koyacak bir yol yoktur. Rust bunu çalışma zamanında sessizce taşırmak yerine derleme zamanında reddeder.
+
+    Aynı hata `!` işleci için de çıkabilir: `!` yalnızca `bool` ve tamsayılar için tanımlıdır.
+  bad: |
+    fn main() {
+        let sicaklik: u32 = 5;
+        let ters = -sicaklik;
+        println!("{ters}");
+    }
+  fix: |
+    fn main() {
+        let sicaklik: i32 = 5;
+        let ters = -sicaklik;
+        println!("{ters}");
+    }
+  fix_explanation: |
+    Değişkeni işaretli bir tipe (`i32`) çevirdik. Negatif değer hiç gerekmiyorsa işleci kaldırmak daha doğrudur; iki işaretsiz sayının farkı gerekiyorsa `a.abs_diff(b)` kullanabilirsin.
+
+- code: E0604
+  title: "char'a geçersiz dönüşüm"
+  module: m02
+  explanation: |
+    `as` ile `char`'a yalnızca **`u8`** dönüştürülebilir. Çünkü her `u8` değeri (0-255) geçerli bir Unicode karakteridir, ama rastgele bir `u32` değeri değildir: `0xD800` gibi karşılığı olmayan sayılar vardır.
+
+    Derleyici bu yüzden `only `u8` can be cast as `char`, not `u32`` der. Geçersiz bir karakter üretmek güvensizdir; Rust bunu `as` ile yapmana izin vermez.
+  bad: |
+    fn main() {
+        let kod: u32 = 65;
+        let harf = kod as char;
+        println!("{harf}");
+    }
+  fix: |
+    fn main() {
+        let kod: u8 = 65;
+        let harf = kod as char;
+        let yengec = char::from_u32(0x1F980).unwrap();
+        println!("{harf} {yengec}");
+    }
+  fix_explanation: |
+    `u32` yerine `u8` kullandık. Daha geniş değerler için `char::from_u32(sayi)` kullan: bu, bir `Option<char>` döndürür; yani geçersiz sayıyı `None` olarak yakalarsın.
+
+- code: E0606
+  title: "Geçersiz tip dönüşümü (as)"
+  module: m02
+  explanation: |
+    `as` işleci yalnızca **ilkel tipler arasında** (sayılar, `char`, `bool` vb.) dönüşüm yapar. `&str`'i `i32`'ye `as` ile çeviremezsin: `casting `&str` as `i32` is invalid`.
+
+    Metni sayıya çevirmek bir bit yorumlaması değil, bir **ayrıştırmadır** ve başarısız olabilir (`"abc"` bir sayı değildir). Bu yüzden `as` yerine hata döndürebilen bir fonksiyon gerekir.
+  bad: |
+    fn main() {
+        let girdi = "42";
+        let sayi = girdi as i32;
+        println!("{}", sayi + 1);
+    }
+  fix: |
+    fn main() {
+        let girdi = "42";
+        let sayi: i32 = girdi.parse().unwrap();
+        println!("{}", sayi + 1);
+    }
+  fix_explanation: |
+    `parse()` kullandık. Dönüş değeri `Result` olduğu için `unwrap()` ile açtık; gerçek programlarda `match` veya `?` ile hatayı yönetmek daha doğrudur (Modül 10).
+
+- code: E0605
+  title: "İlkel olmayan tipe dönüşüm"
+  module: m02
+  explanation: |
+    `as`, `String` gibi ilkel olmayan bir tipe dönüşüm yapamaz: `non-primitive cast: `i32` as `String``. `String`, heap'te yer ayıran bir yapıdır ve oluşturulması için kod çalıştırmak gerekir; `as` ise yalnızca bit düzeyinde basit dönüşümler içindir.
+
+    Bir değeri metne çevirmek için ilgili fonksiyonu çağırmalısın.
+  bad: |
+    fn main() {
+        let puan = 95;
+        let metin = puan as String;
+        println!("Puan: {metin}");
+    }
+  fix: |
+    fn main() {
+        let puan = 95;
+        let metin = puan.to_string();
+        let rapor = format!("{puan}/100");
+        println!("Puan: {metin} ({rapor})");
+    }
+  fix_explanation: |
+    `to_string()` sayıyı `String`'e çevirir (`Display` trait'ini uygulayan her tipte çalışır). Biçim kontrolü gerekiyorsa `format!("{puan}/100")` kullandık.
+
+- code: E0080
+  title: "Derleme zamanı hesaplama hatası"
+  module: m02
+  explanation: |
+    `const` değerleri derleme sırasında hesaplanır. Hesap sırasında taşma, sıfıra bölme gibi bir hata oluşursa derleyici programı reddeder: `evaluation of constant value failed` ve altında `attempt to compute `200_u8 + 100_u8`, which would overflow`.
+
+    `u8` en fazla 255 tutar; `200 + 100 = 300` sığmaz. Normal koddaki taşma çalışma zamanında panik yaratabilir, ama sabitlerde hata **derleme zamanında** yakalanır; bu bir avantajdır.
+  bad: |
+    const KAPASITE: u8 = 200 + 100;
+
+    fn main() {
+        println!("Kapasite: {KAPASITE}");
+    }
+  fix: |
+    const KAPASITE: u16 = 200 + 100;
+
+    fn main() {
+        println!("Kapasite: {KAPASITE}");
+    }
+  fix_explanation: |
+    Sabitin tipini `u16`'ya büyüttük; 300 değeri rahatça sığar. Sonucu gerçekten daha küçük bir tipte tutman gerekiyorsa hesabı ve değerleri gözden geçir.
+
+- code: E0435
+  title: "Sabit olmayan değer sabit bağlamda"
+  module: m02
+  explanation: |
+    Dizi uzunluğu **derleme zamanında bilinmek zorundadır**; çünkü dizi stack'te yer alır ve boyutu tipin parçasıdır (`[i32; 5]`). `let boyut = 5;` ile tanımlanan değişken ise bir çalışma zamanı değeridir: `attempt to use a non-constant value in a constant`.
+
+    Derleyici `boyut`'un değerini tahmin edebilse bile değişkenler sabit ifade sayılmaz. Uzunluğu çalışma anında belirlenen koleksiyon istiyorsan dizi değil `Vec` gerekir.
+  bad: |
+    fn main() {
+        let boyut = 5;
+        let tahta = [0; boyut];
+        println!("{tahta:?}");
+    }
+  fix: |
+    const BOYUT: usize = 5;
+
+    fn main() {
+        let tahta = [0; BOYUT];
+        println!("{tahta:?}");
+    }
+  fix_explanation: |
+    Değişkeni `const BOYUT: usize = 5;` sabitine çevirdik. Boyut çalışma zamanında belirlenecekse `vec![0; boyut]` kullan: `Vec` heap'te büyür ve uzunluğu değişkendir.
+
+- code: E0608
+  title: "Dizinlenemeyen tip"
+  module: m02
+  explanation: |
+    `[]` ile indeks alma yalnızca `Index` trait'ini uygulayan tiplerde çalışır (dizi, dilim, `Vec`, `HashMap`...). **Tuple'lar** böyle değildir: `cannot index into a value of type `({float}, {float})``.
+
+    Tuple elemanları farklı tipte olabileceği için `konum[i]` ifadesinin tipi derleme zamanında belli olmazdı; Rust bu yüzden **nokta söz dizimini** kullanır: `konum.0`, `konum.1`. İndeks her zaman yazılı bir sabit olmalıdır.
+  bad: |
+    fn main() {
+        let konum = (41.0, 29.0);
+        println!("Enlem: {}", konum[0]);
+    }
+  fix: |
+    fn main() {
+        let konum = (41.0, 29.0);
+        println!("Enlem: {}, boylam: {}", konum.0, konum.1);
+    }
+  fix_explanation: |
+    Elemanlara `konum.0` ve `konum.1` ile eriştik. Aynı tipte, indeksle gezeceğin elemanların varsa tuple yerine dizi (`[f64; 2]`) kullanmak daha doğrudur.
+
+- code: E0689
+  title: "Belirsiz sayısal tipte metot çağrısı"
+  module: m02
+  explanation: |
+    `2.0.powi(2)` yazdığında `2.0` değişmezinin `f32` mi `f64` mi olduğu henüz belli değildir; derleyici metodu çağırmadan önce tipin kesinleşmesini ister: `can't call method `powi` on ambiguous numeric type `{float}``.
+
+    Sayı değişmezlerinin tipi çevresindeki kullanımdan çıkarılır; ancak metot çağrısı bu çıkarımdan önce tipi bilmek zorundadır.
+  bad: |
+    fn main() {
+        let alan = 2.0.powi(2) * std::f64::consts::PI;
+        println!("{alan:.2}");
+    }
+  fix: |
+    fn main() {
+        let yaricap = 2.0_f64;
+        let alan = yaricap.powi(2) * std::f64::consts::PI;
+        println!("{alan:.2}");
+    }
+  fix_explanation: |
+    Değişkene `2.0_f64` diyerek tipi açıkça verdik. `let yaricap: f64 = 2.0;` yazmak ya da doğrudan `2.0_f64.powi(2)` demek de çalışır.
+
+- code: E0070
+  title: "Atamanın sol tarafı geçersiz"
+  module: m02
+  explanation: |
+    Atama `=` işlecinin sol tarafı bir **yer ifadesi (place expression)** olmalıdır: değişken, alan, indeks gibi bellekte bir konumu gösteren şey. Sabitler (`const`) ise bellek konumu olmayan, kullanıldıkları yere yerleştirilen değerlerdir: `invalid left-hand side of assignment`.
+
+    Sabit, adı gibi sabit kalır; `MAKS_CAN = 120` yazarak değiştirilemez. Değeri değişecekse `let mut` gerekir.
+  bad: |
+    const MAKS_CAN: u32 = 100;
+
+    fn main() {
+        MAKS_CAN = 120;
+        println!("{MAKS_CAN}");
+    }
+  fix: |
+    const MAKS_CAN: u32 = 100;
+
+    fn main() {
+        let mut can = MAKS_CAN;
+        can += 20;
+        println!("Can: {can} (başlangıç: {MAKS_CAN})");
+    }
+  fix_explanation: |
+    Sabitten değişebilir bir değişken türettik (`let mut can = MAKS_CAN;`) ve onu değiştirdik. Programın tamamında paylaşılan, değişebilir durum gerekirse `static mut` yerine `Mutex` gibi güvenli yollar vardır (Modül 18).
+
+- code: E0618
+  title: "Fonksiyon olmayan şey çağrıldı"
+  module: m02
+  explanation: |
+    Parantezler Rust'ta bir **çağrı** işaretidir. `2(x + 1)` yazdığında derleyici `2`'yi fonksiyon sanıp çağırmaya çalışır: `expected function, found `{integer}``.
+
+    Matematikteki "yan yana yazınca çarp" kısayolu Rust'ta yoktur; çarpma için `*` işlecini açıkça yazmalısın. Aynı hata bir değişkeni fonksiyon gibi çağırdığında da çıkar.
+  bad: |
+    fn main() {
+        let x = 3;
+        let y = 2(x + 1);
+        println!("{y}");
+    }
+  fix: |
+    fn main() {
+        let x = 3;
+        let y = 2 * (x + 1);
+        println!("{y}");
+    }
+  fix_explanation: |
+    Çarpma işlecini ekledik: `2 * (x + 1)`.
+
+- code: E0061
+  title: "Yanlış argüman sayısı"
+  module: m03
+  explanation: |
+    Bir fonksiyon kaç parametreyle tanımlandıysa **tam o kadar argümanla** çağrılmalıdır. Rust'ta varsayılan parametre değeri ya da aşırı yükleme (overloading) yoktur: `this function takes 2 arguments but 1 argument was supplied`.
+
+    Mesaj eksik parametreyi de gösterir (`argument #2 of type `u32` is missing`) ve fonksiyon tanımına işaret eden bir `note` ekler. Metotlarda `self` sayılmaz, yalnızca diğer parametreler sayılır.
+  bad: |
+    fn alan(en: u32, boy: u32) -> u32 {
+        en * boy
+    }
+
+    fn main() {
+        let a = alan(5);
+        println!("Alan: {a}");
+    }
+  fix: |
+    fn alan(en: u32, boy: u32) -> u32 {
+        en * boy
+    }
+
+    fn main() {
+        let a = alan(5, 3);
+        println!("Alan: {a}");
+    }
+  fix_explanation: |
+    Eksik ikinci argümanı verdik: `alan(5, 3)`. Parametre sayısı değişkense `Option<T>` parametre ya da bir yapılandırma struct'ı gibi yaklaşımlar kullanılır.
+
+- code: E0069
+  title: "Değer döndürmeyen return"
+  module: m03
+  explanation: |
+    Fonksiyon bir `i32` döndürmeye söz verdiyse her `return` bir değer taşımalıdır. Yalın `return;` ifadesi `()` (birim değer) döndürür: ``return;` in a function whose return type is not `()``.
+
+    Erken çıkış yaparken de fonksiyon imzasına sadık kalmak zorundasın; değer üretmeyen bir yol bırakamazsın.
+  bad: |
+    fn mutlak_deger(x: i32) -> i32 {
+        if x >= 0 {
+            return;
+        }
+        -x
+    }
+
+    fn main() {
+        println!("{}", mutlak_deger(-7));
+    }
+  fix: |
+    fn mutlak_deger(x: i32) -> i32 {
+        if x >= 0 {
+            return x;
+        }
+        -x
+    }
+
+    fn main() {
+        println!("{}", mutlak_deger(-7));
+    }
+  fix_explanation: |
+    `return x;` yazdık; böylece her yol bir `i32` döndürüyor. İmzayı `-> Option<i32>` yapıp erken çıkışta `return None;` yazmak da geçerli bir tasarımdır.
+
+- code: E0268
+  title: "Döngü dışında break veya continue"
+  module: m03
+  explanation: |
+    `break` ve `continue` yalnızca bir **döngünün** (`loop`, `while`, `for`) içinde anlam taşır. Burada `if` bloğundayız ve çevrede döngü yok: ``break` outside of a loop or labeled block`.
+
+    `if` bir döngü değildir. Fonksiyondan erken çıkmak için `return`, döngüden çıkmak için `break` kullanılır. Etiketli bloklarda (`'a: { ... break 'a; }`) `break` de geçerlidir.
+  bad: |
+    fn main() {
+        let sayi = 7;
+        if sayi > 5 {
+            println!("Sayı büyük");
+            break;
+        }
+        println!("Bitti");
+    }
+  fix: |
+    fn main() {
+        let sayi = 7;
+        if sayi > 5 {
+            println!("Sayı büyük");
+            return;
+        }
+        println!("Bitti");
+    }
+  fix_explanation: |
+    Erken çıkış için `return` kullandık. Gerçekten bir döngü yazmak istiyorsan `break`'i `loop`/`while`/`for` içine al.
+
+- code: E0571
+  title: "for döngüsünden değerle break"
+  module: m03
+  explanation: |
+    `break değer;` yalnızca **`loop`** döngüsünde kullanılabilir. `loop` sonsuzdur ve tek çıkış yolu `break`'tir; bu yüzden döngünün bir sonucu vardır. `for` ve `while` ise kendiliğinden bitebilir; o durumda ne değer döneceği belli olmaz: ``break` with value from a `for` loop`.
+  bad: |
+    fn main() {
+        let sonuc = for i in 0..100 {
+            if i * i > 50 {
+                break i;
+            }
+        };
+        println!("{sonuc:?}");
+    }
+  fix: |
+    fn main() {
+        let mut i = 0;
+        let sonuc = loop {
+            if i * i > 50 {
+                break i;
+            }
+            i += 1;
+        };
+        println!("Karesi 50'yi geçen ilk sayı: {sonuc}");
+    }
+  fix_explanation: |
+    `for` yerine `loop` kullandık ve sayacı elle artırdık. Elinde bir iterator varsa daha kısa yol `(0..100).find(|i| i * i > 50)`'dir; bu, `Option<i32>` döndürür.
+
+- code: E0426
+  title: "Tanımsız döngü etiketi"
+  module: m03
+  explanation: |
+    Döngü etiketleri (`'dis:`) ile iç döngüden dış döngüye `break 'dis;` yazabilirsin. Etiketi tanımlamadan kullanırsan: `use of undeclared label `'dis``.
+
+    Etiket, döngünün hemen önüne `'ad:` biçiminde yazılır.
+  bad: |
+    fn main() {
+        for i in 0..3 {
+            for j in 0..3 {
+                if i + j == 3 {
+                    break 'dis;
+                }
+                println!("{i},{j}");
+            }
+        }
+    }
+  fix: |
+    fn main() {
+        'dis: for i in 0..3 {
+            for j in 0..3 {
+                if i + j == 3 {
+                    break 'dis;
+                }
+                println!("{i},{j}");
+            }
+        }
+    }
+  fix_explanation: |
+    Dış döngünün önüne `'dis:` yazdık. Böylece iç `break 'dis;` doğrudan dış döngüden çıkar.
+
+- code: E0381
+  title: "Başlatılmamış değişken kullanımı"
+  module: m03
+  explanation: |
+    Rust'ta her değişken, okunmadan önce **kesinlikle bir değer almış** olmalıdır. Derleyici tüm kod yollarını izler: `used binding `harf` is possibly-uninitialized`.
+
+    Örnekte `harf` yalnızca `not >= 50` ise atanıyor; koşul sağlanmazsa `println!` boş bir değeri okurdu. C'de bu çöp değer üretir ve hata ancak çalışırken görülür; Rust bunu derleme zamanında kapatır.
+  bad: |
+    fn main() {
+        let not = 45;
+        let harf: char;
+        if not >= 50 {
+            harf = 'G';
+        }
+        println!("Sonuç: {harf}");
+    }
+  fix: |
+    fn main() {
+        let not = 45;
+        let harf = if not >= 50 { 'G' } else { 'K' };
+        println!("Sonuç: {harf}");
+    }
+  fix_explanation: |
+    `if`'i **bir ifade** olarak kullanıp her iki kolda da değer verdik: `let harf = if ... { 'G' } else { 'K' };`. Tanımı ve atamayı ayırman gerekiyorsa olası tüm kollarda atama yaptığından emin ol.
+
+- code: E0428
+  title: "Aynı ad iki kez tanımlandı"
+  module: m03
+  explanation: |
+    Aynı kapsamda aynı adı taşıyan iki öğe (fonksiyon, struct, enum, trait...) tanımlayamazsın: `the name `selamla` is defined multiple times`. Rust fonksiyon **aşırı yüklemesine** (aynı ad, farklı parametreler) izin vermez.
+
+    Derleyici ikinci tanıma işaret eder ve ilkinin yerini `previous definition` notuyla gösterir.
+  bad: |
+    fn selamla() {
+        println!("Merhaba!");
+    }
+
+    fn selamla() {
+        println!("Günaydın!");
+    }
+
+    fn main() {
+        selamla();
+    }
+  fix: |
+    fn selamla() {
+        println!("Merhaba!");
+    }
+
+    fn gunaydin_de() {
+        println!("Günaydın!");
+    }
+
+    fn main() {
+        selamla();
+        gunaydin_de();
+    }
+  fix_explanation: |
+    İkinci fonksiyona farklı bir ad verdik. Aynı adı kullanmak istiyorsan fonksiyonları farklı modüllere koyabilir veya bir trait ile farklı tiplere uygulayabilirsin.
+
+- code: E0121
+  title: "İmzada `_` yer tutucusu"
+  module: m03
+  explanation: |
+    `_` yer tutucusu bir yerel değişkende (`let x: Vec<_> = ...`) tipi çıkarıma bırakmak için kullanılır. Fakat fonksiyon imzalarında, sabitlerde ve `static`'lerde **tip her zaman açıkça yazılmalıdır**: `the placeholder `_` is not allowed within types on item signatures for return types`.
+
+    Bunun nedeni imzanın fonksiyon gövdesinden bağımsız bir sözleşme olmasıdır; gövdeyi okumadan tipi bilebilmelisin.
+  bad: |
+    fn cevap() -> _ {
+        42
+    }
+
+    fn main() {
+        println!("{}", cevap());
+    }
+  fix: |
+    fn cevap() -> i32 {
+        42
+    }
+
+    fn main() {
+        println!("{}", cevap());
+    }
+  fix_explanation: |
+    Dönüş tipini `i32` olarak yazdık. Mesajdaki `help: replace with the correct return type` önerisi genellikle doğru tipi zaten söyler.
+
+- code: E0015
+  title: "Sabit bağlamda sabit olmayan fonksiyon"
+  module: m03
+  explanation: |
+    `const` ve `static` değerleri derleme zamanında hesaplanır. Bu yüzden içlerinde yalnızca **`const fn`** olarak işaretlenmiş fonksiyonlar çağrılabilir: `cannot call non-const function `kare` in constants`.
+
+    Sıradan fonksiyonlar çalışma zamanında yürütülmek üzere derlenir; derleyici onları derleme sırasında çalıştırmak zorunda değildir.
+  bad: |
+    fn kare(x: u32) -> u32 {
+        x * x
+    }
+
+    const ALAN: u32 = kare(12);
+
+    fn main() {
+        println!("Alan: {ALAN}");
+    }
+  fix: |
+    const fn kare(x: u32) -> u32 {
+        x * x
+    }
+
+    const ALAN: u32 = kare(12);
+
+    fn main() {
+        println!("Alan: {ALAN}");
+    }
+  fix_explanation: |
+    Fonksiyonu `const fn` yaptık. Artık hem derleme zamanında (`const ALAN`) hem de normal kodda çağrılabilir. Unutma: `const fn` içinde heap ayırma gibi bazı işlemler yasaktır.
+
+- code: E0382
+  title: "Taşınmış değerin kullanımı"
+  module: m04
+  explanation: |
+    Rust'ın en ünlü hatası. Heap verisi tutan tipler (`String`, `Vec`...) kopyalanmaz, **taşınır (move)**: `let s2 = s1;` satırından sonra veriyi artık `s2` sahiplenir ve `s1` geçersizdir. Sonra `s1`'i kullanırsan: `borrow of moved value: `s1``.
+
+    Neden böyle? İki değişken aynı heap verisini sahiplenseydi kapsam bittiğinde ikisi de belleği serbest bırakırdı; yani **çift serbest bırakma (double free)** olurdu. Rust bunu önlemek için tek sahip kuralını (**sahiplik**) uygular.
+
+    Mesaj sana üç şey söyler: değerin tipi `Copy` olmadığı için taşındığını (`move occurs because `s1` has type `String``), taşımanın nerede olduğunu (`value moved here`) ve sonradan nerede kullanıldığını (`value borrowed here after move`). Okurken taşıma satırını bulmak çoğu zaman çözümü gösterir.
+  bad: |
+    fn main() {
+        let s1 = String::from("merhaba");
+        let s2 = s1;
+        println!("{s1}, {s2}");
+    }
+  fix: |
+    fn main() {
+        let s1 = String::from("merhaba");
+        let s2 = s1.clone();
+        println!("{s1}, {s2}");
+    }
+  fix_explanation: |
+    `s1.clone()` ile verinin **bilinçli bir kopyasını** aldık; artık iki bağımsız sahip var. Alternatifler: kopyalamak yerine `&s1` ile **ödünç almak** (çoğu zaman en iyisi), kullanımı taşımadan önceye almak ya da tipi `Copy` olan bir değer kullanmak.
+
+- code: E0596
+  title: "Değişmez değişkeni değiştirilebilir ödünç alma"
+  module: m04
+  explanation: |
+    Veriyi değiştiren bir metodu (`push_str`, `push`, `insert`...) çağırdığında, o metot değeri `&mut self` olarak ödünç alır. Değişkeni `mut` olmadan tanımladıysan bu mümkün değildir: `cannot borrow `selam` as mutable, as it is not declared as mutable`.
+
+    Bu, `E0384`'ün (ikinci atama) ödünç alma tarafındaki kardeşidir. Hem yerel değişkenlerde hem de fonksiyon parametrelerinde (`&String` yerine `&mut String` gerekir) görülür.
+  bad: |
+    fn main() {
+        let selam = String::from("Merhaba");
+        selam.push_str(", dünya");
+        println!("{selam}");
+    }
+  fix: |
+    fn main() {
+        let mut selam = String::from("Merhaba");
+        selam.push_str(", dünya");
+        println!("{selam}");
+    }
+  fix_explanation: |
+    Tanımı `let mut selam` yaptık. Bir fonksiyona değiştirilebilir referans gönderiyorsan parametreyi `&mut String` yapmalı ve çağrıda `&mut selam` demelisin.
+
+- code: E0508
+  title: "Diziden taşıma"
+  module: m04
+  explanation: |
+    Bir dizinin elemanını indeksle alıp bir değişkene atamaya çalışırsan eleman **taşınmış** olur; ancak dizi sahipliği tek parça olarak taşır, ortasından bir eleman çıkarılamaz: `cannot move out of type `[String; 2]`, a non-copy array`.
+
+    `Copy` olan elemanlarda (sayılar gibi) sorun çıkmaz, çünkü kopya alınır. `String` gibi sahipli tiplerde kopya yoktur.
+  bad: |
+    fn main() {
+        let isimler = [String::from("Ada"), String::from("Can")];
+        let ilk = isimler[0];
+        println!("{ilk}");
+    }
+  fix: |
+    fn main() {
+        let isimler = [String::from("Ada"), String::from("Can")];
+        let ilk = &isimler[0];
+        let kopya = isimler[1].clone();
+        println!("{ilk} {kopya} ({} isim)", isimler.len());
+    }
+  fix_explanation: |
+    İlk elemanı `&isimler[0]` ile **ödünç aldık**, ikincisini `.clone()` ile kopyaladık. Elemanı gerçekten dizinin dışına çıkarmak istiyorsan `Vec` ve `remove`/`swap_remove` ya da `std::mem::take` kullanılır.
+
+- code: E0499
+  title: "İki kez değiştirilebilir ödünç alma"
+  module: m05
+  explanation: |
+    Aynı veriye aynı anda **birden fazla `&mut` referans** olamaz: `cannot borrow `s` as mutable more than once at a time`. Kural kısaca: ya **tek bir `&mut`**, ya da **istediğin kadar `&`**; ikisi birden olmaz.
+
+    Bunun nedeni veri yarışlarını ve iterator geçersizleşmesi gibi hataları derleme zamanında engellemektir. İki referans aynı bellekte yazarsa hangisinin son sözü söylediği belirsiz olurdu.
+
+    Mesajda `first mutable borrow occurs here` ve `second mutable borrow occurs here` satırları iki ödünç almayı, `first borrow later used here` satırı ise çakışmanın nedenini gösterir: ilk referans hâlâ kullanılıyor.
+  bad: |
+    fn main() {
+        let mut s = String::from("merhaba");
+        let r1 = &mut s;
+        let r2 = &mut s;
+        r1.push('!');
+        r2.push('?');
+        println!("{s}");
+    }
+  fix: |
+    fn main() {
+        let mut s = String::from("merhaba");
+        let r1 = &mut s;
+        r1.push('!');
+        let r2 = &mut s;
+        r2.push('?');
+        println!("{s}");
+    }
+  fix_explanation: |
+    `r1`'in işi bitince `r2`'yi aldık. **NLL (non-lexical lifetimes)** sayesinde bir referansın ödüncü kapsamın sonunda değil, son kullanıldığı yerde biter. Çoğu zaman kullanımları sıraya dizmek yeterlidir; mümkün değilse bir `{ }` bloğuyla referansın ömrünü sınırla.
+
+- code: E0502
+  title: "Hem değiştirilebilir hem değişmez ödünç alma"
+  module: m05
+  explanation: |
+    Elinde bir `&` (okuma) referansı varken aynı veriyi `&mut` (yazma) olarak ödünç alamazsın: `cannot borrow `v` as mutable because it is also borrowed as immutable`.
+
+    Klasik örnek: `Vec`'in ilk elemanına referans alıp `push` çağırmak. `push` vektörü büyütürken belleği başka yere taşıyabilir; `ilk` referansı artık **sarkan (dangling)** bir işaretçi olurdu. C++'ta bu sessiz bir çökme sebebidir, Rust'ta derleme hatasıdır.
+
+    Mesajı şöyle oku: `immutable borrow occurs here` (referansı aldığın yer), `mutable borrow occurs here` (çakışan işlem) ve `immutable borrow later used here` (referansın hâlâ yaşadığı son kullanım).
+  bad: |
+    fn main() {
+        let mut v = vec![1, 2, 3];
+        let ilk = &v[0];
+        v.push(4);
+        println!("İlk eleman: {ilk}");
+    }
+  fix: |
+    fn main() {
+        let mut v = vec![1, 2, 3];
+        let ilk = v[0];
+        v.push(4);
+        println!("İlk eleman: {ilk}, uzunluk: {}", v.len());
+    }
+  fix_explanation: |
+    Referans yerine elemanın **kopyasını** aldık (`v[0]`, `i32` `Copy` olduğu için). Eleman kopyalanamıyorsa referansın son kullanımını `push`'tan önceye taşı veya `clone()` kullan.
+
+- code: E0505
+  title: "Ödünç alınmış değerin taşınması"
+  module: m05
+  explanation: |
+    Bir değere referans varken o değeri bir fonksiyona **taşıyamazsın**: `cannot move out of `s` because it is borrowed`. Çünkü taşıma, orijinal sahibin verisini bitirir; referans ise yok olmuş bir veriyi göstermeye devam ederdi.
+
+    Mesaj `borrow of `s` occurs here` ile ödüncü, `move out of `s` occurs here` ile taşımayı, `borrow later used here` ile de referansın hâlâ canlı olduğunu söyler.
+  bad: |
+    fn tuket(s: String) {
+        println!("{s} tüketildi");
+    }
+
+    fn main() {
+        let s = String::from("veri");
+        let r = &s;
+        tuket(s);
+        println!("{r}");
+    }
+  fix: |
+    fn tuket(s: String) {
+        println!("{s} tüketildi");
+    }
+
+    fn main() {
+        let s = String::from("veri");
+        let r = &s;
+        println!("{r}");
+        tuket(s);
+    }
+  fix_explanation: |
+    Referansı **taşımadan önce** kullandık. Sıralamayı değiştiremiyorsan fonksiyona `s.clone()` verebilir ya da fonksiyonu `&String`/`&str` alacak şekilde değiştirebilirsin.
+
+- code: E0506
+  title: "Ödünç alınmış değere atama"
+  module: m05
+  explanation: |
+    Üzerinde referans bulunan bir değişkene yeni değer **atayamazsın**: `cannot assign to `skor` because it is borrowed`. Atama, referansın gösterdiği değeri bir anda değiştirirdi.
+
+    Okuyucu referanslar tutarlı bir değer görmek zorundadır; bu yüzden Rust ödünç alma sürerken atamaya izin vermez.
+  bad: |
+    fn main() {
+        let mut skor = 10;
+        let eski = &skor;
+        skor = 20;
+        println!("Eski skor: {eski}, yeni skor: {skor}");
+    }
+  fix: |
+    fn main() {
+        let mut skor = 10;
+        let eski = skor;
+        skor = 20;
+        println!("Eski skor: {eski}, yeni skor: {skor}");
+    }
+  fix_explanation: |
+    Referans yerine değerin **kopyasını** (`let eski = skor;`) tuttuk; `i32` `Copy` olduğu için bu ucuzdur. Ödünç almayı gerçekten sürdürmen gerekiyorsa atamayı referansın son kullanımından sonraya bırak.
+
+- code: E0503
+  title: "Ödünç alınmış değerin kullanımı"
+  module: m05
+  explanation: |
+    Bir değer `&mut` ile ödünç alınmışken onu **okumak** da yasaktır: `cannot use `deger` because it was mutably borrowed`. `r` aracılığıyla değer değişebileceği için doğrudan okuma tutarsız sonuç verebilirdi.
+
+    `E0502`'ye benzer; ancak burada çakışma bir ödünç alma olarak değil, doğrudan **kullanım** olarak görünür (örneğin `deger + 1`).
+  bad: |
+    fn main() {
+        let mut deger = 3;
+        let r = &mut deger;
+        let toplam = deger + 1;
+        *r += 1;
+        println!("{toplam}");
+    }
+  fix: |
+    fn main() {
+        let mut deger = 3;
+        let toplam = deger + 1;
+        let r = &mut deger;
+        *r += 1;
+        println!("toplam: {toplam}, değer: {deger}");
+    }
+  fix_explanation: |
+    Okumayı `&mut` ödüncünden **önceye** aldık. Genel kural: değiştirilebilir referans yaşadığı sürece orijinal değişkene dokunma; her şeyi referans üzerinden yap.
+
+- code: E0594
+  title: "Değişmez yere atama"
+  module: m05
+  explanation: |
+    `&i32` bir **değişmez** referanstır; arkasındaki değeri değiştiremezsin: `cannot assign to `*sayac`, which is behind a `&` reference`. Değiştirmek istiyorsan hem parametre tipinin hem çağrının `&mut` olması gerekir.
+
+    Bu hata `E0596` ile sık karışır. Pratik ayrım: `E0594` bir **atamayı**, `E0596` bir **`&mut` ödünç almayı** reddeder.
+  bad: |
+    fn arttir(sayac: &i32) {
+        *sayac += 1;
+    }
+
+    fn main() {
+        let s = 0;
+        arttir(&s);
+        println!("{s}");
+    }
+  fix: |
+    fn arttir(sayac: &mut i32) {
+        *sayac += 1;
+    }
+
+    fn main() {
+        let mut s = 0;
+        arttir(&mut s);
+        println!("{s}");
+    }
+  fix_explanation: |
+    Parametreyi `&mut i32` yaptık, değişkeni `let mut s` olarak tanımladık ve çağrıda `&mut s` verdik: üç yerde de değişebilirlik açıkça yazılıyor.
+
+- code: E0597
+  title: "Yeterince yaşamayan değer"
+  module: m05
+  explanation: |
+    Bir referans, gösterdiği değerden **daha uzun yaşayamaz**: `borrowed value does not live long enough`. Döngü her turda `isim`'i yeniden oluşturur ve tur bitince yok eder; oysa `isimler` vektörü döngüden sonra da yaşar ve yok olmuş değerlere referans taşırdı.
+
+    Bu, **sarkan referans (dangling reference)** hatasının derleme zamanında yakalanmış hâlidir. Mesajdaki ``isim` dropped here while still borrowed` satırı değerin nerede yok edildiğini gösterir.
+  bad: |
+    fn main() {
+        let mut isimler: Vec<&String> = Vec::new();
+        for i in 1..=3 {
+            let isim = format!("oyuncu{i}");
+            isimler.push(&isim);
+        }
+        println!("{isimler:?}");
+    }
+  fix: |
+    fn main() {
+        let mut isimler: Vec<String> = Vec::new();
+        for i in 1..=3 {
+            let isim = format!("oyuncu{i}");
+            isimler.push(isim);
+        }
+        println!("{isimler:?}");
+    }
+  fix_explanation: |
+    Vektörü `Vec<String>` yaptık ve değeri referans olarak değil **sahipli** olarak ekledik (`push(isim)`): artık veri vektörün olduğu için kapsamdan bağımsızdır. Referans saklamak istiyorsan verinin vektörden **daha uzun** yaşayan bir yerde durması gerekir.
+
+- code: E0106
+  title: "Yaşam süresi belirteci eksik"
+  module: m05
+  explanation: |
+    Bir fonksiyon referans döndürüyorsa derleyici bu referansın **hangi girdiden** geldiğini bilmek zorundadır; böylece döndürülen referansın ne kadar yaşayacağını doğrulayabilir. Hiç parametre yoksa ya da birden çok referans parametre varsa bu bilgi çıkarılamaz: `missing lifetime specifier`.
+
+    Bu örnekte fonksiyon hiç girdi almıyor; yani döndürülecek referans ancak fonksiyonun yerel bir değerine işaret edebilir ve fonksiyon bitince o değer yok olur. Mesajdaki `this function's return type contains a borrowed value, but there is no value for it to be borrowed from` notu bunu söyler: ödünç alınacak bir şey yok.
+  bad: |
+    fn yeni_isim() -> &String {
+        let s = String::from("Ferris");
+        &s
+    }
+
+    fn main() {
+        println!("{}", yeni_isim());
+    }
+  fix: |
+    fn yeni_isim() -> String {
+        let s = String::from("Ferris");
+        s
+    }
+
+    fn main() {
+        println!("{}", yeni_isim());
+    }
+  fix_explanation: |
+    Yerel değer için referans yerine **sahipli** bir değer (`String`) döndürdük. Parametreden gelen bir referansı döndürüyorsan yaşam süresi kuralları çoğu zaman otomatik çözülür; birden çok girdi varsa `'a` ile açıkça yazarsın (Modül 12).
+
+- code: E0515
+  title: "Yerel değere referans döndürme"
+  module: m05
+  explanation: |
+    Fonksiyon bittiğinde yerel değişkenler yok edilir. Onların referansını döndürürsen çağıran taraf **yok olmuş** belleği gösteren bir referans alırdı: `cannot return reference to local variable `mesaj``.
+
+    C ve C++'ta bu "dangling pointer" hatasıdır ve çoğu zaman sessizce yanlış çalışır. Rust bunu derlemeden geçirmez. Mesajdaki `returns a reference to data owned by the current function` ifadesi sorunu özetler.
+  bad: |
+    fn selamla(ad: &str) -> &str {
+        let mesaj = format!("Merhaba, {ad}!");
+        &mesaj
+    }
+
+    fn main() {
+        println!("{}", selamla("Deniz"));
+    }
+  fix: |
+    fn selamla(ad: &str) -> String {
+        format!("Merhaba, {ad}!")
+    }
+
+    fn main() {
+        println!("{}", selamla("Deniz"));
+    }
+  fix_explanation: |
+    Dönüş tipini `String` yapıp sahipli veriyi döndürdük; sahiplik çağırana geçer. Alternatif: veriyi **dışarıdan** ödünç alıp (`&str` parametresinin bir parçasını) döndürmek ya da `'static` bir sabit kullanmak.
+
+- code: E0614
+  title: "Referans olmayan değerde dereference"
+  module: m05
+  explanation: |
+    `*` (dereference) işleci bir referansın, `Box`'ın ya da `Deref` uygulayan bir tipin içindekine ulaşmak içindir. `i32` gibi düz bir değere `*` uygulayamazsın: `type `i32` cannot be dereferenced`.
+
+    Bu hata çoğunlukla parametre tipi `&i32` değilken `*` yazmaktan ya da bir iterator'dan referans geldiğini sanmaktan çıkar.
+  bad: |
+    fn ikiye_katla(x: i32) -> i32 {
+        *x * 2
+    }
+
+    fn main() {
+        println!("{}", ikiye_katla(21));
+    }
+  fix: |
+    fn ikiye_katla(x: i32) -> i32 {
+        x * 2
+    }
+
+    fn ikiye_katla_ref(x: &i32) -> i32 {
+        *x * 2
+    }
+
+    fn main() {
+        println!("{} {}", ikiye_katla(21), ikiye_katla_ref(&21));
+    }
+  fix_explanation: |
+    Tipi zaten `i32` olan değerde `*` kullanmadık. Referans alan sürümde (`&i32`) `*x` doğrudur. Hangi tipte olduğundan emin değilsen derleyicinin tip mesajına bak.
+
+- code: E0063
+  title: "Struct'ta eksik alan"
+  module: m06
+  explanation: |
+    Bir struct örneği oluştururken **tüm alanlara** değer vermek zorundasın: `missing field `ortalama` in initializer of `Ogrenci``. Rust'ta alanlar "boş" ya da varsayılan değerli kalmaz; bu, `null` kaynaklı hataları baştan engeller.
+
+    Mesaj eksik alanın adını söyler. Birden fazla alan eksikse hepsini listeler (`missing fields `a` and `b``).
+  bad: |
+    struct Ogrenci {
+        ad: String,
+        numara: u32,
+        ortalama: f64,
+    }
+
+    fn main() {
+        let o = Ogrenci {
+            ad: String::from("Zeynep"),
+            numara: 42,
+        };
+        println!("{} ({})", o.ad, o.numara);
+    }
+  fix: |
+    struct Ogrenci {
+        ad: String,
+        numara: u32,
+        ortalama: f64,
+    }
+
+    fn main() {
+        let o = Ogrenci {
+            ad: String::from("Zeynep"),
+            numara: 42,
+            ortalama: 88.5,
+        };
+        println!("{} ({}): {}", o.ad, o.numara, o.ortalama);
+    }
+  fix_explanation: |
+    Eksik alanı ekledik (`ortalama: 88.5`). Bazı alanlar için varsayılan değer istiyorsan `#[derive(Default)]` ve `..Default::default()` söz dizimi ya da bir kurucu fonksiyon (`Ogrenci::yeni`) kullanabilirsin.
+
+- code: E0560
+  title: "Struct'ta olmayan alan"
+  module: m06
+  explanation: |
+    Struct örneğinde tanımda bulunmayan bir alan adı yazdın: `struct `Urun` has no field named `fiyati``. Çoğu zaman bir yazım hatasıdır (`fiyati` yerine `fiyat`).
+
+    Derleyici benzer adlı bir alan varsa `help: a field with a similar name exists` diyerek önerir.
+  bad: |
+    struct Urun {
+        ad: String,
+        fiyat: f64,
+    }
+
+    fn main() {
+        let u = Urun {
+            ad: String::from("Çay"),
+            fiyati: 12.5,
+        };
+        println!("{}: {} TL", u.ad, u.fiyat);
+    }
+  fix: |
+    struct Urun {
+        ad: String,
+        fiyat: f64,
+    }
+
+    fn main() {
+        let u = Urun {
+            ad: String::from("Çay"),
+            fiyat: 12.5,
+        };
+        println!("{}: {} TL", u.ad, u.fiyat);
+    }
+  fix_explanation: |
+    Alan adını struct tanımındaki gibi yazdık: `fiyat`. Gerçekten yeni bir alan gerekiyorsa önce struct tanımına eklemelisin.
+
+- code: E0609
+  title: "Olmayan alana erişim"
+  module: m06
+  explanation: |
+    Bir struct değerinin olmayan bir alanına erişmeye çalıştın: `no field `isim` on type `Ogrenci``. Genelde alan adı yanlış yazılmıştır ya da farklı bir struct'la karıştırılmıştır.
+
+    Mesajın altında `available fields are: `ad`` gibi mevcut alanlar listelenir; doğru adı oradan bulabilirsin.
+  bad: |
+    struct Ogrenci {
+        ad: String,
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Ayşe") };
+        println!("{}", o.isim);
+    }
+  fix: |
+    struct Ogrenci {
+        ad: String,
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Ayşe") };
+        println!("{}", o.ad);
+    }
+  fix_explanation: |
+    Alanı gerçek adıyla çağırdık: `o.ad`. Olmayan bir alan gerekiyorsa struct tanımını genişlet.
+
+- code: E0615
+  title: "Metoda alan gibi erişim"
+  module: m06
+  explanation: |
+    `d.alan` bir **alana** erişim söz dizimidir, oysa `alan` bir **metottur**. Metodu çağırmak için parantez gerekir: `attempted to take value of method `alan` on type `Dikdortgen``.
+
+    Mesaj `help: use parentheses to call the method` diyerek çözümü gösterir. Rust'ta alanlar ve metotlar farklı ad uzaylarında yaşar: aynı adda hem alan hem metot olabilir (`d.alan` ve `d.alan()`).
+  bad: |
+    struct Dikdortgen {
+        en: u32,
+        boy: u32,
+    }
+
+    impl Dikdortgen {
+        fn alan(&self) -> u32 {
+            self.en * self.boy
+        }
+    }
+
+    fn main() {
+        let d = Dikdortgen { en: 3, boy: 4 };
+        println!("Alan: {}", d.alan);
+    }
+  fix: |
+    struct Dikdortgen {
+        en: u32,
+        boy: u32,
+    }
+
+    impl Dikdortgen {
+        fn alan(&self) -> u32 {
+            self.en * self.boy
+        }
+    }
+
+    fn main() {
+        let d = Dikdortgen { en: 3, boy: 4 };
+        println!("Alan: {}", d.alan());
+    }
+  fix_explanation: |
+    Metot çağrısına parantez ekledik: `d.alan()`.
+
+- code: E0599
+  title: "Tipte olmayan metot"
+  module: m06
+  explanation: |
+    Bir değer üzerinde çağırdığın metot, o tipte **bulunamadı** (veya gerekli trait uygulanmamış): ``no method named `clone` found for struct `Kitap` in the current scope``.
+
+    En sık nedenler:
+
+    - Metot adı yanlış yazılmıştır.
+    - Metot bir trait'ten gelir (`Clone`, `Display`...) ve tip o trait'i uygulamamıştır.
+    - Trait kapsamda değildir (bir `use` gerekir).
+    - Metot genel (generic) bir tip için trait sınırına bağlıdır ve sınır sağlanmamıştır.
+
+    Mesajın altındaki `help: items from traits can only be used if the trait is implemented` notu iyi bir ipucudur.
+  bad: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    fn main() {
+        let k1 = Kitap { baslik: String::from("Tutunamayanlar") };
+        let k2 = k1.clone();
+        println!("{} / {}", k1.baslik, k2.baslik);
+    }
+  fix: |
+    #[derive(Clone)]
+    struct Kitap {
+        baslik: String,
+    }
+
+    fn main() {
+        let k1 = Kitap { baslik: String::from("Tutunamayanlar") };
+        let k2 = k1.clone();
+        println!("{} / {}", k1.baslik, k2.baslik);
+    }
+  fix_explanation: |
+    Struct'ın üstüne `#[derive(Clone)]` ekledik; derleyici `clone` metodunu bizim için üretir. Metot bir trait'ten geliyorsa trait'i `use` ile kapsama almak da gerekebilir.
+
+- code: E0424
+  title: "Metotta self yok"
+  module: m06
+  explanation: |
+    `self` anahtar sözcüğü yalnızca ilk parametresi `self`, `&self` veya `&mut self` olan **metotlarda** kullanılabilir. `fn arttir()` bir **ilişkili fonksiyondur**, içinde `self` yoktur: `expected value, found module `self``.
+
+    Başka dillerdeki gizli `this` yoktur; Rust'ta örneği alan metot bunu imzada açıkça belirtir.
+  bad: |
+    struct Sayac {
+        deger: u32,
+    }
+
+    impl Sayac {
+        fn arttir() {
+            self.deger += 1;
+        }
+    }
+  fix: |
+    struct Sayac {
+        deger: u32,
+    }
+
+    impl Sayac {
+        fn arttir(&mut self) {
+            self.deger += 1;
+        }
+    }
+
+    fn main() {
+        let mut s = Sayac { deger: 0 };
+        s.arttir();
+        s.arttir();
+        println!("Sayaç: {}", s.deger);
+    }
+  fix_explanation: |
+    Metodun imzasına `&mut self` ekledik; böylece örneğe değiştirilebilir erişiyoruz. Değeri okuyorsan `&self`, sahipliği tüketiyorsan `self` yeterlidir.
+
+- code: E0423
+  title: "Struct'ı fonksiyon veya değer gibi kullanma"
+  module: m06
+  explanation: |
+    `Kitap.yeni(...)` yazarak, ilişkili fonksiyonu **nokta** ile çağırmaya çalıştın. Nokta söz dizimi bir değerin metotları içindir; tipin ilişkili fonksiyonları ise `::` ile çağrılır: `expected value, found struct `Kitap``.
+
+    Derleyici `Kitap`'ı bir değer sanmış, oysa o bir tip adıdır.
+  bad: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    impl Kitap {
+        fn yeni(baslik: &str) -> Kitap {
+            Kitap { baslik: baslik.to_string() }
+        }
+    }
+
+    fn main() {
+        let k = Kitap.yeni("Kürk Mantolu Madonna");
+        println!("{}", k.baslik);
+    }
+  fix: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    impl Kitap {
+        fn yeni(baslik: &str) -> Kitap {
+            Kitap { baslik: baslik.to_string() }
+        }
+    }
+
+    fn main() {
+        let k = Kitap::yeni("Kürk Mantolu Madonna");
+        println!("{}", k.baslik);
+    }
+  fix_explanation: |
+    `Kitap::yeni(...)` yazdık. Kural: **tip üzerinde** çağrı `::`, **değer üzerinde** çağrı `.` ile yapılır.
+
+- code: E0422
+  title: "Tanımsız struct adı"
+  module: m06
+  explanation: |
+    Struct değeri oluştururken yazdığın ad (`Kitab`) o kapsamda bir struct ya da enum varyantı olarak tanımlı değil: `cannot find struct, variant or union type `Kitab` in this scope`. Neredeyse her zaman yazım hatası ya da eksik bir `use` satırıdır.
+  bad: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    fn main() {
+        let k = Kitab { baslik: String::from("Saatleri Ayarlama Enstitüsü") };
+        println!("{}", k.baslik);
+    }
+  fix: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    fn main() {
+        let k = Kitap { baslik: String::from("Saatleri Ayarlama Enstitüsü") };
+        println!("{}", k.baslik);
+    }
+  fix_explanation: |
+    Adı tanımdaki gibi `Kitap` olarak düzelttik. Tip başka bir modüldeyse `use` ile içe aktarman gerekir.
+
+- code: E0592
+  title: "Çakışan metot tanımları"
+  module: m06
+  explanation: |
+    Aynı tipin iki ayrı `impl` bloğunda **aynı adlı** metot tanımladın: `duplicate definitions with name `alan``. Birden fazla `impl` bloğu serbesttir, ama içlerindeki ilişkili öğelerin adları çakışamaz.
+
+    `E0428`'in (aynı ad iki kez tanımlandı) metot düzeyindeki karşılığıdır.
+  bad: |
+    struct Daire {
+        yaricap: f64,
+    }
+
+    impl Daire {
+        fn alan(&self) -> f64 {
+            std::f64::consts::PI * self.yaricap * self.yaricap
+        }
+
+        fn cevre(&self) -> f64 {
+            2.0 * std::f64::consts::PI * self.yaricap
+        }
+    }
+
+    impl Daire {
+        fn alan(&self) -> f64 {
+            3.14 * self.yaricap * self.yaricap
+        }
+    }
+
+    fn main() {
+        let d = Daire { yaricap: 1.0 };
+        println!("{:.2}", d.cevre());
+    }
+  fix: |
+    struct Daire {
+        yaricap: f64,
+    }
+
+    impl Daire {
+        fn alan(&self) -> f64 {
+            std::f64::consts::PI * self.yaricap * self.yaricap
+        }
+    }
+
+    impl Daire {
+        fn cevre(&self) -> f64 {
+            2.0 * std::f64::consts::PI * self.yaricap
+        }
+    }
+
+    fn main() {
+        let d = Daire { yaricap: 1.0 };
+        println!("alan {:.2}, çevre {:.2}", d.alan(), d.cevre());
+    }
+  fix_explanation: |
+    Çakışan metotlardan birini sildik; her metot tek bir yerde tanımlı. Farklı davranış gerekiyorsa farklı adlar ver.
+
+- code: E0277
+  title: "Trait sınırı sağlanmıyor"
+  module: m06
+  explanation: |
+    Rust'ın en çok karşılaşılan ve en çok şey anlatan hatalarından biri: bir işlem veya fonksiyon, tipinin belirli bir **trait'i uygulamasını** istiyor, ama senin tipin uygulamıyor: `` `Nokta` doesn't implement `std::fmt::Display` ``.
+
+    Örnekte `{p}` biçimi `Display` ister; sıradan bir struct için `Display` otomatik gelmez, çünkü Rust "bu tipi nasıl yazdırayım?" sorusunu senin yerine tahmin etmez. `{p:?}` ise `Debug` ister ve `#[derive(Debug)]` ile üretilir.
+
+    Aynı hata ailesi: `?` işlecini `Result` döndürmeyen fonksiyonda kullanmak, sayısal olmayan bir tipi toplamaya çalışmak, `Send` olmayan bir tipi thread'e göndermek, `Sized` olmayan bir tipi değer olarak kullanmak... Mesajın `the trait bound ... is not satisfied` ve `required by a bound in ...` satırları hangi trait'in neden istendiğini söyler.
+  bad: |
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    fn main() {
+        let p = Nokta { x: 3, y: 4 };
+        println!("Nokta: {p}");
+    }
+  fix: |
+    use std::fmt;
+
+    #[derive(Debug)]
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    impl fmt::Display for Nokta {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    fn main() {
+        let p = Nokta { x: 3, y: 4 };
+        println!("Nokta: {p}");
+        println!("Debug: {p:?}");
+    }
+  fix_explanation: |
+    `Display` trait'ini elle uyguladık; kullanıcıya gösterilecek biçimi biz belirliyoruz. Hata ayıklama çıktısı için `#[derive(Debug)]` yeterlidir. Genel kural: önce derleyicinin `help` satırındaki trait'i uygula ya da türet.
+
+- code: E0507
+  title: "Referansın arkasından taşıma"
+  module: m06
+  explanation: |
+    Bir referansın (`&self`, `&T`) arkasındaki sahipli değeri **dışarı taşıyamazsın**: `cannot move out of `self.ad` which is behind a shared reference`. Referans yalnızca ödünç almadır; sahibin verisini elinden alamaz.
+
+    Örnekte `&self` ile bir `String` alanını döndürmek, alanın sahipliğini çağırana vermek demektir; oysa struct hâlâ o alanı bekler.
+  bad: |
+    struct Ogrenci {
+        ad: String,
+    }
+
+    impl Ogrenci {
+        fn ad(&self) -> String {
+            self.ad
+        }
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Elif") };
+        println!("{}", o.ad());
+    }
+  fix: |
+    struct Ogrenci {
+        ad: String,
+    }
+
+    impl Ogrenci {
+        fn ad(&self) -> &str {
+            &self.ad
+        }
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Elif") };
+        println!("{}", o.ad());
+    }
+  fix_explanation: |
+    Alanı **ödünç vererek** (`&str` döndürerek) çözdük. Sahipli bir kopya gerekiyorsa `self.ad.clone()` yaz; sahipliği gerçekten devretmek istiyorsan metodu `self` alacak şekilde değiştir (tüketen metot). `Option` alanlarında `take()` da yaygın bir yoldur.
+
+- code: E0004
+  title: "Kapsamlı olmayan match"
+  module: m07
+  explanation: |
+    `match` ifadesi **kapsamlı (exhaustive)** olmak zorundadır: olası her değeri bir kol karşılamalıdır. Burada `Yon::Bati` unutulmuş: `non-exhaustive patterns: `Yon::Bati` not covered``.
+
+    Bu Rust'ın güvenlik ağıdır. Enum'a yeni bir varyant eklediğinde, `match` kullanan her yer derleme hatası verir ve hiçbir durumu unutmazsın. Derleyici eksik kalıbı açıkça yazar ve `help: ensure that all possible cases are being handled` ile `_ =>` kolunu önerir.
+  bad: |
+    enum Yon {
+        Kuzey,
+        Guney,
+        Dogu,
+        Bati,
+    }
+
+    fn aci(y: Yon) -> u32 {
+        match y {
+            Yon::Kuzey => 0,
+            Yon::Dogu => 90,
+            Yon::Guney => 180,
+        }
+    }
+
+    fn main() {
+        println!("{}", aci(Yon::Bati));
+    }
+  fix: |
+    enum Yon {
+        Kuzey,
+        Guney,
+        Dogu,
+        Bati,
+    }
+
+    fn aci(y: Yon) -> u32 {
+        match y {
+            Yon::Kuzey => 0,
+            Yon::Dogu => 90,
+            Yon::Guney => 180,
+            Yon::Bati => 270,
+        }
+    }
+
+    fn main() {
+        for y in [Yon::Kuzey, Yon::Guney, Yon::Dogu, Yon::Bati] {
+            println!("{}", aci(y));
+        }
+    }
+  fix_explanation: |
+    Eksik varyant için bir kol ekledik. Her varyanta ayrı davranış gerekmiyorsa `_ => ...` joker kolu kullanabilirsin; ama `_` ileride eklenecek varyantları sessizce yutar, bu yüzden varyantları tek tek yazmak çoğu zaman daha güvenlidir.
+
+- code: E0023
+  title: "Varyant kalıbında yanlış alan sayısı"
+  module: m07
+  explanation: |
+    Bir enum varyantını kalıpla (pattern) açarken tanımdaki **tüm alanları** yazmalısın: `this pattern has 1 field, but the corresponding tuple variant has 2 fields`. `Dikdortgen(f64, f64)` iki alan taşıdığı için kalıpta da iki parça olmalı.
+
+    Kalıp, değerin şekline uymalıdır; yoksa eşleşme anlamsızdır.
+  bad: |
+    enum Sekil {
+        Dikdortgen(f64, f64),
+        Daire(f64),
+    }
+
+    fn alan(s: &Sekil) -> f64 {
+        match s {
+            Sekil::Dikdortgen(en) => en * en,
+            Sekil::Daire(r) => 3.14 * r * r,
+        }
+    }
+
+    fn main() {
+        println!("{}", alan(&Sekil::Dikdortgen(2.0, 5.0)));
+    }
+  fix: |
+    enum Sekil {
+        Dikdortgen(f64, f64),
+        Daire(f64),
+    }
+
+    fn alan(s: &Sekil) -> f64 {
+        match s {
+            Sekil::Dikdortgen(en, boy) => en * boy,
+            Sekil::Daire(r) => std::f64::consts::PI * r * r,
+        }
+    }
+
+    fn main() {
+        println!("{}", alan(&Sekil::Dikdortgen(2.0, 5.0)));
+        println!("{:.2}", alan(&Sekil::Daire(1.0)));
+    }
+  fix_explanation: |
+    Kalıba ikinci alanı da ekledik: `Dikdortgen(en, boy)`. Bir alanı umursamıyorsan `_` ya da `..` yaz: `Dikdortgen(en, _)`, `Dikdortgen(..)`.
+
+- code: E0532
+  title: "Kalıpta varyant türü uyuşmazlığı"
+  module: m07
+  explanation: |
+    `Durum::Hata`, içinde `String` taşıyan bir **tuple varyantıdır**; kalıpta alanları da yazmalısın. Alansız yazarsan derleyici bunu bir birim (unit) varyant sanar: `expected unit struct, unit variant or constant, found tuple variant `Durum::Hata``.
+
+    Varyantın şekli (birim, tuple, süslü parantezli) kalıpta da aynı şekilde yazılmalıdır.
+  bad: |
+    enum Durum {
+        Hazir,
+        Hata(String),
+    }
+
+    fn rapor(d: &Durum) {
+        match d {
+            Durum::Hazir => println!("hazır"),
+            Durum::Hata => println!("hata"),
+        }
+    }
+
+    fn main() {
+        rapor(&Durum::Hazir);
+        rapor(&Durum::Hata(String::from("disk dolu")));
+    }
+  fix: |
+    enum Durum {
+        Hazir,
+        Hata(String),
+    }
+
+    fn rapor(d: &Durum) {
+        match d {
+            Durum::Hazir => println!("hazır"),
+            Durum::Hata(mesaj) => println!("hata: {mesaj}"),
+        }
+    }
+
+    fn main() {
+        rapor(&Durum::Hazir);
+        rapor(&Durum::Hata(String::from("disk dolu")));
+    }
+  fix_explanation: |
+    Kalıbı `Durum::Hata(mesaj)` olarak yazdık; böylece içindeki `String`'e `mesaj` adıyla erişiyoruz. Alanı umursamıyorsan `Durum::Hata(_)` kullan.
+
+- code: E0559
+  title: "Varyantta olmayan alan"
+  module: m07
+  explanation: |
+    Süslü parantezli bir enum varyantı oluştururken tanımda olmayan bir alan adı yazdın: `variant `Komut::Tasi` has no field named `z``. `E0560`'ın enum varyantı için olan karşılığıdır.
+
+    Derleyici benzer alan adı varsa onu önerir.
+  bad: |
+    enum Komut {
+        Tasi { x: i32, y: i32 },
+        Dur,
+    }
+
+    fn main() {
+        let k = Komut::Tasi { x: 1, z: 2 };
+        match k {
+            Komut::Tasi { x, y } => println!("({x}, {y}) noktasına git"),
+            Komut::Dur => println!("dur"),
+        }
+    }
+  fix: |
+    enum Komut {
+        Tasi { x: i32, y: i32 },
+        Dur,
+    }
+
+    fn calistir(k: Komut) {
+        match k {
+            Komut::Tasi { x, y } => println!("({x}, {y}) noktasına git"),
+            Komut::Dur => println!("dur"),
+        }
+    }
+
+    fn main() {
+        calistir(Komut::Tasi { x: 1, y: 2 });
+        calistir(Komut::Dur);
+    }
+  fix_explanation: |
+    Alan adlarını tanımdakiyle (`x`, `y`) eşleştirdik. Örneği oluşturmayı bir fonksiyona taşıyıp `match`'i orada çalıştırdık; böylece program her varyantı sınar.
+
+- code: E0170
+  title: "Varyant adı yerine değişken kalıbı"
+  module: m07
+  explanation: |
+    `match` kolunda `Kirmizi => ...` yazarsan Rust bunu enum varyantı değil, **yeni bir değişken adı** olarak yorumlar ve her değerle eşleşir (`pattern binding `Kirmizi` is named the same as one of the variants of the type `Isik``). İlk kol her zaman çalışır, sonrakiler asla.
+
+    Bu kural varsayılan olarak **hata** (E0170) olarak uygulanır; çünkü kod derlense bile yanlış çalışırdı. Enum varyantlarına her zaman `Enum::Varyant` biçiminde ulaşmalısın (ya da `use Isik::*;` yazmalısın).
+  bad: |
+    enum Isik {
+        Kirmizi,
+        Yesil,
+    }
+
+    fn aciklama(i: Isik) -> &'static str {
+        match i {
+            Kirmizi => "dur",
+            _ => "geç",
+        }
+    }
+
+    fn main() {
+        println!("{}", aciklama(Isik::Yesil));
+        println!("{}", aciklama(Isik::Kirmizi));
+    }
+  fix: |
+    enum Isik {
+        Kirmizi,
+        Yesil,
+    }
+
+    fn aciklama(i: Isik) -> &'static str {
+        match i {
+            Isik::Kirmizi => "dur",
+            Isik::Yesil => "geç",
+        }
+    }
+
+    fn main() {
+        println!("{}", aciklama(Isik::Yesil));
+        println!("{}", aciklama(Isik::Kirmizi));
+    }
+  fix_explanation: |
+    Varyantları tam yolla yazdık (`Isik::Kirmizi`, `Isik::Yesil`) ve joker `_` yerine tüm varyantları listeledik.
+
+- code: E0107
+  title: "Yanlış sayıda genel tip argümanı"
+  module: m07
+  explanation: |
+    `Option` bir **genel (generic)** tiptir; hangi tipi sardığını söylemen gerekir: `Option<i32>`. Argümanı eksik yazarsan: `missing generics for enum `Option``.
+
+    Aynı hata ailesi: gereğinden fazla argüman vermek (`Vec<i32, i32>`) ya da yaşam süresi sayısını yanlış yazmak.
+  bad: |
+    fn ilk_cift(sayilar: &[i32]) -> Option {
+        for s in sayilar {
+            if s % 2 == 0 {
+                return Some(*s);
+            }
+        }
+        None
+    }
+
+    fn main() {
+        println!("{:?}", ilk_cift(&[3, 7, 8, 10]));
+    }
+  fix: |
+    fn ilk_cift(sayilar: &[i32]) -> Option<i32> {
+        for s in sayilar {
+            if s % 2 == 0 {
+                return Some(*s);
+            }
+        }
+        None
+    }
+
+    fn main() {
+        println!("{:?}", ilk_cift(&[3, 7, 8, 10]));
+    }
+  fix_explanation: |
+    Dönüş tipini `Option<i32>` yaptık. Derleyici `help: add missing generic argument` ile tam olarak bunu söyler.
+
+- code: E0603
+  title: "Özel öğeye erişim"
+  module: m08
+  explanation: |
+    Modül içindeki her öğe varsayılan olarak **özeldir (private)**: yalnızca kendi modülü ve alt modülleri görebilir. Dışarıdan erişirsen: `function `faiz_orani` is private`.
+
+    Bu, kapsülleme (encapsulation) içindir: modülün iç ayrıntılarını gizler, dışarıya yalnızca bilinçli açtığın arayüzü sunarsın. Derleyici mesajda öğenin tanımına işaret eder ve `private function defined here` notu ekler.
+  bad: |
+    mod banka {
+        fn faiz_orani() -> f64 {
+            0.35
+        }
+    }
+
+    fn main() {
+        println!("Faiz: {}", banka::faiz_orani());
+    }
+  fix: |
+    mod banka {
+        pub fn faiz_orani() -> f64 {
+            0.35
+        }
+    }
+
+    fn main() {
+        println!("Faiz: {}", banka::faiz_orani());
+    }
+  fix_explanation: |
+    Fonksiyonu `pub` yaptık. Yalnızca crate içinde açmak istiyorsan `pub(crate)` kullanabilirsin. Genel kural: **gerekmedikçe `pub` yazma**.
+
+- code: E0616
+  title: "Özel alana erişim"
+  module: m08
+  explanation: |
+    Struct `pub` olsa bile alanları varsayılan olarak **özeldir**. Modül dışından erişirsen: `field `bakiye` of struct `Hesap` is private`.
+
+    Bu sayede struct'ın değişmezlerini (örneğin "bakiye asla negatif olamaz") koruyabilirsin: alana yalnızca senin yazdığın metotlar dokunur.
+  bad: |
+    mod banka {
+        pub struct Hesap {
+            bakiye: u64,
+        }
+
+        impl Hesap {
+            pub fn yeni() -> Hesap {
+                Hesap { bakiye: 100 }
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap::yeni();
+        println!("Bakiye: {}", h.bakiye);
+    }
+  fix: |
+    mod banka {
+        pub struct Hesap {
+            bakiye: u64,
+        }
+
+        impl Hesap {
+            pub fn yeni() -> Hesap {
+                Hesap { bakiye: 100 }
+            }
+
+            pub fn bakiye(&self) -> u64 {
+                self.bakiye
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap::yeni();
+        println!("Bakiye: {}", h.bakiye());
+    }
+  fix_explanation: |
+    Alanı açmak yerine bir **getter** metodu (`bakiye()`) yazdık. Alanın doğrudan okunup yazılması sorun değilse alanı `pub` yapabilirsin.
+
+- code: E0624
+  title: "Özel metoda erişim"
+  module: m08
+  explanation: |
+    Metotlar da varsayılan olarak özeldir: `method `denetle` is private`. `E0603`'ün metot karşılığıdır: struct `pub` ve alanı `pub` olsa bile `impl` içindeki `fn` yalnızca kendi modülünde görünür.
+  bad: |
+    mod banka {
+        pub struct Hesap {
+            pub bakiye: u64,
+        }
+
+        impl Hesap {
+            fn denetle(&self) -> bool {
+                self.bakiye < 1_000_000
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap { bakiye: 500 };
+        println!("Uygun mu: {}", h.denetle());
+    }
+  fix: |
+    mod banka {
+        pub struct Hesap {
+            pub bakiye: u64,
+        }
+
+        impl Hesap {
+            pub fn denetle(&self) -> bool {
+                self.bakiye < 1_000_000
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap { bakiye: 500 };
+        println!("Uygun mu: {}", h.denetle());
+    }
+  fix_explanation: |
+    Metodu `pub fn` yaptık. İç ayrıntıyı gizlemek istiyorsan metodu özel bırakıp dışarıya başka bir `pub` metot sunmalısın.
+
+- code: E0451
+  title: "Özel alanla struct oluşturma"
+  module: m08
+  explanation: |
+    Alanlarından biri özel olan bir struct'ı modül dışında `Hesap { ... }` ile **oluşturamazsın**: `field `bakiye` of struct `Hesap` is private`. Çünkü özel alanı sen dolduramazsın.
+
+    Bu, kapsüllemenin bir parçasıdır: nesnenin nasıl oluşturulacağı modülün kontrolündedir.
+  bad: |
+    mod banka {
+        pub struct Hesap {
+            pub sahip: String,
+            bakiye: u64,
+        }
+
+        impl Hesap {
+            pub fn bakiye(&self) -> u64 {
+                self.bakiye
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap { sahip: String::from("Ali"), bakiye: 10 };
+        println!("{}: {}", h.sahip, h.bakiye());
+    }
+  fix: |
+    mod banka {
+        pub struct Hesap {
+            pub sahip: String,
+            bakiye: u64,
+        }
+
+        impl Hesap {
+            pub fn yeni(sahip: &str) -> Hesap {
+                Hesap { sahip: sahip.to_string(), bakiye: 0 }
+            }
+
+            pub fn bakiye(&self) -> u64 {
+                self.bakiye
+            }
+        }
+    }
+
+    fn main() {
+        let h = banka::Hesap::yeni("Ali");
+        println!("{}: {}", h.sahip, h.bakiye());
+    }
+  fix_explanation: |
+    Modül içinde bir **kurucu fonksiyon** (`Hesap::yeni`) yazdık; özel alanı o dolduruyor. Dışarıdan oluşturmaya izin vermek istiyorsan tüm alanları `pub` yapabilirsin.
+
+- code: E0432
+  title: "Çözümlenemeyen use"
+  module: m08
+  explanation: |
+    `use` ile içe aktarmak istediğin öğe belirtilen yolda yok: `unresolved import `geometri::kare_alan``. Neredeyse her zaman yazım hatasıdır; bazen de öğe `pub` değildir ya da başka bir modüldedir.
+
+    Derleyici benzer adlı öğeyi `help: a similar name exists in the module: `kare_alani`` ile önerir.
+  bad: |
+    mod geometri {
+        pub fn kare_alani(kenar: f64) -> f64 {
+            kenar * kenar
+        }
+    }
+
+    use geometri::kare_alan;
+
+    fn main() {
+        println!("{}", kare_alan(3.0));
+    }
+  fix: |
+    mod geometri {
+        pub fn kare_alani(kenar: f64) -> f64 {
+            kenar * kenar
+        }
+    }
+
+    use geometri::kare_alani;
+
+    fn main() {
+        println!("{}", kare_alani(3.0));
+    }
+  fix_explanation: |
+    İçe aktardığımız ve çağırdığımız adı tanımdakiyle aynı yaptık: `kare_alani`. Yol doğruysa ama hata sürüyorsa öğenin `pub` olduğunu da kontrol et.
+
+- code: E0252
+  title: "use ile ad çakışması"
+  module: m08
+  explanation: |
+    Aynı adı taşıyan iki öğeyi `use` ile aynı kapsama aldın: `the name `baslat` is defined multiple times`. Kapsamda bir ad tek bir şeyi gösterebilir.
+  bad: |
+    mod ses {
+        pub fn baslat() -> &'static str {
+            "müzik başladı"
+        }
+    }
+
+    mod oyun {
+        pub fn baslat() -> &'static str {
+            "oyun başladı"
+        }
+    }
+
+    use ses::baslat;
+    use oyun::baslat;
+
+    fn main() {
+        println!("{}", baslat());
+    }
+  fix: |
+    mod ses {
+        pub fn baslat() -> &'static str {
+            "müzik başladı"
+        }
+    }
+
+    mod oyun {
+        pub fn baslat() -> &'static str {
+            "oyun başladı"
+        }
+    }
+
+    use ses::baslat;
+    use oyun::baslat as oyunu_baslat;
+
+    fn main() {
+        println!("{}", baslat());
+        println!("{}", oyunu_baslat());
+    }
+  fix_explanation: |
+    İkinci içe aktarmaya `as` ile **takma ad** verdik: `use oyun::baslat as oyunu_baslat;`. Alternatif olarak öğeleri `ses::baslat()` ve `oyun::baslat()` biçiminde tam yolla çağırabilirsin; çoğu zaman modülü içe aktarıp öğeyi tam yolla kullanmak daha okunaklıdır.
+
+- code: E0255
+  title: "use ile yerel tanım çakışması"
+  module: m08
+  explanation: |
+    `use` ile içe aktardığın bir ad, aynı kapsamda tanımladığın bir öğeyle çakışıyor: `the name `Hesap` is defined multiple times`. `E0252`'nin yerel tanımla olan sürümüdür.
+  bad: |
+    mod banka {
+        pub struct Hesap {
+            pub no: u32,
+        }
+    }
+
+    use banka::Hesap;
+
+    struct Hesap {
+        ad: String,
+    }
+
+    fn main() {
+        let h = Hesap { ad: String::from("kumbara") };
+        println!("{}", h.ad);
+    }
+  fix: |
+    mod banka {
+        pub struct Hesap {
+            pub no: u32,
+        }
+    }
+
+    use banka::Hesap as BankaHesabi;
+
+    struct Hesap {
+        ad: String,
+    }
+
+    fn main() {
+        let h = Hesap { ad: String::from("kumbara") };
+        let b = BankaHesabi { no: 7 };
+        println!("{} / {}", h.ad, b.no);
+    }
+  fix_explanation: |
+    İçe aktarılan tipe `as BankaHesabi` takma adını verdik. Yerel tanımın adını değiştirmek de geçerli bir yoldur.
+
+- code: E0659
+  title: "Belirsiz ad (glob çakışması)"
+  module: m08
+  explanation: |
+    İki modülü `use modul::*;` (glob) ile içe aktarırsan ve ikisinde de aynı ad varsa, o adı kullandığın anda derleyici hangisini istediğini bilemez: `` `selam` is ambiguous ``. Hata içe aktarma satırında değil, **kullanım** satırında çıkar; ad kullanılmazsa sorun olmaz.
+
+    Glob içe aktarma kısa yazım sağlar, ama bu tür gizli çakışmalara yol açar; ayrıca adın nereden geldiğini okuyucudan saklar.
+  bad: |
+    mod ingilizce {
+        pub fn selam() -> &'static str {
+            "Hello"
+        }
+    }
+
+    mod turkce {
+        pub fn selam() -> &'static str {
+            "Merhaba"
+        }
+
+        pub fn veda() -> &'static str {
+            "Hoşça kal"
+        }
+    }
+
+    use ingilizce::*;
+    use turkce::*;
+
+    fn main() {
+        println!("{}", selam());
+        println!("{}", veda());
+    }
+  fix: |
+    mod ingilizce {
+        pub fn selam() -> &'static str {
+            "Hello"
+        }
+    }
+
+    mod turkce {
+        pub fn selam() -> &'static str {
+            "Merhaba"
+        }
+
+        pub fn veda() -> &'static str {
+            "Hoşça kal"
+        }
+    }
+
+    use turkce::veda;
+
+    fn main() {
+        println!("{}", ingilizce::selam());
+        println!("{}", turkce::selam());
+        println!("{}", veda());
+    }
+  fix_explanation: |
+    Glob yerine yalnızca gereken öğeyi içe aktardık (`use turkce::veda;`) ve çakışan fonksiyonu **modül adıyla** çağırdık (`ingilizce::selam()`). Testlerde `use super::*;` dışında glob kullanımından kaçınmak iyi bir alışkanlıktır.
+
+- code: E0583
+  title: "Modül dosyası bulunamadı"
+  module: m08
+  explanation: |
+    `mod kutuphane;` (süslü parantezsiz) satırı derleyiciye "bu modülün içeriği başka bir dosyada" der ve `kutuphane.rs` ya da `kutuphane/mod.rs` dosyasını arar. Bulamazsa: `file not found for module `kutuphane``.
+
+    Modül tanımlamak ile modül dosyası oluşturmak ayrı adımlardır. Dosya adının ve konumunun tam doğru olması gerekir (kök dosyanın yanında, `src/` içinde).
+  bad: |
+    mod kutuphane;
+
+    fn main() {
+        println!("Kütüphane programı");
+    }
+  fix: |
+    mod kutuphane {
+        pub fn selamla() -> &'static str {
+            "Kütüphaneye hoş geldin!"
+        }
+    }
+
+    fn main() {
+        println!("{}", kutuphane::selamla());
+    }
+  fix_explanation: |
+    Burada tek dosyayla çalıştığımız için modülü `mod kutuphane { ... }` biçiminde **satır içi** yazdık. Gerçek projede `src/kutuphane.rs` dosyasını oluşturup `mod kutuphane;` satırını bırakırsın.
+
+- code: E0364
+  title: "Yeniden dışa aktarılamayan öğe"
+  module: m08
+  explanation: |
+    `pub use` ile bir öğeyi dışarıya yeniden açabilmen için öğenin kendisi de en az o kadar görünür olmalıdır. Burada `temizle` yalnızca `pub(crate)`, ama biz onu crate'in dışına `pub use` ile sunmaya çalışıyoruz: `` `temizle` is only public within the crate, and cannot be re-exported outside ``.
+  bad: |
+    mod yardimcilar {
+        pub(crate) fn temizle(s: &str) -> String {
+            s.trim().to_lowercase()
+        }
+    }
+
+    pub use yardimcilar::temizle;
+  fix: |
+    mod yardimcilar {
+        pub fn temizle(s: &str) -> String {
+            s.trim().to_lowercase()
+        }
+    }
+
+    pub use yardimcilar::temizle;
+  fix_explanation: |
+    Fonksiyonu `pub` yaptık. Öğeyi bilerek yalnızca crate içinde tutuyorsan `pub use` yerine `pub(crate) use` yaz.
+
+- code: E0433
+  title: "Çözümlenemeyen yol"
+  module: m09
+  explanation: |
+    Bir yolun ilk parçası (`HashMap::new()` içindeki `HashMap`) kapsamda bulunamıyor: ``failed to resolve: use of undeclared type `HashMap` ``. Çoğu zaman **`use` satırı unutulmuştur**; standart kütüphanenin `Vec`, `String`, `Option` gibi sık kullanılan tipleri otomatik gelir, ama `HashMap` gelmez.
+
+    Tek başına bir ad bulunamadığında `E0425`, yolun bir parçası (`HashMap::new()`, `modul::oge`) bulunamadığında ise `E0433` çıkar. Derleyici `help: consider importing this struct` ile doğru `use` satırını yazar.
+  bad: |
+    fn main() {
+        let mut notlar = HashMap::new();
+        notlar.insert("Ali", 85);
+        println!("{notlar:?}");
+    }
+  fix: |
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut notlar = HashMap::new();
+        notlar.insert("Ali", 85);
+        println!("{notlar:?}");
+    }
+  fix_explanation: |
+    Dosyanın başına `use std::collections::HashMap;` ekledik. Yazım hatası, yanlış modül adı ya da `Cargo.toml`'a eklenmemiş bir crate de aynı hatayı verebilir.
+
+- code: E0282
+  title: "Tip belirlenemedi"
+  module: m09
+  explanation: |
+    Derleyici bir değişkenin tipini hiçbir yerden **çıkaramıyor**: `type annotations needed for `Vec<_>``. `Vec::new()` boş bir vektör üretir ama içine ne koyacağını söylemediğin için `Vec<?>` olarak kalır; `.len()` çağrısı da tip hakkında bir şey söylemez.
+
+    Bu hata genelde `Vec::new()`, `collect()`, `parse()`, `Default::default()` gibi dönüş tipinin bağlamdan gelmesi gereken çağrılarda çıkar. Mesajdaki `help: consider giving `liste` an explicit type` önerisi doğrudan çözümü verir.
+  bad: |
+    fn main() {
+        let liste = Vec::new();
+        println!("Eleman sayısı: {}", liste.len());
+    }
+  fix: |
+    fn main() {
+        let liste: Vec<String> = Vec::new();
+        println!("Eleman sayısı: {}", liste.len());
+    }
+  fix_explanation: |
+    Değişkene tip yazdık: `Vec<String>`. Alternatif olarak vektöre bir değer ekleyip tipin oradan çıkarılmasını sağlayabilirsin; veya `Vec::<String>::new()` ile turbofish kullanabilirsin.
+
+- code: E0368
+  title: "İkili işleç atama uygulanamıyor"
+  module: m09
+  explanation: |
+    `+=` gibi birleşik atama işleçleri her tipte tanımlı değildir: `binary assignment operation `+=` cannot be applied to type `&str``. `&str` bir **dilimdir** (başkasının metnine bakar) ve büyütülemez; çünkü o belleğin sahibi değildir.
+
+    `String` ise sahipli ve büyüyebilen bir tiptir; `+=` ona `&str` ekler.
+  bad: |
+    fn main() {
+        let mut selam = "Merhaba";
+        selam += ", dünya";
+        println!("{selam}");
+    }
+  fix: |
+    fn main() {
+        let mut selam = String::from("Merhaba");
+        selam += ", dünya";
+        selam.push('!');
+        println!("{selam}");
+    }
+  fix_explanation: |
+    Değişkeni `String` yaptık. Sonrasında `+=` ve `push` ile metni büyütebildik. Sabit bir `&str` gerekiyorsa `format!` ile yeni bir `String` üretmek de seçenektir.
+
+- code: E0716
+  title: "Geçici değer erken yok edildi"
+  module: m09
+  explanation: |
+    `sehir.to_uppercase()` yeni bir `String` üretir ama bu **geçici bir değerdir**; hiçbir değişkene atanmadığı için o deyimin sonunda yok edilir. Üstüne `as_str()` ile alınan referans ise yok olmuş değeri gösterirdi: `temporary value dropped while borrowed`.
+
+    Mesaj iki şey söyler: `creates a temporary value which is freed while still in use` (geçici değerin yaratıldığı yer) ve `borrow later used here` (referansın hâlâ kullanıldığı yer).
+  bad: |
+    fn main() {
+        let sehir = String::from("izmir");
+        let buyuk = sehir.to_uppercase().as_str();
+        println!("{buyuk}");
+    }
+  fix: |
+    fn main() {
+        let sehir = String::from("izmir");
+        let buyuk = sehir.to_uppercase();
+        let parca: &str = buyuk.as_str();
+        println!("{parca}");
+    }
+  fix_explanation: |
+    Geçici değeri **bir değişkene bağladık** (`let buyuk = sehir.to_uppercase();`). Böylece değer kapsamın sonuna kadar yaşar ve ondan referans alabiliriz.
+
+- code: E0369
+  title: "İşleç uygulanamıyor"
+  module: m11
+  explanation: |
+    Genel (generic) bir `T` tipinin hangi işlemleri desteklediğini derleyici bilmez. `oge > buyuk` yazdığında `T`'nin karşılaştırılabilir olduğundan emin olmak zorundadır: `binary operation `>` cannot be applied to type `&T``.
+
+    Rust, `T` için bir **trait sınırı (trait bound)** olmadan hiçbir işleç veya metoda izin vermez; çünkü `T` bir sayı da olabilir, karşılaştırılamayan bir tip de.
+  bad: |
+    fn en_buyuk<T>(liste: &[T]) -> &T {
+        let mut buyuk = &liste[0];
+        for oge in liste {
+            if oge > buyuk {
+                buyuk = oge;
+            }
+        }
+        buyuk
+    }
+
+    fn main() {
+        let sayilar = vec![34, 50, 25, 100, 65];
+        println!("En büyük: {}", en_buyuk(&sayilar));
+    }
+  fix: |
+    fn en_buyuk<T: PartialOrd>(liste: &[T]) -> &T {
+        let mut buyuk = &liste[0];
+        for oge in liste {
+            if oge > buyuk {
+                buyuk = oge;
+            }
+        }
+        buyuk
+    }
+
+    fn main() {
+        let sayilar = vec![34, 50, 25, 100, 65];
+        let harfler = vec!['r', 'u', 's', 't'];
+        println!("En büyük: {}", en_buyuk(&sayilar));
+        println!("En büyük: {}", en_buyuk(&harfler));
+    }
+  fix_explanation: |
+    `T: PartialOrd` sınırını ekledik; böylece fonksiyon yalnızca karşılaştırılabilir tiplerle çağrılabilir. Mesajdaki `help: consider restricting type parameter `T`` önerisi bunu tam olarak söyler. Hem sayılarla hem karakterlerle çalıştığını gösterdik.
+
+- code: E0046
+  title: "Eksik trait öğesi"
+  module: m11
+  explanation: |
+    Bir trait'i uyguladığında, varsayılan gövdesi olmayan **tüm metotları** yazmak zorundasın: `not all trait items implemented, missing: `ozetle``. Trait bir sözleşmedir; sözleşmenin her maddesi karşılanmalıdır.
+
+    Derleyici eksik metodu ve trait'te tanımlandığı yeri gösterir.
+  bad: |
+    trait Ozet {
+        fn yazar(&self) -> String;
+        fn ozetle(&self) -> String;
+    }
+
+    struct Haber {
+        baslik: String,
+        muhabir: String,
+    }
+
+    impl Ozet for Haber {
+        fn yazar(&self) -> String {
+            self.muhabir.clone()
+        }
+    }
+
+    fn main() {
+        let h = Haber {
+            baslik: String::from("Rust 2024 yayında"),
+            muhabir: String::from("Ece"),
+        };
+        println!("{}", h.yazar());
+    }
+  fix: |
+    trait Ozet {
+        fn yazar(&self) -> String;
+        fn ozetle(&self) -> String;
+    }
+
+    struct Haber {
+        baslik: String,
+        muhabir: String,
+    }
+
+    impl Ozet for Haber {
+        fn yazar(&self) -> String {
+            self.muhabir.clone()
+        }
+
+        fn ozetle(&self) -> String {
+            format!("{} ({} yazdı)", self.baslik, self.yazar())
+        }
+    }
+
+    fn main() {
+        let h = Haber {
+            baslik: String::from("Rust 2024 yayında"),
+            muhabir: String::from("Ece"),
+        };
+        println!("{}", h.ozetle());
+    }
+  fix_explanation: |
+    Eksik `ozetle` metodunu yazdık. Her tip için aynı davranış yeterliyse trait'te metoda **varsayılan gövde** vererek uygulayıcıların yazmasını isteğe bağlı yapabilirsin.
+
+- code: E0053
+  title: "Trait metodu imzası uyuşmuyor"
+  module: m11
+  explanation: |
+    Trait'i uygularken metodun imzası (parametre ve dönüş tipleri, `&self`/`&mut self`) trait'teki tanımla **birebir uyuşmalıdır**: `method `alan` has an incompatible type for trait`. Örnekte trait `f64` ister, biz `f32` döndürüyoruz.
+
+    Mesaj `expected signature` ve `found signature` satırlarını yan yana koyar; farkı oradan okuyabilirsin.
+  bad: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+    }
+
+    struct Kare {
+        kenar: f64,
+    }
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f32 {
+            (self.kenar * self.kenar) as f32
+        }
+    }
+
+    fn main() {
+        let k = Kare { kenar: 3.0 };
+        println!("{}", k.alan());
+    }
+  fix: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+    }
+
+    struct Kare {
+        kenar: f64,
+    }
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f64 {
+            self.kenar * self.kenar
+        }
+    }
+
+    fn main() {
+        let k = Kare { kenar: 3.0 };
+        println!("{}", k.alan());
+    }
+  fix_explanation: |
+    Dönüş tipini trait'teki gibi `f64` yaptık. İmzayı gerçekten değiştirmen gerekiyorsa önce trait tanımını değiştir.
+
+- code: E0117
+  title: "Yetim kuralı (orphan rule)"
+  module: m11
+  explanation: |
+    Bir trait'i bir tip için yalnızca **trait ya da tip senin crate'indeyse** uygulayabilirsin. `Display` (std'nin) ve `Vec<i32>` (std'nin) ikisi de yabancıdır: `only traits defined in the current crate can be implemented for types defined outside of the crate`.
+
+    Bu **tutarlılık (coherence)** kuralıdır. Aksi hâlde iki farklı crate aynı tip için aynı trait'i farklı uygulayabilir ve program hangisini kullanacağını bilemezdi.
+  bad: |
+    use std::fmt;
+
+    impl fmt::Display for Vec<i32> {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "{} elemanlı liste", self.len())
+        }
+    }
+
+    fn main() {
+        let v = vec![1, 2, 3];
+        println!("{v}");
+    }
+  fix: |
+    use std::fmt;
+
+    struct Liste(Vec<i32>);
+
+    impl fmt::Display for Liste {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "{} elemanlı liste", self.0.len())
+        }
+    }
+
+    fn main() {
+        let v = Liste(vec![1, 2, 3]);
+        println!("{v}");
+    }
+  fix_explanation: |
+    **Newtype deseni** uyguladık: `Vec<i32>`'yi kendi `Liste` struct'ımıza sardık ve trait'i ona yazdık. Artık tip bizim crate'imizde. Alternatif: kendi trait'ini tanımlayıp onu yabancı tipe uygulamak (`E0116`'daki gibi).
+
+- code: E0119
+  title: "Çakışan trait uygulamaları"
+  module: m11
+  explanation: |
+    Aynı tip için aynı trait'i iki kez uyguladın: `conflicting implementations of trait `Clone` for type `Kitap``. Burada `#[derive(Clone)]` bir uygulama üretir, elle yazdığın `impl Clone` ikincisidir.
+
+    Derleyici hangi uygulamayı seçeceğini bilemez; bu yüzden en fazla biri izin verilir. Genel (blanket) uygulamalarda da çakışma çıkabilir (`impl<T> Trait for T` ile başka bir `impl`).
+  bad: |
+    #[derive(Clone)]
+    struct Kitap {
+        baslik: String,
+    }
+
+    impl Clone for Kitap {
+        fn clone(&self) -> Self {
+            Kitap { baslik: self.baslik.clone() }
+        }
+    }
+
+    fn main() {
+        let k = Kitap { baslik: String::from("Dune") };
+        let k2 = k.clone();
+        println!("{}", k2.baslik);
+    }
+  fix: |
+    struct Kitap {
+        baslik: String,
+    }
+
+    impl Clone for Kitap {
+        fn clone(&self) -> Self {
+            println!("kopyalanıyor...");
+            Kitap { baslik: self.baslik.clone() }
+        }
+    }
+
+    fn main() {
+        let k = Kitap { baslik: String::from("Dune") };
+        let k2 = k.clone();
+        println!("{} / {}", k.baslik, k2.baslik);
+    }
+  fix_explanation: |
+    `derive`'ı kaldırıp yalnızca elle yazdığımız uygulamayı tuttuk; çünkü `clone` içinde özel davranış (mesaj yazdırma) istiyoruz. Özel davranışa ihtiyacın yoksa tersini yap: elle yazılanı sil, `derive` kalsın.
+
+- code: E0116
+  title: "Yabancı tipe doğrudan impl"
+  module: m11
+  explanation: |
+    Standart kütüphanenin tiplerine (`Vec<i32>`, `String`...) kendi `impl` bloğunla doğrudan metot ekleyemezsin: `cannot define inherent `impl` for a type outside of the crate where the type is defined`.
+
+    Aksi hâlde herkes her tipe metot ekler ve çakışmalar kaçınılmaz olurdu.
+  bad: |
+    impl Vec<i32> {
+        fn toplam(&self) -> i32 {
+            self.iter().sum()
+        }
+    }
+  fix: |
+    trait Toplam {
+        fn toplam(&self) -> i32;
+    }
+
+    impl Toplam for Vec<i32> {
+        fn toplam(&self) -> i32 {
+            self.iter().sum()
+        }
+    }
+
+    fn main() {
+        let v = vec![1, 2, 3];
+        println!("{}", v.toplam());
+    }
+  fix_explanation: |
+    Kendi **trait'ini** tanımlayıp (`Toplam`) yabancı tipe uyguladık. Trait senin crate'inde olduğu için yetim kuralı sorun çıkarmaz. Kullanmak için trait'in kapsamda olması gerekir.
+
+- code: E0210
+  title: "Genel T için yabancı trait"
+  module: m11
+  explanation: |
+    `impl<T> Display for T` yazarak **her tip** için standart bir trait'i uygulamaya çalıştın. Bu, yetim kuralının (`E0117`) genel hâlidir: `type parameter `T` must be used as the type parameter for some local type`.
+
+    Trait da `T` de yabancıdır; `T` yerine hangi tip gelirse gelsin kural çiğnenebilirdi.
+  bad: |
+    use std::fmt;
+
+    impl<T: fmt::Debug> fmt::Display for T {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "<{:?}>", self)
+        }
+    }
+  fix: |
+    use std::fmt;
+
+    struct Goster<T>(T);
+
+    impl<T: fmt::Debug> fmt::Display for Goster<T> {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "<{:?}>", self.0)
+        }
+    }
+
+    fn main() {
+        println!("{}", Goster(vec![1, 2, 3]));
+        println!("{}", Goster((1, "bir")));
+    }
+  fix_explanation: |
+    Genel tipi kendi newtype'ımıza (`Goster<T>`) sardık ve trait'i ona uyguladık: artık yerel bir tip var. Kullanırken `Goster(değer)` yazarak sararsın.
+
+- code: E0207
+  title: "Kısıtlanmamış impl parametresi"
+  module: m11
+  explanation: |
+    `impl<T> Yazici` bloğunda tanımladığın `T`, ne tipte ne de trait'te kullanılıyor: `the type parameter `T` is not constrained by the impl trait, self type, or predicates`. Derleyici `Yazici` tipinden `T`'nin ne olduğunu çıkaramaz; bu yüzden impl bloğu geçersizdir.
+
+    `T` bir **metot çağrısına** bağlıysa, impl'e değil metoda ait olmalıdır.
+  bad: |
+    use std::fmt::Display;
+
+    struct Yazici {
+        onek: String,
+    }
+
+    impl<T: Display> Yazici {
+        fn yaz(&self, deger: T) {
+            println!("{}{}", self.onek, deger);
+        }
+    }
+  fix: |
+    use std::fmt::Display;
+
+    struct Yazici {
+        onek: String,
+    }
+
+    impl Yazici {
+        fn yaz<T: Display>(&self, deger: T) {
+            println!("{}{}", self.onek, deger);
+        }
+    }
+
+    fn main() {
+        let y = Yazici { onek: String::from("> ") };
+        y.yaz(42);
+        y.yaz("merhaba");
+    }
+  fix_explanation: |
+    Genel parametreyi `impl` bloğundan çıkarıp **metodun kendisine** taşıdık: `fn yaz<T: Display>`. Böylece her çağrıda farklı bir `T` kullanabiliyoruz.
+
+- code: E0404
+  title: "Trait olmayan şeyi trait gibi kullanma"
+  module: m11
+  explanation: |
+    `impl X for Y` söz diziminde `X` bir **trait** olmalıdır. Örnekte `Ucabilir` bir struct: `expected trait, found struct `Ucabilir``. Struct'ların, enum'ların ve tip takma adlarının da `impl ... for` içinde yeri yoktur.
+
+    Çoğu zaman `trait` anahtar sözcüğünü unutmak ya da yanlış öğeyi seçmekten kaynaklanır.
+  bad: |
+    struct Ucabilir;
+
+    struct Kus;
+
+    impl Ucabilir for Kus {}
+  fix: |
+    trait Ucabilir {
+        fn uc(&self) -> String;
+    }
+
+    struct Kus;
+
+    impl Ucabilir for Kus {
+        fn uc(&self) -> String {
+            String::from("kanat çırparak uçuyor")
+        }
+    }
+
+    fn main() {
+        println!("Kuş {}", Kus.uc());
+    }
+  fix_explanation: |
+    `Ucabilir`'i gerçekten bir `trait` olarak tanımladık ve metodunu `Kus` için yazdık.
+
+- code: E0405
+  title: "Tanımsız trait"
+  module: m11
+  explanation: |
+    `impl Display for Nokta` yazdın ama `Display` kapsamda yok: `cannot find trait `Display` in this scope`. `Display` standart kütüphanededir (`std::fmt::Display`) ve **otomatik gelmez**; `Clone` ve `Debug` gibi sık kullanılanlar prelude'da olduğu için `use` gerektirmez.
+  bad: |
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    impl Display for Nokta {
+        fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    fn main() {
+        println!("{}", Nokta { x: 1, y: 2 });
+    }
+  fix: |
+    use std::fmt;
+
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    impl fmt::Display for Nokta {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    fn main() {
+        println!("{}", Nokta { x: 1, y: 2 });
+    }
+  fix_explanation: |
+    `use std::fmt;` ekleyip trait'i `fmt::Display` olarak yazdık. `use std::fmt::Display;` yazıp `Display` demek de olur.
+
+- code: E0407
+  title: "Trait'te olmayan metot"
+  module: m11
+  explanation: |
+    `impl Selam for Kisi` bloğunun içine yalnızca **trait'te tanımlı** metotları yazabilirsin. Fazladan metot (`veda`) için: `method `veda` is not a member of trait `Selam``.
+
+    Trait uygulaması bir sözleşmeyi yerine getirmektir; sözleşmede olmayan şey orada yer alamaz.
+  bad: |
+    trait Selam {
+        fn selam(&self) -> String;
+    }
+
+    struct Kisi {
+        ad: String,
+    }
+
+    impl Selam for Kisi {
+        fn selam(&self) -> String {
+            format!("Merhaba, ben {}", self.ad)
+        }
+
+        fn veda(&self) -> String {
+            format!("Hoşça kal, {}", self.ad)
+        }
+    }
+
+    fn main() {
+        let k = Kisi { ad: String::from("Ferris") };
+        println!("{}", k.selam());
+    }
+  fix: |
+    trait Selam {
+        fn selam(&self) -> String;
+    }
+
+    struct Kisi {
+        ad: String,
+    }
+
+    impl Selam for Kisi {
+        fn selam(&self) -> String {
+            format!("Merhaba, ben {}", self.ad)
+        }
+    }
+
+    impl Kisi {
+        fn veda(&self) -> String {
+            format!("Hoşça kal, {}", self.ad)
+        }
+    }
+
+    fn main() {
+        let k = Kisi { ad: String::from("Ferris") };
+        println!("{}", k.selam());
+        println!("{}", k.veda());
+    }
+  fix_explanation: |
+    `veda`'yı trait uygulamasından çıkarıp **normal bir `impl Kisi` bloğuna** taşıdık. Her tipe özel, trait'ten bağımsız metotlar böyle yazılır.
+
+- code: E0449
+  title: "Gereksiz görünürlük belirteci"
+  module: m11
+  explanation: |
+    Trait uygulamasındaki metotlarda `pub` yazamazsın: `visibility qualifiers are not permitted here`. Görünürlük zaten **trait'in kendisi** tarafından belirlenir; trait `pub` ise metotları da dışarıdan erişilebilir.
+
+    Aynı kural `enum` varyantları ve trait metotları için de geçerlidir.
+  bad: |
+    trait Selam {
+        fn selam(&self) -> String;
+    }
+
+    pub struct Kisi;
+
+    impl Selam for Kisi {
+        pub fn selam(&self) -> String {
+            String::from("Merhaba!")
+        }
+    }
+
+    fn main() {
+        println!("{}", Kisi.selam());
+    }
+  fix: |
+    trait Selam {
+        fn selam(&self) -> String;
+    }
+
+    pub struct Kisi;
+
+    impl Selam for Kisi {
+        fn selam(&self) -> String {
+            String::from("Merhaba!")
+        }
+    }
+
+    fn main() {
+        println!("{}", Kisi.selam());
+    }
+  fix_explanation: |
+    Metottan `pub` anahtar sözcüğünü kaldırdık.
+
+- code: E0185
+  title: "Trait'te self yok, impl'de var"
+  module: m11
+  explanation: |
+    Trait'te metot `self` almıyorsa (ilişkili fonksiyon) uygulamada da `self` almamalıdır: `method `varsayilan` has a `&self` declaration in the impl, but not in the trait`. Metodun türü (örnek metodu mu, ilişkili fonksiyon mu) imzanın parçasıdır.
+  bad: |
+    trait Varsayilan {
+        fn varsayilan() -> Self;
+    }
+
+    struct Ayarlar {
+        ses: u8,
+    }
+
+    impl Varsayilan for Ayarlar {
+        fn varsayilan(&self) -> Self {
+            Ayarlar { ses: 50 }
+        }
+    }
+  fix: |
+    trait Varsayilan {
+        fn varsayilan() -> Self;
+    }
+
+    struct Ayarlar {
+        ses: u8,
+    }
+
+    impl Varsayilan for Ayarlar {
+        fn varsayilan() -> Self {
+            Ayarlar { ses: 50 }
+        }
+    }
+
+    fn main() {
+        let a = Ayarlar::varsayilan();
+        println!("Ses seviyesi: {}", a.ses);
+    }
+  fix_explanation: |
+    Uygulamadan `&self`'i çıkardık. Fonksiyonu `Ayarlar::varsayilan()` biçiminde çağırdık.
+
+- code: E0186
+  title: "Trait'te self var, impl'de yok"
+  module: m11
+  explanation: |
+    `E0185`'in tersi: trait metodu `&self` alıyorsa uygulama da almak zorundadır: `method `puan` has a `&self` declaration in the trait, but not in the impl`.
+  bad: |
+    trait Puanli {
+        fn puan(&self) -> u32;
+    }
+
+    struct Oyuncu {
+        skor: u32,
+    }
+
+    impl Puanli for Oyuncu {
+        fn puan() -> u32 {
+            100
+        }
+    }
+  fix: |
+    trait Puanli {
+        fn puan(&self) -> u32;
+    }
+
+    struct Oyuncu {
+        skor: u32,
+    }
+
+    impl Puanli for Oyuncu {
+        fn puan(&self) -> u32 {
+            self.skor
+        }
+    }
+
+    fn main() {
+        let o = Oyuncu { skor: 100 };
+        println!("Puan: {}", o.puan());
+    }
+  fix_explanation: |
+    Uygulamaya `&self` ekledik; artık örneğin alanlarına (`self.skor`) erişebiliyoruz.
+
+- code: E0403
+  title: "Aynı genel parametre adı iki kez"
+  module: m11
+  explanation: |
+    Bir genel parametre listesinde aynı ad iki kez kullanılamaz: `the name `T` is already used for a generic parameter in this item's generic parameters`. `<T, T>` derleyici için belirsizdir.
+
+    Farklı tipler gerekiyorsa farklı adlar vermelisin. Örnekte `ikili(1, "bir")` iki farklı tip alır; tek `T` bu çağrıyı zaten kabul etmezdi.
+  bad: |
+    fn ikili<T, T>(a: T, b: T) -> (T, T) {
+        (a, b)
+    }
+
+    fn main() {
+        let (x, y) = ikili(1, "bir");
+        println!("{x} {y}");
+    }
+  fix: |
+    fn ikili<T, U>(a: T, b: U) -> (T, U) {
+        (a, b)
+    }
+
+    fn main() {
+        let (x, y) = ikili(1, "bir");
+        println!("{x} {y}");
+    }
+  fix_explanation: |
+    İkinci parametreye başka bir ad (`U`) verdik. Her iki argümanın aynı tipte olması gerekiyorsa tek `T` kullanıp çağrıyı da buna göre yaz.
+
+- code: E0204
+  title: "Copy türetilemiyor"
+  module: m11
+  explanation: |
+    `Copy` trait'i, tipin tüm alanları da `Copy` ise türetilebilir. `String` heap'te veri tuttuğu için `Copy` değildir; bu yüzden onu içeren struct de `Copy` olamaz: `the trait `Copy` cannot be implemented for this type`.
+
+    Bu, sahipliğin temel güvencesidir. Bit düzeyinde kopyalanan heap işaretçisi çift serbest bırakmaya yol açardı.
+  bad: |
+    #[derive(Debug, Clone, Copy)]
+    struct Oyuncu {
+        isim: String,
+        can: u32,
+    }
+
+    fn main() {
+        let o1 = Oyuncu { isim: String::from("Ferris"), can: 100 };
+        let o2 = o1;
+        println!("{o1:?} {o2:?}");
+    }
+  fix: |
+    #[derive(Debug, Clone)]
+    struct Oyuncu {
+        isim: String,
+        can: u32,
+    }
+
+    fn main() {
+        let o1 = Oyuncu { isim: String::from("Ferris"), can: 100 };
+        let o2 = o1.clone();
+        println!("{o1:?} {o2:?}");
+        println!("{} {}", o2.isim, o2.can);
+    }
+  fix_explanation: |
+    `Copy`'yi kaldırdık, yalnızca `Clone` bıraktık ve kopyayı açıkça `clone()` ile aldık. Struct'ın tüm alanları `Copy` ise (`u32`, `f64`, `char`...) `#[derive(Clone, Copy)]` geçerlidir.
+
+- code: E0261
+  title: "Tanımsız yaşam süresi"
+  module: m12
+  explanation: |
+    `'a` gibi bir yaşam süresi adını kullanmadan önce fonksiyon (veya impl/struct) adının yanındaki `<...>` içinde **bildirmen** gerekir: `use of undeclared lifetime name `'a``. Genel tip parametreleri (`<T>`) ile aynı mantıktır.
+
+    Yaşam süresi parametresi, derleyiciye "şu referanslar birbiriyle ilişkilidir" demenin yoludur; bildirilmeden kullanılamaz.
+  bad: |
+    fn ilk_kelime(metin: &'a str) -> &'a str {
+        metin.split(' ').next().unwrap_or("")
+    }
+
+    fn main() {
+        println!("{}", ilk_kelime("merhaba dünya"));
+    }
+  fix: |
+    fn ilk_kelime<'a>(metin: &'a str) -> &'a str {
+        metin.split(' ').next().unwrap_or("")
+    }
+
+    fn main() {
+        println!("{}", ilk_kelime("merhaba dünya"));
+    }
+  fix_explanation: |
+    `<'a>` bildirimini fonksiyon adından sonra ekledik: `fn ilk_kelime<'a>(...)`. Bu örnekte yaşam süresi **elision** kuralları zaten çözeceği için `fn ilk_kelime(metin: &str) -> &str` yazmak da yeterlidir.
+
+- code: E0262
+  title: "Geçersiz yaşam süresi parametresi adı"
+  module: m12
+  explanation: |
+    `'static` özel bir yaşam süresidir ("programın sonuna kadar") ve genel parametre olarak **bildirilemez**: `invalid lifetime parameter name: `'static``. `'_` için de aynısı geçerlidir.
+
+    Kendi parametrelerin için `'a`, `'b` gibi sıradan adlar kullan.
+  bad: |
+    fn ilk<'static>(s: &'static str) -> &'static str {
+        s
+    }
+
+    fn main() {
+        println!("{}", ilk("Rust"));
+    }
+  fix: |
+    fn ilk<'a>(s: &'a str) -> &'a str {
+        s
+    }
+
+    fn main() {
+        println!("{}", ilk("Rust"));
+    }
+  fix_explanation: |
+    Parametreyi `'a` olarak adlandırdık. Referansın gerçekten programın sonuna kadar yaşaması gerekiyorsa bildirim yapmadan doğrudan `&'static str` yaz.
+
+- code: E0621
+  title: "Parametrede yaşam süresi eksik"
+  module: m12
+  explanation: |
+    Fonksiyon dönüş değerini `'a` ile bağlamış, ama `y` parametresine bu yaşam süresini vermemişsin. Derleyici `y`'nin yeterince yaşayacağını garanti edemez: `explicit lifetime required in the type of `y``.
+
+    `if x > y { x } else { y }` ifadesinin sonucu iki referanstan biri olabilir; ikisinin de dönüş değeri kadar yaşaması gerekir.
+  bad: |
+    fn buyuk<'a>(x: &'a i32, y: &i32) -> &'a i32 {
+        if x > y { x } else { y }
+    }
+
+    fn main() {
+        let a = 5;
+        let b = 9;
+        println!("{}", buyuk(&a, &b));
+    }
+  fix: |
+    fn buyuk<'a>(x: &'a i32, y: &'a i32) -> &'a i32 {
+        if x > y { x } else { y }
+    }
+
+    fn main() {
+        let a = 5;
+        let b = 9;
+        println!("{}", buyuk(&a, &b));
+    }
+  fix_explanation: |
+    `y`'ye de `'a` verdik: `y: &'a i32`. Artık "sonuç, iki girdinin **kısa olanı** kadar yaşar" garantisi var. Bu, Modül 12'deki `longest` fonksiyonunun temel kuralıdır.
+
+- code: E0310
+  title: "Parametre tipi yeterince yaşamayabilir"
+  module: m12
+  explanation: |
+    `Box<dyn Debug>` varsayılan olarak `'static` yaşam süresi bekler; yani içindeki veri program boyunca geçerli olabilmelidir. Ancak genel `T` içinde referans taşıyan bir tip de olabilir: `the parameter type `T` may not live long enough`.
+
+    Derleyici `T`'nin `'static` olduğundan emin olmak ister, çünkü `T` kısa ömürlü bir referans içerseydi kutudaki veri sarkan referans olurdu.
+  bad: |
+    use std::fmt::Debug;
+
+    fn kutula<T: Debug>(x: T) -> Box<dyn Debug> {
+        Box::new(x)
+    }
+
+    fn main() {
+        println!("{:?}", kutula(5));
+    }
+  fix: |
+    use std::fmt::Debug;
+
+    fn kutula<T: Debug + 'static>(x: T) -> Box<dyn Debug> {
+        Box::new(x)
+    }
+
+    fn main() {
+        println!("{:?}", kutula(5));
+        println!("{:?}", kutula(String::from("sahipli veri")));
+    }
+  fix_explanation: |
+    `T: Debug + 'static` sınırını ekledik. `'static` sınırı, "`T` ödünç alınmış kısa ömürlü referans içermez" demektir (sahipli tipler uygundur). Daha esnek olması gerekiyorsa `Box<dyn Debug + 'a>` ile yaşam süresi parametresi de ekleyebilirsin.
+
+- code: E0726
+  title: "Gizli yaşam süresi kullanımı"
+  module: m12
+  explanation: |
+    Yaşam süresi parametresi olan bir tipin `impl` bloğunda parametreyi **gizleyemezsin**: `implicit elided lifetime not allowed here`. `impl Alinti` yazmak, `Alinti<'a>`'daki `'a`'yı okuyucudan saklar.
+  bad: |
+    struct Alinti<'a> {
+        parca: &'a str,
+    }
+
+    impl Alinti {
+        fn parca(&self) -> &str {
+            self.parca
+        }
+    }
+  fix: |
+    struct Alinti<'a> {
+        parca: &'a str,
+    }
+
+    impl Alinti<'_> {
+        fn parca(&self) -> &str {
+            self.parca
+        }
+    }
+
+    fn main() {
+        let roman = String::from("Bana İsmail deyin. Yıllar önce...");
+        let ilk_cumle = roman.split('.').next().unwrap();
+        let a = Alinti { parca: ilk_cumle };
+        println!("{}", a.parca());
+    }
+  fix_explanation: |
+    `impl Alinti<'_>` yazdık: `'_` "anonim yaşam süresi" demektir ve parametrenin var olduğunu açıkça gösterir. Yaşam süresini bir ada ihtiyaç duyulan yerde kullanacaksan `impl<'a> Alinti<'a>` yaz.
+
+- code: E0283
+  title: "Tip belirlenemedi (birden çok olasılık)"
+  module: m14
+  explanation: |
+    `sum()` hangi tipte toplam döndürebileceği trait ile belirlenen bir fonksiyondur (`Sum`); birden çok tip uygun olabilir. Sonuç tipi başka bir yerden belli olmazsa: `type annotations needed`.
+
+    `E0282`'nin kardeşidir: derleyici burada tipi hiç çıkaramadığı için değil, **birden çok geçerli seçenek** olduğu için karar veremiyor.
+  bad: |
+    fn main() {
+        let notlar = [85, 92, 78];
+        let toplam = notlar.iter().sum();
+        println!("Toplam: {toplam}");
+    }
+  fix: |
+    fn main() {
+        let notlar = [85, 92, 78];
+        let toplam: i32 = notlar.iter().sum();
+        let adet = notlar.iter().count();
+        println!("Toplam: {toplam}, ortalama: {}", toplam / adet as i32);
+    }
+  fix_explanation: |
+    Sonuç değişkenine tip verdik: `let toplam: i32`. Alternatif olarak turbofish yazılabilir: `.sum::<i32>()`.
+
+- code: E0593
+  title: "Closure argüman sayısı uyuşmuyor"
+  module: m14
+  explanation: |
+    `map` bir argümanlı bir closure bekler (her eleman için bir değer). İki parametreli closure verirsen: `closure is expected to take 1 argument, but it takes 2 arguments`.
+
+    Closure'ın kaç parametre alacağı, çağrıldığı yerin beklentisiyle uyuşmak zorundadır. Başka bir değeri closure'a dışarıdan **yakalama (capture)** ile taşırsın; parametre olarak değil.
+  bad: |
+    fn main() {
+        let fiyatlar = vec![10, 20, 30];
+        let zamli: Vec<i32> = fiyatlar.iter().map(|fiyat, oran| fiyat * oran).collect();
+        println!("{zamli:?}");
+    }
+  fix: |
+    fn main() {
+        let fiyatlar = vec![10, 20, 30];
+        let oran = 2;
+        let zamli: Vec<i32> = fiyatlar.iter().map(|fiyat| fiyat * oran).collect();
+        println!("{zamli:?}");
+    }
+  fix_explanation: |
+    İkinci değeri parametre yapmak yerine dışarıdaki `oran` değişkeninden **yakaladık**. Closure'lar çevrelerindeki değişkenlere doğrudan erişebilir.
+
+- code: E0525
+  title: "Closure beklenen trait'i uygulamıyor"
+  module: m14
+  explanation: |
+    Closure'lar yaptıkları işe göre `Fn`, `FnMut` ya da `FnOnce` olur. Yakaladığı değeri **tüketen** (`drop(rapor)`) bir closure yalnızca bir kez çağrılabilir; bu yüzden yalnızca `FnOnce`'tır. İki kez çağıran fonksiyon `Fn` isterse: `expected a closure that implements the `Fn` trait, but this closure only implements `FnOnce``.
+
+    Mesaj closure'ın neden `FnOnce` olduğunu da gösterir: `closure is `FnOnce` because it moves the variable `rapor` out of its environment`.
+  bad: |
+    fn iki_kez_cagir<F: Fn()>(f: F) {
+        f();
+        f();
+    }
+
+    fn main() {
+        let rapor = String::from("rapor.txt");
+        let gonder = move || {
+            println!("{rapor} gönderiliyor");
+            drop(rapor);
+        };
+        iki_kez_cagir(gonder);
+    }
+  fix: |
+    fn bir_kez_cagir<F: FnOnce()>(f: F) {
+        f();
+    }
+
+    fn main() {
+        let rapor = String::from("rapor.txt");
+        let gonder = move || {
+            println!("{rapor} gönderiliyor");
+            drop(rapor);
+        };
+        bir_kez_cagir(gonder);
+    }
+  fix_explanation: |
+    Çağıran fonksiyonu `FnOnce` bekleyecek şekilde değiştirdik ve yalnızca bir kez çağırdık. Closure'ın birden çok kez çalışması gerekiyorsa, içeride yakaladığı değeri tüketmemeli (örneğin `clone()` ya da referans kullan).
+
+- code: E0631
+  title: "Closure argüman tipi uyuşmuyor"
+  module: m14
+  explanation: |
+    Closure parametresine yazdığın tip, çağıranın verdiği tiple uyuşmuyor: `type mismatch in closure arguments`. `v.iter()` elemanları **referans** (`&i32`) verir; closure ise `i32` bekliyor.
+
+    İterator'ların `iter()`, `iter_mut()` ve `into_iter()` varyantları farklı eleman tipleri üretir; closure parametreleri buna uymalıdır.
+  bad: |
+    fn main() {
+        let v = vec![1, 2, 3];
+        v.iter().for_each(|x: i32| println!("{}", x * 2));
+    }
+  fix: |
+    fn main() {
+        let v = vec![1, 2, 3];
+        v.iter().for_each(|x: &i32| println!("{}", x * 2));
+        v.iter().for_each(|&x| println!("{}", x * 3));
+    }
+  fix_explanation: |
+    Closure parametresini `&i32` yaptık. Alternatif: tip yazmayıp çıkarıma bırakmak ya da `|&x|` kalıbıyla referansı açmak (`x` artık `i32`).
+
+- code: E0267
+  title: "Closure içinde break/continue"
+  module: m14
+  explanation: |
+    `break` ve `continue`, **closure sınırını geçemez**: `break` inside of a closure. Closure ayrı bir fonksiyondur; dıştaki döngü onun için görünmez. Yani `for_each` içinden döngüyü kıramazsın.
+
+    Bu davranışa ihtiyacın varsa döngü yerine iterator zinciri (`take_while`, `find`, `try_for_each`) kullanılır.
+  bad: |
+    fn main() {
+        let sayilar = [1, 2, 3, 4];
+        sayilar.iter().for_each(|x| {
+            if *x == 3 {
+                break;
+            }
+            println!("{x}");
+        });
+    }
+  fix: |
+    fn main() {
+        let sayilar = [1, 2, 3, 4];
+        for x in sayilar.iter() {
+            if *x == 3 {
+                break;
+            }
+            println!("{x}");
+        }
+    }
+  fix_explanation: |
+    `for_each` yerine sıradan bir `for` döngüsü yazdık; `break` döngünün içinde geçerlidir. Aynı iş `sayilar.iter().take_while(|x| **x != 3)` ile de yapılabilirdi.
+
+- code: E0767
+  title: "Etiket closure'ın dışında"
+  module: m14
+  explanation: |
+    Etiketli `break 'dis;` ifadesi, etiketin tanımlı olduğu döngüden **closure sınırını geçerek** çıkmaya çalışıyor: `use of unreachable label `'dis``. Closure'lar dış döngüye "erişemez"; `E0267` ile aynı mantık.
+  bad: |
+    fn main() {
+        let mut sayac = 0;
+        'dis: loop {
+            let mut adim = || loop {
+                sayac += 1;
+                if sayac > 3 {
+                    break 'dis;
+                }
+            };
+            adim();
+        }
+    }
+  fix: |
+    fn main() {
+        let mut sayac = 0;
+        let mut adim = || {
+            sayac += 1;
+            sayac > 3
+        };
+        loop {
+            if adim() {
+                break;
+            }
+        }
+        println!("Sayaç: {sayac}");
+    }
+  fix_explanation: |
+    Closure'dan döngüyü kırmak yerine bir **durum bilgisi** (`bool`) döndürdük ve kararı dış döngüye bıraktık. Bu, closure'lar arası kontrol akışını çözmenin genel yoludur.
+
+- code: E0434
+  title: "İç fonksiyon dış değişkeni yakalayamaz"
+  module: m14
+  explanation: |
+    `fn` ile tanımlanan iç fonksiyonlar çevrelerindeki yerel değişkenleri **yakalayamaz**: `can't capture dynamic environment in a fn item`. İç fonksiyon, dışarıdaki bir fonksiyondan farksızdır; sadece bir bloğun içinde yazılmıştır.
+
+    Yakalama özelliği yalnızca **closure'lara** aittir.
+  bad: |
+    fn main() {
+        let carpan = 3;
+        println!("Çarpan: {carpan}");
+        fn carp(x: i32) -> i32 {
+            x * carpan
+        }
+        println!("{}", carp(5));
+    }
+  fix: |
+    fn main() {
+        let carpan = 3;
+        println!("Çarpan: {carpan}");
+        let carp = |x: i32| x * carpan;
+        println!("{}", carp(5));
+    }
+  fix_explanation: |
+    İç fonksiyon yerine **closure** yazdık: `|x: i32| x * carpan`. Closure ortamdaki `carpan`'ı yakalar. Fonksiyon kalmasını istiyorsan değeri parametre olarak ilet.
+
+- code: E0271
+  title: "İlişkili tip uyuşmuyor"
+  module: m14
+  explanation: |
+    `Iterator<Item = u32>` sınırı, eleman tipinin tam olarak `u32` olmasını ister. `&str` üreten bir iterator verirsen: `type mismatch resolving `<IntoIter<&str> as Iterator>::Item == u32``.
+
+    Mesaj iki tarafı karşılaştırır: beklenen (`expected `u32``) ve bulunan (`found `&str``).
+  bad: |
+    fn hepsini_yaz<I: Iterator<Item = u32>>(ogeler: I) {
+        for x in ogeler {
+            println!("{x}");
+        }
+    }
+
+    fn main() {
+        let v = vec!["bir", "iki"];
+        hepsini_yaz(v.into_iter());
+    }
+  fix: |
+    use std::fmt::Display;
+
+    fn hepsini_yaz<I>(ogeler: I)
+    where
+        I: Iterator,
+        I::Item: Display,
+    {
+        for x in ogeler {
+            println!("{x}");
+        }
+    }
+
+    fn main() {
+        let v = vec!["bir", "iki"];
+        hepsini_yaz(v.into_iter());
+        hepsini_yaz(vec![1u32, 2].into_iter());
+    }
+  fix_explanation: |
+    Fonksiyonu eleman tipinde **genel** yaptık: `I::Item: Display`. Böylece her tip için çalışır. Eleman tipinin gerçekten `u32` olması gerekiyorsa çağıran tarafta iterator'ı dönüştür (`map`, `filter_map`).
+
+- code: E0220
+  title: "Olmayan ilişkili tip"
+  module: m14
+  explanation: |
+    `Iterator<Itme = u32>` yazarken ilişkili tipin adını yanlış yazdın: ``associated type `Itme` not found for `Iterator` ``. `Iterator`'ın ilişkili tipi `Item`'dır.
+
+    Derleyici `help: there is an associated type with a similar name: `Item`` diyerek doğrusunu önerir.
+  bad: |
+    fn kac_tane<I: Iterator<Itme = u32>>(sayilar: I) -> usize {
+        sayilar.count()
+    }
+
+    fn main() {
+        println!("{}", kac_tane(vec![3, 12, 40].into_iter()));
+    }
+  fix: |
+    fn kac_tane<I: Iterator<Item = u32>>(sayilar: I) -> usize {
+        sayilar.count()
+    }
+
+    fn main() {
+        println!("{}", kac_tane(vec![3, 12, 40].into_iter()));
+    }
+  fix_explanation: |
+    Adı `Item` olarak düzelttik.
+
+- code: E0562
+  title: "impl Trait yanlış konumda"
+  module: m14
+  explanation: |
+    `impl Trait` yalnızca **fonksiyon parametresi** ve **dönüş tipi** konumlarında kullanılabilir. `let` bildirimi için geçerli değildir: `` `impl Trait` is not allowed in the type of variable bindings ``.
+
+    Closure'ın tipi adlandırılamaz; bu yüzden değişkeni `impl Fn` diye tanımlamak yerine tipi çıkarıma bırakmalısın.
+  bad: |
+    fn main() {
+        let artir: impl Fn(i32) -> i32 = |x| x + 1;
+        println!("{}", artir(41));
+    }
+  fix: |
+    fn main() {
+        let artir = |x: i32| x + 1;
+        let kutulu: Box<dyn Fn(i32) -> i32> = Box::new(|x| x * 2);
+        println!("{} {}", artir(41), kutulu(21));
+    }
+  fix_explanation: |
+    Tip yazmadan closure'ı doğrudan değişkene bağladık. Closure'ları depolarken tipin farklı olabileceği durumlar için `Box<dyn Fn(i32) -> i32>` kullanılır.
+
+- code: E0658
+  title: "Kararsız (unstable) özellik"
+  module: m16
+  explanation: |
+    Bazı standart kütüphane metotları ve dil özellikleri **henüz kararlı (stable) değildir** ve yalnızca nightly derleyicide, `#![feature(...)]` ile açılabilir: `use of unstable library feature `iter_intersperse``.
+
+    Stable derleyicide kullanılan her şey geriye dönük uyumluluk garantisi taşır; kararsız özellikler ise değişebilir veya kaldırılabilir. Bu yüzden Rust'ta bir metot belgede "Nightly-only" ya da "unstable" notuyla işaretliyse üretim kodunda kullanılmamalıdır.
+  bad: |
+    fn main() {
+        let meyveler = vec!["elma", "armut", "kiraz"];
+        let liste: String = meyveler.into_iter().intersperse(", ").collect();
+        println!("{liste}");
+    }
+  fix: |
+    fn main() {
+        let meyveler = vec!["elma", "armut", "kiraz"];
+        let liste = meyveler.join(", ");
+        println!("{liste}");
+    }
+  fix_explanation: |
+    Aynı işi **kararlı** bir yöntemle (`join`) yaptık: `meyveler.join(", ")`. Nightly derleyici gerçekten gerekiyorsa `rustup toolchain install nightly` ve `#![feature(...)]` kullanırsın, ama üretim kodunda kaçınmalısın.
+
+- code: E0072
+  title: "Sonsuz boyutlu özyinelemeli tip"
+  module: m17
+  explanation: |
+    `Dugum(i32, Liste)` şeklinde, bir tipin içinde **kendisini doğrudan** barındırması imkânsızdır: derleyici boyutunu hesaplayamaz çünkü `Liste` = `i32` + `Liste` = `i32` + `i32` + `Liste`... sonsuza kadar sürer: `recursive type `Liste` has infinite size`.
+
+    Çözüm, kendi kendini içeren kısmı **heap'e** koymaktır. İşaretçinin boyutu sabittir (8 bayt) ve heap'teki veri gerektiği kadar büyüyebilir.
+  bad: |
+    enum Liste {
+        Dugum(i32, Liste),
+        Bos,
+    }
+
+    fn toplam(liste: &Liste) -> i32 {
+        match liste {
+            Liste::Dugum(deger, kalan) => deger + toplam(kalan),
+            Liste::Bos => 0,
+        }
+    }
+
+    fn main() {
+        let liste = Liste::Dugum(1, Liste::Dugum(2, Liste::Bos));
+        println!("Toplam: {}", toplam(&liste));
+    }
+  fix: |
+    enum Liste {
+        Dugum(i32, Box<Liste>),
+        Bos,
+    }
+
+    fn toplam(liste: &Liste) -> i32 {
+        match liste {
+            Liste::Dugum(deger, kalan) => deger + toplam(kalan),
+            Liste::Bos => 0,
+        }
+    }
+
+    fn main() {
+        let liste = Liste::Dugum(1, Box::new(Liste::Dugum(2, Box::new(Liste::Bos))));
+        println!("Toplam: {}", toplam(&liste));
+    }
+  fix_explanation: |
+    Özyinelemeli alanı `Box<Liste>` yaptık: `Box`, veriyi heap'te tutar ve stack'te sabit boyutlu bir işaretçi bırakır. Aynı yöntem ağaç ve bağlı liste yapılarında da kullanılır (`Option<Box<Dugum>>`).
+
+- code: E0040
+  title: "drop metodunu elle çağırma"
+  module: m17
+  explanation: |
+    `Drop::drop` metodunu elle çağıramazsın: `explicit use of destructor method`. Derleyici kapsam bittiğinde `drop`'u kendisi çağırır; elle çağırırsan değer **iki kez** yıkılırdı (çift serbest bırakma).
+
+    Değeri erken bırakmak istiyorsan başka bir yol var.
+  bad: |
+    struct Dosya;
+
+    impl Drop for Dosya {
+        fn drop(&mut self) {
+            println!("dosya kapatıldı");
+        }
+    }
+
+    fn main() {
+        let d = Dosya;
+        println!("dosya açık");
+        d.drop();
+        println!("program devam ediyor");
+    }
+  fix: |
+    struct Dosya;
+
+    impl Drop for Dosya {
+        fn drop(&mut self) {
+            println!("dosya kapatıldı");
+        }
+    }
+
+    fn main() {
+        let d = Dosya;
+        println!("dosya açık");
+        drop(d);
+        println!("program devam ediyor");
+    }
+  fix_explanation: |
+    Standart kütüphanenin **`drop(değer)`** fonksiyonunu kullandık. Bu fonksiyon değeri **taşır** ve kapsamının bittiği noktada yıkıcıyı çağırır; böylece derleyici sonradan ikinci kez yıkmaz.
+
+- code: E0509
+  title: "Drop uygulayan tipten alan taşıma"
+  module: m17
+  explanation: |
+    `Drop` uygulayan bir struct'ın alanını dışarı **taşıyamazsın**: `cannot move out of type `Dosya`, which implements the `Drop` trait`. Alan çıkarıldıktan sonra `drop` çalıştığında geçersiz bir alanı kullanmaya çalışırdı.
+  bad: |
+    struct Dosya {
+        ad: String,
+    }
+
+    impl Drop for Dosya {
+        fn drop(&mut self) {
+            println!("{} kapatıldı", self.ad);
+        }
+    }
+
+    fn main() {
+        let d = Dosya { ad: String::from("notlar.txt") };
+        let ad = d.ad;
+        println!("Dosya adı: {ad}");
+    }
+  fix: |
+    struct Dosya {
+        ad: String,
+    }
+
+    impl Drop for Dosya {
+        fn drop(&mut self) {
+            println!("{} kapatıldı", self.ad);
+        }
+    }
+
+    fn main() {
+        let d = Dosya { ad: String::from("notlar.txt") };
+        let ad = &d.ad;
+        println!("Dosya adı: {ad}");
+    }
+  fix_explanation: |
+    Alanı taşımak yerine **ödünç aldık** (`&d.ad`). Değeri gerçekten dışarı çıkarmak gerekiyorsa `clone()`, `std::mem::take`, ya da alanı `Option` yapıp `take()` etmek yaygın çözümlerdir.
+
+- code: E0184
+  title: "Copy ve Drop birlikte"
+  module: m17
+  explanation: |
+    Bir tip hem `Copy` hem `Drop` olamaz: `the trait `Copy` cannot be implemented for this type; the type has a destructor`. `Copy` tipler bit düzeyinde sessizce çoğaltılır; her kopya için `drop` çağrılsaydı kaynak (dosya, bağlantı) birden çok kez serbest bırakılırdı.
+  bad: |
+    #[derive(Clone, Copy)]
+    struct Baglanti {
+        id: u32,
+    }
+
+    impl Drop for Baglanti {
+        fn drop(&mut self) {
+            println!("bağlantı {} kapatıldı", self.id);
+        }
+    }
+
+    fn main() {
+        let b = Baglanti { id: 1 };
+        let _kopya = b;
+    }
+  fix: |
+    #[derive(Clone)]
+    struct Baglanti {
+        id: u32,
+    }
+
+    impl Drop for Baglanti {
+        fn drop(&mut self) {
+            println!("bağlantı {} kapatıldı", self.id);
+        }
+    }
+
+    fn main() {
+        let b = Baglanti { id: 1 };
+        let mut kopya = b.clone();
+        kopya.id = 2;
+        println!("iki bağlantı: {} ve {}", b.id, kopya.id);
+    }
+  fix_explanation: |
+    `Copy`'yi kaldırıp yalnızca `Clone` bıraktık; kopyalama artık açıkça `clone()` ile oluyor. `Drop` uygulayan tipler her zaman tek sahipli kalmalıdır.
+
+- code: E0373
+  title: "Closure thread'den uzun yaşayabilir"
+  module: m18
+  explanation: |
+    `thread::spawn` ile başlattığın thread, çağıran fonksiyondan daha uzun yaşayabilir; bu yüzden closure'ın yakaladığı referanslar **sarkan** hâle gelebilir: `closure may outlive the current function, but it borrows `v``.
+
+    Closure varsayılan olarak yakaladığı değişkeni **ödünç alır**. Thread ana thread'den bağımsız çalıştığı için derleyici bu ödüncün yeterince uzun yaşayacağını garanti edemez.
+  bad: |
+    use std::thread;
+
+    fn main() {
+        let v = vec![1, 2, 3];
+        let h = thread::spawn(|| {
+            println!("Thread'deki vektör: {v:?}");
+        });
+        h.join().unwrap();
+    }
+  fix: |
+    use std::thread;
+
+    fn main() {
+        let v = vec![1, 2, 3];
+        let h = thread::spawn(move || {
+            println!("Thread'deki vektör: {v:?}");
+        });
+        h.join().unwrap();
+    }
+  fix_explanation: |
+    Closure'a **`move`** ekledik: değişkenin sahipliği closure'a (dolayısıyla thread'e) geçer. Veriyi hem ana thread hem thread kullanacaksa `Arc` ile paylaş (Modül 18) ya da `thread::scope` kullan.
+
+- code: E0521
+  title: "Ödünç alınmış veri thread'den kaçıyor"
+  module: m18
+  explanation: |
+    `mesaj: &str` bir **ödünç alınmış** referanstır ve yaşam süresi fonksiyonla sınırlıdır. `thread::spawn` ise `'static` bir closure ister; thread fonksiyondan sonra da çalışabilir: `borrowed data escapes outside of function`.
+
+    `move` yazmak referansı thread'e taşır, ama referansın gösterdiği **veri** yine ödünçtür; bu yüzden hata sürer.
+  bad: |
+    use std::thread;
+
+    fn arka_planda_yaz(mesaj: &str) {
+        let h = thread::spawn(move || {
+            println!("{mesaj}");
+        });
+        h.join().unwrap();
+    }
+
+    fn main() {
+        arka_planda_yaz("merhaba");
+    }
+  fix: |
+    use std::thread;
+
+    fn arka_planda_yaz(mesaj: &str) {
+        let mesaj = mesaj.to_string();
+        let h = thread::spawn(move || {
+            println!("{mesaj}");
+        });
+        h.join().unwrap();
+    }
+
+    fn kapsamli_yaz(mesaj: &str) {
+        thread::scope(|s| {
+            s.spawn(|| println!("{mesaj} (scope içinden)"));
+        });
+    }
+
+    fn main() {
+        arka_planda_yaz("merhaba");
+        kapsamli_yaz("merhaba");
+    }
+  fix_explanation: |
+    İlk çözümde metni **sahipli** bir `String`'e çevirdik (`to_string()`); artık thread kendi verisine sahip. İkinci çözümde **`thread::scope`** kullandık: kapsamlı thread'ler, bloktan önce bitmek zorunda oldukları için ödünç alınmış veriyi güvenle kullanabilir.
+
+- code: E0728
+  title: "async olmayan yerde await"
+  module: m19
+  explanation: |
+    `.await` yalnızca bir **`async` fonksiyonun ya da bloğun** içinde kullanılabilir: `await` is only allowed inside `async` functions and blocks. Sıradan `fn main` içinde `await` yazamazsın; çünkü `await`, görevi bekletip yürütücüye (executor) geri dönmek demektir ve normal fonksiyonların böyle bir mekanizması yoktur.
+  bad: |
+    async fn veri_getir() -> u32 {
+        42
+    }
+
+    fn main() {
+        let veri = veri_getir().await;
+        println!("{veri}");
+    }
+  fix: |
+    pub async fn veri_getir() -> u32 {
+        42
+    }
+
+    pub async fn isle() -> u32 {
+        let veri = veri_getir().await;
+        veri + 1
+    }
+  fix_explanation: |
+    `await` kullandığımız kodu bir `async fn` içine koyduk. Programın giriş noktasında bir async çalışma zamanı (örneğin `tokio`'nun `#[tokio::main]` makrosu) gerekir; bu ders dışı örnekte yalnızca kitaplık fonksiyonu olarak gösterdik.
+
+- code: E0733
+  title: "Kutulanmamış async özyineleme"
+  module: m19
+  explanation: |
+    `async fn` kendi kendini doğrudan çağırırsa, derlenen durum makinesi **kendi tipini içerirdi** ve boyutu sonsuz olurdu: `recursion in an async fn requires boxing`. Bu, `E0072`'nin async karşılığıdır.
+
+    Çözüm, özyinelemeli çağrıyı bir `Box` içine alıp heap'e koymaktır.
+  bad: |
+    pub async fn geri_say(n: u32) {
+        if n > 0 {
+            geri_say(n - 1).await;
+        }
+    }
+  fix: |
+    pub async fn geri_say(n: u32) {
+        if n > 0 {
+            Box::pin(geri_say(n - 1)).await;
+        }
+    }
+  fix_explanation: |
+    Özyinelemeli çağrıyı **`Box::pin(...)`** ile sardık; böylece iç future heap'te yaşar ve dıştaki future'ın boyutu sabit kalır.
+
+- code: E0746
+  title: "dyn Trait doğrudan döndürülemez"
+  module: m20
+  explanation: |
+    Dönüş tipi `dyn Sekil` olamaz: `return type cannot be a trait object without pointer indirection`. `dyn Trait` bir **boyutsuz (unsized)** tiptir; derleyici stack'te ne kadar yer ayıracağını bilmez. Bu yüzden her zaman bir işaretçinin arkasında (`&dyn`, `Box<dyn>`) kullanılmalıdır.
+  bad: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+    }
+
+    struct Kare(f64);
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f64 {
+            self.0 * self.0
+        }
+    }
+
+    fn sekil_uret() -> dyn Sekil {
+        Kare(2.0)
+    }
+  fix: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+    }
+
+    struct Kare(f64);
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f64 {
+            self.0 * self.0
+        }
+    }
+
+    fn sekil_uret() -> Box<dyn Sekil> {
+        Box::new(Kare(2.0))
+    }
+
+    fn main() {
+        println!("Alan: {}", sekil_uret().alan());
+    }
+  fix_explanation: |
+    `Box<dyn Sekil>` döndürdük: kutu sabit boyutlu bir işaretçidir, içindeki gerçek tip çalışma anında belirlenir. Fonksiyon her zaman **aynı** somut tipi döndürüyorsa `impl Sekil` daha ucuz bir seçenektir.
+
+- code: E0782
+  title: "dyn anahtar sözcüğü eksik"
+  module: m20
+  explanation: |
+    Edition 2021'den itibaren trait nesnesi tipleri **`dyn` ile** yazılmalıdır: `expected a type, found a trait`. `&Ses` yazdığında derleyici `Ses`'in bir tip mi yoksa bir trait mi olduğunu ayıramaz; `dyn` bunu netleştirir ve "burada dinamik dağıtım var" diye okuyucuyu uyarır.
+  bad: |
+    trait Ses {
+        fn ses(&self) -> String;
+    }
+
+    struct Kedi;
+
+    impl Ses for Kedi {
+        fn ses(&self) -> String {
+            String::from("miyav")
+        }
+    }
+
+    fn konustur(hayvan: &Ses) {
+        println!("{}", hayvan.ses());
+    }
+
+    fn main() {
+        konustur(&Kedi);
+    }
+  fix: |
+    trait Ses {
+        fn ses(&self) -> String;
+    }
+
+    struct Kedi;
+
+    impl Ses for Kedi {
+        fn ses(&self) -> String {
+            String::from("miyav")
+        }
+    }
+
+    fn konustur(hayvan: &dyn Ses) {
+        println!("{}", hayvan.ses());
+    }
+
+    fn main() {
+        konustur(&Kedi);
+    }
+  fix_explanation: |
+    `&dyn Ses` yazdık. Derleyici `help: add `dyn` keyword before this trait` diyerek çözümü kendisi söyler.
+
+- code: E0038
+  title: "Nesne güvenli olmayan trait"
+  module: m20
+  explanation: |
+    Her trait `dyn Trait` olarak kullanılamaz; yalnızca **nesne güvenli (dyn compatible)** olanlar kullanılabilir: `the trait `Sekil` is not dyn compatible`. Burada `kopyala(&self) -> Self` metodu sorun çıkarıyor: çalışma anında `Self`'in gerçek tipi bilinmediği için dönüş değerinin boyutu bilinemez.
+
+    Başlıca kurallar: metot `Self` tipini döndürmemeli ya da parametre olarak almamalı, metotlar genel (generic) olmamalı, trait `Sized`'ı gerektirmemeli.
+
+    Mesajdaki `...because method `kopyala` references the `Self` type in its return type` satırı hangi metodun sorunlu olduğunu gösterir.
+  bad: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+        fn kopyala(&self) -> Self;
+    }
+
+    struct Kare(f64);
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f64 {
+            self.0 * self.0
+        }
+
+        fn kopyala(&self) -> Self {
+            Kare(self.0)
+        }
+    }
+
+    fn main() {
+        let sekiller: Vec<Box<dyn Sekil>> = vec![Box::new(Kare(2.0))];
+        for s in &sekiller {
+            println!("{}", s.alan());
+        }
+    }
+  fix: |
+    trait Sekil {
+        fn alan(&self) -> f64;
+        fn kopyala(&self) -> Self
+        where
+            Self: Sized;
+    }
+
+    struct Kare(f64);
+
+    impl Sekil for Kare {
+        fn alan(&self) -> f64 {
+            self.0 * self.0
+        }
+
+        fn kopyala(&self) -> Self {
+            Kare(self.0)
+        }
+    }
+
+    fn main() {
+        let sekiller: Vec<Box<dyn Sekil>> = vec![Box::new(Kare(2.0))];
+        for s in &sekiller {
+            println!("{}", s.alan());
+        }
+        let k = Kare(3.0).kopyala();
+        println!("{}", k.alan());
+    }
+  fix_explanation: |
+    Sorunlu metodu `where Self: Sized` ile işaretledik. Böylece metot trait nesnesinden **dışlanır** (yalnızca somut tipte çağrılabilir) ve trait geri kalanıyla nesne güvenli olur. Alternatif: metodu `Box<dyn Sekil>` döndürecek şekilde yeniden tasarlamak.
+
+- code: E0225
+  title: "dyn içinde birden çok trait"
+  module: m20
+  explanation: |
+    `dyn Display + Debug` yazamazsın; bir trait nesnesinde yalnızca **bir ana trait** olabilir, geri kalanlar yalnızca **otomatik trait'ler** (`Send`, `Sync`, `Unpin`) olabilir: `only auto traits can be used as additional traits in a trait object`.
+  bad: |
+    use std::fmt::{Debug, Display};
+
+    fn goster(x: &(dyn Display + Debug)) {
+        println!("{x} / {x:?}");
+    }
+
+    fn main() {
+        goster(&5);
+    }
+  fix: |
+    use std::fmt::{Debug, Display};
+
+    trait Gosterilebilir: Display + Debug {}
+
+    impl<T: Display + Debug> Gosterilebilir for T {}
+
+    fn goster(x: &dyn Gosterilebilir) {
+        println!("{x} / {x:?}");
+    }
+
+    fn main() {
+        goster(&5);
+        goster(&"yengeç");
+    }
+  fix_explanation: |
+    İki trait'i birleştiren bir **üst trait** tanımladık (`Gosterilebilir: Display + Debug`) ve onu `T: Display + Debug` olan her tip için **genel (blanket)** olarak uyguladık. Artık `&dyn Gosterilebilir` kullanabiliriz.
+
+- code: E0224
+  title: "Boş trait nesnesi"
+  module: m20
+  explanation: |
+    `dyn 'static` biçimindeki bir trait nesnesinde **hiçbir trait yok**, yalnızca bir yaşam süresi var: `at least one trait is required for an object type`. `dyn`'den sonra en az bir ana trait yazılmalıdır.
+  bad: |
+    fn main() {
+        let kutular: Vec<Box<dyn 'static>> = Vec::new();
+        println!("{}", kutular.len());
+    }
+  fix: |
+    use std::any::Any;
+
+    fn main() {
+        let kutular: Vec<Box<dyn Any>> = vec![Box::new(5), Box::new("metin")];
+        for k in &kutular {
+            if let Some(n) = k.downcast_ref::<i32>() {
+                println!("sayı: {n}");
+            } else if let Some(s) = k.downcast_ref::<&str>() {
+                println!("metin: {s}");
+            }
+        }
+    }
+  fix_explanation: |
+    Gerçek bir trait olan `Any` kullandık. `Box<dyn Any>`, farklı tiplerden değerleri aynı koleksiyonda tutar ve `downcast_ref` ile geri çözmeni sağlar. Ortak davranış gerekiyorsa kendi trait'ini tanımla.
+
+- code: E0005
+  title: "Reddedilebilir kalıp let içinde"
+  module: m21
+  explanation: |
+    `let` kalıpları **reddedilmez** (irrefutable) olmak zorundadır: her değerle eşleşmelidir. `Some(n)` ise `None` değeriyle eşleşmez: `refutable pattern in local binding`. `let` "eşleşmezse ne yapacağım?" sorusuna yanıt vermez.
+
+    Reddedilebilir kalıplar için `if let`, `match` ya da `let ... else` gerekir.
+  bad: |
+    fn main() {
+        let secim: Option<u32> = Some(3);
+        let Some(n) = secim;
+        println!("Seçilen: {n}");
+    }
+  fix: |
+    fn main() {
+        let secim: Option<u32> = Some(3);
+        let Some(n) = secim else {
+            println!("Seçim yapılmadı");
+            return;
+        };
+        println!("Seçilen: {n}");
+    }
+  fix_explanation: |
+    **`let else`** kullandık: kalıp eşleşmezse `else` bloğu çalışır ve bu blok mutlaka akışı terk etmelidir (`return`, `break`, `panic!`). Değeri yalnızca bir koşulda kullanacaksan `if let Some(n) = secim { ... }` de uygundur.
+
+- code: E0026
+  title: "Kalıpta olmayan struct alanı"
+  module: m21
+  explanation: |
+    Struct kalıbında, struct'ta olmayan bir alan adı yazdın: `struct `Nokta` does not have a field named `z``. Kalıptaki her ad ya struct'ın bir alanı ya da `alan: yeni_ad` şeklinde yeniden adlandırma olmalıdır.
+  bad: |
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    fn main() {
+        let p = Nokta { x: 1, y: 2 };
+        let Nokta { x, z, .. } = p;
+        println!("{x} {z}");
+    }
+  fix: |
+    struct Nokta {
+        x: i32,
+        y: i32,
+    }
+
+    fn main() {
+        let p = Nokta { x: 1, y: 2 };
+        let Nokta { x, y: z } = p;
+        println!("{x} {z}");
+    }
+  fix_explanation: |
+    `y: z` yazarak `y` alanını `z` adıyla bağladık. Alanı yalnızca okumak istiyorsan doğrudan `y` yaz; kullanmayacaksan `..` ekle.
+
+- code: E0027
+  title: "Kalıpta eksik struct alanı"
+  module: m21
+  explanation: |
+    Struct kalıbı, struct'ın **tüm alanlarını** listelemelidir: `pattern does not mention field `sinif``. Derleyici hangi alanın unutulduğunu söyler.
+
+    Bu yüzden struct'a yeni bir alan eklediğinde kalıp kullanan yerler hata verir ve yeni alanı gözden geçirmeni sağlar.
+  bad: |
+    struct Ogrenci {
+        ad: String,
+        yas: u32,
+        sinif: u8,
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Mert"), yas: 15, sinif: 9 };
+        let Ogrenci { ad, yas } = o;
+        println!("{ad} {yas}");
+    }
+  fix: |
+    struct Ogrenci {
+        ad: String,
+        yas: u32,
+        sinif: u8,
+    }
+
+    fn main() {
+        let o = Ogrenci { ad: String::from("Mert"), yas: 15, sinif: 9 };
+        let Ogrenci { ad, yas, .. } = o;
+        println!("{ad} {yas} ({}. sınıf)", o.sinif);
+    }
+  fix_explanation: |
+    Kalan alanları **`..`** ile yok saydık. Kalıbı kapatırken `..` yazmak "geri kalan alanlarla ilgilenmiyorum" demektir.
+
+- code: E0029
+  title: "Aralık kalıbı için geçersiz tip"
+  module: m21
+  explanation: |
+    Aralık kalıpları (`'A'..='M'`, `1..=5`) yalnızca **sayılar ve `char`** için çalışır; metinler için değil: `only `char` and numeric types are allowed in range patterns`. Metinler (`&str`) sıralanabilir ama derleyici bunları aralık olarak sayamaz.
+  bad: |
+    fn grup(isim: &str) -> u8 {
+        match isim {
+            "A"..="M" => 1,
+            _ => 2,
+        }
+    }
+
+    fn main() {
+        println!("{}", grup("Kemal"));
+    }
+  fix: |
+    fn grup(isim: &str) -> u8 {
+        match isim.chars().next() {
+            Some('A'..='M') => 1,
+            _ => 2,
+        }
+    }
+
+    fn main() {
+        println!("{} {}", grup("Kemal"), grup("Selin"));
+    }
+  fix_explanation: |
+    Karşılaştırmayı metnin **ilk karakterine** (`char`) çevirdik ve `Some('A'..='M')` kalıbını kullandık. Metinler için `match`'te tam eşleşme veya `if` ile karşılaştırma kullanılır.
+
+- code: E0408
+  title: "Alternatif kalıplarda değişken uyuşmazlığı"
+  module: m21
+  explanation: |
+    `|` ile birleştirilmiş kalıpların hepsi **aynı değişken kümesini** bağlamalıdır: `variable `n` is not bound in all patterns`. `Some(n) | None` kalıbında `None` kolu `n` bağlamıyor, bu yüzden gövdede `n` güvenle kullanılamaz.
+  bad: |
+    fn main() {
+        let secim: Option<u32> = Some(3);
+        match secim {
+            Some(n) | None => println!("seçim işlendi"),
+        }
+    }
+  fix: |
+    fn main() {
+        let secim: Option<u32> = Some(3);
+        match secim {
+            Some(n) => println!("{n} seçildi"),
+            None => println!("seçim yok"),
+        }
+    }
+  fix_explanation: |
+    Kalıpları ayrı kollara böldük: `Some(n)` ve `None`'un kendi davranışları var. Değişken kullanmıyorsan `Some(_) | None` yazılabilir.
+
+- code: E0416
+  title: "Kalıpta yinelenen değişken adı"
+  module: m21
+  explanation: |
+    Aynı kalıpta bir ad iki kez bağlanamaz: `identifier `x` is bound more than once in the same pattern`. `(x, x)` "iki elemanı aynıysa eşleş" anlamına gelmez; Rust'ta kalıplar eşitlik karşılaştırmak için değil, değer **bağlamak** içindir.
+  bad: |
+    fn main() {
+        let nokta = (3, 3);
+        match nokta {
+            (x, x) => println!("köşegen üzerinde: {x}"),
+        }
+    }
+  fix: |
+    fn main() {
+        let nokta = (3, 3);
+        match nokta {
+            (x, y) if x == y => println!("köşegen üzerinde: {x}"),
+            (x, y) => println!("köşegen dışında: ({x}, {y})"),
+        }
+    }
+  fix_explanation: |
+    İki ayrı değişken bağlayıp eşitliği **koruma (guard)** ile kontrol ettik: `(x, y) if x == y`.
+
+- code: E0527
+  title: "Dizi kalıbı uzunluk uyuşmazlığı"
+  module: m21
+  explanation: |
+    Dizi kalıbı, dizinin uzunluğuyla tam olarak eşleşmelidir: `pattern requires 2 elements but array has 3`. Dizi uzunluğu tipin parçasıdır, bu yüzden derleyici kalıbı derleme zamanında denetler.
+  bad: |
+    fn main() {
+        let rgb = [255, 128, 0];
+        let [kirmizi, yesil] = rgb;
+        println!("{kirmizi} {yesil}");
+    }
+  fix: |
+    fn main() {
+        let rgb = [255, 128, 0];
+        let [kirmizi, yesil, mavi] = rgb;
+        let [ilk, ..] = rgb;
+        println!("{kirmizi} {yesil} {mavi} / {ilk}");
+    }
+  fix_explanation: |
+    Tüm elemanları yazdık. Yalnızca bazılarıyla ilgileniyorsan `[ilk, ..]` gibi **`..`** ile geri kalanları atla.
+
+- code: E0191
+  title: "trait nesnesinde ilişkili tip eksik"
+  module: m22
+  explanation: |
+    `dyn Iterator` yazdığında `Iterator`'ın ilişkili tipi `Item`'ın ne olduğunu da belirtmelisin: `the value of the associated type `Item` in `Iterator` must be specified`. Çünkü derleyici trait nesnesinin metotlarının hangi tipleri döndüreceğini bilmek zorundadır.
+  bad: |
+    fn sayilar() -> Box<dyn Iterator> {
+        Box::new(1..4)
+    }
+
+    fn main() {
+        for s in sayilar() {
+            println!("{s}");
+        }
+    }
+  fix: |
+    fn sayilar() -> Box<dyn Iterator<Item = i32>> {
+        Box::new(1..4)
+    }
+
+    fn main() {
+        for s in sayilar() {
+            println!("{s}");
+        }
+    }
+  fix_explanation: |
+    `Item` tipini açıkça yazdık: `dyn Iterator<Item = i32>`.
+
+- code: E0223
+  title: "Belirsiz ilişkili tip"
+  module: m22
+  explanation: |
+    `Kutu::Oge` yazdığında derleyici `Oge`'nin hangi trait'ten geldiğini bilemez; çünkü aynı adlı ilişkili tip birden çok trait'te olabilir: `ambiguous associated type`.
+
+    Çözüm, "hangi tip, hangi trait'e göre" sorusunu **tam nitelikli (fully qualified)** söz dizimiyle yanıtlamaktır.
+  bad: |
+    trait Kap {
+        type Oge;
+        fn al(&self) -> Self::Oge;
+    }
+
+    struct Kutu;
+
+    impl Kap for Kutu {
+        type Oge = i32;
+        fn al(&self) -> i32 {
+            7
+        }
+    }
+
+    fn main() {
+        let x: Kutu::Oge = Kutu.al();
+        println!("{x}");
+    }
+  fix: |
+    trait Kap {
+        type Oge;
+        fn al(&self) -> Self::Oge;
+    }
+
+    struct Kutu;
+
+    impl Kap for Kutu {
+        type Oge = i32;
+        fn al(&self) -> i32 {
+            7
+        }
+    }
+
+    fn main() {
+        let x: <Kutu as Kap>::Oge = Kutu.al();
+        println!("{x}");
+    }
+  fix_explanation: |
+    `<Kutu as Kap>::Oge` yazdık: `Kutu` tipini `Kap` trait'i olarak görüp onun `Oge` tipini seçiyoruz.
+
+- code: E0790
+  title: "Tam nitelikli çağrı gerekli"
+  module: m22
+  explanation: |
+    `Uretici::uret()` çağrısında derleyici **hangi tipin** uygulamasını çalıştıracağını bilemez; çünkü fonksiyon `self` almaz ve dönüş tipi (`u32`) de uygulayan tipi belirtmez: `cannot call associated function on trait without specifying the corresponding `impl` type`.
+  bad: |
+    trait Uretici {
+        fn uret() -> u32;
+    }
+
+    struct Zar;
+
+    impl Uretici for Zar {
+        fn uret() -> u32 {
+            4
+        }
+    }
+
+    fn main() {
+        let x = Uretici::uret();
+        println!("{x}");
+    }
+  fix: |
+    trait Uretici {
+        fn uret() -> u32;
+    }
+
+    struct Zar;
+
+    impl Uretici for Zar {
+        fn uret() -> u32 {
+            4
+        }
+    }
+
+    fn main() {
+        let x = <Zar as Uretici>::uret();
+        let y = Zar::uret();
+        println!("{x} {y}");
+    }
+  fix_explanation: |
+    Tipi açıkça söyledik: `<Zar as Uretici>::uret()` ya da kısaca `Zar::uret()`.
+
+- code: E0392
+  title: "Kullanılmayan tip parametresi"
+  module: m22
+  explanation: |
+    Bir struct veya enum'da tanımladığın genel parametre alanlarda hiç **kullanılmıyorsa** derleyici reddeder: `type parameter `T` is never used`. Çünkü `T`'nin yaşam süresi ve değişkenlik (variance) davranışı belirlenemez.
+
+    Bazen tür düzeyinde bir işaret gerekir (örneğin `Kimlik<Kullanici>` ile `Kimlik<Siparis>`'in karıştırılmasını önlemek istersin).
+  bad: |
+    struct Kimlik<T> {
+        numara: u64,
+    }
+  fix: |
+    use std::marker::PhantomData;
+
+    struct Kimlik<T> {
+        numara: u64,
+        _tur: PhantomData<T>,
+    }
+
+    enum Kullanici {}
+    enum Siparis {}
+
+    fn main() {
+        let k: Kimlik<Kullanici> = Kimlik { numara: 7, _tur: PhantomData };
+        let s: Kimlik<Siparis> = Kimlik { numara: 7, _tur: PhantomData };
+        println!("kullanıcı #{}, sipariş #{}", k.numara, s.numara);
+    }
+  fix_explanation: |
+    `PhantomData<T>` alanı ekledik: sıfır boyutlu bir işaretçi tip, yalnızca `T`'yi "kullanılmış" göstermek için vardır. Bu, **tür güvenli kimlik** (typed ID) gibi desenlerin temelidir. `T`'ye gerçekten ihtiyaç yoksa parametreyi kaldır.
+
+- code: E0620
+  title: "Boyutsuz tipe dönüşüm"
+  module: m22
+  explanation: |
+    `as [i32]` ile **boyutsuz** bir tipe (dilim) dönüşüm yapamazsın: `cast to unsized type: `&[i32; 3]` as `[i32]``. Dilimin kendisi (`[i32]`) boyutsuz bir tiptir ve yalnızca işaretçi arkasında var olabilir.
+  bad: |
+    fn main() {
+        let dizi = [1, 2, 3];
+        let dilim = &dizi as [i32];
+        println!("{}", dilim.len());
+    }
+  fix: |
+    fn main() {
+        let dizi = [1, 2, 3];
+        let dilim = &dizi as &[i32];
+        let dilim2: &[i32] = &dizi[..];
+        println!("{} {}", dilim.len(), dilim2.len());
+    }
+  fix_explanation: |
+    Hedef tipi referans olarak yazdık: `&[i32]`. Dönüşüm yerine tip belirtimi ile (`let dilim: &[i32] = &dizi;`) ya da aralık indeksiyle (`&dizi[..]`) da aynı sonuç alınır.
+
+- code: E0133
+  title: "Güvenli olmayan işlem unsafe dışında"
+  module: m24
+  explanation: |
+    Ham işaretçiyi (`*const T`, `*mut T`) dereference etmek, `unsafe` bir fonksiyonu çağırmak gibi işlemler yalnızca bir **`unsafe` blok** içinde yapılabilir: `dereference of raw pointer is unsafe and requires unsafe function or block`.
+
+    Rust bu işlemlerin güvenli olduğunu kendisi kanıtlayamaz; `unsafe` blok "derleyici, bunu ben doğruladım" demektir. Sorumluluk programcıdadır.
+  bad: |
+    fn main() {
+        let x = 42;
+        let p = &raw const x;
+        println!("{}", *p);
+    }
+  fix: |
+    fn main() {
+        let x = 42;
+        let p = &raw const x;
+        // SAFETY: `p`, hâlâ canlı olan `x`'i gösteriyor ve hizalı.
+        let deger = unsafe { *p };
+        println!("{deger}");
+    }
+  fix_explanation: |
+    Dereference'ı `unsafe { *p }` bloğuna aldık ve bloğun neden güvenli olduğunu `// SAFETY:` yorumuyla belgeledik. İyi uygulama: `unsafe` blokları mümkün olduğunca küçük tut ve güvenli bir arayüzün arkasına sakla.
+
+- code: E0199
+  title: "Güvenli trait için unsafe impl"
+  module: m24
+  explanation: |
+    Güvenli (normal) bir trait'i `unsafe impl` ile uygulayamazsın: `implementing the trait `Clone` is not unsafe`. `unsafe impl`, yalnızca `unsafe trait` olarak tanımlanmış trait'ler içindir (örneğin `Send`, `Sync`).
+  bad: |
+    #[derive(Debug)]
+    struct Sayac(u32);
+
+    unsafe impl Clone for Sayac {
+        fn clone(&self) -> Self {
+            Sayac(self.0)
+        }
+    }
+
+    fn main() {
+        let a = Sayac(1);
+        println!("{:?}", a.clone());
+    }
+  fix: |
+    #[derive(Debug)]
+    struct Sayac(u32);
+
+    impl Clone for Sayac {
+        fn clone(&self) -> Self {
+            Sayac(self.0)
+        }
+    }
+
+    fn main() {
+        let a = Sayac(1);
+        println!("{:?}", a.clone());
+    }
+  fix_explanation: |
+    `unsafe` anahtar sözcüğünü kaldırdık; `Clone` güvenli bir trait'tir.
+
+- code: E0200
+  title: "Unsafe trait için impl unsafe değil"
+  module: m24
+  explanation: |
+    `unsafe trait`'i uygulamak, derleyicinin doğrulayamadığı bir sözleşmeyi **senin garanti etmen** demektir. Bu yüzden `unsafe impl` olarak yazılmalıdır: `the trait `Hizali16` requires an `unsafe impl` declaration`.
+  bad: |
+    /// # Safety
+    /// Bu trait'i uygulayan tipler 16 bayta hizalı olmalıdır.
+    unsafe trait Hizali16 {}
+
+    #[repr(align(16))]
+    struct Tampon([u8; 16]);
+
+    impl Hizali16 for Tampon {}
+  fix: |
+    /// # Safety
+    /// Bu trait'i uygulayan tipler 16 bayta hizalı olmalıdır.
+    unsafe trait Hizali16 {}
+
+    #[repr(align(16))]
+    struct Tampon([u8; 16]);
+
+    // SAFETY: `repr(align(16))` sayesinde Tampon her zaman 16 bayta hizalıdır.
+    unsafe impl Hizali16 for Tampon {}
+
+    fn hizalama<T: Hizali16>(_: &T) -> usize {
+        std::mem::align_of::<T>()
+    }
+
+    fn main() {
+        let t = Tampon([0; 16]);
+        println!("{} bayt, hizalama {}", t.0.len(), hizalama(&t));
+    }
+  fix_explanation: |
+    Uygulamayı `unsafe impl` yaptık ve neden güvenli olduğunu `// SAFETY:` yorumuyla açıkladık.
+
+- code: E0793
+  title: "Paketlenmiş alana referans"
+  module: m24
+  explanation: |
+    `#[repr(packed)]` bir struct'ın alanları hizalanmamış (unaligned) olabilir. Böyle bir alana referans (`&p.uzunluk`) almak, hizasız referans yaratır ve bu tanımsız davranıştır: `reference to packed field is unaligned`.
+  bad: |
+    #[repr(C, packed)]
+    struct Paket {
+        tur: u8,
+        uzunluk: u32,
+    }
+
+    fn main() {
+        let p = Paket { tur: 1, uzunluk: 512 };
+        let r = &p.uzunluk;
+        println!("tür {}, uzunluk {r}", p.tur);
+    }
+  fix: |
+    #[repr(C, packed)]
+    struct Paket {
+        tur: u8,
+        uzunluk: u32,
+    }
+
+    fn main() {
+        let p = Paket { tur: 1, uzunluk: 512 };
+        let uzunluk = p.uzunluk;
+        let tur = p.tur;
+        println!("tür {tur}, uzunluk {uzunluk}");
+    }
+  fix_explanation: |
+    Alanı önce **yerel bir değişkene kopyaladık** (`let uzunluk = p.uzunluk;`); `Copy` tipler için değer kopyalamak güvenlidir. Gerçekten işaretçi gerekirse `&raw const p.uzunluk` ve `read_unaligned` kullanılır.

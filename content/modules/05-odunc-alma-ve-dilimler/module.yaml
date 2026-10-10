@@ -1,0 +1,18 @@
+id: m05
+title: Ödünç Alma ve Dilimler
+subtitle: Sahipliği vermeden kullanmak — referanslar, kurallar ve dilimler
+icon: "🔗"
+description: |
+  Bir değeri sahipliğini devretmeden **ödünç vermeyi** öğreneceksin: `&` ile okumak, `&mut` ile
+  değiştirmek ve Rust'ın ünlü kuralı "ya tek `&mut` ya da istediğin kadar `&`". Sarkan referansların
+  neden derlenmediğini, `&str` ve `&[T]` dilimleriyle bir koleksiyonun parçasıyla güvenle çalışmayı
+  göreceksin. Modülün sonunda ödünç hatalarını üç soruyla çözümleyip bilinçli düzeltmeler yapabileceksin.
+lessons:
+  - 01-referanslar-ve-odunc-alma.md
+  - 02-degistirilebilir-referanslar.md
+  - 03-sarkan-referanslar.md
+  - 04-string-dilimleri.md
+  - 05-dizi-dilimleri.md
+  - 06-borrow-checker-ile-dusunmek.md
+boss: boss.md
+summary: summary.md

@@ -1,0 +1,21 @@
+id: m11
+title: Generic'ler ve Trait'ler
+subtitle: Bir kez yaz, her tiple kullan — çalışma zamanında sıfır maliyetle
+icon: "🧩"
+description: |
+  Kodunu tiplerden bağımsız hâle getirmeyi (**generic'ler**) ve farklı tiplere ortak davranış
+  kazandırmayı (**trait'ler**) öğreneceksin. `derive`'ın perde arkasını, trait sınırlarını, `Display`,
+  `From`, `TryFrom`, `FromStr` ve `Error` gibi standart trait'leri kendi tiplerine uygulamayı; orphan rule,
+  blanket impl ve const generic'leri keşfedeceksin. Modülün sonunda standart kütüphanenin imzalarını bir
+  cümle gibi okuyabilecek ve Modül 10'daki hata yönetimini `?` ile tamamen otomatikleştirebileceksin.
+lessons:
+  - 01-generic-fonksiyonlar.md
+  - 02-generic-struct-enum-metot.md
+  - 03-traitler-ortak-davranis.md
+  - 04-trait-sinirlari.md
+  - 05-derive-ve-standart-traitler.md
+  - 06-display-ve-donusum-traitleri.md
+  - 07-fromstr-asref-ve-error.md
+  - 08-trait-kurallari.md
+boss: boss.md
+summary: summary.md

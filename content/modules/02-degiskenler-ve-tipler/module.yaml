@@ -1,0 +1,19 @@
+id: m02
+title: Değişkenler ve Veri Tipleri
+subtitle: Verilere isim ver, tiplerini tanı, taşmaya geçit verme
+icon: "🧮"
+description: |
+  Programların ham maddesi veridir. Bu modülde `let` ile değişken tanımlamayı, Rust'ın neden varsayılan
+  olarak **değişmezliği** seçtiğini, sabitleri ve gölgelemeyi öğreneceksin. Tamsayıları, ondalık
+  sayıları, `bool` ve `char` tiplerini, tuple ve dizileri tanıyacak; taşmanın (overflow) ne olduğunu ve
+  Rust'ın seni ondan nasıl koruduğunu göreceksin. Son olarak derleyicinin tipleri nasıl çıkardığını ve
+  metni `parse` ile sayıya çevirmeyi keşfedeceksin.
+lessons:
+  - 01-degiskenler-ve-degismezlik.md
+  - 02-sabitler-ve-golgeleme.md
+  - 03-tamsayilar-ve-tasma.md
+  - 04-ondalik-bool-char.md
+  - 05-tuple-ve-dizi.md
+  - 06-tip-cikarimi.md
+boss: boss.md
+summary: summary.md

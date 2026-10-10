@@ -1,0 +1,19 @@
+id: m09
+title: Koleksiyonlar
+subtitle: Vec, String, HashMap ve dostları — veriyi toplamak, aramak, sıralamak
+icon: "🧺"
+description: |
+  Gerçek programlar tek bir değerle değil, değer yığınlarıyla çalışır: öğrenci listeleri, stok
+  tabloları, bekleme kuyrukları, puan sıralamaları... Bu modülde Rust'ın standart koleksiyonlarını
+  kaputlarını açarak öğreneceksin: `Vec`'in bellekte nasıl büyüdüğünü, `String`'in neden bir UTF-8
+  bayt dizisi olduğunu, `HashMap` ile anında arama yapmayı, kümeleri, kuyrukları, öncelik
+  kuyruklarını ve verini sıralayıp aramayı. Modülün sonunda her problem için doğru koleksiyonu
+  gerekçesiyle seçip borrow checker'la uyum içinde kullanabileceksin.
+lessons:
+  - 01-vec-buyuyebilen-diziler.md
+  - 02-string-derinlemesine.md
+  - 03-hashmap.md
+  - 04-diger-koleksiyonlar.md
+  - 05-siralama-arama-filtreleme.md
+boss: boss.md
+summary: summary.md

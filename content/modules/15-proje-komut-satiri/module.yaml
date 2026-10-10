@@ -1,0 +1,18 @@
+id: m15
+title: "Proje: Komut Satırı Aracı (minigrep)"
+subtitle: Öğrendiklerinle gerçek bir grep klonu yaz — ara
+icon: "🔎"
+description: |
+  Bu modülde, dosyalarda metin arayan `ara` adlı gerçek bir komut satırı aracını sıfırdan kuracaksın.
+  Komut satırı argümanlarını okumayı, dosya okumayı, kodu `main.rs` ve `lib.rs` olarak bölmeyi,
+  hataları `Result` ve `Box<dyn Error>` ile yönetmeyi, arama mantığını test güdümlü geliştirmeyle (TDD)
+  yazmayı, ortam değişkenlerini ve `stderr`'i kullanmayı öğreneceksin. Son olarak projeyi iterator'larla
+  iyileştirip gerçek dünyanın aracı `clap` ile tanışacaksın.
+lessons:
+  - 01-proje-plani-ve-argumanlar.md
+  - 02-dosya-okuma-ve-yeniden-yapilandirma.md
+  - 03-tdd-ile-arama-mantigi.md
+  - 04-ortam-degiskenleri-ve-stderr.md
+  - 05-iteratorlarla-iyilestirme-ve-clap.md
+boss: boss.md
+summary: summary.md

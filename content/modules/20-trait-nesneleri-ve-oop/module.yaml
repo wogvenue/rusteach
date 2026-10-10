@@ -1,0 +1,20 @@
+id: m20
+title: Trait Nesneleri ve OOP Desenleri
+subtitle: Kalıtımsız nesne yönelimi — dyn Trait, dispatch ve Rust'a özgü tasarım desenleri
+icon: "🎭"
+description: |
+  Rust'ın nesne yönelimli programlamaya bakışını öğreneceksin: kapsülleme var, kalıtım yok; yerine
+  kompozisyon, varsayılan metotlar ve iki tür çok biçimlilik (generic'ler ve **trait nesneleri**) var.
+  `dyn Trait`'in bellekte nasıl göründüğünü (geniş işaretçi + vtable), statik ve dinamik dispatch
+  arasındaki bedelleri ve bir trait'in neden `dyn` olamayabileceğini (`E0038`) çözeceksin. Modülün
+  sonunda durum (state) ve typestate desenlerini, builder, newtype, strateji, RAII koruyucuları ve
+  uzantı trait'lerini Rust'a yakışır biçimde uygulayabileceksin.
+lessons:
+  - 01-rustta-oop.md
+  - 02-trait-nesneleri.md
+  - 03-statik-ve-dinamik-dispatch.md
+  - 04-durum-deseni.md
+  - 05-builder-newtype-default.md
+  - 06-strateji-raii-uzanti-traitleri.md
+boss: boss.md
+summary: summary.md

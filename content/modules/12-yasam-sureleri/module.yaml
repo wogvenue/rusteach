@@ -1,0 +1,19 @@
+id: m12
+title: Yaşam Süreleri (Lifetimes)
+subtitle: Borrow checker'ın dilini konuşmak — referanslar ne kadar yaşar?
+icon: "⏳"
+description: |
+  Modül 5'ten beri derleyici "yeterince uzun yaşamıyor" dediğinde arka planda **yaşam süreleri (lifetimes)**
+  hesaplıyordu. Bu modülde o hesabı görünür kılacaksın: `'a` anotasyonlarını okuyup yazmayı, referans tutan
+  struct'lar tasarlamayı, elision kurallarını, `'static`'in gerçek anlamını ve `T: 'a` sınırlarını öğreneceksin.
+  Modülün sonunda generic'ler, trait sınırları ve yaşam sürelerini aynı imzada rahatça okuyabilecek, kopyasız
+  (zero-copy) çalışan bir metin ayrıştırıcı yazabileceksin.
+lessons:
+  - 01-yasam-suresi-nedir.md
+  - 02-fonksiyon-imzalarinda-yasam-sureleri.md
+  - 03-referans-tutan-structlar.md
+  - 04-elision-kurallari.md
+  - 05-static-ve-yasam-suresi-sinirlari.md
+  - 06-yasam-sureleriyle-ustalasmak.md
+boss: boss.md
+summary: summary.md

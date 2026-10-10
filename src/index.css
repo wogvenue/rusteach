@@ -1,0 +1,420 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* ------------------------------------------------------------------
+   Design tokens. Semantic colors are CSS variables switched by
+   <html data-theme="dark|light">; Tailwind utilities map onto them:
+   bg-bg, bg-surface, bg-surface-2, bg-elevated, border-border, text-fg,
+   text-muted, text-subtle, bg-accent, text-accent, text-success ...
+
+   Extended by the shell (never rename):
+   gold / gold-soft (mastery, rewards), on-success / on-danger (text on
+   filled success/danger), overlay (modal backdrop), shadow-card /
+   shadow-pop, animate-pulse-ring / animate-flicker / animate-shimmer /
+   animate-float.
+   ------------------------------------------------------------------ */
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  --font-sans: 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'Cascadia Code', Consolas, ui-monospace, monospace;
+
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-elevated: var(--c-elevated);
+  --color-border: var(--c-border);
+  --color-border-strong: var(--c-border-strong);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-subtle: var(--c-subtle);
+  --color-accent: var(--c-accent);
+  --color-accent-strong: var(--c-accent-strong);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-accent-fg: var(--c-accent-fg);
+  --color-success: var(--c-success);
+  --color-success-soft: var(--c-success-soft);
+  --color-danger: var(--c-danger);
+  --color-danger-soft: var(--c-danger-soft);
+  --color-warning: var(--c-warning);
+  --color-warning-soft: var(--c-warning-soft);
+  --color-info: var(--c-info);
+  --color-info-soft: var(--c-info-soft);
+  --color-xp: var(--c-xp);
+  --color-streak: var(--c-streak);
+
+  /* shell extensions */
+  --color-gold: var(--c-gold);
+  --color-gold-soft: var(--c-gold-soft);
+  --color-on-success: var(--c-on-success);
+  --color-on-danger: var(--c-on-danger);
+  --color-overlay: var(--c-overlay);
+
+  /* Rust brand scale (static) */
+  --color-rust-50: #fff4ed;
+  --color-rust-100: #ffe6d4;
+  --color-rust-200: #ffc9a8;
+  --color-rust-300: #ffa271;
+  --color-rust-400: #ff7038;
+  --color-rust-500: #f74c00;
+  --color-rust-600: #dd3a00;
+  --color-rust-700: #b72c04;
+  --color-rust-800: #92250b;
+  --color-rust-900: #76220c;
+
+  --radius-card: 1rem;
+  --shadow-glow: 0 0 0 1px rgb(247 76 0 / 0.25), 0 8px 32px -8px rgb(247 76 0 / 0.35);
+  --shadow-card: var(--c-shadow-card);
+  --shadow-pop: var(--c-shadow-pop);
+
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-flicker: flicker 2.6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s ease-in-out infinite;
+  --animate-float: float 3.2s ease-in-out infinite;
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    80%,
+    100% {
+      transform: scale(1.42);
+      opacity: 0;
+    }
+  }
+  @keyframes flicker {
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+    30% {
+      transform: scale(1.06, 0.97) rotate(-2deg);
+    }
+    60% {
+      transform: scale(0.97, 1.05) rotate(2deg);
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-120%) skewX(-18deg);
+    }
+    55%,
+    100% {
+      transform: translateX(260%) skewX(-18deg);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --c-bg: #0b0e14;
+  --c-surface: #11151f;
+  --c-surface-2: #171c29;
+  --c-elevated: #1d2333;
+  --c-border: #252c3d;
+  --c-border-strong: #343d53;
+  --c-fg: #e8ecf4;
+  --c-muted: #9aa3b8;
+  --c-subtle: #7f889d;
+  --c-accent: #ff6a1f;
+  --c-accent-strong: #f74c00;
+  --c-accent-soft: rgb(255 106 31 / 0.14);
+  /* Dark ink on the bright ember keeps filled accents at WCAG AA (white on #ff6a1f is only 2.9:1). */
+  --c-accent-fg: #1a0b02;
+  --c-success: #34d399;
+  --c-success-soft: rgb(52 211 153 / 0.14);
+  --c-danger: #f87171;
+  --c-danger-soft: rgb(248 113 113 / 0.14);
+  --c-warning: #fbbf24;
+  --c-warning-soft: rgb(251 191 36 / 0.14);
+  --c-info: #60a5fa;
+  --c-info-soft: rgb(96 165 250 / 0.14);
+  --c-xp: #facc15;
+  --c-streak: #fb923c;
+
+  --c-gold: #f5c542;
+  --c-gold-soft: rgb(245 197 66 / 0.14);
+  --c-on-success: #03140c;
+  --c-on-danger: #1f0505;
+  --c-overlay: rgb(4 6 10 / 0.68);
+  --c-shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.03), 0 12px 32px -20px rgb(0 0 0 / 0.8);
+  --c-shadow-pop: 0 0 0 1px rgb(255 255 255 / 0.05), 0 28px 64px -24px rgb(0 0 0 / 0.85);
+  --c-glow: rgb(255 106 31 / 0.2);
+  --c-scenery: 1;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --c-bg: #f6f4f1;
+  --c-surface: #ffffff;
+  --c-surface-2: #f8f6f3;
+  --c-elevated: #ffffff;
+  --c-border: #e6e1da;
+  --c-border-strong: #d3ccc2;
+  --c-fg: #1c1917;
+  --c-muted: #57534e;
+  --c-subtle: #736c64;
+  --c-accent: #c93c00;
+  --c-accent-strong: #ad3300;
+  --c-accent-soft: rgb(224 72 0 / 0.1);
+  --c-accent-fg: #ffffff;
+  --c-success: #047857;
+  --c-success-soft: rgb(5 150 105 / 0.1);
+  --c-danger: #dc2626;
+  --c-danger-soft: rgb(220 38 38 / 0.08);
+  --c-warning: #b45309;
+  --c-warning-soft: rgb(217 119 6 / 0.1);
+  --c-info: #2563eb;
+  --c-info-soft: rgb(37 99 235 / 0.08);
+  --c-xp: #a16207;
+  --c-streak: #c2410c;
+
+  --c-gold: #a16207;
+  --c-gold-soft: rgb(202 138 4 / 0.12);
+  --c-on-success: #ffffff;
+  --c-on-danger: #ffffff;
+  --c-overlay: rgb(28 25 23 / 0.36);
+  --c-shadow-card: 0 1px 2px rgb(28 25 23 / 0.04), 0 10px 28px -18px rgb(28 25 23 / 0.22);
+  --c-shadow-pop: 0 0 0 1px rgb(28 25 23 / 0.05), 0 28px 64px -28px rgb(28 25 23 / 0.38);
+  --c-glow: rgb(224 72 0 / 0.1);
+  --c-scenery: 1.35;
+}
+
+/* Tier hues are bright brand colors. .tier-ink mixes the tier color (set --tier on an ancestor)
+   toward the text color so tier-colored text stays readable (WCAG AA) in both themes. */
+:root,
+[data-theme='dark'] {
+  --tier-ink-mix: 85%;
+}
+[data-theme='light'] {
+  --tier-ink-mix: 55%;
+}
+.tier-ink {
+  color: color-mix(in oklab, var(--tier, var(--c-accent)) var(--tier-ink-mix), var(--c-fg));
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+::selection {
+  background: rgb(247 76 0 / 0.35);
+}
+
+/* Thin scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-border-strong) transparent;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--c-subtle);
+  }
+}
+
+/* Electron custom title bar drag regions */
+.drag-region {
+  -webkit-app-region: drag;
+  app-region: drag;
+  user-select: none;
+}
+.no-drag {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+/* ------------------------------------------------------------------ shell helpers */
+
+/* Soft ember glow mesh behind hero areas. Set --glow-color for a tinted variant. */
+.glow-mesh {
+  background:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in oklab, var(--glow-color, var(--c-accent)) 22%, transparent), transparent 60%),
+    radial-gradient(80% 70% at 100% 100%, color-mix(in oklab, var(--glow-color, var(--c-accent)) 12%, transparent), transparent 70%),
+    var(--c-surface);
+}
+
+/* Native range input styled with tokens */
+.range {
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--c-surface-2);
+  outline-offset: 6px;
+  accent-color: var(--c-accent);
+}
+.range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--c-accent) var(--fill, 50%), var(--c-border) var(--fill, 50%));
+}
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--c-fg);
+  border: 3px solid var(--c-accent);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
+}
+
+/* Static Rust code highlighting (lezer classHighlighter), used by shell code panels */
+.rt-code {
+  color: #abb2bf;
+}
+.rt-code .tok-keyword,
+.rt-code .tok-modifier {
+  color: #c678dd;
+}
+.rt-code .tok-string,
+.rt-code .tok-string2 {
+  color: #98c379;
+}
+.rt-code .tok-number,
+.rt-code .tok-bool,
+.rt-code .tok-atom {
+  color: #d19a66;
+}
+.rt-code .tok-comment {
+  color: #7f848e;
+  font-style: italic;
+}
+.rt-code .tok-typeName,
+.rt-code .tok-className,
+.rt-code .tok-namespace {
+  color: #e5c07b;
+}
+.rt-code .tok-macroName,
+.rt-code .tok-variableName.tok-definition {
+  color: #61afef;
+}
+.rt-code .tok-propertyName,
+.rt-code .tok-labelName {
+  color: #e06c75;
+}
+.rt-code .tok-operator {
+  color: #56b6c2;
+}
+.rt-code .tok-meta {
+  color: #e5c07b;
+}
+[data-theme='light'] .rt-code {
+  color: #383a42;
+}
+[data-theme='light'] .rt-code .tok-keyword,
+[data-theme='light'] .rt-code .tok-modifier {
+  color: #a626a4;
+}
+[data-theme='light'] .rt-code .tok-string,
+[data-theme='light'] .rt-code .tok-string2 {
+  color: #50a14f;
+}
+[data-theme='light'] .rt-code .tok-number,
+[data-theme='light'] .rt-code .tok-bool,
+[data-theme='light'] .rt-code .tok-atom {
+  color: #986801;
+}
+[data-theme='light'] .rt-code .tok-comment {
+  color: #8a8c93;
+}
+[data-theme='light'] .rt-code .tok-typeName,
+[data-theme='light'] .rt-code .tok-className,
+[data-theme='light'] .rt-code .tok-namespace,
+[data-theme='light'] .rt-code .tok-meta {
+  color: #b27500;
+}
+[data-theme='light'] .rt-code .tok-macroName,
+[data-theme='light'] .rt-code .tok-variableName.tok-definition {
+  color: #3a6ee8;
+}
+[data-theme='light'] .rt-code .tok-propertyName,
+[data-theme='light'] .rt-code .tok-labelName {
+  color: #d1462f;
+}
+[data-theme='light'] .rt-code .tok-operator {
+  color: #0184bc;
+}
+
+/* Printing (the certificate): only a .print-area rendered directly under <body> through a portal
+   is printed, on a light A4 landscape page. It is hidden on screen. */
+.print-area {
+  display: none;
+}
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body > :not(.print-area) {
+    display: none !important;
+  }
+  .print-area {
+    display: block !important;
+    width: 100%;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+[data-reduced-motion='true'] *,
+[data-reduced-motion='true'] *::before,
+[data-reduced-motion='true'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

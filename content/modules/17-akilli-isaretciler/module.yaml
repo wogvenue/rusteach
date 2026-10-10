@@ -1,0 +1,20 @@
+id: m17
+title: Akıllı İşaretçiler
+subtitle: Box, Rc, RefCell ve Weak — sahipliği esnetmek, güvenliği korumak
+icon: "📦"
+description: |
+  Şimdiye kadar her değerin tek bir sahibi vardı ve ödünç alma kuralları derleme zamanında denetleniyordu.
+  Bu modülde bu kuralları **bozmadan esneten** araçları öğreneceksin: heap'te tek sahip için `Box<T>`,
+  kendi işaretçi tiplerin için `Deref` ve `Drop`, birden çok sahip için `Rc<T>`, paylaşılan veriyi
+  değiştirmek için `RefCell<T>` ve `Cell<T>`, döngüleri kırmak için `Weak<T>`. Modülün sonunda
+  özyinelemeli veri yapıları, ağaçlar ve paylaşılan durum içeren programları doğru işaretçiyi seçerek
+  tasarlayabileceksin.
+lessons:
+  - 01-box.md
+  - 02-deref-ve-deref-zorlamasi.md
+  - 03-drop-temizlik-kodu.md
+  - 04-rc-paylasilan-sahiplik.md
+  - 05-refcell-ve-ic-degiskenlik.md
+  - 06-referans-donguleri-ve-weak.md
+boss: boss.md
+summary: summary.md

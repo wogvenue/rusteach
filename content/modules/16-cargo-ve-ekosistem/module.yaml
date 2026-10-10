@@ -1,0 +1,18 @@
+id: m16
+title: Cargo ve Ekosistem
+subtitle: Derle, yayınla, ölçeklendir — Cargo'yu bir usta gibi kullan
+icon: "🧰"
+description: |
+  Cargo'yu "build ve run" düğmesinden çıkarıp profesyonel bir araç zincirine dönüştüreceksin.
+  Derleme profilleriyle hız ve boyut arasında bilinçli seçim yapacak, belgelenmiş bir kütüphaneyi
+  semver disipliniyle crates.io'ya yayınlayacak, birden çok crate'i tek bir workspace'te yönetecek
+  ve features ile koşullu derleme kuracaksın. Son olarak lint seviyeleri, edition'lar, MSRV ve
+  cargo eklentileriyle gerçek projelerde kullanılan araç kutusunu tamamlayacaksın.
+lessons:
+  - 01-profiller-ve-derleme-ayarlari.md
+  - 02-crates-io-ya-yayinlamak.md
+  - 03-workspaceler.md
+  - 04-features-ve-kosullu-derleme.md
+  - 05-arac-zinciri-lintler-editionlar.md
+boss: boss.md
+summary: summary.md

@@ -1,0 +1,20 @@
+id: m24
+title: Unsafe Rust ve FFI
+subtitle: Derleyicinin göremediği yerde sorumluluğu almak — ham işaretçiler, C ile konuşmak, bellek düzeni
+icon: "☢️"
+description: |
+  Rust'ın güvenlik garantilerinin altındaki katmana ineceksin: `unsafe`'in beş süper gücünü, ham
+  işaretçileri (`*const T`, `*mut T`) ve işaretçi aritmetiğini öğreneceksin. `split_at_mut` gibi
+  **güvenli soyutlamaları** kendi ellerinle inşa edecek, `// SAFETY:` yorumlarıyla sözleşmeleri
+  belgeleyeceksin. `unsafe extern "C"` ile C fonksiyonlarını çağırıp Rust fonksiyonlarını C'ye açacak,
+  `static mut`, `unsafe trait`, `union` ve **tanımsız davranış (undefined behavior)** kavramlarını
+  tanıyacaksın. Son olarak `size_of`, `align_of`, `repr(C)` ve niş (niche) optimizasyonuyla verinin bellekte
+  nasıl dizildiğini göreceksin.
+lessons:
+  - 01-unsafe-bes-super-guc.md
+  - 02-guvenli-soyutlamalar.md
+  - 03-ffi-c-ile-konusmak.md
+  - 04-static-unsafe-trait-union.md
+  - 05-bellek-duzeni.md
+boss: boss.md
+summary: summary.md

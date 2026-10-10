@@ -1,0 +1,18 @@
+id: m26
+title: Gerçek Dünya Rust ve Final
+subtitle: Ekosistem, serde, kendi web sunucun, kendi thread havuzun ve sonrası
+icon: "🏆"
+description: |
+  Öğrendiğin her şeyi gerçek dünyaya bağlayacaksın: Rust ekosisteminin haritasını çıkarıp iyi bir crate'i
+  kötüsünden ayırmayı, `serde` ile veriyi JSON'a ve geri dönüştürmeyi öğreneceksin. Ardından iki final
+  projesinde standart kütüphaneden başka hiçbir şey kullanmadan bir HTTP sunucusu ve onu çok thread'li
+  yapan bir iş parçacığı havuzu (`ThreadPool`) inşa edeceksin; zarif kapanmayı `Drop` ile kuracaksın.
+  Son derste yolculuğunun tamamına bakıp sonraki 90 günün için somut bir plan çıkaracaksın.
+lessons:
+  - 01-ekosistem-turu.md
+  - 02-serde-ile-serilestirme.md
+  - 03-proje-web-sunucusu.md
+  - 04-proje-thread-havuzu.md
+  - 05-sirada-ne-var.md
+boss: boss.md
+summary: summary.md

@@ -1,0 +1,18 @@
+id: m18
+title: Korkusuz Eşzamanlılık
+subtitle: Thread'ler, kanallar, kilitler — veri yarışı olmadan bütün çekirdekleri kullanmak
+icon: "🧵"
+description: |
+  Bilgisayarındaki bütün çekirdekleri işe koşmayı öğreneceksin: `thread::spawn` ile thread açmak,
+  `join` ile sonuç toplamak, kanallarla (`mpsc`) mesajlaşmak, `Arc<Mutex<T>>` ile durumu paylaşmak.
+  `Send` ve `Sync` trait'lerinin derleyiciye **veri yarışlarını (data race)** nasıl yakalattığını,
+  `RwLock` ve atomiklerin ne zaman doğru araç olduğunu, `thread::scope` ve `rayon` ile tek satırda
+  paralelliği keşfedeceksin. Modülün sonunda eşzamanlı kodu korkmadan, derleyiciyi yanına alarak yazabileceksin.
+lessons:
+  - 01-threadler.md
+  - 02-kanallar.md
+  - 03-mutex-ve-arc.md
+  - 04-send-sync-atomikler.md
+  - 05-kapsamli-threadler-ve-paralellik.md
+boss: boss.md
+summary: summary.md

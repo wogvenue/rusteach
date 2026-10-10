@@ -1,0 +1,19 @@
+id: m22
+title: İleri Trait'ler ve Tipler
+subtitle: Tip sisteminin derin suları — operatörler, DST'ler, PhantomData ve GAT'ler
+icon: "🧬"
+description: |
+  Rust'ın tip sistemini standart kütüphaneyi yazanlar gibi kullanmayı öğreneceksin: ilişkili tipler ve
+  `std::ops` ile kendi tiplerine `+`, `-`, `[]` gibi operatörler kazandırmak, aynı isimli metotları tam
+  nitelikli sözdizimiyle ayırmak, supertrait'ler ve newtype ile trait'leri birbirine bağlamak.
+  `!` tipini, `str` ve `[T]` gibi dinamik boyutlu tipleri, `Sized`/`?Sized` ayrımını, fonksiyon
+  işaretçilerini ve `for<'a>` sınırlarını; son olarak `PhantomData`, marker trait'ler, sealed trait'ler,
+  GAT'ler ve trait'lerde `impl Trait` döndürmeyi keşfedeceksin.
+lessons:
+  - 01-iliskili-tipler-ve-operatorler.md
+  - 02-tam-nitelikli-sozdizimi-ve-supertraitler.md
+  - 03-ileri-tipler.md
+  - 04-ileri-fonksiyonlar-ve-closurelar.md
+  - 05-phantomdata-marker-traitler-ve-gatler.md
+boss: boss.md
+summary: summary.md

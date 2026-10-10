@@ -1,0 +1,19 @@
+id: m06
+title: Yapılar (Structs)
+subtitle: Kendi tiplerini tasarla — veriyi ve davranışı bir araya getir
+icon: "🧱"
+description: |
+  Birbiriyle ilişkili verileri anlamlı isimlerle tek bir tipte toplamayı öğreneceksin: adlandırılmış
+  alanlı struct'lar, tuple struct'lar, newtype deseni ve birim struct'lar. `#[derive(Debug)]` ve `dbg!`
+  ile tiplerinin içini görecek; `impl` blokları içinde metotlar, ilişkili fonksiyonlar ve kurucular
+  yazarak verine davranış kazandıracaksın. Modülün sonunda sahiplik kurallarına uygun, testlerle
+  doğrulanmış küçük bir kütüphane envanteri sistemi kuracaksın.
+lessons:
+  - 01-struct-tanimlamak.md
+  - 02-tuple-ve-birim-structlar.md
+  - 03-debug-ile-yazdirma.md
+  - 04-metotlar.md
+  - 05-iliskili-fonksiyonlar.md
+  - 06-proje-kutuphane-envanteri.md
+boss: boss.md
+summary: summary.md

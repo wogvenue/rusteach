@@ -1,0 +1,20 @@
+id: m08
+title: Modüller, Paketler ve Crate'ler
+subtitle: Büyüyen kodu düzenle, iç ayrıntıları gizle, ekosistemden faydalan
+icon: "📦"
+description: |
+  Programların büyüdükçe dağılmaması için Rust'ın üç katmanlı düzenini öğreneceksin: **paketler**,
+  **crate**'ler ve **modüller**. `pub` ile neyi dışarıya açıp neyi gizleyeceğine karar verecek,
+  `crate::`, `super::` ve `use` ile modül ağacında rahatça dolaşacak, `pub use` ile sade bir dış API
+  kuracaksın. Modülleri dosyalara bölmeyi, crates.io'dan `rand` ve `regex` gibi crate'leri projene
+  eklemeyi ve semver ile `Cargo.lock`'un sürümleri nasıl yönettiğini de öğreneceksin.
+lessons:
+  - 01-paket-crate-modul.md
+  - 02-mod-pub-gizlilik.md
+  - 03-yollar.md
+  - 04-use-ve-pub-use.md
+  - 05-dosyalara-bolmek.md
+  - 06-dis-crateler.md
+  - 07-semver-ve-cargo-lock.md
+boss: boss.md
+summary: summary.md

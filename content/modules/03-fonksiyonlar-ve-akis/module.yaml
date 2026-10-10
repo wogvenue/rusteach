@@ -1,0 +1,18 @@
+id: m03
+title: Fonksiyonlar ve Kontrol Akışı
+subtitle: Kodunu parçalara böl, karar ver, tekrarla
+icon: "🔀"
+description: |
+  Bu modülde kendi fonksiyonlarını yazacak, Rust'ta neredeyse her şeyin bir **ifade** olduğu fikrini
+  kavrayacak ve programlarına karar verme (`if`) ile tekrar etme (`loop`, `while`, `for`) yeteneği
+  kazandıracaksın. Derleyicinin en sık verdiği hataları (`E0308`, `E0317`, `E0571`...) okuyup düzeltmeyi
+  öğreneceksin. Modülün sonunda hepsini birleştirip bilgisayarında çalışan gerçek bir **sayı tahmin
+  oyunu** yazacaksın.
+lessons:
+  - 01-fonksiyonlar.md
+  - 02-ifadeler-ve-deyimler.md
+  - 03-kosullar-if-else.md
+  - 04-donguler.md
+  - 05-proje-sayi-tahmin-oyunu.md
+boss: boss.md
+summary: summary.md

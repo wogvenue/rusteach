@@ -1,0 +1,18 @@
+id: m21
+title: Desenler Derinlemesine
+subtitle: Değerin şeklini oku — yapı bozma, bağlama kipleri, guard'lar ve dilim desenleri
+icon: "🧩"
+description: |
+  Modül 7'de `match` ile tanıştığın desenlerin (pattern) aslında Rust'ın her köşesinde olduğunu
+  göreceksin: `let`, `for`, fonksiyon ve closure parametreleri, `if let`, `while let`, `let ... else`.
+  Reddedilebilir ve reddedilemez desen ayrımını, iç içe yapı bozmayı, `_` / `_x` / `..` farkını,
+  `ref`'i, varsayılan bağlama kiplerini ve 2024 sürümünün onlara getirdiği kuralları, match guard'larını, `@` bağlamalarını ve
+  dilim desenlerini öğreneceksin. Modülün sonunda karmaşık verileri tek bir okunaklı desenle açabileceksin.
+lessons:
+  - 01-desenlerin-kullanildigi-yerler.md
+  - 02-reddedilebilir-desenler.md
+  - 03-desen-sozdizimi.md
+  - 04-yok-sayma-ve-baglama-kipleri.md
+  - 05-guardlar-baglamalar-dilimler.md
+boss: boss.md
+summary: summary.md

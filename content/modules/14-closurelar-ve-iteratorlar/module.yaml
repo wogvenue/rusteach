@@ -1,0 +1,20 @@
+id: m14
+title: Closure'lar ve Iterator'lar
+subtitle: Davranışı değer gibi taşı, veriyi boru hattından akıt — sıfır maliyetle
+icon: "🔁"
+description: |
+  Ortamını yakalayan isimsiz fonksiyonları (**closure**) ve Rust'ın en çok kullanılan soyutlamalarından
+  birini, **iterator**'ları öğreneceksin. `Fn`, `FnMut`, `FnOnce` trait'lerinin derleyici tarafından nasıl
+  seçildiğini, `move`'un ne işe yaradığını, `map`/`filter`/`fold`/`collect` gibi adaptör ve tüketicilerle
+  okunaklı veri boru hatları kurmayı ve kendi iterator'ını yazmayı keşfedeceksin. Modülün sonunda
+  döngüleri ne zaman iterator'a çevireceğini (ve ne zaman çevirmeyeceğini) bilerek, elle yazılmış bir
+  döngü kadar hızlı ama çok daha anlaşılır kod yazabileceksin.
+lessons:
+  - 01-closure-temelleri.md
+  - 02-fn-fnmut-fnonce-ve-move.md
+  - 03-iterator-traiti.md
+  - 04-iterator-adaptorleri.md
+  - 05-tuketiciler-ve-collect.md
+  - 06-kendi-iteratorun-ve-performans.md
+boss: boss.md
+summary: summary.md

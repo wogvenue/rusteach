@@ -1,0 +1,18 @@
+id: m04
+title: Sahiplik (Ownership)
+subtitle: Rust'ın kalbi — belleği çöp toplayıcısız ve güvenle yönetmek
+icon: "🔑"
+description: |
+  Programların belleği nasıl kullandığını — stack ve heap'i — perdenin arkasından göreceksin. Rust'ı
+  diğer bütün dillerden ayıran **sahiplik** kurallarını, değerlerin ne zaman **taşındığını**, ne zaman
+  **kopyalandığını** ve ne zaman **drop** edildiğini öğreneceksin. Modülün sonunda bir değerin bellekteki
+  yolculuğunu diyagram üzerinde çizebilecek, `E0382` gibi sahiplik hatalarını okuyup bilinçli kararlarla
+  düzeltebileceksin.
+lessons:
+  - 01-bellek-stack-heap.md
+  - 02-sahiplik-kurallari.md
+  - 03-tasima.md
+  - 04-clone-ve-copy.md
+  - 05-sahiplik-ve-fonksiyonlar.md
+boss: boss.md
+summary: summary.md

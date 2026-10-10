@@ -1,0 +1,19 @@
+id: m25
+title: Performans ve İdiomatik Rust
+subtitle: Hızlı, temiz ve kullanması keyifli Rust kodu yazmak
+icon: "🏎️"
+description: |
+  Tahmin etmek yerine ölçmeyi öğreneceksin: `--release` derlemeleri, `Instant` ve `black_box` ile
+  mikro benchmark'lar, criterion ve flamegraph gibi araçlar. Gereksiz bellek tahsislerini
+  `with_capacity`, tampon yeniden kullanımı, `&str` parametreleri ve `Cow` ile azaltacak; Rust API
+  Guidelines'a uygun isimlendirme, esnek parametreler ve builder'larla kullanması keyifli API'ler
+  tasarlayacaksın. Son olarak `thiserror` ve `anyhow` ile ölçeklenen hata yönetimi kuracak, clippy,
+  rustfmt ve bir CI kontrol listesiyle kod kaliteni profesyonel seviyeye taşıyacaksın.
+lessons:
+  - 01-olc-sonra-optimize-et.md
+  - 02-bellek-tahsisini-azaltmak.md
+  - 03-idiomatik-api-tasarimi.md
+  - 04-olceklenebilir-hata-yonetimi.md
+  - 05-kod-kalitesi.md
+boss: boss.md
+summary: summary.md

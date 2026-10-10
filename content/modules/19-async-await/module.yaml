@@ -1,0 +1,21 @@
+id: m19
+title: Async/Await
+subtitle: Binlerce işi tek thread'de bekletmeden yürütmek — future'lar, tokio ve görevler
+icon: "⚡"
+description: |
+  Ağdan cevap, diskten veri, zamanlayıcıdan sinyal beklerken thread'leri boşa harcamadan binlerce işi aynı anda
+  yürütmeyi öğreneceksin. `async fn` ve `.await` ile tembel **future**'lar yazacak, **tokio** runtime'ında
+  `spawn`, `join!`, `select!`, `JoinSet` ve `timeout` ile görevleri yöneteceksin. Async kanallar, `Mutex` ve
+  `Semaphore` ile görevler arasında güvenle veri paylaşacak; `Future` trait'inin, `poll`'un, `Waker`'ın ve
+  `Pin`'in perde arkasını göreceksin. Modülün sonunda executor'ı bloklamak, `.await`'i unutmak, iptal
+  güvenliği gibi tuzaklardan kaçınarak thread ile async arasında bilinçli seçim yapabileceksin.
+lessons:
+  - 01-async-neden-var.md
+  - 02-async-fn-ve-await.md
+  - 03-eszamanli-gorevler.md
+  - 04-async-kanallar-ve-paylasilan-durum.md
+  - 05-futurein-ici-poll-ve-pin.md
+  - 06-streamler-async-traitler-ve-closurelar.md
+  - 07-asyncte-sik-hatalar.md
+boss: boss.md
+summary: summary.md

@@ -1,0 +1,2379 @@
+# Rusteach Sözlük — Türkçe/İngilizce terim sözlüğü
+# Biçim: tr, en, def (Markdown), module (m01..m26)
+
+# ───────────── Modül 1: Merhaba Rust ─────────────
+- tr: "program"
+  en: "program"
+  module: m01
+  def: |
+    Bilgisayara ne yapacağını adım adım söyleyen talimatlar bütünüdür. Rust'ta bir program, bir veya birkaç kaynak dosyadan derlenen çalıştırılabilir bir dosyadır.
+- tr: "kaynak kod"
+  en: "source code"
+  module: m01
+  def: |
+    İnsanın okuyup yazabildiği, programlama diliyle yazılmış metindir. Rust'ta kaynak dosyalar `.rs` uzantılıdır ve derleyici onları makine koduna çevirir.
+- tr: "derleyici"
+  en: "compiler"
+  module: m01
+  def: |
+    Kaynak kodu okuyup makine koduna çeviren ve bu sırada hataları denetleyen programdır. Rust'ın derleyicisi `rustc`'dir; sahiplik ve tip kurallarını da derleme sırasında denetler.
+- tr: "yorumlayıcı"
+  en: "interpreter"
+  module: m01
+  def: |
+    Kodu önceden makine koduna çevirmek yerine çalışma sırasında satır satır (veya bayt kodu olarak) yürüten programdır. Python ve JavaScript tipik olarak yorumlayıcı veya sanal makine üzerinde çalışır; Rust ise önceden derlenir.
+- tr: "makine kodu"
+  en: "machine code"
+  module: m01
+  def: |
+    İşlemcinin doğrudan çalıştırabildiği ikili (binary) talimatlardır. Derleyicinin çıktısı sonunda makine kodu içeren bir çalıştırılabilir dosyadır.
+- tr: "çalıştırılabilir dosya"
+  en: "executable"
+  module: m01
+  def: |
+    İşletim sisteminin doğrudan çalıştırabildiği, makine kodu içeren dosyadır. Windows'ta `.exe` uzantısıyla biter; `rustc main.rs` komutu `main.exe` üretir.
+- tr: "bellek güvenliği"
+  en: "memory safety"
+  module: m01
+  def: |
+    Programın belleğe geçersiz biçimde erişmemesi garantisidir: serbest bırakılmış belleği kullanmak, sınır dışına yazmak veya aynı belleği iki kez serbest bırakmak gibi hatalar olmaz. Rust bu garantiyi güvenli (safe) kodda derleme zamanında sağlar.
+- tr: "çöp toplayıcı"
+  en: "garbage collector"
+  module: m01
+  def: |
+    Çalışma zamanında artık kullanılmayan belleği otomatik olarak bulup serbest bırakan sistemdir (Java, Go, Python'da bulunur). Rust'ın çöp toplayıcısı yoktur; bellek, sahiplik kurallarıyla derleme zamanında yönetilir.
+- tr: "rustup"
+  en: "rustup"
+  module: m01
+  def: |
+    Rust araç zincirini kuran ve güncelleyen komut satırı aracıdır. `rustup update` ile derleyici ve cargo'nun son sürümüne geçersin.
+- tr: "rustc"
+  en: "rustc"
+  module: m01
+  def: |
+    Rust derleyicisidir. Tek bir dosyayı doğrudan derlemek için `rustc main.rs` yazılır; gerçek projelerde derleyiciyi genellikle `cargo` çağırır.
+- tr: "cargo"
+  en: "cargo"
+  module: m01
+  def: |
+    Rust'ın paket yöneticisi ve derleme aracıdır. Proje oluşturur (`cargo new`), derler (`cargo build`), çalıştırır (`cargo run`), test eder (`cargo test`) ve bağımlılıkları yönetir.
+- tr: "araç zinciri"
+  en: "toolchain"
+  module: m01
+  def: |
+    Derleyici (`rustc`), `cargo`, standart kütüphane ve yardımcı araçların bir sürüm kümesidir. `stable`, `beta` ve `nightly` kanalları vardır ve `rustup` bunları yönetir.
+- tr: "main fonksiyonu"
+  en: "main function"
+  module: m01
+  def: |
+    Çalıştırılabilir bir Rust programının giriş noktasıdır: `fn main() { ... }`. Program çalışınca ilk olarak bu fonksiyon yürütülür.
+- tr: "makro"
+  en: "macro"
+  module: m01
+  def: |
+    Derleme sırasında kodu başka kod olarak genişleten yapıdır; adının sonundaki `!` ile çağrıldığı anlaşılır (`println!`). Makrolar fonksiyonların yapamadığı şeyleri, örneğin değişken sayıda argüman almayı, yapabilir.
+- tr: "println!"
+  en: "println!"
+  module: m01
+  def: |
+    Standart çıktıya biçimlendirilmiş metin yazıp satır sonu ekleyen makrodur: `println!("Merhaba {}", ad);`. Bir fonksiyon değil, makrodur.
+- tr: "print!"
+  en: "print!"
+  module: m01
+  def: |
+    `println!` gibi standart çıktıya yazar ama satır sonu eklemez. Çıktı satır sonuna kadar tamponda bekleyebilir.
+- tr: "eprintln!"
+  en: "eprintln!"
+  module: m01
+  def: |
+    Biçimlendirilmiş metni standart çıktı yerine standart hata akışına (stderr) yazar. Hata mesajlarının, çıktı yönlendirilse bile ekranda görünmesini sağlar.
+- tr: "format!"
+  en: "format!"
+  module: m01
+  def: |
+    `println!` ile aynı biçim kurallarını kullanır ama ekrana yazmak yerine yeni bir `String` döndürür: `let s = format!("{ad}-{no}");`.
+- tr: "yorum satırı"
+  en: "comment"
+  module: m01
+  def: |
+    Derleyicinin yok saydığı, insanlar için yazılmış nottur. Tek satır için `//`, blok için `/* ... */` kullanılır.
+- tr: "doküman yorumu"
+  en: "doc comment"
+  module: m01
+  def: |
+    `///` (sonraki öğeyi) veya `//!` (kapsayan modülü/crate'i) ile yazılan, Markdown destekleyen ve `cargo doc` ile HTML dokümana dönüşen yorumdur.
+- tr: "biçim dizgesi"
+  en: "format string"
+  module: m01
+  def: |
+    `println!` ve `format!` gibi makroların ilk argümanı olan, `{}`, `{:?}`, `{ad}` gibi yer tutucular içeren metindir. Genişlik, hizalama ve ondalık hassasiyeti de belirtilebilir: `{:>8}`, `{:.2}`.
+- tr: "standart çıktı"
+  en: "standard output (stdout)"
+  module: m01
+  def: |
+    Programın normal çıktısını yazdığı akıştır; `println!` buraya yazar. Kabukta `>` ile bir dosyaya yönlendirilebilir.
+- tr: "standart hata"
+  en: "standard error (stderr)"
+  module: m01
+  def: |
+    Hata ve tanı mesajları için ayrılmış çıktı akışıdır; `eprintln!` buraya yazar. Stdout yönlendirilse bile ayrı kalır.
+- tr: "derleyici hatası"
+  en: "compiler error"
+  module: m01
+  def: |
+    Kodun Rust'ın kurallarına uymadığını söyleyen ve derlemeyi durduran mesajdır. Rust hataları dosya, satır ve sütun gösterir, çoğunlukla da çözüm önerir (`help:`).
+- tr: "uyarı"
+  en: "warning"
+  module: m01
+  def: |
+    Kod derlenebilse de şüpheli olan bir durumu (kullanılmayan değişken gibi) bildiren mesajdır. Derlemeyi durdurmaz; kasıtlı kullanılmayan değişkenin adı `_` ile başlatılarak susturulabilir.
+- tr: "hata kodu"
+  en: "error code"
+  module: m01
+  def: |
+    Derleyici hatalarının `E0382` gibi benzersiz numarasıdır. `rustc --explain E0382` komutu o hatanın ayrıntılı açıklamasını ve örneklerini gösterir.
+- tr: "rustfmt"
+  en: "rustfmt"
+  module: m01
+  def: |
+    Rust kodunu resmî stil kurallarına göre otomatik biçimlendiren araçtır; `cargo fmt` ile çalışır.
+- tr: "clippy"
+  en: "clippy"
+  module: m01
+  def: |
+    Yaygın hataları ve idiomatik olmayan kalıpları yakalayan lint aracıdır; `cargo clippy` ile çalışır ve çoğu zaman daha iyi bir yazım önerir.
+- tr: "Cargo.toml"
+  en: "Cargo.toml"
+  module: m01
+  def: |
+    Bir cargo paketinin bildirim (manifest) dosyasıdır: paketin adı, sürümü, edition'ı ve bağımlılıkları burada tanımlanır. TOML biçiminde yazılır.
+- tr: "Cargo.lock"
+  en: "Cargo.lock"
+  module: m01
+  def: |
+    Cargo'nun, bağımlılıkların çözümlenmiş tam sürümlerini kaydettiği dosyadır. Derlemelerin tekrarlanabilir olmasını sağlar; uygulamalarda sürüm kontrolüne eklenir.
+- tr: "TOML"
+  en: "TOML"
+  module: m01
+  def: |
+    Cargo'nun yapılandırma dosyalarında kullandığı, `anahtar = "değer"` biçiminde ve `[bölüm]` başlıklarıyla yazılan basit ayar biçimidir.
+- tr: "debug derlemesi"
+  en: "debug build"
+  module: m01
+  def: |
+    `cargo build` ile üretilen varsayılan derlemedir: hızlı derlenir, hata ayıklama bilgisi içerir, ancak optimizasyon yapılmaz ve tamsayı taşması denetlenir.
+- tr: "release derlemesi"
+  en: "release build"
+  module: m01
+  def: |
+    `cargo build --release` ile üretilen, optimizasyonlu derlemedir. Daha uzun derlenir ama çok daha hızlı çalışır; performans ölçümleri bu modda yapılmalıdır.
+- tr: "cargo check"
+  en: "cargo check"
+  module: m01
+  def: |
+    Kodu tip ve sahiplik hataları için denetler ama makine kodu üretmez. `cargo build`'den belirgin biçimde hızlıdır; yazarken sık sık çalıştırmak için uygundur.
+- tr: "target dizini"
+  en: "target directory"
+  module: m01
+  def: |
+    Cargo'nun derleme çıktılarını koyduğu klasördür (`target/debug`, `target/release`). Üretilebilir olduğu için sürüm kontrolüne eklenmez.
+
+# ───────────── Modül 2: Değişkenler ve Tipler ─────────────
+- tr: "değişken"
+  en: "variable"
+  module: m02
+  def: |
+    Bir değere verilen isimdir. Rust'ta `let x = 5;` ile tanımlanır ve varsayılan olarak değiştirilemez.
+- tr: "bağlama"
+  en: "binding"
+  module: m02
+  def: |
+    `let` ile bir ismin bir değere bağlanmasıdır. Rust'ta "atama" yerine çoğunlukla bağlama denir, çünkü `let` desenlerle de çalışır: `let (a, b) = (1, 2);`.
+- tr: "değişmezlik"
+  en: "immutability"
+  module: m02
+  def: |
+    Bir bağlamanın değerinin sonradan değiştirilememesidir. Rust'ta varsayılan budur; değiştirmeye çalışmak `E0384` hatası verir.
+- tr: "mut"
+  en: "mut"
+  module: m02
+  def: |
+    Bir bağlamayı değiştirilebilir yapan anahtar sözcüktür: `let mut sayac = 0;`. Referanslarda `&mut` biçiminde de görülür.
+- tr: "sabit"
+  en: "constant (const)"
+  module: m02
+  def: |
+    `const` ile tanımlanan, tipi zorunlu olarak yazılan ve derleme zamanında hesaplanan değerdir: `const MAKS: u32 = 100;`. İsimleri `SCREAMING_SNAKE_CASE` yazılır.
+- tr: "static"
+  en: "static"
+  module: m02
+  def: |
+    Programın tüm ömrü boyunca bellekte tek bir adreste duran global değerdir: `static SELAM: &str = "merhaba";`. `const`'tan farkı, gerçek bir bellek adresine sahip olmasıdır.
+- tr: "gölgeleme"
+  en: "shadowing"
+  module: m02
+  def: |
+    Aynı isimle yeni bir `let` bağlaması tanımlayıp öncekini gizlemektir. `mut`'tan farkı, yeni bir değişken oluşturması ve bu yüzden tipin de değişebilmesidir.
+- tr: "tamsayı"
+  en: "integer"
+  module: m02
+  def: |
+    Ondalık kısmı olmayan sayı tipidir: `i8`..`i128` (işaretli), `u8`..`u128` (işaretsiz), `isize` ve `usize`. Varsayılan tip `i32`'dir.
+- tr: "işaretli ve işaretsiz tamsayı"
+  en: "signed and unsigned integer"
+  module: m02
+  def: |
+    İşaretli tipler (`i32`) negatif değer de tutar, işaretsizler (`u32`) yalnızca sıfır ve pozitifleri. `n` bitlik işaretli tipin aralığı -2^(n-1)..=2^(n-1)-1, işaretsizin 0..=2^n-1'dir.
+- tr: "usize"
+  en: "usize"
+  module: m02
+  def: |
+    İşaretsiz, boyutu hedef platformun işaretçi genişliği kadar (32 veya 64 bit) olan tamsayı tipidir. Dizi indeksleri ve `len()` sonuçları `usize`'dır.
+- tr: "tamsayı taşması"
+  en: "integer overflow"
+  module: m02
+  def: |
+    Bir işlemin sonucunun tipin aralığına sığmamasıdır. Debug derlemesinde program panik eder; release derlemesinde varsayılan olarak değer iki'ye tümleyen mantığıyla sarar (wraps).
+- tr: "wrapping_add"
+  en: "wrapping_add"
+  module: m02
+  def: |
+    Taşma olduğunda sonucu tipin aralığında başa saran toplama metodudur: `255u8.wrapping_add(1)` sonucu `0`'dır.
+- tr: "checked_add"
+  en: "checked_add"
+  module: m02
+  def: |
+    Taşma olursa `None`, olmazsa `Some(sonuç)` döndüren toplama metodudur: `250u8.checked_add(10)` sonucu `None`'dır.
+- tr: "saturating_add"
+  en: "saturating_add"
+  module: m02
+  def: |
+    Taşma olduğunda sonucu tipin en büyük (veya en küçük) değerinde tutan toplama metodudur: `250u8.saturating_add(10)` sonucu `255`'tir.
+- tr: "overflowing_add"
+  en: "overflowing_add"
+  module: m02
+  def: |
+    Sarılmış sonucu ve taşma olup olmadığını gösteren bir `bool`'u birlikte, `(değer, taştı_mı)` tuple'ı olarak döndürür.
+- tr: "ondalıklı sayı"
+  en: "floating-point number"
+  module: m02
+  def: |
+    IEEE 754 standardına göre tutulan kesirli sayılardır: `f32` ve `f64` (varsayılan). Çoğu ondalık değer tam gösterilemez; bu yüzden `0.1 + 0.2 != 0.3` olur.
+- tr: "bool"
+  en: "boolean"
+  module: m02
+  def: |
+    Yalnızca `true` veya `false` değerini alan mantıksal tiptir. Rust'ta koşullar mutlaka `bool` olmalıdır; sayılar veya metinler "doğruluk değeri" gibi kullanılamaz.
+- tr: "char"
+  en: "char"
+  module: m02
+  def: |
+    Tek bir Unicode skaler değerini temsil eden 4 baytlık tiptir; tek tırnakla yazılır: `'ş'`, `'🦀'`. Bir `String`'in baytlarından farklıdır.
+- tr: "tip dönüşümü (as)"
+  en: "casting (as)"
+  module: m02
+  def: |
+    `as` ile ilkel tipler arasında açık dönüşüm yapmaktır: `300_i32 as u8` değeri `44` yapar. Dönüşüm veri kaybına (kırpma) yol açabilir; hata vermez.
+- tr: "tuple"
+  en: "tuple"
+  module: m02
+  def: |
+    Farklı tiplerden sabit sayıda değeri tek bir değerde toplayan bileşik tiptir: `(i32, f64, char)`. Elemanlara `.0`, `.1` ile veya desenle erişilir.
+- tr: "birim tipi"
+  en: "unit type"
+  module: m02
+  def: |
+    `()` ile gösterilen, tek bir değeri olan ve "anlamlı değer yok" demek olan tiptir. Değer döndürmeyen fonksiyonlar örtük olarak `()` döndürür.
+- tr: "dizi"
+  en: "array"
+  module: m02
+  def: |
+    Aynı tipten, derleme zamanında bilinen sabit sayıda elemanı ardışık tutan tiptir: `[i32; 5]`. Genellikle stack'te yaşar; `[0; 5]` beş sıfırlı dizi oluşturur.
+- tr: "indeks"
+  en: "index"
+  module: m02
+  def: |
+    Bir dizi veya Vec elemanının sıra numarasıdır (0'dan başlar), `usize` tipindedir. Sınır dışı indeks çalışma zamanında panik yaratır.
+- tr: "tip çıkarımı"
+  en: "type inference"
+  module: m02
+  def: |
+    Derleyicinin değişkenin tipini kullanımdan anlamasıdır. `let x = 5;` yazınca tipi `i32` olarak çıkarılır; tip yazmak çoğu zaman gerekmez.
+- tr: "tip belirtimi"
+  en: "type annotation"
+  module: m02
+  def: |
+    Tipi açıkça yazmaktır: `let x: u8 = 5;`. Derleyici tipi çıkaramadığında (örneğin `parse` sonucu) gereklidir.
+- tr: "turbofish"
+  en: "turbofish"
+  module: m02
+  def: |
+    Genel tip parametresini fonksiyon veya metot çağrısında `::<>` ile belirtme sözdizimidir: `"42".parse::<i32>()`.
+- tr: "parse"
+  en: "parse"
+  module: m02
+  def: |
+    Bir metni başka bir tipe çeviren metottur ve `Result` döndürür: `"42".parse::<i32>()` sonucu `Ok(42)`'dir. Geçersiz metinde `Err` döner.
+- tr: "unwrap"
+  en: "unwrap"
+  module: m02
+  def: |
+    `Option` veya `Result` içindeki değeri çıkarır; `None` veya `Err` ise panik eder. Prototiplerde ve değerin kesin var olduğu durumlarda kullanılır.
+- tr: "expect"
+  en: "expect"
+  module: m02
+  def: |
+    `unwrap` gibidir ama panik mesajını kendin verirsin: `s.parse::<i32>().expect("sayı bekleniyordu")`. Hata durumunda neyin yanlış gittiğini anlatır.
+- tr: "statik tipli dil"
+  en: "statically typed language"
+  module: m02
+  def: |
+    Her ifadenin tipinin derleme zamanında bilindiği dildir. Rust böyledir; tip uyuşmazlıkları (`E0308`) çalışmadan önce yakalanır.
+- tr: "snake_case"
+  en: "snake_case"
+  module: m02
+  def: |
+    Küçük harflerle ve alt çizgiyle ayrılmış isimlendirme biçimidir (`toplam_puan`). Rust'ta değişken, fonksiyon ve modül adları bu biçimdedir.
+- tr: "literal"
+  en: "literal"
+  module: m02
+  def: |
+    Koda doğrudan yazılan değerdir: `42`, `3.14`, `'a'`, `"metin"`, `true`. Sayı literallerine sonek (`5u8`) ve ayırıcı (`1_000_000`) eklenebilir.
+
+# ───────────── Modül 3: Fonksiyonlar ve Akış ─────────────
+- tr: "fonksiyon"
+  en: "function"
+  module: m03
+  def: |
+    İsmi olan, parametre alabilen ve değer döndürebilen kod bloğudur: `fn topla(a: i32, b: i32) -> i32 { a + b }`. Parametre ve dönüş tipleri açıkça yazılmak zorundadır.
+- tr: "parametre"
+  en: "parameter"
+  module: m03
+  def: |
+    Fonksiyon tanımında, çağrıda alınacak değer için yazılan isimli ve tipli yer tutucudur: `fn selam(ad: &str)` içindeki `ad`.
+- tr: "argüman"
+  en: "argument"
+  module: m03
+  def: |
+    Fonksiyon çağrılırken parametreye verilen gerçek değerdir: `selam("Ayşe")` çağrısındaki `"Ayşe"`.
+- tr: "dönüş tipi"
+  en: "return type"
+  module: m03
+  def: |
+    Fonksiyonun `->` işaretinden sonra yazılan, döndürdüğü değerin tipidir. Yazılmazsa `()` kabul edilir.
+- tr: "ifade"
+  en: "expression"
+  module: m03
+  def: |
+    Bir değere dönüşen koddur: `5 + 1`, `if` ve `match` ifadeleri, süslü parantezli bloklar. Rust ifade tabanlı bir dildir.
+- tr: "deyim"
+  en: "statement"
+  module: m03
+  def: |
+    Bir işlem yapan ama değer üretmeyen koddur; `let x = 5;` bir deyimdir. Bir ifadenin sonuna `;` koymak onu deyime çevirir.
+- tr: "blok"
+  en: "block"
+  module: m03
+  def: |
+    Süslü parantezlerle çevrili `{ ... }` koddur ve bir ifadedir. Son satırı noktalı virgülsüzse bloğun değeri o satırdır.
+- tr: "örtük dönüş"
+  en: "implicit return"
+  module: m03
+  def: |
+    Fonksiyonun son ifadesinin, noktalı virgül konmadan, otomatik olarak dönüş değeri olmasıdır. Sona `;` eklemek yaygın bir hatadır ve `E0308` verir.
+- tr: "erken dönüş"
+  en: "early return"
+  module: m03
+  def: |
+    `return` ile fonksiyonu sonundan önce bitirmektir. Genellikle hatalı durumları baştan eleyip ana akışı sade tutmak için kullanılır.
+- tr: "if ifadesi"
+  en: "if expression"
+  module: m03
+  def: |
+    Koşula göre bir dal seçen ve değer üretebilen yapıdır: `let s = if a > b { a } else { b };`. Koşul `bool` olmalı, dalların tipi aynı olmalıdır.
+- tr: "loop"
+  en: "loop"
+  module: m03
+  def: |
+    Sonsuz döngüdür; `break` ile çıkılır. `break değer;` ile döngü bir değer döndürebilir.
+- tr: "while"
+  en: "while"
+  module: m03
+  def: |
+    Koşul `true` olduğu sürece gövdeyi tekrarlayan döngüdür: `while n > 0 { n -= 1; }`.
+- tr: "for döngüsü"
+  en: "for loop"
+  module: m03
+  def: |
+    Bir iterator'ın (aralık, dizi, koleksiyon) elemanları üzerinde dolaşan döngüdür: `for i in 1..=5 { }`. İndeks hatalarına karşı en güvenli döngüdür.
+- tr: "aralık"
+  en: "range"
+  module: m03
+  def: |
+    `1..5` (5 hariç) veya `1..=5` (5 dahil) ile yazılan değer dizisidir. `for` döngülerinde ve dilimlemede kullanılır.
+- tr: "break"
+  en: "break"
+  module: m03
+  def: |
+    İçinde bulunulan döngüyü hemen bitiren ifadedir. `loop`'ta `break değer` biçiminde değer de taşıyabilir.
+- tr: "continue"
+  en: "continue"
+  module: m03
+  def: |
+    Döngünün geri kalan gövdesini atlayıp bir sonraki yinelemeye geçer.
+- tr: "döngü etiketi"
+  en: "loop label"
+  module: m03
+  def: |
+    İç içe döngülerde `break` veya `continue`'nun hangi döngüye uygulanacağını belirten `'dis: for ...` biçimindeki isimdir; `break 'dis;` kullanılır.
+- tr: "Ordering"
+  en: "Ordering"
+  module: m03
+  def: |
+    `std::cmp::Ordering` enum'udur ve `Less`, `Equal`, `Greater` değerlerini alır. İki değerin karşılaştırma sonucunu ifade eder; `match` ile ele alınır.
+- tr: "stdin"
+  en: "standard input (stdin)"
+  module: m03
+  def: |
+    Programın klavyeden veya yönlendirilmiş girdiden okuduğu akıştır. `std::io::stdin().read_line(&mut s)` ile bir satır okunur.
+- tr: "read_line"
+  en: "read_line"
+  module: m03
+  def: |
+    Standart girdiden bir satırı verilen `&mut String`'in sonuna ekleyen metottur. Satır sonu karakterini de içerdiğinden genelde `trim()` gerekir.
+- tr: "rand crate'i"
+  en: "rand crate"
+  module: m03
+  def: |
+    Rastgele sayı üretmek için en yaygın kullanılan harici kütüphanedir. Standart kütüphanede rastgelelik yoktur; `Cargo.toml`'a bağımlılık olarak eklenir.
+- tr: "bit"
+  en: "bit"
+  module: m01
+  def: |
+    Bilgisayardaki en küçük veri birimidir; 0 veya 1 değerini alır. 8 bit bir bayt (byte) eder.
+- tr: "bayt"
+  en: "byte"
+  module: m01
+  def: |
+    8 bitlik veri birimidir; Rust'ta `u8` ile temsil edilir. `b'A'` bir bayt literalidir ve değeri `65`'tir.
+- tr: "tip"
+  en: "type"
+  module: m02
+  def: |
+    Bir değerin hangi türden olduğunu ve üzerinde hangi işlemlerin yapılabileceğini belirleyen kümedir (`i32`, `bool`, `String`). Rust'ta her değerin derleme zamanında bilinen bir tipi vardır.
+- tr: "tip uyuşmazlığı"
+  en: "type mismatch"
+  module: m02
+  def: |
+    Beklenen tip ile verilen tipin farklı olmasıdır (`E0308`). Örneğin `let x: i32 = "5";` bu hatayı verir.
+
+# ───────────── Modül 4: Sahiplik ─────────────
+- tr: "stack"
+  en: "stack"
+  module: m04
+  def: |
+    Fonksiyon çağrılarının yerel değişkenlerini LIFO (son giren ilk çıkar) düzeniyle tuttuğu hızlı bellek bölgesidir. Boyutu derleme zamanında bilinen değerler burada yaşar.
+- tr: "heap"
+  en: "heap"
+  module: m04
+  def: |
+    Boyutu çalışma zamanında belirlenen veya büyüyebilen verilerin tutulduğu bellek bölgesidir. Tahsis ve serbest bırakma gerektirir; stack'ten yavaştır ve genellikle bir işaretçi üzerinden erişilir.
+- tr: "bellek tahsisi"
+  en: "allocation"
+  module: m04
+  def: |
+    Çalışma zamanında heap'ten belirli büyüklükte yer ayırmaktır. `String::from("a")` ve `Vec::new()` gibi tipler gerektiğinde tahsis yapar; `drop` sırasında yer iade edilir.
+- tr: "işaretçi"
+  en: "pointer"
+  module: m04
+  def: |
+    Başka bir değerin bellek adresini tutan değerdir. Rust'ta referanslar, `Box`, `Rc` ve ham işaretçiler birer işaretçi türüdür.
+- tr: "sahiplik"
+  en: "ownership"
+  module: m04
+  def: |
+    Rust'ın bellek yönetim modelidir. Her değerin tek bir sahibi vardır; sahip kapsam dışına çıkınca değer otomatik serbest bırakılır. Böylece çöp toplayıcıya gerek kalmaz.
+- tr: "sahip"
+  en: "owner"
+  module: m04
+  def: |
+    Bir değerin sorumluluğunu taşıyan değişkendir. Bir anda yalnızca bir sahip olabilir ve sahip kapsamdan çıkınca değer `drop` edilir.
+- tr: "kapsam"
+  en: "scope"
+  module: m04
+  def: |
+    Bir değişkenin geçerli olduğu kod bölgesidir; genellikle en yakın `{ }` bloğudur. Kapsamın sonunda o bloktaki değişkenlerin sahip olduğu değerler serbest bırakılır.
+- tr: "drop"
+  en: "drop"
+  module: m04
+  def: |
+    Bir değerin yok edilip kaynaklarının (heap belleği, dosya, kilit) serbest bırakılmasıdır. Sahibi kapsam dışına çıkınca Rust bunu otomatik yapar.
+- tr: "RAII"
+  en: "RAII (Resource Acquisition Is Initialization)"
+  module: m04
+  def: |
+    Bir kaynağın ömrünü bir nesnenin ömrüne bağlayan tasarım fikridir: nesne oluşunca kaynak alınır, nesne yok olunca bırakılır. Rust'ta `Drop` trait'i ile uygulanır.
+- tr: "String"
+  en: "String"
+  module: m04
+  def: |
+    Heap'te tutulan, büyüyebilen ve sahipli UTF-8 metin tipidir. Yapısı stack'te işaretçi, uzunluk ve kapasiteden oluşur; karakter verisi heap'tedir.
+- tr: "string literali"
+  en: "string literal"
+  module: m04
+  def: |
+    Kod içinde çift tırnakla yazılan, programın ikili dosyasına gömülü metindir; tipi `&'static str`'dir. Değiştirilemez ve programın tüm ömrü boyunca geçerlidir.
+- tr: "taşıma"
+  en: "move"
+  module: m04
+  def: |
+    Bir değerin sahipliğinin başka bir değişkene veya fonksiyona geçmesidir. `let s2 = s1;` sonrasında `s1` artık kullanılamaz; kullanılırsa `E0382` hatası alınır.
+- tr: "klon"
+  en: "clone"
+  module: m04
+  def: |
+    `.clone()` ile bir değerin, heap verisi de dahil, bağımsız bir kopyasını oluşturmaktır. Maliyetli olabilir, bu yüzden bilinçli yapılmalıdır.
+- tr: "Copy"
+  en: "Copy"
+  module: m04
+  def: |
+    Atamada taşıma yerine bit düzeyinde kopyalanan tipler için işaretçi trait'tir (`i32`, `bool`, `char`, `&T`). `Drop` içeren veya heap sahibi tipler `Copy` olamaz.
+- tr: "çift serbest bırakma"
+  en: "double free"
+  module: m04
+  def: |
+    Aynı bellek bölgesinin iki kez serbest bırakılması hatasıdır. C'de tanımsız davranıştır; Rust'ın taşıma kuralları bunu derleme zamanında engeller.
+- tr: "serbest bırakıldıktan sonra kullanım"
+  en: "use-after-free"
+  module: m04
+  def: |
+    Serbest bırakılmış belleğe erişme hatasıdır. C/C++'ta ciddi güvenlik açıklarının nedenidir; Rust'ta güvenli kodda mümkün değildir.
+- tr: "bellek sızıntısı"
+  en: "memory leak"
+  module: m04
+  def: |
+    Artık kullanılmayan belleğin serbest bırakılmamasıdır. Rust bunu önlemeye çalışır ama garanti etmez; `Rc` döngüleri veya `mem::forget` sızıntıya yol açabilir.
+- tr: "Vec"
+  en: "Vec"
+  module: m04
+  def: |
+    Heap'te tutulan, büyüyebilen ve aynı tipten elemanlar içeren dizi tipidir: `let mut v = vec![1, 2, 3];`. Vektörün sahibi elemanlarının da sahibidir.
+- tr: "tanımsız davranış"
+  en: "undefined behavior (UB)"
+  module: m04
+  def: |
+    Dil kurallarının ihlal edilmesi sonucu programın davranışı hakkında hiçbir garanti kalmamasıdır; çökebilir, yanlış sonuç verebilir veya "çalışıyor gibi" görünebilir. Güvenli Rust'ta UB oluşmaz; `unsafe` kodda sorumluluk programcıdadır.
+- tr: "ABI"
+  en: "ABI (Application Binary Interface)"
+  module: m24
+  def: |
+    Derlenmiş kodun ikili düzeydeki sözleşmesidir: fonksiyon çağrı kuralları, tip düzeni ve isimlendirme. `extern "C"` C ABI'sini seçer; Rust'ın kendi ABI'si kararlı değildir.
+
+# ───────────── Modül 5: Ödünç Alma ve Dilimler ─────────────
+- tr: "referans"
+  en: "reference"
+  module: m05
+  def: |
+    Bir değere sahip olmadan ona erişmeni sağlayan, `&` ile oluşturulan geçerli bir işaretçidir. Referans, gösterdiği değerden uzun yaşayamaz.
+- tr: "ödünç alma"
+  en: "borrowing"
+  module: m05
+  def: |
+    Bir değeri sahipliğini almadan referans yoluyla kullanmaktır. Ödünç alma bitince değer sahibine geri döner; sahibi değeri `drop` etmeden önce tüm ödünçler bitmelidir.
+- tr: "borrow checker"
+  en: "borrow checker"
+  module: m05
+  def: |
+    Derleyicinin, referansların geçerliliğini ve ödünç alma kurallarını denetleyen bölümüdür. Sarkan referansları, veri yarışlarını ve çakışan değiştirilebilir erişimleri derleme zamanında yakalar.
+- tr: "değişmez referans"
+  en: "shared reference (&T)"
+  module: m05
+  def: |
+    `&T` tipindeki referanstır. Aynı anda istenildiği kadar olabilir ama değeri değiştirmeye izin vermez (iç değişkenlik hariç).
+- tr: "değiştirilebilir referans"
+  en: "mutable reference (&mut T)"
+  module: m05
+  def: |
+    `&mut T` tipindeki, değeri değiştirme hakkı veren referanstır. Bir değere aynı anda yalnızca tek bir `&mut` olabilir ve bu sırada başka referans bulunamaz.
+- tr: "dereference"
+  en: "dereference"
+  module: m05
+  def: |
+    `*r` ile bir referansın gösterdiği değere erişmektir: `*r += 1`. Metot çağrılarında derleyici gerekli `*` işlemini otomatik ekler.
+- tr: "takma ad ve değişebilirlik kuralı"
+  en: "aliasing XOR mutability"
+  module: m05
+  def: |
+    Rust'ın temel ödünç alma kuralıdır: bir değere ya birden fazla `&` ya da tek bir `&mut` vardır, ikisi aynı anda olamaz. Veri yarışlarını ve iterator geçersizleşmesini önler.
+- tr: "veri yarışı"
+  en: "data race"
+  module: m05
+  def: |
+    İki iş parçacığının eşzamansız olarak aynı veriye erişmesi ve en az birinin yazma yapmasıdır. Güvenli Rust'ta veri yarışı derleme zamanında engellenir.
+- tr: "NLL"
+  en: "non-lexical lifetimes (NLL)"
+  module: m05
+  def: |
+    Bir ödüncün kapsamın sonuna değil, referansın son kullanıldığı yere kadar sürdüğünü kabul eden analizdir. Böylece daha çok geçerli program derlenir.
+- tr: "sarkan referans"
+  en: "dangling reference"
+  module: m05
+  def: |
+    Artık geçerli olmayan bir değeri gösteren referanstır. Rust bunu derleme zamanında reddeder; yerel değişkene referans döndüren fonksiyon `E0106` veya `E0515` hatası verir.
+- tr: "dilim"
+  en: "slice"
+  module: m05
+  def: |
+    Bir koleksiyonun ardışık bir parçasına bakan referanstır; işaretçi ve uzunluktan oluşur (`&[T]`, `&str`). Veriye sahip değildir.
+- tr: "string dilimi"
+  en: "string slice (&str)"
+  module: m05
+  def: |
+    UTF-8 metnin bir bölümüne bakan referanstır. Dilimleme bayt aralıklarıyla yapılır ve karakter sınırında olmalıdır, değilse panik olur: `&s[0..2]`.
+- tr: "dizi dilimi"
+  en: "array slice (&[T])"
+  module: m05
+  def: |
+    Bir dizinin veya `Vec`'in ardışık elemanlarına bakan referanstır: `&v[1..3]`. Fonksiyon parametresi olarak `&[T]` almak, hem dizileri hem vektörleri kabul eder.
+- tr: "iterator geçersizleşmesi"
+  en: "iterator invalidation"
+  module: m05
+  def: |
+    Koleksiyon üzerinde dolaşırken koleksiyonun değiştirilmesi yüzünden iterator'ın geçersiz belleğe işaret etmesidir (C++'ta yaygın). Rust'ta ödünç alma kuralları bunu imkânsız kılar.
+- tr: "otomatik dereference"
+  en: "auto-deref"
+  module: m05
+  def: |
+    Metot çağrısı ve alan erişiminde derleyicinin gerekli `&`, `&mut` ve `*` işlemlerini kendiliğinden eklemesidir. Bu yüzden `r.len()` yazmak için `(*r).len()` gerekmez.
+
+# ───────────── Modül 6: Yapılar ─────────────
+- tr: "struct"
+  en: "struct"
+  module: m06
+  def: |
+    İsimli alanlardan oluşan, kendi veri tipini tanımlayan yapıdır: `struct Kitap { ad: String, sayfa: u32 }`. Birlikte anlamlı verileri tek bir tipte toplar.
+- tr: "alan"
+  en: "field"
+  module: m06
+  def: |
+    Bir struct veya enum varyantının isimli veri parçasıdır; `kitap.ad` ile erişilir. Bir alanı değiştirmek için struct örneğinin tamamı `mut` olmalıdır.
+- tr: "örnek"
+  en: "instance"
+  module: m06
+  def: |
+    Bir struct tipinden oluşturulmuş somut değerdir: `Kitap { ad: String::from("Rust"), sayfa: 500 }`.
+- tr: "alan başlatma kısayolu"
+  en: "field init shorthand"
+  module: m06
+  def: |
+    Alan adı ile değişken adı aynıysa alan değerini tekrar yazmama kolaylığıdır: `Kitap { ad, sayfa }`.
+- tr: "struct güncelleme sözdizimi"
+  en: "struct update syntax"
+  module: m06
+  def: |
+    Yeni bir örneği, kalan alanları başka bir örnekten alarak oluşturmaktır: `Kitap { sayfa: 300, ..eski }`. Taşınan alanlar yüzünden `eski` kısmen kullanılamaz hâle gelebilir.
+- tr: "tuple struct"
+  en: "tuple struct"
+  module: m06
+  def: |
+    Alanları isimsiz, sıralı olan struct'tır: `struct Renk(u8, u8, u8);`. Alanlara `.0`, `.1` ile erişilir.
+- tr: "newtype"
+  en: "newtype"
+  module: m06
+  def: |
+    Tek alanlı bir tuple struct ile mevcut bir tipi sarıp yeni bir tip yapma kalıbıdır: `struct Metre(f64);`. Tip güvenliği sağlar (metre ile fit karıştırılamaz) ve çalışma zamanı maliyeti yoktur.
+- tr: "birim struct"
+  en: "unit-like struct"
+  module: m06
+  def: |
+    Hiç alanı olmayan struct'tır: `struct Isaretci;`. Veri taşımadan yalnızca bir trait uygulamak veya tip işareti olmak için kullanılır.
+- tr: "derive"
+  en: "derive"
+  module: m06
+  def: |
+    `#[derive(Debug, Clone)]` ile derleyiciden bir trait'in standart uygulamasını otomatik üretmesini istemektir.
+- tr: "Debug"
+  en: "Debug"
+  module: m06
+  def: |
+    Programcıya yönelik, hata ayıklama amaçlı biçimlendirme trait'idir; `{:?}` ve `{:#?}` ile kullanılır. Çoğunlukla `#[derive(Debug)]` ile elde edilir.
+- tr: "dbg! makrosu"
+  en: "dbg! macro"
+  module: m06
+  def: |
+    İfadenin değerini dosya adı ve satır numarasıyla stderr'e yazan ve değeri (sahipliğiyle birlikte) geri döndüren hata ayıklama makrosudur.
+- tr: "impl bloğu"
+  en: "impl block"
+  module: m06
+  def: |
+    Bir tipe metot ve ilişkili fonksiyon ekleyen bloktur: `impl Kitap { ... }`. Aynı tip için birden fazla `impl` bloğu olabilir.
+- tr: "metot"
+  en: "method"
+  module: m06
+  def: |
+    İlk parametresi `self`, `&self` veya `&mut self` olan, `nesne.metot()` ile çağrılan fonksiyondur.
+- tr: "self"
+  en: "self"
+  module: m06
+  def: |
+    Metodun üzerinde çağrıldığı örneği gösterir. `self` sahipliği alır (tüketir), `&self` okur, `&mut self` değiştirir.
+- tr: "ilişkili fonksiyon"
+  en: "associated function"
+  module: m06
+  def: |
+    Bir tipin `impl` bloğunda tanımlanan ama `self` almayan fonksiyondur; `Tip::fonksiyon()` ile çağrılır. `String::from` buna örnektir.
+- tr: "Self"
+  en: "Self"
+  module: m06
+  def: |
+    `impl` bloğu içinde, o bloğun uygulandığı tipin takma adıdır. Trait tanımlarında ise trait'i uygulayan tipi gösterir.
+- tr: "kurucu"
+  en: "constructor"
+  module: m06
+  def: |
+    Rust'ta dil düzeyinde kurucu yoktur; gelenek olarak `new` adlı ilişkili fonksiyon `Self` döndürür: `Kitap::new("Rust", 500)`. Doğrulama gerekiyorsa `Result` veya `Option` döndürebilir.
+
+# ───────────── Modül 7: Enum'lar ve match ─────────────
+- tr: "enum"
+  en: "enum"
+  module: m07
+  def: |
+    Değerin birkaç olası varyanttan yalnızca biri olabildiği tiptir: `enum Durum { Aktif, Pasif }`. Varyantlar veri de taşıyabilir.
+- tr: "varyant"
+  en: "variant"
+  module: m07
+  def: |
+    Bir enum'un olası biçimlerinden her biridir. Veri taşımayabilir (`Aktif`), tuple gibi (`Mesaj(String)`) veya struct gibi (`Tasi { x: i32, y: i32 }`) olabilir.
+- tr: "Option"
+  en: "Option"
+  module: m07
+  def: |
+    Değerin olabileceğini ya da olmayabileceğini ifade eden enum'dur: `Some(T)` veya `None`. Rust'ta `null` yoktur; yokluk tipte açıkça gösterilir.
+- tr: "Some"
+  en: "Some"
+  module: m07
+  def: |
+    `Option<T>`'nin değer içeren varyantıdır: `Some(5)`.
+- tr: "None"
+  en: "None"
+  module: m07
+  def: |
+    `Option<T>`'nin değer olmadığını belirten varyantıdır. Bir `Option<i32>` değeri `i32` gibi kullanılamaz; önce açılması gerekir.
+- tr: "match"
+  en: "match"
+  module: m07
+  def: |
+    Bir değeri desenlerle karşılaştırıp eşleşen kolun kodunu çalıştıran ifadedir. Tüm olasılıkları kapsamak zorundadır.
+- tr: "match kolu"
+  en: "match arm"
+  module: m07
+  def: |
+    `match` içindeki `desen => ifade` çiftidir. Tüm kolların tipi aynı olmalıdır.
+- tr: "kapsayıcılık"
+  en: "exhaustiveness"
+  module: m07
+  def: |
+    `match`'in girdinin tüm olası değerlerini karşılaması zorunluluğudur. Eksik bir varyant `E0004` hatası verir; yeni varyant eklenince hangi `match`'lerin güncellenmesi gerektiği böylece bulunur.
+- tr: "desen"
+  en: "pattern"
+  module: m07
+  def: |
+    Bir değerin yapısını tarif eden sözdizimidir: literal, değişken, tuple, struct, enum varyantı, aralık. `match`, `if let` ve `let` ile kullanılır.
+- tr: "joker desen"
+  en: "wildcard pattern (_)"
+  module: m07
+  def: |
+    `_` ile yazılan ve her değerle eşleşen, değeri bağlamayan desendir. `match`'te "diğer hepsi" kolu olarak kullanılır.
+- tr: "if let"
+  en: "if let"
+  module: m07
+  def: |
+    Tek bir deseni eşleştiren kısa `match` biçimidir: `if let Some(x) = opt { ... }`. Diğer durumlar için isteğe bağlı `else` alabilir.
+- tr: "let else"
+  en: "let else"
+  module: m07
+  def: |
+    Desen eşleşmezse `else` bloğunda fonksiyondan çıkmayı (`return`, `continue`, `panic!`) zorunlu kılan biçimdir: `let Some(x) = opt else { return; };`.
+- tr: "while let"
+  en: "while let"
+  module: m07
+  def: |
+    Desen eşleştiği sürece döngüyü sürdüren yapıdır: `while let Some(ust) = yigin.pop() { ... }`.
+- tr: "matches!"
+  en: "matches!"
+  module: m07
+  def: |
+    Bir değerin desene uyup uymadığını `bool` olarak döndüren makrodur: `matches!(c, 'a'..='z')`.
+- tr: "geçersiz durumları temsil edilemez kılmak"
+  en: "making illegal states unrepresentable"
+  module: m07
+  def: |
+    Tipleri, hatalı bir durumun hiç ifade edilemeyeceği biçimde tasarlama ilkesidir. Örneğin birbirini dışlayan durumlar için birden çok `bool` yerine bir enum kullanılır.
+- tr: "durum makinesi"
+  en: "state machine"
+  module: m07
+  def: |
+    Sonlu sayıda durumu ve aralarındaki geçişleri olan modeldir. Rust'ta durumlar genellikle enum, geçişler `self`'i tüketen metotlarla ifade edilir.
+
+# ───────────── Modül 8: Modüller ve Crate'ler ─────────────
+- tr: "paket"
+  en: "package"
+  module: m08
+  def: |
+    Bir `Cargo.toml` ile tanımlanan ve bir veya daha fazla crate içeren cargo birimidir. En fazla bir kütüphane crate'i ve birden çok ikili crate içerebilir.
+- tr: "crate"
+  en: "crate"
+  module: m08
+  def: |
+    Rust derleyicisinin tek seferde derlediği en küçük birimdir: bir ikili veya kütüphane. Başka crate'ler `Cargo.toml`'daki bağımlılıklarla kullanılır.
+- tr: "ikili crate"
+  en: "binary crate"
+  module: m08
+  def: |
+    `main` fonksiyonu olan ve çalıştırılabilir dosya üreten crate'tir. Kökü genellikle `src/main.rs`'tir.
+- tr: "kütüphane crate'i"
+  en: "library crate"
+  module: m08
+  def: |
+    Başkalarının kullanması için işlev sunan, `main` içermeyen crate'tir. Kökü `src/lib.rs`'tir.
+- tr: "crate kökü"
+  en: "crate root"
+  module: m08
+  def: |
+    Derleyicinin crate'i derlemeye başladığı kaynak dosyadır (`main.rs` veya `lib.rs`) ve modül ağacının köküdür (`crate`).
+- tr: "modül"
+  en: "module"
+  module: m08
+  def: |
+    Kodu gruplayan ve erişim sınırlarını belirleyen isim alanıdır: `mod kutuphane { ... }`. Modüller bir ağaç oluşturur.
+- tr: "mod"
+  en: "mod"
+  module: m08
+  def: |
+    Modül tanımlayan anahtar sözcüktür. `mod x;` yazmak, modülün `x.rs` veya `x/mod.rs` dosyasından yükleneceğini söyler.
+- tr: "pub"
+  en: "pub"
+  module: m08
+  def: |
+    Bir öğeyi bulunduğu modülün dışına görünür yapan anahtar sözcüktür. Rust'ta her şey varsayılan olarak özeldir (private).
+- tr: "gizlilik"
+  en: "privacy"
+  module: m08
+  def: |
+    Öğelerin varsayılan olarak yalnızca tanımlandıkları modülde ve alt modüllerinde görünür olması kuralıdır. Özel bir öğeye dışarıdan erişim `E0603` verir.
+- tr: "yol"
+  en: "path"
+  module: m08
+  def: |
+    Bir öğeye modül ağacında ulaşan adreslemedir: mutlak (`crate::a::b`) veya göreli (`self::`, `super::`).
+- tr: "use"
+  en: "use"
+  module: m08
+  def: |
+    Bir yolu mevcut kapsama getirerek kısa isimle kullanılmasını sağlar: `use std::collections::HashMap;`. `as` ile takma ad verilebilir.
+- tr: "yeniden dışa aktarma"
+  en: "re-export (pub use)"
+  module: m08
+  def: |
+    `pub use` ile bir öğeyi başka bir yoldan da erişilebilir kılmaktır. Kütüphanelerde iç yapıyı gizleyip temiz bir genel API sunmak için kullanılır.
+- tr: "glob içe aktarma"
+  en: "glob import"
+  module: m08
+  def: |
+    `use modul::*;` ile bir modülün tüm genel öğelerini kapsama almaktır. İsim çakışmalarına yol açabileceği için testler ve prelude'ler dışında genellikle kaçınılır.
+- tr: "kapsülleme"
+  en: "encapsulation"
+  module: m08
+  def: |
+    Bir tipin iç ayrıntılarını gizleyip yalnızca seçilmiş bir arayüzü dışa açmaktır. Rust'ta alanlar ve fonksiyonlar özel tutularak sağlanır.
+- tr: "bağımlılık"
+  en: "dependency"
+  module: m08
+  def: |
+    Projenin kullandığı harici crate'tir. `Cargo.toml`'un `[dependencies]` bölümüne veya `cargo add` ile eklenir.
+- tr: "anlamsal sürümleme"
+  en: "semantic versioning (semver)"
+  module: m08
+  def: |
+    `MAJOR.MINOR.PATCH` sürüm biçimidir: uyumsuz değişiklikte MAJOR, uyumlu yeni özellikte MINOR, hata düzeltmesinde PATCH artar. Cargo'da `^1.2.3` ifadesi `1.x.y (>=1.2.3)` sürümlerine izin verir.
+- tr: "crates.io"
+  en: "crates.io"
+  module: m08
+  def: |
+    Rust topluluğunun resmî paket kayıt defteridir. `cargo publish` ile crate yayınlanır, bağımlılıklar buradan indirilir.
+- tr: "docs.rs"
+  en: "docs.rs"
+  module: m08
+  def: |
+    crates.io'daki crate'lerin dokümanını otomatik olarak derleyip yayınlayan sitedir.
+- tr: "prelude"
+  en: "prelude"
+  module: m08
+  def: |
+    Her modüle otomatik olarak getirilen, sık kullanılan öğelerin (`Option`, `Vec`, `String`, `Clone` vb.) listesidir; bu yüzden onları `use` etmen gerekmez.
+
+# ───────────── Modül 9: Koleksiyonlar ─────────────
+- tr: "kapasite"
+  en: "capacity"
+  module: m09
+  def: |
+    Bir `Vec` veya `String`'in yeniden tahsis gerekmeden tutabileceği eleman sayısıdır. `len()`'den büyük veya ona eşittir; `with_capacity` ile önceden ayrılabilir.
+- tr: "yeniden tahsis"
+  en: "reallocation"
+  module: m09
+  def: |
+    Kapasite dolunca `Vec`'in daha büyük bir bellek bölgesi alıp elemanları taşımasıdır. Bu yüzden `push` sırasında eski referanslar geçersiz olur ve ödünç alma kuralları bunu yasaklar.
+- tr: "UTF-8"
+  en: "UTF-8"
+  module: m09
+  def: |
+    Unicode'u 1-4 baytla kodlayan değişken uzunluklu kodlamadır. Rust'ın `String` ve `&str` tipleri her zaman geçerli UTF-8'dir; bu yüzden `s[0]` gibi indeksleme yoktur ve `'ş'` iki bayt tutar.
+- tr: "grafem kümesi"
+  en: "grapheme cluster"
+  module: m09
+  def: |
+    Kullanıcının tek karakter olarak gördüğü, birden çok Unicode skaler değerinden oluşabilen birimdir (örneğin harf artı aksan işareti). Standart kütüphane grafem ayrımı yapmaz.
+- tr: "HashMap"
+  en: "HashMap"
+  module: m09
+  def: |
+    Anahtar-değer çiftlerini karma (hash) tablosunda tutan koleksiyondur. Ortalama O(1) erişim sağlar; sıralama garantisi yoktur.
+- tr: "entry API"
+  en: "entry API"
+  module: m09
+  def: |
+    `map.entry(anahtar).or_insert(0)` gibi, anahtar yoksa ekleyip varsa mevcut değere `&mut` veren API'dir. Sayaç ve gruplama işlerinde idiomatiktir.
+- tr: "HashSet"
+  en: "HashSet"
+  module: m09
+  def: |
+    Yinelenmeyen değerleri tutan koleksiyondur. Üyelik denetimi ortalama O(1)'dir; birleşim, kesişim ve fark gibi küme işlemleri sunar.
+- tr: "BTreeMap"
+  en: "BTreeMap"
+  module: m09
+  def: |
+    Anahtarları sıralı tutan ağaç tabanlı haritadır. Arama O(log n)'dir; anahtarlar `Ord` olmalıdır ve aralık sorguları yapılabilir.
+- tr: "VecDeque"
+  en: "VecDeque"
+  module: m09
+  def: |
+    Çift uçlu kuyruktur; her iki uçtan ekleme ve çıkarma O(1)'dir. Halka tampon olarak gerçeklenir.
+- tr: "BinaryHeap"
+  en: "BinaryHeap"
+  module: m09
+  def: |
+    Öncelik kuyruğudur; varsayılan olarak en büyük eleman en öne gelir (max-heap). En küçüğü almak için `std::cmp::Reverse` kullanılır.
+- tr: "SipHash"
+  en: "SipHash"
+  module: m09
+  def: |
+    `HashMap`'in varsayılan karma algoritmasıdır. Hizmet reddi (hash flooding) saldırılarına dirençlidir ama kısa anahtarlar için daha hızlı alternatiflerden yavaş olabilir.
+- tr: "sıralama"
+  en: "sorting"
+  module: m09
+  def: |
+    Elemanları bir düzene dizmektir: `sort`, `sort_by`, `sort_by_key`. `sort` kararlıdır (eşit elemanların sırası korunur); `sort_unstable` daha hızlı olabilir ama bunu garanti etmez.
+- tr: "ikili arama"
+  en: "binary search"
+  module: m09
+  def: |
+    Sıralı bir dilimde ortadaki elemanla karşılaştırıp aralığı yarılayarak O(log n)'de arama yapmaktır: `v.binary_search(&x)`. Dilim sıralı değilse sonuç anlamsızdır.
+- tr: "retain"
+  en: "retain"
+  module: m09
+  def: |
+    Koleksiyondan, verilen koşulu sağlamayan elemanları yerinde silen metottur: `v.retain(|x| *x > 0)`.
+- tr: "Big-O gösterimi"
+  en: "Big-O notation"
+  module: m09
+  def: |
+    Bir algoritmanın girdi büyüklüğü arttıkça zaman veya bellek ihtiyacının nasıl büyüdüğünü gösteren asimptotik ifadedir (O(1), O(log n), O(n), O(n²)).
+- tr: "total_cmp"
+  en: "total_cmp"
+  module: m09
+  def: |
+    `f64` `Ord` olmadığı için doğrudan sıralanamaz; `partial_cmp(...).unwrap()` veya NaN'ı da sıralayan `a.total_cmp(&b)` kullanılır.
+
+# ───────────── Modül 10: Hata Yönetimi ─────────────
+- tr: "panic"
+  en: "panic"
+  module: m10
+  def: |
+    Programın kurtarılamaz bir hatayla acil olarak durmasıdır. `panic!` makrosuyla veya indeks taşması, `unwrap` gibi durumlarla tetiklenir ve bir hata (bug) işaretidir.
+- tr: "unwinding"
+  en: "unwinding"
+  module: m10
+  def: |
+    Panik sırasında stack'in geriye doğru temizlenmesidir: her çerçevedeki değerler `drop` edilir. `panic = "abort"` profil ayarıyla bunun yerine program anında sonlandırılabilir.
+- tr: "abort"
+  en: "abort"
+  module: m10
+  def: |
+    Panikte temizlik yapmadan süreci hemen sonlandırma stratejisidir. İkili boyutunu küçültür ama `Drop`'lar çalışmaz.
+- tr: "RUST_BACKTRACE"
+  en: "RUST_BACKTRACE"
+  module: m10
+  def: |
+    Ortam değişkenidir; `1` yapılırsa panik anında çağrı yığınının tam izini (backtrace) yazdırır.
+- tr: "Result"
+  en: "Result"
+  module: m10
+  def: |
+    İşlemin başarı veya hata ile sonuçlanabileceğini gösteren enum'dur: `Ok(T)` veya `Err(E)`. Kurtarılabilir hatalar için kullanılır ve `#[must_use]` olduğundan yok sayılamaz.
+- tr: "Ok"
+  en: "Ok"
+  module: m10
+  def: |
+    `Result<T, E>`'nin başarı değeri taşıyan varyantıdır.
+- tr: "Err"
+  en: "Err"
+  module: m10
+  def: |
+    `Result<T, E>`'nin hata değeri taşıyan varyantıdır.
+- tr: "? operatörü"
+  en: "? operator"
+  module: m10
+  def: |
+    `Result` veya `Option` üzerinde, hata/None durumunda fonksiyondan hemen dönen, başarıda değeri açan operatördür: `let n = s.parse::<i32>()?;`. Hata tipleri `From` ile otomatik dönüştürülür.
+- tr: "hata yayma"
+  en: "error propagation"
+  module: m10
+  def: |
+    Bir hatayı kendin ele almak yerine çağırana döndürmektir. Rust'ta genellikle `?` operatörüyle yapılır.
+- tr: "Box<dyn Error>"
+  en: "Box<dyn Error>"
+  module: m10
+  def: |
+    Herhangi bir `std::error::Error` uygulayan hatayı tutabilen, heap'te tutulan trait nesnesidir. `main` ve uygulama kodunda çeşitli hata tiplerini tek dönüş tipinde toplamak için kullanılır.
+- tr: "özel hata tipi"
+  en: "custom error type"
+  module: m10
+  def: |
+    Kendi alanındaki hataları ifade eden, çoğunlukla enum olarak tanımlanan tiptir: `enum BankaHatasi { YetersizBakiye { eksik: u64 } }`. `Display` ve `Error` uygulanarak tamamlanır.
+- tr: "map_err"
+  en: "map_err"
+  module: m10
+  def: |
+    `Result`'ın `Err` değerini başka bir hata tipine dönüştürür, `Ok`'a dokunmaz: `r.map_err(|e| MyErr::Parse(e))`.
+- tr: "ok_or"
+  en: "ok_or"
+  module: m10
+  def: |
+    `Option`'ı `Result`'a çevirir: `Some(x)` → `Ok(x)`, `None` → `Err(verilen_hata)`.
+- tr: "unwrap_or"
+  en: "unwrap_or"
+  module: m10
+  def: |
+    `Option` veya `Result`'ı açar; `None`/`Err` ise verilen varsayılan değeri döndürür. Varsayılanı tembel hesaplamak için `unwrap_or_else`, `Default`'tan almak için `unwrap_or_default` vardır.
+- tr: "invariant"
+  en: "invariant"
+  module: m10
+  def: |
+    Bir tipin her zaman doğru olması gereken koşuludur (ör. `Yas` her zaman 0..=150). Alanları özel tutup doğrulayan bir kurucu ile korunur.
+- tr: "kurtarılabilir hata"
+  en: "recoverable error"
+  module: m10
+  def: |
+    Programın ele alıp devam edebileceği hatadır (dosya yok, geçersiz girdi). Rust bunları `Result` ile ifade eder; `panic!` ise kurtarılamaz hatalar içindir.
+
+# ───────────── Modül 11: Generic'ler ve Trait'ler ─────────────
+- tr: "generic"
+  en: "generic"
+  module: m11
+  def: |
+    Birden çok tip üzerinde çalışan kod yazmayı sağlayan özelliktir: `fn en_buyuk<T: PartialOrd>(a: T, b: T) -> T`. Derleyici her kullanılan tip için özelleşmiş kod üretir.
+- tr: "tip parametresi"
+  en: "type parameter"
+  module: m11
+  def: |
+    Fonksiyon, struct veya trait tanımında açılı parantez içinde yazılan tip yer tutucusudur (`<T>`). Kullanım sırasında gerçek bir tiple değiştirilir.
+- tr: "monomorphization"
+  en: "monomorphization"
+  module: m11
+  def: |
+    Derleyicinin generic kodu, kullanılan her somut tip için ayrı bir kopya olarak üretmesidir. Çalışma zamanı maliyeti sıfırdır; bedeli artan ikili boyutu ve derleme süresidir.
+- tr: "trait"
+  en: "trait"
+  module: m11
+  def: |
+    Bir tipin sağlaması gereken davranışları (metot imzalarını) tanımlayan sözleşmedir; diğer dillerdeki arayüze (interface) benzer. `impl Trait for Tip` ile uygulanır.
+- tr: "trait uygulaması"
+  en: "trait implementation"
+  module: m11
+  def: |
+    Bir tip için trait'in metotlarını yazmaktır: `impl Ozet for Haber { fn ozetle(&self) -> String { ... } }`.
+- tr: "varsayılan metot"
+  en: "default method"
+  module: m11
+  def: |
+    Trait içinde gövdesiyle tanımlanan metottur. Uygulayan tip isterse onu olduğu gibi kullanır, isterse geçersiz kılar.
+- tr: "trait sınırı"
+  en: "trait bound"
+  module: m11
+  def: |
+    Bir tip parametresinin hangi trait'leri uygulaması gerektiğini belirtir: `T: Display + Clone`. Sınır, o tipin üzerinde hangi metotların çağrılabileceğini derleyiciye söyler.
+- tr: "where ifadesi"
+  en: "where clause"
+  module: m11
+  def: |
+    Trait sınırlarını imzanın sonunda okunaklı biçimde toplayan sözdizimidir: `fn f<T, U>(t: T, u: U) where T: Display, U: Clone`.
+- tr: "impl Trait"
+  en: "impl Trait"
+  module: m11
+  def: |
+    Somut tipi adlandırmadan "bu trait'i uygulayan bir tip" demenin kısa yoludur. Argümanda generic sınırı kısaltır; dönüşte tek bir somut tipin gizlenmesini sağlar.
+- tr: "PartialEq"
+  en: "PartialEq"
+  module: m11
+  def: |
+    `==` ve `!=` işleçlerini sağlayan trait'tir. "Kısmi" olması, yansıma özelliğinin garanti edilmemesindendir (`f64::NAN != f64::NAN`).
+- tr: "Eq"
+  en: "Eq"
+  module: m11
+  def: |
+    `PartialEq`'in tam denklik ilişkisi garanti eden işaretçi trait'idir (her değer kendine eşittir). `HashMap` anahtarları için gerekir; `f64` uygulamaz.
+- tr: "PartialOrd"
+  en: "PartialOrd"
+  module: m11
+  def: |
+    `<`, `>`, `<=`, `>=` işleçlerini sağlayan trait'tir. Bazı değerler karşılaştırılamayabilir (NaN) çünkü `partial_cmp` bir `Option<Ordering>` döndürür.
+- tr: "Ord"
+  en: "Ord"
+  module: m11
+  def: |
+    Tam sıralamayı sağlayan trait'tir (`cmp` metodu `Ordering` döndürür). `sort`, `BTreeMap` ve `max` için gerekir; `derive` ile alanlar sırayla (sözlük sırası) karşılaştırılır.
+- tr: "Hash"
+  en: "Hash"
+  module: m11
+  def: |
+    Bir değerin karma (hash) değerini hesaplamayı sağlayan trait'tir. `HashMap` ve `HashSet` anahtarları `Hash + Eq` olmalıdır.
+- tr: "Default"
+  en: "Default"
+  module: m11
+  def: |
+    Bir tip için makul bir varsayılan değer üreten trait'tir: `Default::default()`. Struct güncelleme sözdizimiyle birlikte `..Default::default()` biçiminde sık kullanılır.
+- tr: "Display"
+  en: "Display"
+  module: m11
+  def: |
+    Kullanıcıya yönelik biçimlendirme trait'idir (`{}`). `derive` edilemez, elle uygulanır; uygulayınca `to_string()` de otomatik gelir.
+- tr: "From"
+  en: "From"
+  module: m11
+  def: |
+    Bir tipten başka bir tip oluşturma trait'idir: `impl From<i32> for Para`. `From` uygulayınca karşılığı `Into` otomatik elde edilir; `?` operatörü de hata dönüşümü için kullanır.
+- tr: "Into"
+  en: "Into"
+  module: m11
+  def: |
+    `From`'un tersi olan dönüşüm trait'idir: `let p: Para = 5.into();`. Doğrudan uygulanmaz, `From`'dan türetilir; parametrelerde esneklik için `impl Into<String>` olarak kullanılır.
+- tr: "TryFrom"
+  en: "TryFrom"
+  module: m11
+  def: |
+    Başarısız olabilen dönüşüm trait'idir ve `Result` döndürür: `u8::try_from(300_i32)` sonucu `Err`'dir. Veri kaybı yapan `as` dönüşümüne güvenli alternatiftir.
+- tr: "FromStr"
+  en: "FromStr"
+  module: m11
+  def: |
+    Metinden değer oluşturma trait'idir. Uygulanınca `"...".parse::<Tip>()` çalışır.
+- tr: "AsRef"
+  en: "AsRef"
+  module: m11
+  def: |
+    Ucuz bir referans dönüşümü trait'idir; `impl AsRef<str>` alan fonksiyon hem `String` hem `&str` kabul eder.
+- tr: "Error trait'i"
+  en: "std::error::Error"
+  module: m11
+  def: |
+    Hata tiplerinin uygulaması gereken standart trait'tir (`Debug + Display` gerektirir). `Box<dyn Error>` ve hata zincirleri (`source`) bunun üzerine kuruludur.
+- tr: "orphan rule"
+  en: "orphan rule"
+  module: m11
+  def: |
+    Bir trait'i bir tip için ancak trait veya tipten en az biri senin crate'indeyse uygulayabilirsin kuralıdır. Bu kural çakışan uygulamaları (coherence) önler; ihlali `E0117` verir.
+- tr: "tutarlılık"
+  en: "coherence"
+  module: m11
+  def: |
+    Her (trait, tip) çifti için en fazla bir uygulamanın bulunması garantisidir. Orphan rule bunu sağlamanın bir yoludur.
+- tr: "blanket impl"
+  en: "blanket implementation"
+  module: m11
+  def: |
+    Bir trait'i, bir sınırı sağlayan tüm tipler için tek seferde uygulamaktır: `impl<T: Display> ToString for T`.
+- tr: "const generic"
+  en: "const generic"
+  module: m11
+  def: |
+    Tip yerine bir sabit değerle parametrelenen generic'tir: `struct Matris<const N: usize> { v: [f64; N] }`. Dizi uzunluğu gibi değerleri tipe taşır.
+
+# ───────────── Modül 12: Yaşam Süreleri ─────────────
+- tr: "yaşam süresi"
+  en: "lifetime"
+  module: m12
+  def: |
+    Bir referansın geçerli olduğu kod bölgesidir. Her referansın bir yaşam süresi vardır; çoğunlukla çıkarılır, gerektiğinde `'a` ile anotasyon yazılır. Yaşam süreleri değerlerin ömrünü değiştirmez, yalnızca ilişkilerini tarif eder.
+- tr: "yaşam süresi anotasyonu"
+  en: "lifetime annotation"
+  module: m12
+  def: |
+    `&'a str` gibi, referansların birbirine göre geçerlilik ilişkisini belirten etikettir: `fn uzun<'a>(x: &'a str, y: &'a str) -> &'a str` sonucun ikisinden kısa olanın ömrüyle sınırlı olduğunu söyler.
+- tr: "yaşam süresi eksiltme"
+  en: "lifetime elision"
+  module: m12
+  def: |
+    Belirli kalıplarda derleyicinin yaşam süresi anotasyonlarını kendiliğinden doldurmasıdır. Üç kural vardır; örneğin tek referans girdisi varsa çıktı ona bağlanır, `&self` varsa çıktı `self`'e bağlanır.
+- tr: "'static"
+  en: "'static"
+  module: m12
+  def: |
+    Programın tüm süresi boyunca geçerli olabilen yaşam süresidir. String literalleri `&'static str`'dir; `T: 'static` sınırı ise tipin geçici referans içermediği anlamına gelir, değerin sonsuza kadar yaşadığı anlamına gelmez.
+- tr: "yaşam süresi sınırı"
+  en: "lifetime bound"
+  module: m12
+  def: |
+    `T: 'a` yazımıdır; `T` içindeki tüm referansların en az `'a` kadar yaşadığını bildirir.
+- tr: "referans tutan struct"
+  en: "struct holding references"
+  module: m12
+  def: |
+    Alanlarında referans bulunan struct'tır ve yaşam süresi parametresi gerektirir: `struct Alinti<'a> { parca: &'a str }`. Struct, gösterdiği veriden uzun yaşayamaz.
+
+# ───────────── Modül 13: Test Yazmak ─────────────
+- tr: "birim test"
+  en: "unit test"
+  module: m13
+  def: |
+    Tek bir fonksiyon veya küçük bir birimi izole sınayan testtir. Rust'ta kodun yanında `#[cfg(test)] mod tests` içinde yazılır ve özel öğelere erişebilir.
+- tr: "#[test]"
+  en: "#[test]"
+  module: m13
+  def: |
+    Bir fonksiyonu test olarak işaretleyen niteliktir. `cargo test` ile çalıştırılır; fonksiyon panik etmezse test geçer.
+- tr: "#[cfg(test)]"
+  en: "#[cfg(test)]"
+  module: m13
+  def: |
+    Bir modülün yalnızca `cargo test` sırasında derlenmesini sağlayan koşullu derleme niteliğidir. Test kodu normal derlemeye girmez.
+- tr: "assert!"
+  en: "assert!"
+  module: m13
+  def: |
+    Koşul `false` ise panik eden makrodur. Başarısızlık mesajı `assert!(x > 0, "x pozitif olmalı: {x}")` gibi özelleştirilebilir.
+- tr: "assert_eq!"
+  en: "assert_eq!"
+  module: m13
+  def: |
+    İki değerin eşit olduğunu denetleyen makrodur; başarısızlıkta sol ve sağ değeri `Debug` biçiminde gösterir. Tipler `PartialEq + Debug` olmalıdır. Zıttı `assert_ne!`'dir.
+- tr: "should_panic"
+  en: "should_panic"
+  module: m13
+  def: |
+    Testin panik etmesini bekleyen niteliktir: `#[should_panic(expected = "sıfıra bölme")]`. `expected` mesajın bir parçasını doğrular.
+- tr: "#[ignore]"
+  en: "#[ignore]"
+  module: m13
+  def: |
+    Yavaş veya özel testleri varsayılan çalıştırmanın dışında bırakır; `cargo test -- --ignored` ile çalıştırılır.
+- tr: "entegrasyon testi"
+  en: "integration test"
+  module: m13
+  def: |
+    `tests/` dizininde bulunan ve crate'i dışarıdan bir kullanıcı gibi, yalnızca genel (`pub`) API'si ile sınayan testtir.
+- tr: "doc test"
+  en: "doc test"
+  module: m13
+  def: |
+    Doküman yorumlarındaki kod örneklerinin otomatik derlenip çalıştırılan testlere dönüşmesidir. Örneklerin güncel kalmasını sağlar.
+- tr: "TDD"
+  en: "test-driven development (TDD)"
+  module: m13
+  def: |
+    Önce başarısız bir test yazıp (kırmızı), onu geçecek en basit kodu yazıp (yeşil), sonra kodu iyileştirmeye (refactor) dayanan geliştirme döngüsüdür.
+- tr: "cargo doc"
+  en: "cargo doc"
+  module: m13
+  def: |
+    Doküman yorumlarından HTML dokümantasyon üreten komuttur; `--open` ile tarayıcıda açılır.
+- tr: "tablo güdümlü test"
+  en: "table-driven test"
+  module: m13
+  def: |
+    Girdi ve beklenen çıktı çiftlerini bir dizi veya vektörde tutup tek bir döngüde sınama biçimidir. Yeni durum eklemek tek satırdır.
+
+# ───────────── Modül 14: Closure'lar ve Iterator'lar ─────────────
+- tr: "closure"
+  en: "closure"
+  module: m14
+  def: |
+    Bulunduğu ortamdaki değişkenleri yakalayabilen isimsiz fonksiyondur: `let ekle = |x| x + n;`. Tipi derleyicinin ürettiği, ona özel anonim bir tiptir.
+- tr: "yakalama"
+  en: "capture"
+  module: m14
+  def: |
+    Closure'ın çevresindeki değişkenleri kullanmasıdır. Derleyici gereken en az yetkiyi seçer: paylaşılan referans, `&mut` referans veya sahiplik.
+- tr: "Fn"
+  en: "Fn"
+  module: m14
+  def: |
+    Yakaladıklarını yalnızca okuyan, bu yüzden istenildiği kadar çağrılabilen closure'ların trait'idir (`&self` alır).
+- tr: "FnMut"
+  en: "FnMut"
+  module: m14
+  def: |
+    Yakaladığı değerleri değiştirebilen closure'ların trait'idir (`&mut self` alır). Birden çok kez çağrılabilir ama çağıranın `mut` olması gerekir.
+- tr: "FnOnce"
+  en: "FnOnce"
+  module: m14
+  def: |
+    Yakaladığı bir değeri tüketebilen, bu yüzden en fazla bir kez çağrılabilen closure'ların trait'idir (`self` alır). Tüm closure'lar `FnOnce`'tır.
+- tr: "move closure"
+  en: "move closure"
+  module: m14
+  def: |
+    `move |x| ...` biçiminde, yakalanan tüm değerlerin sahipliğini closure'a taşıyan closure'dır. Thread'lere gönderilen closure'larda gereklidir.
+- tr: "Iterator"
+  en: "Iterator"
+  module: m14
+  def: |
+    `type Item` ve `fn next(&mut self) -> Option<Self::Item>` tanımlayan trait'tir. `next` elemanları tek tek verir ve bittiğinde `None` döner.
+- tr: "IntoIterator"
+  en: "IntoIterator"
+  module: m14
+  def: |
+    Bir değeri iterator'a dönüştüren trait'tir; `for` döngüsü bunu çağırır. `Vec`, `&Vec` ve `&mut Vec` için sırasıyla `T`, `&T` ve `&mut T` üreten iterator'lar verir.
+- tr: "iter, iter_mut, into_iter"
+  en: "iter, iter_mut, into_iter"
+  module: m14
+  def: |
+    Koleksiyondan sırasıyla `&T`, `&mut T` ve `T` (sahiplik) üreten üç iterator metodudur. `into_iter` koleksiyonu tüketir.
+- tr: "tembel değerlendirme"
+  en: "lazy evaluation"
+  module: m14
+  def: |
+    Adaptörlerin (`map`, `filter`) kendi başına bir şey yapmaması, işin ancak bir tüketici (`collect`, `sum`, `for`) çağrılınca yürütülmesidir.
+- tr: "iterator adaptörü"
+  en: "iterator adaptor"
+  module: m14
+  def: |
+    Bir iterator'ı alıp yeni bir iterator döndüren metottur (`map`, `filter`, `zip`, `take`). Tembeldirler ve zincirlenebilirler.
+- tr: "iterator tüketicisi"
+  en: "iterator consumer"
+  module: m14
+  def: |
+    Iterator'ı sonuna kadar yürüten ve bir değer üreten metottur (`sum`, `count`, `collect`, `fold`). Bunlar işi başlatır.
+- tr: "map"
+  en: "map"
+  module: m14
+  def: |
+    Iterator'ın her elemanına bir closure uygulayıp sonuçlardan yeni bir iterator üreten adaptördür: `v.iter().map(|x| x * 2)`.
+- tr: "filter"
+  en: "filter"
+  module: m14
+  def: |
+    Closure'ın `true` döndürdüğü elemanları geçiren adaptördür. Closure elemanın referansını alır.
+- tr: "fold"
+  en: "fold"
+  module: m14
+  def: |
+    Bir başlangıç değeri ve closure ile elemanları tek bir değerde biriktiren tüketicidir: `(1..=4).fold(0, |a, x| a + x)` sonucu `10`'dur.
+- tr: "collect"
+  en: "collect"
+  module: m14
+  def: |
+    Iterator'ı bir koleksiyona (`Vec`, `String`, `HashMap`, `Result<Vec<_>, _>`) toplayan tüketicidir. Hedef tip, anotasyon veya turbofish ile belirtilmelidir.
+- tr: "zip"
+  en: "zip"
+  module: m14
+  def: |
+    İki iterator'ı elemanları çiftleyerek birleştiren adaptördür; kısa olan bitince durur.
+- tr: "flat_map"
+  en: "flat_map"
+  module: m14
+  def: |
+    Her elemanı bir iterator'a çevirip sonuçları tek bir akışta düzleştiren adaptördür.
+- tr: "peekable"
+  en: "peekable"
+  module: m14
+  def: |
+    Bir sonraki elemana tüketmeden bakmayı (`peek`) sağlayan iterator sarmalayıcısıdır. Ayrıştırıcılarda (parser) yaygındır.
+- tr: "sıfır maliyetli soyutlama"
+  en: "zero-cost abstraction"
+  module: m14
+  def: |
+    Üst düzey bir yapının, elle yazılmış düşük düzeyli koddan daha yavaş olmamasıdır. Iterator zincirleri derleyici tarafından genellikle eşdeğer bir döngüye optimize edilir.
+- tr: "fn işaretçisi"
+  en: "function pointer"
+  module: m22
+  def: |
+    `fn(i32) -> i32` tipindeki, yakalama yapmayan bir fonksiyonu gösteren değerdir. Yakalamasız closure'lar ve fonksiyon adları buna dönüştürülebilir; üç closure trait'ini de uygular.
+
+# ───────────── Modül 15: Komut Satırı Aracı ─────────────
+- tr: "komut satırı argümanı"
+  en: "command-line argument"
+  module: m15
+  def: |
+    Programa çalıştırılırken verilen değerdir. `std::env::args()` ile okunur; ilk eleman programın kendi yoludur.
+- tr: "std::fs::read_to_string"
+  en: "std::fs::read_to_string"
+  module: m15
+  def: |
+    Bir dosyanın tüm içeriğini `Result<String, io::Error>` olarak okuyan fonksiyondur. Dosya geçerli UTF-8 değilse hata verir.
+- tr: "process::exit"
+  en: "process::exit"
+  module: m15
+  def: |
+    Programı verilen çıkış koduyla hemen sonlandıran fonksiyondur. `0` başarıyı, sıfırdan farklı değerler hatayı gösterir; `Drop`'lar çalışmaz.
+- tr: "ortam değişkeni"
+  en: "environment variable"
+  module: m15
+  def: |
+    İşletim sisteminin sürece ilettiği isim-değer çiftidir. `std::env::var("ISIM")` bir `Result<String, VarError>` döndürür.
+- tr: "Config yapısı"
+  en: "Config struct"
+  module: m15
+  def: |
+    Programın ayarlarını (argümanlardan okunan değerler) tek yerde toplayan struct'tır. Argüman ayrıştırması `Config::build` gibi bir fonksiyonda yapılır ve `Result` döndürür.
+- tr: "clap"
+  en: "clap"
+  module: m15
+  def: |
+    Komut satırı argümanlarını struct üzerinden bildirimsel olarak ayrıştıran, yardım ve sürüm çıktılarını otomatik üreten yaygın crate'tir.
+- tr: "ilgilerin ayrılması"
+  en: "separation of concerns"
+  module: m15
+  def: |
+    Programı her biri tek bir işten sorumlu parçalara bölme ilkesidir. Rust projelerinde `main.rs` ince tutulur, mantık test edilebilir olsun diye `lib.rs`'e konur.
+
+# ───────────── Modül 16: Cargo ve Ekosistem ─────────────
+- tr: "profil"
+  en: "profile"
+  module: m16
+  def: |
+    Derleme ayarları kümesidir. `[profile.dev]` ve `[profile.release]` bölümleriyle `opt-level`, `debug`, `lto` gibi seçenekler özelleştirilir.
+- tr: "opt-level"
+  en: "opt-level"
+  module: m16
+  def: |
+    Optimizasyon düzeyini `0`'dan `3`'e (ayrıca boyut için `s` ve `z`) belirleyen profil ayarıdır. Debug'ta varsayılan `0`, release'te `3`'tür.
+- tr: "LTO"
+  en: "link-time optimization (LTO)"
+  module: m16
+  def: |
+    Bağlama aşamasında tüm crate'ler arasında optimizasyon yapan seçenektir (`lto = true`). Daha hızlı ve küçük ikili üretebilir, derleme süresini uzatır.
+- tr: "workspace"
+  en: "workspace"
+  module: m16
+  def: |
+    Ortak `Cargo.lock` ve `target` dizinini paylaşan birden çok paketi bir arada yönetmektir. Kök `Cargo.toml`'daki `[workspace] members` ile tanımlanır.
+- tr: "feature"
+  en: "feature"
+  module: m16
+  def: |
+    Bir crate'in isteğe bağlı özelliğidir. `[features]` bölümünde tanımlanır ve `#[cfg(feature = "x")]` ile koda bağlanır; kullanılmayan özellikler derlenmez.
+- tr: "isteğe bağlı bağımlılık"
+  en: "optional dependency"
+  module: m16
+  def: |
+    Yalnızca belirli bir feature açıldığında derlenen bağımlılıktır (`optional = true`).
+- tr: "cargo install"
+  en: "cargo install"
+  module: m16
+  def: |
+    crates.io'dan bir ikili crate'i derleyip kullanıcının cargo bin dizinine kuran komuttur. `cargo-` ile başlayan ikililer `cargo alt-komut` olarak çalışır.
+- tr: "edition"
+  en: "edition"
+  module: m16
+  def: |
+    Rust'ın, geriye dönük uyumsuz olabilecek dil değişikliklerini bir arada sunduğu sürüm kümesidir: 2015, 2018, 2021, 2024. Farklı edition'lardaki crate'ler birlikte çalışabilir.
+- tr: "MSRV"
+  en: "minimum supported Rust version (MSRV)"
+  module: m16
+  def: |
+    Bir crate'in derlenebildiği en eski Rust sürümüdür. `Cargo.toml`'da `rust-version` alanıyla belirtilir.
+- tr: "yank"
+  en: "yank"
+  module: m16
+  def: |
+    `cargo yank` ile yayınlanmış bir sürümün yeni projelerde kullanılmasını engellemektir. Sürümü silmez; mevcut `Cargo.lock`'u olanlar çalışmaya devam eder.
+- tr: "cargo tree"
+  en: "cargo tree"
+  module: m16
+  def: |
+    Projenin bağımlılık ağacını gösteren komuttur; yinelenen sürümleri ve bir bağımlılığın neden eklendiğini bulmaya yarar.
+- tr: "cargo update"
+  en: "cargo update"
+  module: m16
+  def: |
+    `Cargo.lock`'taki sürümleri, `Cargo.toml`'un izin verdiği en yeni uyumlu sürümlere yükselten komuttur.
+- tr: "lint"
+  en: "lint"
+  module: m16
+  def: |
+    Kodda olası hataları veya kötü kalıpları işaretleyen denetimdir. `#[allow(...)]`, `#![warn(...)]` ve `#![deny(...)]` ile seviyesi ayarlanır.
+- tr: "rust-toolchain.toml"
+  en: "rust-toolchain.toml"
+  module: m16
+  def: |
+    Proje için kullanılacak Rust sürümünü, bileşenlerini ve hedeflerini sabitleyen dosyadır; ekipte herkesin aynı araç zincirini kullanmasını sağlar.
+
+# ───────────── Modül 17: Akıllı İşaretçiler ─────────────
+- tr: "akıllı işaretçi"
+  en: "smart pointer"
+  module: m17
+  def: |
+    Veriye işaret eden ve ek yetenekler ya da meta veri sağlayan, genellikle veriye sahip olan yapıdır (`Box`, `Rc`, `Arc`). `Deref` ve `Drop` trait'lerini uygular.
+- tr: "Box"
+  en: "Box<T>"
+  module: m17
+  def: |
+    Değeri heap'te tutan ve tek sahip olan akıllı işaretçidir. Boyutu bilinmeyen veya özyinelemeli tipler ve trait nesneleri (`Box<dyn Trait>`) için kullanılır.
+- tr: "özyinelemeli tip"
+  en: "recursive type"
+  module: m17
+  def: |
+    Kendi türünü içeren tiptir (bağlı liste, ağaç). Boyutu sonsuz olacağı için `Box` gibi bir işaretçi araya konur; aksi hâlde `E0072` hatası alınır.
+- tr: "Deref"
+  en: "Deref"
+  module: m17
+  def: |
+    `*` operatörünün davranışını özelleştiren trait'tir. Uygulayan tip bir referans gibi davranır.
+- tr: "deref zorlaması"
+  en: "deref coercion"
+  module: m17
+  def: |
+    Derleyicinin bir referansı `Deref` zinciri boyunca otomatik dönüştürmesidir: `&String` değeri `&str`'ye, `&Box<T>` değeri `&T`'ye dönüşür. Böylece `fn f(s: &str)` fonksiyonuna `&String` verilebilir.
+- tr: "Drop trait'i"
+  en: "Drop trait"
+  module: m17
+  def: |
+    Değer yok edilirken çalışacak temizlik kodunu tanımlayan trait'tir (`fn drop(&mut self)`). Alanlar bildirim sırasıyla, yerel değişkenler ise tersi sırayla yok edilir; `drop` metodu elle çağrılamaz (`E0040`), erken yok etmek için `std::mem::drop(x)` kullanılır.
+- tr: "Rc"
+  en: "Rc<T>"
+  module: m17
+  def: |
+    Tek iş parçacığında kullanılan, referans sayımlı paylaşımlı sahiplik işaretçisidir. `Rc::clone` yalnızca sayacı artırır; içerik ise değişmezdir. Thread'ler arasında kullanılamaz, onun için `Arc` vardır.
+- tr: "referans sayımı"
+  en: "reference counting"
+  module: m17
+  def: |
+    Bir değere kaç sahibin bağlı olduğunu sayıp sayaç sıfıra inince değeri serbest bırakma yöntemidir. `Rc::strong_count` ile sayaç okunur.
+- tr: "RefCell"
+  en: "RefCell<T>"
+  module: m17
+  def: |
+    Ödünç alma kurallarını derleme zamanı yerine çalışma zamanında denetleyen hücredir. `borrow()` ve `borrow_mut()` kuralı ihlal ederse panik eder.
+- tr: "iç değişkenlik"
+  en: "interior mutability"
+  module: m17
+  def: |
+    Değişmez bir referans üzerinden bile içeriği değiştirebilme kalıbıdır (`Cell`, `RefCell`, `Mutex`). Denetim çalışma zamanına ertelenir.
+- tr: "Cell"
+  en: "Cell<T>"
+  module: m17
+  def: |
+    `Copy` tipler için referans vermeden değeri alıp koyan (`get`/`set`) iç değişkenlik hücresidir. Çalışma zamanı ödünç sayımı yoktur.
+- tr: "Rc<RefCell<T>>"
+  en: "Rc<RefCell<T>>"
+  module: m17
+  def: |
+    Tek iş parçacığında birden çok sahibin aynı veriyi değiştirebilmesini sağlayan yaygın birleşimdir. Ödünç alma ihlalleri çalışma zamanında panik doğurur.
+- tr: "Weak"
+  en: "Weak<T>"
+  module: m17
+  def: |
+    `Rc`'ye sahipliği olmayan, `Rc::downgrade` ile oluşturulan zayıf referanstır. `upgrade()` değer hâlâ yaşıyorsa `Some(Rc<T>)`, aksi hâlde `None` döndürür. Referans döngülerini kırar.
+- tr: "referans döngüsü"
+  en: "reference cycle"
+  module: m17
+  def: |
+    `Rc` değerlerinin birbirini döngüsel tutması ve sayacın hiç sıfıra inmemesidir; bellek sızar. Geri bağlantılar için `Weak` kullanılarak çözülür.
+
+# ───────────── Modül 18: Eşzamanlılık ─────────────
+- tr: "eşzamanlılık"
+  en: "concurrency"
+  module: m18
+  def: |
+    Birden çok işin iç içe ilerlemesidir; tek çekirdekte de olabilir. Paralellikten (parallelism) farkı, işlerin aynı anda fiilen çalışmasının şart olmamasıdır.
+- tr: "paralellik"
+  en: "parallelism"
+  module: m18
+  def: |
+    Birden çok işin birden çok çekirdekte aynı anda fiilen çalışmasıdır.
+- tr: "thread"
+  en: "thread"
+  module: m18
+  def: |
+    İşletim sistemi tarafından zamanlanan bağımsız yürütme akışıdır. `std::thread::spawn` yeni bir thread başlatır; thread'ler aynı bellek uzayını paylaşır.
+- tr: "JoinHandle"
+  en: "JoinHandle"
+  module: m18
+  def: |
+    `thread::spawn`'ın döndürdüğü tutamaçtır. `join()` thread'in bitmesini bekler ve sonucu (veya panik hatasını) `Result` olarak verir.
+- tr: "kanal"
+  en: "channel (mpsc)"
+  module: m18
+  def: |
+    Thread'ler arası mesaj göndermeyi sağlayan, `std::sync::mpsc` içindeki yapıdır (multiple producer, single consumer). Gönderilen değerin sahipliği alıcıya geçer; tüm göndericiler düşünce alıcı döngüsü biter.
+- tr: "Mutex"
+  en: "Mutex<T>"
+  module: m18
+  def: |
+    Verilere aynı anda yalnızca tek thread'in erişmesini sağlayan karşılıklı dışlama kilididir. Veri kilidin içinde durur ve `lock()` ile erişilir.
+- tr: "MutexGuard"
+  en: "MutexGuard"
+  module: m18
+  def: |
+    `lock()`'un döndürdüğü, veriye erişim sağlayan ve kapsam sonunda kilidi otomatik bırakan RAII nesnesidir.
+- tr: "Arc"
+  en: "Arc<T>"
+  module: m18
+  def: |
+    Atomik referans sayımlı, thread'ler arası paylaşılabilen akıllı işaretçidir. Genellikle `Arc<Mutex<T>>` olarak paylaşılan değiştirilebilir durum için kullanılır.
+- tr: "kilitlenme"
+  en: "deadlock"
+  module: m18
+  def: |
+    İki veya daha fazla thread'in birbirinin tuttuğu kilidi beklemesi yüzünden hiçbirinin ilerleyememesidir. Kilitleri hep aynı sırayla almak ve kilidi kısa tutmak önlem sayılır.
+- tr: "mutex zehirlenmesi"
+  en: "poisoning"
+  module: m18
+  def: |
+    Bir thread kilidi tutarken panik ederse `Mutex`'in zehirlenmiş sayılması ve sonraki `lock()` çağrılarının `Err` döndürmesidir; veri tutarsız kalmış olabilir.
+- tr: "Send"
+  en: "Send"
+  module: m18
+  def: |
+    Bir değerin sahipliğinin başka bir thread'e güvenle taşınabileceğini belirten otomatik işaretçi trait'tir. `Rc` `Send` değildir.
+- tr: "Sync"
+  en: "Sync"
+  module: m18
+  def: |
+    `&T`'nin thread'ler arasında paylaşılabileceğini belirten otomatik işaretçi trait'tir. `T: Sync` ancak ve ancak `&T: Send` ise geçerlidir. `RefCell` ve `Cell` `Sync` değildir.
+- tr: "RwLock"
+  en: "RwLock<T>"
+  module: m18
+  def: |
+    Aynı anda çok sayıda okuyucuya veya tek bir yazıcıya izin veren kilittir. Okumanın yoğun olduğu verilerde `Mutex`'ten verimli olabilir.
+- tr: "atomik tip"
+  en: "atomic type"
+  module: m18
+  def: |
+    Kilitsiz, bölünemez işlemler sunan tiplerdir (`AtomicUsize`, `AtomicBool`): `sayac.fetch_add(1, Ordering::Relaxed)`. Basit sayaç ve bayraklar için `Mutex`'ten hafiftir.
+- tr: "bellek sıralaması"
+  en: "memory ordering"
+  module: m18
+  def: |
+    Atomik işlemlerin diğer thread'lere hangi sırayla görüneceğini belirler: `Relaxed` (sıra garantisi yok), `Acquire`/`Release` (eşleşen çiftler arasında sıra), `SeqCst` (tüm thread'ler için tek bir genel sıra).
+- tr: "thread::scope"
+  en: "scoped threads"
+  module: m18
+  def: |
+    Thread'lerin kapsam bitmeden otomatik birleştirilmesini garanti ederek yerel değişkenleri `Arc` olmadan ödünç almalarına izin veren yapıdır.
+- tr: "rayon"
+  en: "rayon"
+  module: m18
+  def: |
+    Veri paralelliği crate'idir. `v.par_iter().map(...)` gibi çağrılarla iş, bir thread havuzunda otomatik paylaştırılır.
+- tr: "OnceLock"
+  en: "OnceLock"
+  module: m18
+  def: |
+    Bir kez ve thread-güvenli biçimde başlatılan hücredir. Küresel (static) değerleri tembel ve güvenle ilklendirmek için kullanılır.
+- tr: "LazyLock"
+  en: "LazyLock"
+  module: m18
+  def: |
+    İlk erişimde, verilen closure ile bir kez ilklendirilen static değer tipidir: `static AYAR: LazyLock<Vec<u32>> = LazyLock::new(|| ...)`.
+- tr: "Condvar"
+  en: "Condvar"
+  module: m18
+  def: |
+    Bir thread'in, başka bir thread belirli bir koşulu bildirene kadar `Mutex` ile birlikte uyuyup beklemesini sağlayan koşul değişkenidir.
+- tr: "Barrier"
+  en: "Barrier"
+  module: m18
+  def: |
+    Belirli sayıda thread belirli noktaya gelene dek hepsini bekleten senkronizasyon aracıdır.
+
+# ───────────── Modül 19: Async/Await ─────────────
+- tr: "future"
+  en: "future"
+  module: m19
+  def: |
+    Henüz tamamlanmamış olabilecek bir hesaplamayı temsil eden değerdir (`Future` trait'i). Kendi başına çalışmaz; ilerlemesi için bir runtime tarafından `poll` edilmelidir.
+- tr: "async fn"
+  en: "async fn"
+  module: m19
+  def: |
+    Gövdesi çalıştırılmak yerine bir `Future` döndüren fonksiyondur. Derleyici gövdeyi bir durum makinesine çevirir.
+- tr: "await"
+  en: "await"
+  module: m19
+  def: |
+    Bir future'ın sonucunu beklemeyi sağlayan operatördür: `fut.await`. Beklerken thread bloke edilmez, görev başka işlere yol verir.
+- tr: "runtime"
+  en: "runtime"
+  module: m19
+  def: |
+    Future'ları çalıştıran (`poll` eden), görev zamanlayan ve I/O ile zamanlayıcıları yöneten kütüphanedir. Rust standart kütüphanesi bir runtime içermez; `tokio` en yaygınıdır.
+- tr: "tokio"
+  en: "tokio"
+  module: m19
+  def: |
+    Rust'ın en yaygın asenkron runtime'ıdır. Görev zamanlayıcı, asenkron I/O, zamanlayıcılar ve senkronizasyon araçları sunar; `#[tokio::main]` ile kullanılır.
+- tr: "tokio::spawn"
+  en: "tokio::spawn"
+  module: m19
+  def: |
+    Bir future'ı bağımsız bir görev (task) olarak runtime'a bırakır ve `JoinHandle` döndürür. Görev `Send + 'static` olmalıdır.
+- tr: "join!"
+  en: "join!"
+  module: m19
+  def: |
+    Birden çok future'ı aynı görevde eşzamanlı yürütüp hepsi bitince sonuçlarını tuple olarak veren makrodur. `try_join!` ilk `Err`'de erken biter.
+- tr: "select!"
+  en: "select!"
+  module: m19
+  def: |
+    Birden çok future'dan ilk biteni seçen, diğerlerini bırakan (iptal eden) makrodur. Yarış ve zaman aşımı kurmak için kullanılır.
+- tr: "JoinSet"
+  en: "JoinSet"
+  module: m19
+  def: |
+    Dinamik sayıda tokio görevini bir arada yöneten ve sonuçlarını biten sırayla toplayan yapıdır. `JoinSet` düşünce içindeki görevler iptal edilir.
+- tr: "zaman aşımı"
+  en: "timeout"
+  module: m19
+  def: |
+    `tokio::time::timeout(süre, fut)` ile bir future'a süre sınırı koymaktır; süre dolarsa `Err(Elapsed)` döner ve future bırakılır.
+- tr: "oneshot"
+  en: "oneshot channel"
+  module: m19
+  def: |
+    Tek bir değerin tek bir kez gönderilebildiği asenkron kanaldır; genellikle bir istek için yanıt iletmekte kullanılır.
+- tr: "stream"
+  en: "stream"
+  module: m19
+  def: |
+    Asenkron iterator'dur: zaman içinde birden çok değer üretir ve `StreamExt::next().await` ile okunur.
+- tr: "Future trait'i"
+  en: "Future trait"
+  module: m19
+  def: |
+    `fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>` tanımlayan trait'tir. Sonuç hazırsa `Poll::Ready`, değilse `Poll::Pending` döner.
+- tr: "poll"
+  en: "poll"
+  module: m19
+  def: |
+    Bir future'ı ilerletmeyi deneyen metottur. Hazır değilse `Pending` döner ve runtime, `Waker` ile uyarılınca tekrar dener.
+- tr: "Waker"
+  en: "Waker"
+  module: m19
+  def: |
+    Bir görevi tekrar `poll` edilmeye hazır olarak işaretleyen tutamaçtır. I/O hazır olunca veya zamanlayıcı dolunca çağrılır.
+- tr: "Pin"
+  en: "Pin"
+  module: m19
+  def: |
+    Bir değerin bellekte yerinden oynatılmayacağını garanti eden sarmalayıcıdır. Kendine referans tutabilen async durum makineleri için gereklidir.
+- tr: "Unpin"
+  en: "Unpin"
+  module: m19
+  def: |
+    Bir tipin sabitlenmiş olsa bile güvenle taşınabileceğini belirten otomatik işaretçi trait'tir. Çoğu sıradan tip `Unpin`'dir; derleyicinin ürettiği async durum makineleri değildir.
+- tr: "spawn_blocking"
+  en: "spawn_blocking"
+  module: m19
+  def: |
+    Bloke edici veya CPU yoğun işi, asenkron görevleri aksatmayacak şekilde ayrı bir thread havuzunda çalıştıran tokio fonksiyonudur.
+- tr: "iptal"
+  en: "cancellation"
+  module: m19
+  def: |
+    Bir future'ın tamamlanmadan düşürülmesi (drop) ile durdurulmasıdır. Future, bir `.await` noktasında bırakılabileceği için o noktalarda yarım kalan işler için dikkatli olunmalıdır (cancellation safety).
+- tr: "Semaphore"
+  en: "Semaphore"
+  module: m19
+  def: |
+    Aynı anda çalışabilecek görev sayısını sınırlayan sayaçlı izin mekanizmasıdır.
+- tr: "async closure"
+  en: "async closure"
+  module: m19
+  def: |
+    `async |x| { ... }` biçiminde, çağrıldığında future döndüren closure'dır (Rust 1.85'ten itibaren kararlı).
+- tr: "G/Ç yoğun iş"
+  en: "I/O-bound work"
+  module: m19
+  def: |
+    Zamanının çoğunu ağ, disk gibi dış kaynakları beklemekle geçiren iştir. Async bu bekleme sürelerinde başka işlerin ilerlemesini sağlar; CPU yoğun işlerde ise fayda sağlamaz.
+
+# ───────────── Modül 20: Trait Nesneleri ve OOP ─────────────
+- tr: "kompozisyon"
+  en: "composition"
+  module: m20
+  def: |
+    Yeni davranışı miras yerine, tipleri alan olarak bir araya getirerek ve trait'lerle kurmaktır. Rust'ta kalıtım olmadığı için kod yeniden kullanımının temel yoludur.
+- tr: "kalıtım"
+  en: "inheritance"
+  module: m20
+  def: |
+    Bir sınıfın başka bir sınıfın alan ve davranışlarını devralmasıdır. Rust'ta yoktur; yerine trait'ler, varsayılan metotlar ve kompozisyon kullanılır.
+- tr: "trait nesnesi"
+  en: "trait object"
+  module: m20
+  def: |
+    Somut tipi çalışma zamanında bilinen bir trait'i uygulayan değeri `dyn Trait` olarak taşıyan yapıdır: `Box<dyn Ciz>`, `&dyn Ciz`. Farklı tiplerin aynı koleksiyonda tutulmasını sağlar.
+- tr: "dyn"
+  en: "dyn"
+  module: m20
+  def: |
+    Trait nesnesi tiplerini belirten anahtar sözcüktür: `dyn Trait`. Çağrılar çalışma zamanında vtable üzerinden çözülür.
+- tr: "vtable"
+  en: "vtable"
+  module: m20
+  def: |
+    Bir tipin trait metotlarının fonksiyon işaretçilerini (ve boyut/hizalama/drop bilgisini) tutan tablodur. `dyn Trait` işaretçileri veri işaretçisinin yanında vtable işaretçisini de taşır.
+- tr: "şişman işaretçi"
+  en: "fat pointer"
+  module: m20
+  def: |
+    Adresin yanında ek bilgi taşıyan, bu yüzden iki kelime boyunda olan işaretçidir: dilim ve `&str` için uzunluk, `dyn Trait` için vtable.
+- tr: "statik dispatch"
+  en: "static dispatch"
+  module: m20
+  def: |
+    Hangi metodun çağrılacağının derleme zamanında bilinmesidir. Generic'ler (monomorphization) ile sağlanır; satır içi açılmaya (inlining) olanak verir.
+- tr: "dinamik dispatch"
+  en: "dynamic dispatch"
+  module: m20
+  def: |
+    Hangi metodun çağrılacağının çalışma zamanında vtable üzerinden belirlenmesidir (`dyn Trait`). Küçük bir çağrı maliyeti vardır ama kod şişmesi olmaz ve açık tip kümelerine izin verir.
+- tr: "dyn uyumluluğu"
+  en: "dyn compatibility (object safety)"
+  module: m20
+  def: |
+    Bir trait'in `dyn Trait` olarak kullanılabilme koşuludur: generic metotları ve `Self` döndüren metotları olmamalıdır (veya `where Self: Sized` ile hariç tutulmalıdır). İhlali `E0038` verir.
+- tr: "durum deseni"
+  en: "state pattern"
+  module: m20
+  def: |
+    Nesnenin davranışını iç durumuna göre değiştiren tasarım desenidir. Rust'ta `Box<dyn State>` veya daha idiomatik olarak typestate ile uygulanır.
+- tr: "typestate"
+  en: "typestate pattern"
+  module: m20
+  def: |
+    Nesnenin durumunu tipin kendisinde kodlama desenidir (`Taslak` → `Incelemede` → `Yayinda`). Geçersiz durum geçişleri derleme hatası olur.
+- tr: "builder deseni"
+  en: "builder pattern"
+  module: m20
+  def: |
+    Çok seçenekli bir nesneyi adım adım ayarlayıp sonunda `build()` ile üreten tasarım desenidir: `Istek::yeni().url("..").zaman_asimi(5).build()`.
+- tr: "strateji deseni"
+  en: "strategy pattern"
+  module: m20
+  def: |
+    Bir algoritmayı değiştirilebilir parça olarak dışarıdan vermektir. Rust'ta genellikle closure veya trait ile yapılır.
+- tr: "extension trait"
+  en: "extension trait"
+  module: m20
+  def: |
+    Mevcut (hatta dış) bir tipe yeni metotlar eklemek için tanımlanan trait'tir; trait kapsama alındığında metotlar kullanılabilir olur.
+- tr: "Any"
+  en: "Any"
+  module: m20
+  def: |
+    `std::any::Any`, tiplerin çalışma zamanında `TypeId` ile tanınmasını sağlar. `downcast_ref::<T>()` ile trait nesnesi somut tipe geri dönüştürülebilir; nadiren kullanılmalıdır.
+- tr: "RAII guard"
+  en: "RAII guard"
+  module: m20
+  def: |
+    Yaşadığı sürece bir kaynağı (kilit, dosya, zamanlayıcı) tutan ve `Drop` ile bırakan nesnedir; `MutexGuard` tipik örnektir.
+- tr: "polimorfizm"
+  en: "polymorphism"
+  module: m20
+  def: |
+    Aynı arayüzün farklı tiplerle çalışabilmesidir. Rust'ta generic'ler (statik) ve trait nesneleri (dinamik) ile sağlanır.
+
+# ───────────── Modül 21: Desenler Derinlemesine ─────────────
+- tr: "reddedilebilir desen"
+  en: "refutable pattern"
+  module: m21
+  def: |
+    Bazı değerlerle eşleşmeyebilen desendir (`Some(x)`). `if let`, `while let` ve `match` kollarında kullanılır; `let` içinde `E0005` verir.
+- tr: "reddedilemez desen"
+  en: "irrefutable pattern"
+  module: m21
+  def: |
+    Her değerle eşleşen desendir (`x`, `(a, b)`). `let`, `for` ve fonksiyon parametrelerinde zorunludur.
+- tr: "destructuring"
+  en: "destructuring"
+  module: m21
+  def: |
+    Bir tuple, struct veya enum'u desenle parçalarına ayırıp bileşenleri değişkenlere bağlamaktır: `let Nokta { x, y } = p;`.
+- tr: "aralık deseni"
+  en: "range pattern"
+  module: m21
+  def: |
+    Sayı veya `char` aralığını eşleştiren desendir: `1..=5`, `'a'..='z'`.
+- tr: "birden çok desen"
+  en: "or-pattern"
+  module: m21
+  def: |
+    `|` ile alternatif desenleri birleştirir: `1 | 2 | 3 => ...`. Tüm alternatifler aynı değişkenleri bağlamalıdır.
+- tr: "geri kalan deseni"
+  en: "rest pattern (..)"
+  module: m21
+  def: |
+    Geri kalan alan veya elemanları yok sayan desendir: `Nokta { x, .. }`, `[ilk, .., son]`.
+- tr: "binding modu"
+  en: "binding mode"
+  module: m21
+  def: |
+    Desenle eşleştirilen değerlerin taşınarak, kopyalanarak veya referansla bağlanması biçimidir. Referans üzerinde eşleştirmede varsayılan olarak `ref`/`ref mut` modu otomatik seçilir.
+- tr: "ref"
+  en: "ref"
+  module: m21
+  def: |
+    Desende değeri taşımak yerine referansla bağlamayı sağlayan anahtar sözcüktür; `ref mut` değiştirilebilir referans bağlar.
+- tr: "match guard"
+  en: "match guard"
+  module: m21
+  def: |
+    `match` kolunda desenden sonra gelen ek `if` koşuludur: `Some(n) if n > 0 => ...`. Guard'lı kollar kapsayıcılık denetimine katkı sağlamaz.
+- tr: "@ bağlaması"
+  en: "@ binding"
+  module: m21
+  def: |
+    Bir değeri desenle sınayıp aynı anda isme bağlar: `id @ 3..=7`.
+- tr: "dilim deseni"
+  en: "slice pattern"
+  module: m21
+  def: |
+    Dizi ve dilimlerin yapısını eşleştiren desendir: `[]`, `[x]`, `[ilk, .., son]`, `[bas, kalan @ ..]`.
+
+# ───────────── Modül 22: İleri Trait'ler ve Tipler ─────────────
+- tr: "ilişkili tip"
+  en: "associated type"
+  module: m22
+  def: |
+    Trait içinde tanımlanan tip yer tutucusudur: `Iterator::Item`. Her uygulama için tek bir seçim yapılır; generic parametreden farkı budur.
+- tr: "varsayılan tip parametresi"
+  en: "default type parameter"
+  module: m22
+  def: |
+    Generic parametreye varsayılan tip vermektir: `trait Add<Rhs = Self>`. Böylece `a + b` aynı tipler için ek tip belirtmeden çalışır.
+- tr: "operatör aşırı yükleme"
+  en: "operator overloading"
+  module: m22
+  def: |
+    `std::ops` trait'lerini (`Add`, `Sub`, `Mul`, `Neg`, `Index`, `AddAssign`) uygulayarak kendi tipine `+`, `-`, `*` gibi işleçler kazandırmaktır.
+- tr: "tam nitelikli sözdizimi"
+  en: "fully qualified syntax"
+  module: m22
+  def: |
+    Aynı adlı metotlar arasında ayrım yapmak için `<Tip as Trait>::metot(...)` yazımıdır.
+- tr: "supertrait"
+  en: "supertrait"
+  module: m22
+  def: |
+    Bir trait'in başka bir trait'i gerektirmesidir: `trait Sure: Display`. `Sure` uygulayan her tip `Display`'i de uygulamak zorundadır.
+- tr: "tip takma adı"
+  en: "type alias"
+  module: m22
+  def: |
+    `type` ile mevcut bir tipe yeni bir isim vermektir: `type Sonuc<T> = Result<T, MyError>;`. Yeni bir tip oluşturmaz.
+- tr: "never tipi"
+  en: "never type (!)"
+  module: m22
+  def: |
+    Hiç değer üretmeyen ifadelerin tipidir: `panic!`, `continue`, `loop {}`. Her tipe dönüşebildiği için `match` kollarında diğer kollarla uyumlu olur.
+- tr: "dinamik boyutlu tip"
+  en: "dynamically sized type (DST)"
+  module: m22
+  def: |
+    Boyutu derleme zamanında bilinmeyen tiptir: `str`, `[T]`, `dyn Trait`. Yalnızca bir işaretçi arkasında (`&str`, `Box<[T]>`) kullanılabilir.
+- tr: "Sized"
+  en: "Sized"
+  module: m22
+  def: |
+    Boyutu derleme zamanında bilinen tipleri işaretleyen trait'tir; generic parametreler varsayılan olarak `Sized`'dır. `?Sized` bu varsayımı gevşetir: `fn f<T: ?Sized>(x: &T)`.
+- tr: "yüksek dereceli trait sınırı"
+  en: "higher-ranked trait bound (HRTB)"
+  module: m22
+  def: |
+    `for<'a> Fn(&'a str) -> &'a str` yazımıdır; sınırın belirli bir yaşam süresi için değil, her olası yaşam süresi için geçerli olduğunu söyler.
+- tr: "PhantomData"
+  en: "PhantomData"
+  module: m22
+  def: |
+    Sıfır boyutlu, tip parametresini kullanılmış saymanı sağlayan işaretçi tiptir. Ölçü birimi (`Uzunluk<Metre>`) veya ham işaretçi sahipliği gibi durumlarda kullanılır.
+- tr: "işaretçi trait"
+  en: "marker trait"
+  module: m22
+  def: |
+    Metodu olmayan, tipe bir özellik atfeden trait'tir: `Copy`, `Send`, `Sync`, `Sized`, `Unpin`.
+- tr: "sealed trait"
+  en: "sealed trait"
+  module: m22
+  def: |
+    Dışarıdan uygulanamayan trait kalıbıdır; özel bir modüldeki supertrait'e dayanır. Kütüphanenin sonradan trait'e metot eklemesini uyumsuzluk yaratmadan mümkün kılar.
+- tr: "GAT"
+  en: "generic associated type (GAT)"
+  module: m22
+  def: |
+    Kendisi de generic parametre (özellikle yaşam süresi) alan ilişkili tiptir: `type Item<'a> where Self: 'a;`. "Lending iterator" gibi kalıpları mümkün kılar.
+- tr: "RPITIT"
+  en: "return-position impl Trait in traits"
+  module: m22
+  def: |
+    Trait metotlarının dönüş tipinde `impl Trait` kullanabilmektir: `fn elemanlar(&self) -> impl Iterator<Item = u32>;`. Her uygulama kendi somut tipini döndürür.
+- tr: "Rust API Guidelines"
+  en: "Rust API Guidelines"
+  module: m25
+  def: |
+    Rust ekibinin, kütüphane API'lerinin tutarlı ve idiomatik olması için yayımladığı öneriler listesidir (isimlendirme, trait uygulaması, dokümantasyon vb.).
+
+# ───────────── Modül 23: Makrolar ─────────────
+- tr: "macro_rules!"
+  en: "macro_rules!"
+  module: m23
+  def: |
+    Desen eşleştirmeye dayanan bildirimsel makro tanımlama yoludur. Her kol, girdi token'larını bir desene uydurur ve çıktı kodunu üretir.
+- tr: "bildirimsel makro"
+  en: "declarative macro"
+  module: m23
+  def: |
+    `macro_rules!` ile tanımlanan, token desenlerini koda dönüştüren makrodur. Yazımı proc makrolardan basittir ama ifade gücü daha sınırlıdır.
+- tr: "fragment belirteci"
+  en: "fragment specifier"
+  module: m23
+  def: |
+    Makro deseninde yakalanan kod parçasının türünü belirtir: `$x:expr`, `ident`, `ty`, `tt`, `pat`, `block`, `literal`, `path`, `stmt`, `item`, `vis`, `lifetime`, `meta`.
+- tr: "makro tekrarı"
+  en: "macro repetition"
+  module: m23
+  def: |
+    `$( ... ),*` veya `$( ... );+` yazımıyla bir desenin sıfır/bir veya daha çok kez eşleşmesidir. `*` sıfır veya çok, `+` bir veya çok, `?` sıfır ya da bir demektir.
+- tr: "hijyen"
+  en: "macro hygiene"
+  module: m23
+  def: |
+    Makronun içinde tanımlanan yerel değişkenlerin dışarıdaki aynı adlı değişkenlerle karışmaması özelliğidir. `macro_rules!` yerel değişkenler için hijyeniktir.
+- tr: "$crate"
+  en: "$crate"
+  module: m23
+  def: |
+    Makroyu tanımlayan crate'e işaret eden özel yol önekidir. Dışa aktarılan makroların, kullanıcının crate'inde de kendi yardımcı öğelerine ulaşabilmesini sağlar.
+- tr: "#[macro_export]"
+  en: "#[macro_export]"
+  module: m23
+  def: |
+    Bir `macro_rules!` makrosunu crate'in genel API'sine koyar; böylece başka crate'ler `crate_adi::makro!` ile kullanabilir.
+- tr: "TT munching"
+  en: "TT munching"
+  module: m23
+  def: |
+    Token ağaçlarını (`tt`) her çağrıda baştan tek tek tüketen özyinelemeli makro tekniğidir. Karmaşık sözdizimlerini ayrıştırmak için kullanılır.
+- tr: "prosedürel makro"
+  en: "procedural macro"
+  module: m23
+  def: |
+    Token akışını Rust kodu olarak işleyip yeni token akışı üreten makrodur. Üç türü vardır: derive, öznitelik (attribute) ve fonksiyon benzeri; ayrı bir `proc-macro = true` crate'inde tanımlanır.
+- tr: "derive makrosu"
+  en: "derive macro"
+  module: m23
+  def: |
+    `#[derive(...)]` ile kullanılan, bir struct veya enum için trait uygulaması üreten prosedürel makrodur.
+- tr: "TokenStream"
+  en: "TokenStream"
+  module: m23
+  def: |
+    Prosedürel makroların girdi ve çıktı olarak kullandığı token dizisidir.
+- tr: "syn ve quote"
+  en: "syn and quote"
+  module: m23
+  def: |
+    Prosedürel makro yazımının iki temel crate'idir: `syn` token akışını Rust sözdizimi ağacına ayrıştırır, `quote` ise yeni kod üretmeyi sağlar.
+- tr: "cargo expand"
+  en: "cargo expand"
+  module: m23
+  def: |
+    Makroları genişletilmiş hâliyle gösteren cargo alt komutudur. Makro hatalarını ayıklamak için kullanılır.
+
+# ───────────── Modül 24: Unsafe ve FFI ─────────────
+- tr: "unsafe"
+  en: "unsafe"
+  module: m24
+  def: |
+    Derleyicinin tek başına doğrulayamadığı işlemleri yapabilmek için kullanılan, programcıya sorumluluk veren anahtar sözcüktür. Ödünç alma denetimini kapatmaz, yalnızca beş ek yeteneği açar.
+- tr: "unsafe'in beş süper gücü"
+  en: "five unsafe superpowers"
+  module: m24
+  def: |
+    `unsafe` içinde yapılabilenler şunlardır: ham işaretçiyi dereference etmek, unsafe fonksiyon veya metot çağırmak, değiştirilebilir `static`'e erişmek, unsafe trait uygulamak ve `union` alanlarına erişmek.
+- tr: "ham işaretçi"
+  en: "raw pointer"
+  module: m24
+  def: |
+    `*const T` ve `*mut T` tipindeki, ödünç alma kurallarına tabi olmayan, null veya sarkan olabilen işaretçidir. Oluşturmak güvenlidir; dereference etmek `unsafe`'tir.
+- tr: "unsafe fn"
+  en: "unsafe fn"
+  module: m24
+  def: |
+    Çağıranın belgelenmiş koşulları sağlamasını gerektiren fonksiyondur. Çağrısı `unsafe` blok içinde yapılmalıdır; edition 2024'te gövdesinde de ayrı `unsafe` blok gerekir (`unsafe_op_in_unsafe_fn`).
+- tr: "güvenli soyutlama"
+  en: "safe abstraction"
+  module: m24
+  def: |
+    İçinde `unsafe` barındıran ama kullanıcıya güvenli bir API sunan koddur (örneğin `split_at_mut`). İhtiyaç duyulan koşullar iç mantıkla garanti edilmelidir.
+- tr: "SAFETY yorumu"
+  en: "SAFETY comment"
+  module: m24
+  def: |
+    Her `unsafe` bloğun üstüne, hangi koşulların neden sağlandığını açıklayan `// SAFETY: ...` yorumu yazma geleneğidir.
+- tr: "FFI"
+  en: "foreign function interface (FFI)"
+  module: m24
+  def: |
+    Rust'ın başka dillerle (genellikle C) fonksiyon çağrısı alışverişi yapmasıdır. Bildirim `unsafe extern "C" { ... }` bloğunda yapılır.
+- tr: "extern \"C\""
+  en: "extern \"C\""
+  module: m24
+  def: |
+    C çağrı kuralını (ABI) seçen belirteçtir. Dış fonksiyon bildirmek veya C'den çağrılacak Rust fonksiyonu tanımlamak için kullanılır.
+- tr: "no_mangle"
+  en: "no_mangle"
+  module: m24
+  def: |
+    Derleyicinin sembol adını değiştirmesini engelleyen niteliktir; C'den çağrılabilecek fonksiyonlar için gerekir. Edition 2024'te `#[unsafe(no_mangle)]` olarak yazılır.
+- tr: "static mut"
+  en: "static mut"
+  module: m24
+  def: |
+    Değiştirilebilir global değişkendir ve erişimi `unsafe`'tir. Edition 2024'te ona referans almak yasaktır (`&raw const`/`&raw mut` gerekir); çoğu durumda atomik, `Mutex` veya `OnceLock` tercih edilmelidir.
+- tr: "union"
+  en: "union"
+  module: m24
+  def: |
+    Tüm alanların aynı bellekte üst üste durduğu tiptir. Alan okumak `unsafe`'tir çünkü bellekteki bitlerin o alana uygun olması programcının sorumluluğudur.
+- tr: "unsafe trait"
+  en: "unsafe trait"
+  module: m24
+  def: |
+    Uygulayanın derleyicinin denetleyemediği bir söz verdiği trait'tir (`Send`, `Sync`). Uygulaması `unsafe impl` ile yazılır.
+- tr: "Miri"
+  en: "Miri"
+  module: m24
+  def: |
+    Rust'ın orta düzey ara dilini yorumlayıp tanımsız davranışı (geçersiz bellek erişimi, hizalama hatası, veri yarışı) yakalayan araçtır; `cargo miri test` ile çalışır.
+- tr: "bellek düzeni"
+  en: "memory layout"
+  module: m24
+  def: |
+    Bir tipin bellekte nasıl dizildiğidir: boyut, hizalama ve alan sırası. `std::mem::size_of` ve `align_of` ile sorgulanır.
+- tr: "hizalama"
+  en: "alignment"
+  module: m24
+  def: |
+    Bir değerin bellek adresinin belirli bir sayının katı olma zorunluluğudur. Tipin `align_of` değeri bunu verir; ihlali tanımsız davranıştır.
+- tr: "dolgu"
+  en: "padding"
+  module: m24
+  def: |
+    Hizalamayı sağlamak için alanlar arasına eklenen boş baytlardır. `repr(Rust)`'ta derleyici alanları yeniden sıralayarak dolguyu azaltabilir.
+- tr: "repr"
+  en: "repr"
+  module: m24
+  def: |
+    Tipin bellek temsilini belirleyen niteliktir: `repr(C)` C uyumlu düzen, `repr(u8)` enum tabanını, `repr(transparent)` tek alanlı sarmalayıcının içteki tiple aynı düzeni sahip olmasını sağlar.
+- tr: "niş optimizasyonu"
+  en: "niche optimization"
+  module: m24
+  def: |
+    Geçersiz bit desenlerini ek bilgi saklamak için kullanma tekniğidir. `Option<&T>` ve `Option<Box<T>>` null işaretçiyi `None` olarak kullanır, bu yüzden `&T` ile aynı boyuttadır.
+- tr: "MaybeUninit"
+  en: "MaybeUninit"
+  module: m24
+  def: |
+    Henüz başlatılmamış olabilecek bellek için güvenli bir sarmalayıcıdır. Başlatılmamış değeri normal tip olarak kullanmak tanımsız davranıştır.
+- tr: "CString"
+  en: "CString / CStr"
+  module: m24
+  def: |
+    C uyumlu, sonu NUL baytla biten metin tipleridir. `CString` sahiplidir, `CStr` ödünç alınmış hâlidir; FFI'da kullanılır.
+- tr: "bindgen ve cbindgen"
+  en: "bindgen and cbindgen"
+  module: m24
+  def: |
+    `bindgen` C başlık dosyalarından Rust bağlamaları, `cbindgen` ise Rust kodundan C başlık dosyaları üreten araçlardır.
+
+# ───────────── Modül 25: Performans ve İdiomatik Rust ─────────────
+- tr: "erken optimizasyon"
+  en: "premature optimization"
+  module: m25
+  def: |
+    Ölçüm yapmadan, performans sorunu kanıtlanmadan kodu karmaşıklaştırmaktır. Önce doğruluk ve algoritma, sonra ölçüm ve hedefli iyileştirme gelir.
+- tr: "Instant"
+  en: "Instant"
+  module: m25
+  def: |
+    `std::time::Instant`, monoton bir zaman ölçer: `let t = Instant::now(); ... t.elapsed()`. Basit süre ölçümlerinde kullanılır.
+- tr: "black_box"
+  en: "black_box"
+  module: m25
+  def: |
+    `std::hint::black_box`, derleyicinin değeri optimize edip hesaplamayı tamamen silmesini engelleyen ipucudur. Mikro ölçümlerde kullanılır.
+- tr: "criterion"
+  en: "criterion"
+  module: m25
+  def: |
+    İstatistiksel olarak güvenilir benchmark sonuçları üreten, sonuçları önceki çalışmalarla karşılaştıran crate'tir.
+- tr: "profilleme"
+  en: "profiling"
+  module: m25
+  def: |
+    Programın zamanının nerede harcandığını örnekleme veya izleme ile ölçmektir (`perf`, flamegraph). Optimize edilecek gerçek darboğazı bulmak için kullanılır.
+- tr: "with_capacity"
+  en: "with_capacity"
+  module: m25
+  def: |
+    Önceden kapasite ayırarak `Vec` veya `String` oluşturur. Eleman sayısı biliniyorsa tekrar tekrar yeniden tahsisi önler.
+- tr: "Cow"
+  en: "Cow (clone-on-write)"
+  module: m25
+  def: |
+    `Cow<'a, B>`, ya ödünç alınmış ya sahipli veri tutan enum'dur (`Borrowed` / `Owned`). Değiştirmek gerekmedikçe kopyalamadan kaçınmayı sağlar: `Cow<'_, str>`.
+- tr: "inlining"
+  en: "inlining"
+  module: m25
+  def: |
+    Derleyicinin bir fonksiyon çağrısını gövdesiyle değiştirmesidir. Çağrı maliyetini kaldırır ve başka optimizasyonlara kapı açar; `#[inline]` ipucu verir.
+- tr: "adlandırma kuralı as_ / to_ / into_"
+  en: "as_ / to_ / into_ naming"
+  module: m25
+  def: |
+    `as_` ucuz bir ödünç görünüm (`as_str`), `to_` maliyetli bir dönüşüm veya kopya (`to_string`), `into_` ise sahipliği tüketen dönüşümdür (`into_bytes`).
+- tr: "must_use"
+  en: "#[must_use]"
+  module: m25
+  def: |
+    Dönüş değerinin yok sayılmasını uyarıya çeviren niteliktir. `Result` bu özelliğe sahiptir.
+- tr: "thiserror"
+  en: "thiserror"
+  module: m25
+  def: |
+    Kütüphaneler için `Error` ve `Display` uygulamasını `#[derive(Error)]`, `#[error("...")]` ve `#[from]` ile üreten crate'tir.
+- tr: "anyhow"
+  en: "anyhow"
+  module: m25
+  def: |
+    Uygulamalar için her hatayı tek bir `anyhow::Error` tipinde toplayan ve `.context()` ile bağlam eklemeyi sağlayan crate'tir. `bail!` ve `ensure!` makroları vardır.
+- tr: "clippy lint grubu"
+  en: "clippy lint group"
+  module: m25
+  def: |
+    Clippy'nin lint'leri `correctness`, `style`, `complexity`, `perf`, `pedantic` gibi gruplara ayırmasıdır. CI'da genellikle `cargo clippy -- -D warnings` çalıştırılır.
+- tr: "tahsis farkındalığı"
+  en: "allocation awareness"
+  module: m25
+  def: |
+    Sıcak yollarda gereksiz heap tahsislerinden (`clone`, `to_string`, geçici `Vec`) kaçınma alışkanlığıdır. Parametrelerde `&str` ve `&[T]` tercih etmek bunun bir parçasıdır.
+
+# ───────────── Modül 26: Gerçek Dünya Rust ─────────────
+- tr: "ekosistem"
+  en: "ecosystem"
+  module: m26
+  def: |
+    Dilin çevresindeki crate'ler, araçlar ve toplulukların bütünüdür. Rust'ta web için `axum`, asenkron için `tokio`, serileştirme için `serde` gibi olgunlaşmış çözümler vardır.
+- tr: "serde"
+  en: "serde"
+  module: m26
+  def: |
+    Rust verilerini JSON, TOML, YAML gibi biçimlere serileştirmek ve bunlardan geri okumak için kullanılan, `Serialize` ve `Deserialize` trait'lerine dayalı crate'tir.
+- tr: "serileştirme"
+  en: "serialization"
+  module: m26
+  def: |
+    Bellekteki bir veriyi saklanabilir veya iletilebilir bir biçime (JSON, bayt dizisi) çevirmektir. Tersine işlem seri durumdan çıkarma (deserialization) adını alır.
+- tr: "serde_json"
+  en: "serde_json"
+  module: m26
+  def: |
+    serde'nin JSON desteğidir: `to_string`, `to_string_pretty`, `from_str` ve türsüz JSON için `serde_json::Value`.
+- tr: "reqwest"
+  en: "reqwest"
+  module: m26
+  def: |
+    Rust'ın yaygın HTTP istemci crate'idir; asenkron ve engelleyen (blocking) API'leri vardır.
+- tr: "axum"
+  en: "axum"
+  module: m26
+  def: |
+    `tokio` ve `tower` üzerine kurulu, modüler bir web çatısıdır (framework).
+- tr: "sqlx"
+  en: "sqlx"
+  module: m26
+  def: |
+    Asenkron SQL veritabanı crate'idir; sorguları derleme zamanında denetleyebilir.
+- tr: "tracing"
+  en: "tracing"
+  module: m26
+  def: |
+    Yapılandırılmış ve asenkron koda uygun loglama ve izleme (span/event) crate'idir.
+- tr: "bevy"
+  en: "bevy"
+  module: m26
+  def: |
+    ECS (entity-component-system) mimarisine dayanan veri güdümlü bir Rust oyun motorudur.
+- tr: "WebAssembly"
+  en: "WebAssembly (WASM)"
+  module: m26
+  def: |
+    Tarayıcıda ve başka ortamlarda çalışan taşınabilir, düşük seviyeli bir bayt kod biçimidir. Rust, `wasm-bindgen` ile JavaScript'le etkileşen WASM modülleri üretebilir.
+- tr: "embassy"
+  en: "embassy"
+  module: m26
+  def: |
+    Gömülü sistemler için async/await tabanlı Rust çatısıdır; mikrodenetleyicilerde çalışır.
+- tr: "TcpListener"
+  en: "TcpListener"
+  module: m26
+  def: |
+    `std::net::TcpListener`, bir adreste gelen TCP bağlantılarını dinleyen tiptir. `bind` ile oluşturulur, `incoming()` ile bağlantılar alınır.
+- tr: "HTTP"
+  en: "HTTP"
+  module: m26
+  def: |
+    Web'in metin tabanlı istek/yanıt protokolüdür. İstek bir istek satırı (`GET / HTTP/1.1`), başlıklar ve isteğe bağlı gövdeden oluşur; yanıt durum satırı (`200 OK`), başlıklar ve gövde taşır.
+- tr: "thread havuzu"
+  en: "thread pool"
+  module: m26
+  def: |
+    Sabit sayıda hazır thread'in bir iş kuyruğundan görev alıp çalıştırdığı yapıdır. Her istek için yeni thread açma maliyetini ve sınırsız thread sayısını önler.
+- tr: "zarif kapanış"
+  en: "graceful shutdown"
+  module: m26
+  def: |
+    Programın veya havuzun, süren işleri bitirip kaynakları düzgün bırakarak kapanmasıdır. Thread havuzunda genellikle `Drop` ile kanalı kapatıp thread'leri `join` ederek yapılır.
+- tr: "iş (job)"
+  en: "job"
+  module: m26
+  def: |
+    Thread havuzunda çalıştırılacak iş birimidir; tipik olarak `Box<dyn FnOnce() + Send + 'static>` olarak temsil edilir.
+- tr: "blessed.rs"
+  en: "blessed.rs"
+  module: m26
+  def: |
+    Topluluğun, ihtiyaç alanlarına göre önerdiği kaliteli crate'leri listeleyen kürate edilmiş rehberdir.
+- tr: "Rustonomicon"
+  en: "The Rustonomicon"
+  module: m26
+  def: |
+    `unsafe` Rust, bellek modeli ve dilin karanlık köşeleri hakkında resmî ileri düzey kitaptır.
+- tr: "The Book"
+  en: "The Rust Programming Language"
+  module: m26
+  def: |
+    Rust'ın resmî öğrenme kitabıdır; "The Book" olarak anılır ve çevrimiçi ücretsizdir (`rustup doc --book`).

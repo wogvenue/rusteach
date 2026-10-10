@@ -1,0 +1,9 @@
+# Demo module used only for UI development: node scripts/build-content.mjs --with-examples
+id: m00
+title: Örnek Modül
+subtitle: Arayüz geliştirme için örnek içerik
+icon: "🧪"
+description: |
+  Bu modül yalnızca geliştirme sırasında arayüzü test etmek içindir.
+lessons:
+  - ornek-ders.md

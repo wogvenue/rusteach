@@ -1,0 +1,18 @@
+id: m10
+title: Hata Yönetimi
+subtitle: "panic!, Result ve ? ile sağlam programlar"
+icon: "🧯"
+description: |
+  Her program bir gün hatayla karşılaşır; ustalık, hatayı doğru yerde ve doğru araçla ele almaktır.
+  Bu modülde kurtarılamaz hatalar için `panic!`'i, beklenen hatalar için `Result`'ı ve hataları zarifçe
+  yaymak için `?` operatörünü öğreneceksin. `Option` ile `Result` arasında köprü kuracak, kendi hata
+  tiplerini tasarlayacak ve her durumda "panik mi, `Result` mı?" sorusunu gerekçesiyle cevaplayabileceksin.
+lessons:
+  - 01-panic.md
+  - 02-result.md
+  - 03-soru-isareti-operatoru.md
+  - 04-option-ve-hata-donusumu.md
+  - 05-kendi-hata-tiplerin.md
+  - 06-panic-mi-result-mi.md
+boss: boss.md
+summary: summary.md

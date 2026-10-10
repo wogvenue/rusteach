@@ -1,0 +1,18 @@
+id: m07
+title: Enum'lar ve Desen Eşleştirme
+subtitle: "“Veya”yı modelle — null'suz, eksiksiz ve geçersiz durumsuz kod"
+icon: "🧩"
+description: |
+  Bir değerin birkaç olasılıktan **tam olarak biri** olduğunu söyleyen enum'ları ve her varyantın kendi
+  verisini taşıyabildiği Rust'a özgü gücü öğreneceksin. Null yerine `Option<T>` kullanmayı, `match` ile
+  hiçbir durumu unutmayan (eksiksiz) kararlar yazmayı, `if let`, `let else`, `while let` ve `matches!` ile
+  tek bir deseni zarifçe ele almayı göreceksin. Modülün sonunda geçersiz durumların yazılamadığı tipler
+  ve durum makineleri tasarlayabileceksin.
+lessons:
+  - 01-enumlar.md
+  - 02-option.md
+  - 03-match.md
+  - 04-if-let-let-else-while-let.md
+  - 05-enumlarla-modelleme.md
+boss: boss.md
+summary: summary.md
