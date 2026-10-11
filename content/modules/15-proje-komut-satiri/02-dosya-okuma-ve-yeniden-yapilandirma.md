@@ -711,7 +711,7 @@ explanation: |
 
 ```exercise
 id: m15-e-config-build
-title: Config::build — hata mesajlı doğrulama
+title: "Config::build: hata mesajlı doğrulama"
 difficulty: 2
 prompt: |
   `Config::build`'i yaz. `Result<Config, &'static str>` döndürsün:
@@ -884,7 +884,7 @@ tests: |
 hints:
   - "Dönüş tipindeki `Box<dyn Error>` sayesinde `parse()`'ın `ParseIntError`'ı `?` ile otomatik kutulanır."
   - "`let limit: usize = metin.trim().parse()?;` satırıyla başla; tip notu `parse`'a ne üreteceğini söyler."
-  - "Sıfır için `return Err(\"limit sıfır olamaz\".into());` — `.into()` `&str`'yi `Box<dyn Error>`'a çevirir."
+  - "Sıfır için `return Err(\"limit sıfır olamaz\".into());`, `.into()` `&str`'yi `Box<dyn Error>`'a çevirir."
 require:
   - pattern: "\\?"
     message: Ayrıştırma hatasını `?` operatörüyle yukarı iletmelisin.

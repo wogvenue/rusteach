@@ -393,7 +393,7 @@ code: |
 answer: false
 error: E0005
 explanation: |
-  Derlenmez: **E0005**, *refutable pattern in function argument* — `pattern None not covered`.
+  Derlenmez: **E0005**, *refutable pattern in function argument* - `pattern None not covered`.
   Fonksiyon `None` ile de çağrılabilir; o zaman `ad`'a hangi değer bağlanacaktı? Parametre desenleri
   **her zaman uyan** desenler olmak zorundadır. Bu "her zaman uyan" (reddedilemez) ve "uymayabilen"
   (reddedilebilir) desen ayrımı bir sonraki dersin konusu.

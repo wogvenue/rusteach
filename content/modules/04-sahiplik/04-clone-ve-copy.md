@@ -69,7 +69,7 @@ steps:
     heap:
       - { id: h1, value: "ç a y" }
       - { id: h2, value: "ç a y", label: "yeni ayrılmış kopya" }
-  - caption: "Değişiklikler birbirini etkilemez. `main` bitince **iki** değer de drop edilir ve iki heap alanı ayrı ayrı geri verilir — double free yok, çünkü her alanın tek sahibi var."
+  - caption: "Değişiklikler birbirini etkilemez. `main` bitince **iki** değer de drop edilir ve iki heap alanı ayrı ayrı geri verilir, double free yok, çünkü her alanın tek sahibi var."
     stack:
       - frame: main
         vars:
@@ -118,15 +118,15 @@ dert değildir. Ama bir döngünün içinde, binlerce kez çalışan bir fonksiy
 :::analogy Fotokopi ve teslim
 Bir dosyayı iş arkadaşına **teslim etmek** taşımadır: klasörü uzatırsın, bir saniye sürer ve artık dosya
 onundur. Ona bir **fotokopi** vermek ise `clone`'dur: her sayfayı makineden geçirirsin; 3 sayfa bir dakika
-sürer, 500 sayfa bir öğleden sonra. Fotokopi bazen gerçekten gereklidir — ikiniz de kendi nüshanıza not
-alacaksanız — ama "ne olur ne olmaz" diye her dosyanın fotokopisini çekersen ofisin kâğıdı biter.
+sürer, 500 sayfa bir öğleden sonra. Fotokopi bazen gerçekten gereklidir, ikiniz de kendi nüshanıza not
+alacaksanız, ama "ne olur ne olmaz" diye her dosyanın fotokopisini çekersen ofisin kâğıdı biter.
 :::
 
 Rust'ın burada bir ilkesi var: **pahalı işlemler kodda görünür olmalı.** C++'ta `std::string b = a;`
 satırı sessizce derin kopya yapar; satıra bakarak maliyetini anlayamazsın. Python'da derin kopya için
 `copy.deepcopy`, JavaScript'te `structuredClone` gibi ayrı araçlar vardır ama varsayılan davranış
 paylaşımdır. Rust'ta ise kural basit: `=` asla gizlice heap kopyalamaz. Heap kopyası gördüğün her yerde
-`.clone()` yazıyordur — kod incelemesinde gözünün takılacağı bir kelime.
+`.clone()` yazıyordur, kod incelemesinde gözünün takılacağı bir kelime.
 
 ## Copy tipleri
 
@@ -164,7 +164,7 @@ explanation: |
 çağrısında **taşınmaz, bit bit kopyalanır**; eski değişken geçerli kalır. Bu tür etiketlere Rust'ta
 **trait** denir (kendi tiplerine trait eklemeyi Modül 6 ve 11'de göreceksin).
 
-İlginç bir ayrıntı: makine düzeyinde taşıma da bir bayt kopyasıdır — `String`'in 24 baytlık başlığı da
+İlginç bir ayrıntı: makine düzeyinde taşıma da bir bayt kopyasıdır, `String`'in 24 baytlık başlığı da
 kopyalanıyordu. `Copy` ile taşıma arasındaki tek fark, kopyadan sonra **eski değişkenin geçerli
 kalıp kalmadığıdır**. `Copy` bir tipin derleyiciye "beni bit bit kopyalamak güvenli, eski değişken
 kullanılmaya devam edebilir" demesidir. Standart `Copy` tipleri:
@@ -173,7 +173,7 @@ kullanılmaya devam edebilir" demesidir. Standart `Copy` tipleri:
 - Ondalıklı sayılar: `f32`, `f64`
 - `bool` ve `char`
 - Elemanlarının **hepsi** `Copy` olan tuple'lar ve diziler: `(i32, f64)`, `[u8; 4]`, `[char; 3]`
-- String literalleri (`&'static str`) — kopyalanan sadece baytları gösteren işaretçi ve uzunluktur,
+- String literalleri (`&'static str`), kopyalanan sadece baytları gösteren işaretçi ve uzunluktur,
   baytların kendisi değil; bunun neden güvenli olduğunu Modül 5'teki referanslarla göreceksin.
 
 Bunların ortak noktası ne? Hiçbiri heap'te bir şeye **sahip değildir**. Bir `i32`'nin 4 baytını kopyaladığında
@@ -188,7 +188,7 @@ olamaz (aşağıda nedenini göreceksin).
 :::
 
 ```memory
-title: let yedek = konum; — Copy tipi
+title: "let yedek = konum;: Copy tipi"
 steps:
   - caption: "`konum` tamamen stack'te: 4 bayt `i32` + 1 bayt `bool` (hizalamayla birlikte 8 bayt). Heap'te hiçbir şey yok."
     stack:
@@ -261,10 +261,10 @@ düşünerek hangilerinin `Copy` olduğunu seç:
 ```quiz
 question: Aşağıdaki tiplerden hangileri `Copy`'dir? (Birden fazla seçenek doğru olabilir.)
 options:
-  - "`(i32, char)` — bir puan ve bir harf notu"
-  - "`[f64; 3]` — üç sıcaklık ölçümü"
-  - "`(String, u8)` — bir isim ve bir yaş"
-  - "`[String; 2]` — iki takım adı"
+  - "`(i32, char)`, bir puan ve bir harf notu"
+  - "`[f64; 3]`, üç sıcaklık ölçümü"
+  - "`(String, u8)`, bir isim ve bir yaş"
+  - "`[String; 2]`, iki takım adı"
 answer: [0, 1]
 explanation: |
   Bir tuple ya da dizi, ancak **bütün** elemanları `Copy` ise `Copy`'dir. `i32`, `char` ve `f64` heap'te
@@ -326,8 +326,8 @@ question: |
   Bir oyunda, kahramanın bölüm başındaki adı (`String`) **kayıt noktası** olarak saklanmalı; oyuncu adını
   değiştirse bile "bölümü baştan başlat" seçeneği eski adı geri getirmeli. Hangisi doğru yaklaşım?
 options:
-  - "`let kayit = ad;` — taşıma yeterli, en hızlısı bu"
-  - "`let kayit = ad.clone();` — iki bağımsız değer gerekiyor: biri değişecek, öteki eski hâlinde kalacak"
+  - "`let kayit = ad;`, taşıma yeterli, en hızlısı bu"
+  - "`let kayit = ad.clone();`, iki bağımsız değer gerekiyor: biri değişecek, öteki eski hâlinde kalacak"
   - "`clone` asla kullanılmamalı; Rust'ta her şey taşıma ile çözülür"
   - "`let kayit = ad;` ve sonra `ad`'ı kullanmaya devam et; derleyici bunu otomatik olarak kopyaya çevirir"
 answer: 1
@@ -534,7 +534,7 @@ hints:
   - "Son ifade noktalı virgülsüz tuple olmalı: `(taslak, imzali)`. `taslak` burada fonksiyondan dışarı **taşınır**."
 explanation: |
   Fonksiyon `taslak`'ın sahibi; ama iki farklı değer döndürmesi gerekiyor: biri değişmemiş, öteki
-  büyümüş. Tek bir `String` ile bunu yapamazsın — `push_str` aslı değiştirirdi. Bu yüzden `clone` burada
+  büyümüş. Tek bir `String` ile bunu yapamazsın - `push_str` aslı değiştirirdi. Bu yüzden `clone` burada
   **gerekçeli** bir karar: yeni bir heap alanı ayrılır, sonra yalnızca kopya büyütülür. Son satırda iki
   `String` de tuple içinde çağırana taşınır; fonksiyonda drop edilecek hiçbir şey kalmaz.
 
@@ -542,7 +542,7 @@ explanation: |
   etkilemiyor.
 
   **Alternatif**: `let imzali = format!("{taslak}{IMZA}");` da yeni bir `String` üretir; `format!`
-  (Modül 1) `taslak`'ı yalnızca okur, taşımaz. Bu da bir kopyadır, sadece adı `clone` değildir — maliyeti
+  (Modül 1) `taslak`'ı yalnızca okur, taşımaz. Bu da bir kopyadır, sadece adı `clone` değildir - maliyeti
   aynıdır. Tuple ile değer döndürmeyi bir sonraki derste daha yakından inceleyeceğiz.
 ````
 
@@ -573,7 +573,7 @@ answer: |
   verilerde ya da döngülerde bu ciddi bir yavaşlık olur. Daha önemlisi, asıl soruyu atlatır: değere
   gerçekten iki ayrı yerde sahip olmam gerekiyor mu? Doğru örnek: bir metnin hem değişmemiş hem
   düzenlenmiş hâli lazımsa (taslak ve imzalı sürüm), iki bağımsız değer gerektiği için `clone` doğrudur.
-  Yanlış örnek: sadece uzunluğuna bakmak ya da yazdırmak için kopyalamak — işi taşımadan önce yapmak ya da
+  Yanlış örnek: sadece uzunluğuna bakmak ya da yazdırmak için kopyalamak - işi taşımadan önce yapmak ya da
   değeri ödünç vermek yeterlidir. Kısacası `clone` bir yama değil, gerekçesi olan bir tasarım kararıdır.
 ```
 

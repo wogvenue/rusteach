@@ -17,7 +17,7 @@ const MIN_CHARS = 20;
 type Rating = 1 | 2 | 3;
 
 const RATINGS: { value: Rating; label: string; reply: string }[] = [
-  { value: 3, label: 'Benzer', reply: 'Harika — kavramı kendi kelimelerinle kurabiliyorsun. Bu, gerçekten anladığının en iyi işareti.' },
+  { value: 3, label: 'Benzer', reply: 'Harika, kavramı kendi kelimelerinle kurabiliyorsun. Bu, gerçekten anladığının en iyi işareti.' },
   { value: 2, label: 'Kısmen', reply: 'Güzel bir başlangıç. Eksik kalan parçayı model cevaptan tamamla; bir sonraki tekrarda hatırlaman kolaylaşır.' },
   { value: 1, label: 'Farklıydı', reply: 'Sorun değil: farkı fark etmek öğrenmenin kendisi. Model cevabı bir kez daha oku ve ana fikri not al.' },
 ];

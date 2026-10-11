@@ -187,7 +187,7 @@ export default function RunOutput({
               )}
               {result.timedOut && (
                 <p className="mt-2 text-xs text-warning" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Program zaman aşımına uğradı — sonsuz bir döngü olabilir mi?
+                  Program zaman aşımına uğradı, sonsuz bir döngü olabilir mi?
                 </p>
               )}
             </>

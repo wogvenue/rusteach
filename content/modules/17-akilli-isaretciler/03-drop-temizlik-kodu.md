@@ -1,6 +1,6 @@
 ---
 id: m17-l03
-title: Drop — temizlik kodu
+title: "Drop: temizlik kodu"
 minutes: 20
 type: lesson
 objectives:
@@ -652,7 +652,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `std::mem::drop` boş bir fonksiyon olduğu hâlde değeri nasıl temizliyor ve aynı değerin iki kez temizlenmesini ne engelliyor?
+prompt: Kendi cümlelerinle açıkla, `std::mem::drop` boş bir fonksiyon olduğu hâlde değeri nasıl temizliyor ve aynı değerin iki kez temizlenmesini ne engelliyor?
 answer: |
   Model cevap: `drop(x)` çağrısı `x`'in sahipliğini fonksiyonun parametresine taşır. Fonksiyon gövdesi
   boştur; bitince parametre kapsamdan çıkar ve Rust her kapsam sonunda yaptığı gibi `Drop::drop`'u
@@ -663,7 +663,7 @@ answer: |
 
 ```flashcards
 - front: "`Drop` trait'inin metodunun imzası nedir?"
-  back: "`fn drop(&mut self)` — değer yok olmadan hemen önce otomatik çağrılır."
+  back: "`fn drop(&mut self)`, değer yok olmadan hemen önce otomatik çağrılır."
 - front: "Aynı kapsamda `let a = ..; let b = ..;` tanımlıysa hangisi önce drop edilir?"
   back: "`b`. Yerel değişkenler tanımlanma sırasının tersiyle drop edilir."
 - front: "`let _ = Kilit::al();` ile `let _k = Kilit::al();` arasındaki fark nedir?"

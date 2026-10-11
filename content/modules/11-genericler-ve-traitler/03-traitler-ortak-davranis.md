@@ -1,6 +1,6 @@
 ---
 id: m11-l03
-title: Trait'ler — ortak davranış
+title: "Trait'ler: ortak davranış"
 minutes: 18
 type: lesson
 objectives:
@@ -30,7 +30,7 @@ pub trait Ozet {
 }
 ```
 
-`trait` anahtar kelimesi, bir ad (`UpperCamelCase`) ve süslü parantez içinde **gövdesiz** imzalar —
+`trait` anahtar kelimesi, bir ad (`UpperCamelCase`) ve süslü parantez içinde **gövdesiz** imzalar,
 dikkat, imza `;` ile bitiyor. Anlamı: *“`Ozet` trait'ini uygulayan her tip, tam bu imzaya sahip bir
 `ozetle` metodu sağlamak zorundadır.”* Trait sadece **ne** yapılacağını söyler; **nasıl** yapılacağına
 her tip kendisi karar verir:
@@ -54,7 +54,7 @@ struct Gonderi {
 
 impl Ozet for Haber {
     fn ozetle(&self) -> String {
-        format!("{} ({}) — {}", self.baslik, self.sehir, self.yazar)
+        format!("{} ({}) - {}", self.baslik, self.sehir, self.yazar)
     }
 }
 
@@ -96,7 +96,7 @@ kod da priz gibidir: karşısındaki tipin ne olduğunu değil, yalnızca standa
 
 Başka dillerde bu fikrin karşılıkları: Java ve C#'ta `interface`, Swift'te `protocol`, Go'da `interface`
 (orada uygulama örtük, yani ayrıca belirtilmez). Python'da ise *duck typing* vardır: “ördek gibi
-vaklıyorsa ördektir” — ama yanlışlık ancak çalışma anında anlaşılır. Rust'ta uygulama **açıktır**
+vaklıyorsa ördektir”, ama yanlışlık ancak çalışma anında anlaşılır. Rust'ta uygulama **açıktır**
 (`impl ... for ...`) ve tipin tanımından **ayrı** yazılır; yani var olan bir tipe sonradan da eklenebilir.
 
 ## Sözleşmeye uymak zorunludur
@@ -128,7 +128,7 @@ answer: false
 error: E0046
 explanation: |
   Sözleşmenin bir maddesi eksik: `Ozet` trait'i `yazar` metodunu da şart koşuyor ama `Haber` onu
-  sağlamıyor. `yazar`'ı hiç çağırmamamız önemli değil — trait'i uygulamak **bütün** zorunlu
+  sağlamıyor. `yazar`'ı hiç çağırmamamız önemli değil - trait'i uygulamak **bütün** zorunlu
   maddeleri yerine getirmek demektir.
 ```
 
@@ -157,13 +157,13 @@ question: |
   metodu eklersen ne olur?
 options:
   - Sorun yok; metot `Haber`'e eklenir
-  - "`E0407`: metot `Ozet` trait'inin üyesi değil — onu ayrı bir `impl Haber` bloğuna koymalısın"
+  - "`E0407`: metot `Ozet` trait'inin üyesi değil, onu ayrı bir `impl Haber` bloğuna koymalısın"
   - Metot sessizce trait'e de eklenir ve diğer tipler de onu uygulamak zorunda kalır
 answer: 1
 explanation: |
   Trait impl bloğu bir sözleşmenin yerine getirildiği yerdir; içinde yalnızca o trait'in öğeleri olabilir.
   Tipe özel ek metotlar normal (*inherent*) `impl Haber { ... }` bloğuna gider. Modül 6'dan hatırla:
-  bir tipin birden çok `impl` bloğu olabilir — trait impl'leri de bunlardan biridir.
+  bir tipin birden çok `impl` bloğu olabilir - trait impl'leri de bunlardan biridir.
 feedback:
   - "Trait impl bloğuna yalnızca trait'in öğeleri girebilir: `method is not a member of trait`."
   - Doğru!
@@ -235,7 +235,7 @@ options:
   - "Merhaba! Guten Tag!"
   - "Merhaba! Merhaba!"
   - "Guten Tag! Guten Tag!"
-  - Derlenmez — impl bloğu boş olamaz
+  - Derlenmez, impl bloğu boş olamaz
 answer: 0
 explanation: |
   `Ankarali` hiçbir metot yazmadığı için varsayılan `selam`'ı alır: `Merhaba!`. `Berlinli` metodu ezdiği
@@ -253,8 +253,8 @@ trait Ozet {
     fn yazar(&self) -> String; // zorunlu
 
     fn ozetle(&self) -> String {
-        // sağlanan — zorunlu metodu kullanıyor
-        format!("({} tarafından yazıldı — devamını oku...)", self.yazar())
+        // sağlanan - zorunlu metodu kullanıyor
+        format!("({} tarafından yazıldı - devamını oku...)", self.yazar())
     }
 }
 
@@ -323,7 +323,7 @@ blanks:
   - ["for"]
 output: "1020000"
 explanation: |
-  Zorunlu metodun imzası `;` ile biter — gövdesi yoktur. Varsayılan metot, trait'i uygulayan tipe
+  Zorunlu metodun imzası `;` ile biter - gövdesi yoktur. Varsayılan metot, trait'i uygulayan tipe
   `self` üzerinden ulaşır ve onun `maas`'ını çağırır. `impl Calisan for Muhendis` yalnızca `maas`'ı yazdı;
   `yillik_maas` hazır geldi: 85 000 × 12 = 1 020 000.
 ```
@@ -364,10 +364,10 @@ fn main() {
 ```
 
 Java'da `Boolean` sınıfına sonradan metot ekleyemezsin; Rust'ta kendi trait'inle ekleyebilirsin. (Her
-kombinasyona izin yok — hangilerinin neden yasak olduğunu 8. derste, *orphan rule* ile öğreneceksin.)
+kombinasyona izin yok, hangilerinin neden yasak olduğunu 8. derste, *orphan rule* ile öğreneceksin.)
 Trait'lerin içinde `Self`, trait'i uygulayan tipi temsil eder ve trait'ler `self` almayan fonksiyonlar da
 içerebilir (`fn yeni() -> Self;`). `Default::default()` ve `From::from` tam olarak böyle trait
-fonksiyonlarıdır — onları 5. ve 6. derste göreceksin.
+fonksiyonlarıdır, onları 5. ve 6. derste göreceksin.
 
 Son bir kural daha var. Trait ve tip bir modülün içinde tanımlıysa ne olur?
 
@@ -434,7 +434,7 @@ options:
 answer: 1
 explanation: |
   Trait'ler yalnızca **davranış** tanımlar; veri her zaman struct ve enum'larda durur. Varsayılan bir metot
-  veriye ihtiyaç duyarsa, onu bir zorunlu metot üzerinden ister (`fn yazar(&self) -> String;` gibi) — her tip
+  veriye ihtiyaç duyarsa, onu bir zorunlu metot üzerinden ister (`fn yazar(&self) -> String;` gibi) - her tip
   kendi verisinden bu cevabı üretir.
 feedback:
   - Doğru bir ifade; bir tip istediği kadar trait uygulayabilir.
@@ -451,7 +451,7 @@ title: Market etiketleri ve KDV
 difficulty: 3
 prompt: |
   Bir market otomasyonu için `Urun` trait'i tasarlandı. Fiyatlar **kuruş** cinsinden tam sayı olarak
-  tutuluyor (para hesabında ondalıklı sayılar yuvarlama hataları yapar — hatırla: `0.1 + 0.2`!).
+  tutuluyor (para hesabında ondalıklı sayılar yuvarlama hataları yapar - hatırla: `0.1 + 0.2`!).
 
   **1) Trait'teki iki varsayılan metodu yaz:**
   - `kdvli_fiyat`: KDV dahil fiyat = `fiyat × (100 + kdv_yuzde) / 100`. Küsurat aşağı yuvarlanır
@@ -562,7 +562,7 @@ tests: |
       let e = Ekmek { gramaj: 250 };
       assert_eq!(e.ad(), "Ekmek (250 g)", "Ekmeğin adı gramajı içermeli");
       assert_eq!(e.fiyat(), 1000, "250 g × 4 kuruş = 1000 kuruş");
-      assert_eq!(e.kdv_yuzde(), 1, "Ekmekte KDV %1 — varsayılanı ezmelisin");
+      assert_eq!(e.kdv_yuzde(), 1, "Ekmekte KDV %1 - varsayılanı ezmelisin");
       assert_eq!(e.kdvli_fiyat(), 1010, "1000 kuruş + %1 KDV = 1010 kuruş");
       assert_eq!(e.etiket(), "Ekmek (250 g): 10.10 TL");
   }
@@ -640,7 +640,7 @@ explanation: |
 :::remember
 - `trait Ad { fn metot(&self) -> Tip; }` → bir davranış **sözleşmesi**; `impl Ad for Tip { ... }` →
   o sözleşmeyi bir tip için yerine getirmek.
-- Gövdesiz metot **zorunludur**; gövdeli metot **varsayılandır** — tip isterse kullanır (boş impl `{}`),
+- Gövdesiz metot **zorunludur**; gövdeli metot **varsayılandır**, tip isterse kullanır (boş impl `{}`),
   isterse ezer.
 - Varsayılan metotlar trait'in zorunlu metotlarını çağırabilir: küçük çekirdek + bedava zengin davranış.
 - Eksik zorunlu metot → `E0046`; trait'te olmayan metot → `E0407`; trait kapsamda değil → `E0599` (`use` et).

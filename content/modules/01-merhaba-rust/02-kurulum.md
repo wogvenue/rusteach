@@ -1,6 +1,6 @@
 ---
 id: m01-l02
-title: Kurulum — rustup, rustc ve cargo
+title: "Kurulum: rustup, rustc ve cargo"
 minutes: 16
 type: lesson
 objectives:
@@ -17,7 +17,7 @@ yazmayı keyifli hâle getiren bir editör hazırlayacaksın.
 
 İyi haber: Rusteach'teki kod blokları, Rust bilgisayarında kurulu olmasa bile çalışır (nasıl olduğunu
 bu dersin sonunda göreceksin). Yani kurulumu şimdi yapamıyorsan derse devam edebilirsin. Yine de
-gerçek projeler — dosya okuyan, kullanıcıdan girdi alan, internetten kütüphane indiren programlar —
+gerçek projeler, dosya okuyan, kullanıcıdan girdi alan, internetten kütüphane indiren programlar,
 için kendi kurulumun şart olacak.
 
 ## Araç kutun: rustup, rustc ve cargo
@@ -69,7 +69,7 @@ explanation: |
 feedback:
   - Bu, derleyicinin (`rustc`) işidir.
   - Doğru!
-  - Bu, `cargo`'nun işidir — `cargo new` ve `cargo run` ile 4. derste yapacaksın.
+  - Bu, `cargo`'nun işidir, `cargo new` ve `cargo run` ile 4. derste yapacaksın.
   - Rust yorumlanan bir dil değildir; kod önce derlenir.
 ```
 
@@ -85,8 +85,8 @@ işler için) ihtiyaç duyar. Bütün bu parçaları birleştirip tek bir `.exe`
 kütüphanelerini kullanır; bunlar da Visual Studio'nun C++ derleme araçlarıyla (**MSVC**) gelir.
 
 :::analogy Cilt ustası
-Derleyiciyi kitabın bölümlerini ayrı ayrı basan matbaa, bağlayıcıyı da bu bölümleri — hazır gelen
-sözlük ve dizin sayfalarıyla birlikte — tek bir kitap olarak ciltleyen usta gibi düşün. Rust kendi
+Derleyiciyi kitabın bölümlerini ayrı ayrı basan matbaa, bağlayıcıyı da bu bölümleri, hazır gelen
+sözlük ve dizin sayfalarıyla birlikte, tek bir kitap olarak ciltleyen usta gibi düşün. Rust kendi
 matbaasını getirir ama Windows'ta ciltleme işini Microsoft'un ustasına bırakır.
 :::
 
@@ -121,14 +121,14 @@ These components can be acquired through a Visual Studio installer.
 ```
 
 **1** yazıp Enter'a bas. rustup, **Visual Studio Yükleyicisi**'ni (*Visual Studio Installer*)
-indirip gerekli bileşenler — MSVC derleme araçları ve Windows SDK — seçili olarak açar. Kurulumu
+indirip gerekli bileşenler, MSVC derleme araçları ve Windows SDK, seçili olarak açar. Kurulumu
 onayla ve bitmesini bekle; birkaç GB indirileceği için biraz sürebilir. Visual Studio Community
 bireyler, öğrenciler ve açık kaynak projeler için ücretsizdir.
 
 :::tip Elle kurmak istersen (seçenek 2)
 Microsoft'un sitesinden **Build Tools for Visual Studio**'yu indir. Yükleyicide **"Desktop
 development with C++"** iş yükünü (Türkçe arayüzde **"C++ ile masaüstü geliştirme"**) seç. Sağdaki
-ayrıntılarda **MSVC ... C++ x64/x86 derleme araçları** ve **Windows 11 SDK** işaretli olmalı —
+ayrıntılarda **MSVC ... C++ x64/x86 derleme araçları** ve **Windows 11 SDK** işaretli olmalı,
 varsayılan olarak öyledirler. Kurulum bitince `rustup-init.exe`'yi yeniden çalıştır.
 :::
 
@@ -151,11 +151,11 @@ Current installation options:
 
 Satırları tek tek okuyalım:
 
-- **default host triple** — kodun hangi platform için derleneceği: `x86_64` (işlemci mimarisi),
+- **default host triple**, kodun hangi platform için derleneceği: `x86_64` (işlemci mimarisi),
   `pc` (üretici), `windows` (işletim sistemi), `msvc` (Microsoft araç zinciri).
-- **default toolchain: stable** — kararlı kanal.
-- **profile: default** — `rustc`, `cargo`, standart kütüphane, belgeler, `rustfmt` ve `clippy`.
-- **modify PATH variable: yes** — komutların her terminalde tanınması için gereken ayar (birazdan).
+- **default toolchain: stable**, kararlı kanal.
+- **profile: default**, `rustc`, `cargo`, standart kütüphane, belgeler, `rustfmt` ve `clippy`.
+- **modify PATH variable: yes**, komutların her terminalde tanınması için gereken ayar (birazdan).
 
 Hiçbir şeyi değiştirmene gerek yok: **Enter**'a bas. Bileşenler indirilir ve kurulum şu mesajla biter:
 
@@ -207,8 +207,8 @@ options:
   - Rust programları yalnızca Visual Studio'nun içinde çalışabildiği için
 answer: 1
 explanation: |
-  Rust'ın derleyicisi kendi işini kendisi yapar; ama Windows'ta son adımı — derlenmiş parçaları ve
-  Windows kütüphanelerini birleştirip çalıştırılabilir bir dosya üretmeyi — Microsoft'un bağlayıcısı
+  Rust'ın derleyicisi kendi işini kendisi yapar; ama Windows'ta son adımı - derlenmiş parçaları ve
+  Windows kütüphanelerini birleştirip çalıştırılabilir bir dosya üretmeyi - Microsoft'un bağlayıcısı
   **`link.exe`** yapar. Bağlayıcı ve gerekli kütüphaneler C++ derleme araçlarıyla gelir.
 feedback:
   - Hayır; Rust kodu C++'a çevrilmez. `rustc` kodu (LLVM yardımıyla) doğrudan makine koduna çevirir.
@@ -231,11 +231,11 @@ cargo 1.99.0 (5f94df478 2026-08-27)
 
 İki komut da bir sürüm satırı yazdıysa tebrikler, Rust bilgisayarında! Sürüm satırını okuyalım:
 
-- **`1.99.0`** — *ana.ara.yama* sürüm numarası. Rust 2015'teki 1.0'dan beri `1.x` serisinde ve her
+- **`1.99.0`**, *ana.ara.yama* sürüm numarası. Rust 2015'teki 1.0'dan beri `1.x` serisinde ve her
   6 haftada bir ara numara bir artar. Sen bunu okurken numara büyük ihtimalle daha büyük olacak;
   sorun değil.
-- **`b940084d7`** — derleyicinin kaynak kodundaki sürümün kimliği (*commit hash*) ilk karakterleri.
-- **`2026-09-28`** — o kaynak kodun tarihi.
+- **`b940084d7`**, derleyicinin kaynak kodundaki sürümün kimliği (*commit hash*) ilk karakterleri.
+- **`2026-09-28`**, o kaynak kodun tarihi.
 
 :::warning "'rustc' tanınmıyor" hatası
 Şöyle bir hata görürsen paniğe kapılma:
@@ -299,7 +299,7 @@ explanation: |
 feedback:
   - Çok büyük bir çözüm! Sorun neredeyse her zaman PATH'tir.
   - Doğru!
-  - "`rustc` her terminalde çalışır — yeter ki PATH doğru olsun."
+  - "`rustc` her terminalde çalışır, yeter ki PATH doğru olsun."
   - Windows'ta komut adlarında büyük-küçük harf fark etmez; sorun bu değil.
 ```
 
@@ -345,7 +345,7 @@ options:
 answer: 1
 explanation: |
   `rustup doc --book`, kurulumla birlikte bilgisayarına inen belgelerden resmî kitabı tarayıcında
-  açar — internet gerekmez.
+  açar - internet gerekmez.
 feedback:
   - Bu komut Rust'ı günceller; üstelik internet ister.
   - Doğru!
@@ -415,7 +415,7 @@ explanation: |
   yoludur. Güncelleme ve belgeler ise `rustup`'ın işidir: `rustup update` en yeni kararlı sürümü
   kurar, `rustup doc --book` resmî kitabı çevrimdışı açar.
 
-  Bu alıştırmada bilgiyi hafızandan **geri çağırdın** — sadece okumaktan çok daha kalıcı bir öğrenme.
+  Bu alıştırmada bilgiyi hafızandan **geri çağırdın** - sadece okumaktan çok daha kalıcı bir öğrenme.
   Yorum satırlarının programın çıktısını hiç etkilemediğine de dikkat et.
 ````
 
@@ -439,7 +439,7 @@ rust-analyzer sana neler kazandırır?
 - **Otomatik tamamlama:** `pri` yazınca `println!`'i önerir.
 - **Tip ipuçları:** Kodun yanına, derleyicinin çıkardığı tipleri soluk yazıyla ekler.
 - **Üzerine gelince belge:** Bir fonksiyonun üzerine geldiğinde açıklamasını gösterir.
-- **Tanıma git:** `F12` ile bir şeyin tanımlandığı yere atlarsın — standart kütüphanenin içine bile.
+- **Tanıma git:** `F12` ile bir şeyin tanımlandığı yere atlarsın, standart kütüphanenin içine bile.
 - **Çalıştır düğmesi:** `fn main()` satırının üstünde **▶ Run** bağlantısı belirir.
 
 Kaydederken kodu otomatik biçimlendirmek ve daha ayrıntılı denetim (`clippy`, 7. derste) için VS
@@ -456,7 +456,7 @@ ekleyebilirsin:
 VS Code tek seçenek değil: JetBrains'in **RustRover**'ı (ticari olmayan kullanım için ücretsiz),
 **Zed**, **Helix** ve **Neovim** de Rust'ı çok iyi destekler.
 
-İşte VS Code'da işini hızlandıracak kısayollar — bu küçük programı çalıştırıp çıktısını bir kenara
+İşte VS Code'da işini hızlandıracak kısayollar, bu küçük programı çalıştırıp çıktısını bir kenara
 not edebilirsin:
 
 ```rust
@@ -484,8 +484,8 @@ explanation: |
   önerilerini ve tip ipuçlarını editöre taşır. Rust'ı kurmak `rustup`'ın, programını hızlı hâle
   getirmek ise derleyicinin işidir.
 feedback:
-  - Doğru — hataları derlemeyi beklemeden görürsün.
-  - Doğru — yazarken büyük kolaylık sağlar.
+  - Doğru, hataları derlemeyi beklemeden görürsün.
+  - Doğru, yazarken büyük kolaylık sağlar.
   - Hayır; rust-analyzer bilgisayarında kurulu Rust'ı kullanır, onu kurmaz.
   - Hayır; editör eklentileri programının çalışma hızını etkilemez.
 ```
@@ -510,7 +510,7 @@ açık olan programlar yeni PATH'i göremez.
 :::
 
 Aşağıdaki program, çalıştığı işletim sistemini ve işlemci mimarisini yazdırır. Kod bilgisayarında
-çalışırsa `windows`, Playground'da çalışırsa `linux` görürsün — çünkü Playground'un sunucuları Linux
+çalışırsa `windows`, Playground'da çalışırsa `linux` görürsün, çünkü Playground'un sunucuları Linux
 kullanır. (`{}` bir **yer tutucudur**: Virgülden sonraki değer onun yerine yazılır. 5. derste
 ayrıntılı göreceğiz.)
 
@@ -530,7 +530,7 @@ bilgisayarında `cargo run` ile çalıştıracaksın.
 
 :::ferris
 Aklına bir şey takıldığında **Oyun Alanı** sayfasına geç: Orada istediğin Rust kodunu yazıp
-çalıştırabilirsin. Merak et, dene, boz, düzelt — en iyi öğrenme böyle olur! 🦀
+çalıştırabilirsin. Merak et, dene, boz, düzelt, en iyi öğrenme böyle olur! 🦀
 :::
 
 ```quiz
@@ -577,7 +577,7 @@ answer: |
   Model cevap: Önce tam hata mesajını sorarım. "Tanınmıyor" diyorsa kurulumdan sonra **yeni** bir
   terminal açıp açmadığını kontrol ederiz; olmazsa oturumu kapatıp açmasını ya da `rustup-init.exe`'yi
   yeniden çalıştırmasını öneririm. Kurulum hiç tamamlanmadıysa Visual Studio C++ derleme araçlarının
-  kurulu olup olmadığına bakarız — ve VS Code'un bunun yerini tutmadığını hatırlatırım. Sorunu
+  kurulu olup olmadığına bakarız - ve VS Code'un bunun yerini tutmadığını hatırlatırım. Sorunu
   sistemli biçimde, en olası ve en kolay çözümden başlayarak daraltmak en hızlı yoldur.
 ```
 

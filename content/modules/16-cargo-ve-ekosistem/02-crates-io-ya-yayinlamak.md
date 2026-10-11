@@ -822,7 +822,7 @@ answer: |
 - front: "`1.4.2` sürümünde geriye uyumlu yeni bir `pub fn` eklendi. Sıradaki sürüm?"
   back: "`1.5.0` (küçük sürüm; yama 0'a döner)."
 - front: "`0.3.7` sürümünde kırıcı bir değişiklik yaptın. Sıradaki sürüm?"
-  back: "`0.4.0` — `0.y.z`'de kırıcı değişiklik `y`'yi artırır."
+  back: "`0.4.0`, `0.y.z`'de kırıcı değişiklik `y`'yi artırır."
 - front: "Bütün alanları `pub` olan bir struct'a yeni alan eklemek neden kırıcıdır?"
   back: "Kullanıcıların struct ifadeleri eksik alan hatası (`E0063`) verir. Önlem: gizli alanlar + kurucu ya da `#[non_exhaustive]`."
 - front: "`#[deprecated(since, note)]` kullanan kodu derlemek hata mı verir?"

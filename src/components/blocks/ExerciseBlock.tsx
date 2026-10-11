@@ -1,5 +1,5 @@
 // Coding exercise (generation effect): write code, run it, check it against tests / expected output,
-// with progressive hints and — after real effort — the reference solution.
+// with progressive hints and - after real effort - the reference solution.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -240,7 +240,7 @@ export default function ExerciseBlock({ block, lessonId, mode, onComplete, fresh
           onSecondary={runFree}
           minHeight="150px"
           maxHeight="560px"
-          ariaLabel={`${block.title} — kod editörü`}
+          ariaLabel={`${block.title}, kod editörü`}
         />
         {last === 'run' && (runner.running || runner.result) && (
           <div className="border-t border-[var(--code-border)]">
@@ -485,7 +485,7 @@ export default function ExerciseBlock({ block, lessonId, mode, onComplete, fresh
       {/* restored solved state (revisiting a lesson) */}
       {solved && !outcome && restoring && block.explanation && (
         <details className="mt-4 rounded-2xl border border-success/25 bg-success/5 px-4 py-3">
-          <summary className="cursor-pointer select-none text-sm font-semibold text-success">Bu alıştırmayı çözdün — açıklamayı yeniden oku</summary>
+          <summary className="cursor-pointer select-none text-sm font-semibold text-success">Bu alıştırmayı çözdün, açıklamayı yeniden oku</summary>
           <Html html={block.explanation} size="sm" className="mt-2" />
           <div className="mt-3 overflow-hidden rounded-xl border border-[var(--code-border)]">
             <CodeView code={block.solution} ariaLabel="Örnek çözüm" />

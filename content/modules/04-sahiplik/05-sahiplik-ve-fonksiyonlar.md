@@ -160,7 +160,7 @@ steps:
           - { name: mesaj, type: String, value: "ptr · len=19 · cap=22", to: h1, mut: true }
     heap:
       - { id: h1, value: "Hoş geldin, yolcu!" }
-  - caption: "Dönüş: başlık `main`'deki `ekran`'a taşındı, fonksiyonun çerçevesi kaldırıldı. Heap verisi **yerinde** — yalnızca sahibi değişti, hiçbir şey drop edilmedi."
+  - caption: "Dönüş: başlık `main`'deki `ekran`'a taşındı, fonksiyonun çerçevesi kaldırıldı. Heap verisi **yerinde**, yalnızca sahibi değişti, hiçbir şey drop edilmedi."
     stack:
       - frame: main
         vars:
@@ -180,8 +180,8 @@ Böylece bir fonksiyon imzası bir **sözleşmeye** dönüşür:
 
 | İmza | Sahiplik açısından anlamı |
 |---|---|
-| `fn arsivle(rapor: String)` | "Değeri bana ver, geri vermeyeceğim." — **tüketir** |
-| `fn rapor_olustur() -> String` | "Yeni bir değer üretip sahipliğini sana veririm." — **üretir** |
+| `fn arsivle(rapor: String)` | "Değeri bana ver, geri vermeyeceğim.", **tüketir** |
+| `fn rapor_olustur() -> String` | "Yeni bir değer üretip sahipliğini sana veririm.", **üretir** |
 | `fn duzelt(rapor: String) -> String` | "Al, işle, geri ver." |
 | `fn incele(rapor: String) -> (String, usize)` | "Geri veririm, yanında bir de sonuç." |
 | `fn puanla(not: i32) -> i32` | "Kopyasını alırım; seninki sende kalır." (`Copy` tip) |
@@ -199,7 +199,7 @@ answer: 1
 explanation: |
   İmzada dönüş tipi yok: fonksiyon değeri **tüketir**. Sahiplik `fatura` parametresine taşındı;
   parametrenin kapsamı fonksiyonun sonunda bittiği için değer orada drop edildi (fonksiyon onu başka bir
-  yere taşımadıysa — ama her durumda sana geri gelmez). `f`'yi kullanmaya kalkarsan `E0382` alırsın.
+  yere taşımadıysa - ama her durumda sana geri gelmez). `f`'yi kullanmaya kalkarsan `E0382` alırsın.
 feedback:
   - "Değeri geri vermek için imzada bir dönüş tipi (`-> String`) olması gerekirdi."
   - Doğru! Dönüş tipi olmayan, `String` alan bir fonksiyon değeri tüketir.
@@ -255,7 +255,7 @@ vererek kodu temiz tutarız.
 :::analogy Kuru temizleme
 Ceketini kuru temizlemeciye verirsin (taşıma). Ceket dükkândayken onu giyemezsin. Temizlemeci onu
 temizler (`mut` parametre) ve **fişini göstererek** geri alırsın (dönüş değeri). Ama fişi alıp ceketini
-almadan çıkarsan, ceket sende değildir — dönüş değerini bir değişkene almazsan aynı durum Rust'ta da olur.
+almadan çıkarsan, ceket sende değildir, dönüş değerini bir değişkene almazsan aynı durum Rust'ta da olur.
 :::
 
 Bu son cümleyi test edelim:
@@ -277,7 +277,7 @@ error: E0382
 explanation: |
   `soyad_ekle(ad)` değeri taşıdı ve büyütülmüş metni geri **döndürdü**, ama dönen değer hiçbir değişkene
   alınmadı. Sahibi olmayan dönüş değeri o satırın sonunda drop edildi; `ad` ise çoktan taşınmıştı.
-  Derleyicinin `help` satırı burada da `ad.clone()` önerir — ama doğru çözüm kopya değil, dönen değeri
+  Derleyicinin `help` satırı burada da `ad.clone()` önerir - ama doğru çözüm kopya değil, dönen değeri
   yakalamaktır: `let ad = soyad_ekle(ad);`
 ```
 
@@ -403,7 +403,7 @@ require:
 hints:
   - "Derleyici `selam_ekle(dilekce);` satırında değerin taşındığını, bir sonraki satırda da taşınmış değerin kullanıldığını söylüyor."
   - "Her fonksiyon büyütülmüş dilekçeyi **geri döndürüyor**. Dönen değeri bir değişkene almazsan, o satırın sonunda drop edilir."
-  - "Her çağrıyı gölgeleme ile yaz: `let dilekce = selam_ekle(dilekce);` — diğer ikisi için de aynısını yap."
+  - "Her çağrıyı gölgeleme ile yaz: `let dilekce = selam_ekle(dilekce);`, diğer ikisi için de aynısını yap."
 explanation: |
   Her çağrı dilekçeyi fonksiyona **taşır**, fonksiyon da büyütülmüş hâlini geri **taşır**. Dönen değeri
   `let dilekce = ...;` ile yakaladığımızda sahiplik zinciri kopmaz: heap'teki metin baştan sona tek bir
@@ -422,7 +422,7 @@ explanation: |
 ## Sahipliği geri vermek: tuple
 
 Peki fonksiyon bir **sonuç** hesaplasın ama değeri de geri versin istiyorsak? Örneğin bir metnin
-uzunluğunu ölçen ama metni yutmayan bir fonksiyon. Bir fonksiyon yalnızca tek bir değer döndürebilir —
+uzunluğunu ölçen ama metni yutmayan bir fonksiyon. Bir fonksiyon yalnızca tek bir değer döndürebilir,
 ama o değer bir **tuple** (Modül 2) olabilir. Önce şu kısa yolu dene:
 
 ````compiles
@@ -451,7 +451,7 @@ explanation: |
   ```
 
   Çözüm Ders 3'teki kalıp: **işini taşımadan önce bitir**. Önce `let n = s.len();`, sonra `(s, n)`.
-  Ya da sırayı çevir: `(s.len(), s)` derlenir, çünkü uzunluk `s` taşınmadan önce ölçülür — ama o zaman
+  Ya da sırayı çevir: `(s.len(), s)` derlenir, çünkü uzunluk `s` taşınmadan önce ölçülür - ama o zaman
   tuple'ın tipi de `(usize, String)` olur.
 ````
 

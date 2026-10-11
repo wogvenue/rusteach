@@ -13,11 +13,11 @@ keywords: [doc comment, "///", "//!", doc test, rustdoc, cargo doc, Examples, Pa
 
 Modül 8'de docs.rs'te bir crate'in belgelerini açtığında her fonksiyonun altında açıklamalar, uyarılar ve
 **örnek kodlar** gördün. O sayfaları kimse elle HTML olarak yazmadı: hepsi kaynak koddaki özel yorumlardan
-**otomatik** üretildi. Dahası, o örnek kodların her biri yayınlanmadan önce **derlenip çalıştırıldı** —
+**otomatik** üretildi. Dahası, o örnek kodların her biri yayınlanmadan önce **derlenip çalıştırıldı**,
 yani belgelerdeki örnekler aynı zamanda birer test.
 
 Bu derste kodunu bu şekilde belgelemeyi öğreneceksin. Ve bu uygulamanın kod bloklarında ilk modülden
-beri perde arkasında kullanılan bir hileyle — gizli `#` satırlarıyla — karşılaşınca şaşırabilirsin: onu biz
+beri perde arkasında kullanılan bir hileyle, gizli `#` satırlarıyla, karşılaşınca şaşırabilirsin: onu biz
 icat etmedik, rustdoc'tan ödünç aldık!
 
 ## Belge yorumları: `///`
@@ -86,7 +86,7 @@ options:
 answer: 0
 explanation: |
   `ortalama` bir `Option<u32>` döndürür; `{:?}` onu `Some(95)` biçiminde yazdırır (Modül 7). `[1, 2]`
-  için `3 / 2` tamsayı bölmesidir ve `1` olur — belgede "aşağı yuvarlanır" diye yazmamızın sebebi tam
+  için `3 / 2` tamsayı bölmesidir ve `1` olur - belgede "aşağı yuvarlanır" diye yazmamızın sebebi tam
   olarak bu. `if let Some(o)` ise değeri kutudan çıkarır, bu yüzden son satırda sadece `50` görünür.
   İyi bir belge, kullanıcının bu tür sürprizleri **çağırmadan önce** öğrenmesini sağlar.
 ```
@@ -123,7 +123,7 @@ code: |
   /// Bu yorum hiçbir şeyi belgelemiyor
 answer: false
 explanation: |
-  Derlenmez: `error: expected item after doc comment` — `this doc comment doesn't document anything`.
+  Derlenmez: `error: expected item after doc comment` - `this doc comment doesn't document anything`.
   `///` sıradan bir yorum değil, **altındaki öğeye** bağlanan bir özniteliktir; dosyanın sonunda bağlanacak
   bir öğe olmadığı için hata alırsın. (Bir fonksiyonun **içinde**, örneğin bir `let` satırının üstünde
   kullanırsan da `unused doc comment` uyarısı alırsın: rustdoc ifadeleri belgelemez.) Kod içindeki
@@ -133,7 +133,7 @@ explanation: |
 ## `//!` ve standart bölümler
 
 `///` altındaki öğeyi belgeler; **`//!`** ise **içinde bulunduğu** öğeyi. En sık kullanımı, `src/lib.rs`'in
-en başında **crate'in kendisini** belgelemektir — docs.rs'te bir crate'i açınca gördüğün giriş sayfası budur.
+en başında **crate'in kendisini** belgelemektir, docs.rs'te bir crate'i açınca gördüğün giriş sayfası budur.
 Bir modül dosyasının (`src/katalog.rs`) başına yazılırsa o modülü belgeler.
 
 ```rust,ignore,title=src/lib.rs
@@ -158,7 +158,7 @@ Rust topluluğunun belgelerde kullandığı **standart başlıklar** vardır. He
 | başlık | ne yazılır? | ne zaman? |
 |---|---|---|
 | `# Examples` | Çalışan, kısa kullanım örnekleri | Neredeyse her `pub` öğede |
-| `# Panics` | Fonksiyonun hangi durumda **panik** yaptığı | Fonksiyon panik yapabiliyorsa — mutlaka |
+| `# Panics` | Fonksiyonun hangi durumda **panik** yaptığı | Fonksiyon panik yapabiliyorsa, mutlaka |
 | `# Errors` | Hangi durumda **hangi `Err`** döndüğü | `Result` döndüren fonksiyonlarda |
 | `# Safety` | Çağıranın uyması gereken kurallar | `unsafe` fonksiyonlarda (Modül 24) |
 
@@ -295,7 +295,7 @@ all doctests ran in 0.17s; merged doctests compilation took 0.17s
 
 Her doc test, **hangi öğenin belgesinde** ve **hangi satırda** başladığıyla adlandırılır. Örneklerin içinde
 `use not_defteri::ortalama;` yazdığımıza dikkat et: doc test, kütüphanenin **dışında** derlenen ayrı bir
-programdır — tıpkı bir entegrasyon testi gibi sadece `pub` API'yi görür ve crate'i adıyla içe aktarır.
+programdır, tıpkı bir entegrasyon testi gibi sadece `pub` API'yi görür ve crate'i adıyla içe aktarır.
 Kabaca rustdoc senin örneğini şu programa çevirir:
 
 ```rust
@@ -353,7 +353,7 @@ dosya yolu rustdoc'un geçici dosyasıdır, ona takılma; `left`/`right` satırl
 
 :::warning Doc testler sadece kütüphanelerde çalışır
 Doc testler **library crate**'ler (`src/lib.rs`) için çalıştırılır. Sadece `src/main.rs`'ten oluşan bir binary
-crate'te belge örnekleri test edilmez — bir sebep daha "kalın `lib.rs`, ince `main.rs`" desenini kullanmak
+crate'te belge örnekleri test edilmez, bir sebep daha "kalın `lib.rs`, ince `main.rs`" desenini kullanmak
 için. Bu uygulamanın alıştırmaları da tek dosyalık programlar olduğundan doc testleri burada
 **çalıştıramayız**; çıktıları gerçek bir `cargo test` oturumundan alındı. Sadece doc testleri çalıştırmak
 istediğinde: `cargo test --doc`.
@@ -377,7 +377,7 @@ answer: 2
 explanation: |
   Belgedeki örnek gerçek bir programdır: `use not_defteri::ortalama;` artık var olmayan bir şeyi içe
   aktarmaya çalışır ve derleme hatası verir (`unresolved import`). Doc test kalır, `cargo test` başarısız
-  olur. Belgeler kodla **senkron kalmaya zorlanır** — Rust belgelerinin güvenilir olmasının sırrı budur.
+  olur. Belgeler kodla **senkron kalmaya zorlanır** - Rust belgelerinin güvenilir olmasının sırrı budur.
   (Birim testlerin etkilenip etkilenmeyeceği, onların da eski adı kullanıp kullanmadığına bağlıdır.)
 feedback:
   - Sıradan yorumlar yok sayılır; belge örnekleri değil.
@@ -452,7 +452,7 @@ Bir belge kod bloğunun nasıl ele alınacağını, açılış satırına yazdı
 | ```` ```should_panic ```` | Çalıştırılır, **panik yapmalı** | `# Panics` bölümündeki örnekler |
 | ```` ```no_run ```` | Derlenir ama **çalıştırılmaz** | Ağa bağlanan, dosya silen, sonsuz döngülü örnekler |
 | ```` ```compile_fail ```` | **Derlenmemeli** | "Bunu yapamazsın" diye göstermek için (ör. borrow checker'ın engellediği kullanım) |
-| ```` ```ignore ```` | Hiç derlenmez, `ignored` sayılır | Çok nadiren — çoğu zaman `no_run` daha iyidir |
+| ```` ```ignore ```` | Hiç derlenmez, `ignored` sayılır | Çok nadiren, çoğu zaman `no_run` daha iyidir |
 | ```` ```text ```` | Rust kodu değil, test değil | Çıktı örnekleri, komutlar |
 
 ````quiz
@@ -504,7 +504,7 @@ uyarı verir. Yayınlanan crate'lerde yaygın bir alışkanlıktır. Clippy'nin 
 `missing_errors_doc` uyarıları da panik yapabilen ya da `Result` döndüren `pub` fonksiyonlarda ilgili
 bölümün eksik olduğunu yakalar; ikisi de `clippy::pedantic` grubundadır, yani varsayılan olarak kapalıdır
 ve `#![warn(clippy::missing_panics_doc)]` gibi bir satırla açılır. Ayrıca Rust 2024 sürümüyle rustdoc,
-doc testleri tek tek değil **toplu** derler (çıktıdaki `merged doctests compilation` satırı) — büyük
+doc testleri tek tek değil **toplu** derler (çıktıdaki `merged doctests compilation` satırı), büyük
 crate'lerde doc testler bu yüzden çok daha hızlı. (`compile_fail` gibi bazı örnekler yine ayrı derlenir.)
 :::
 
@@ -677,9 +677,9 @@ answer: |
 - front: Doc test nedir?
   back: "Belge yorumundaki kod bloğu; `cargo test` onu ayrı bir program olarak derleyip çalıştırır. Örnek yanlışsa test kalır."
 - front: "Doc test kodu kütüphanenin fonksiyonuna nasıl erişir?"
-  back: "Dış bir crate gibi: `use crate_adi::fonksiyon;` — sadece `pub` API'yi görür."
+  back: "Dış bir crate gibi: `use crate_adi::fonksiyon;`, sadece `pub` API'yi görür."
 - front: Bir doc testte `?` kullanabilmek için ne yapılır?
-  back: "Sona gizli bir satır eklenir: `# Ok::<(), HataTipi>(())` — doc testin `main`'i böylece `Result` döndürür."
+  back: "Sona gizli bir satır eklenir: `# Ok::<(), HataTipi>(())`, doc testin `main`'i böylece `Result` döndürür."
 - front: "Doc test kod bloğunda `no_run` etiketi ne yapar?"
   back: Örnek derlenir ama çalıştırılmaz (ağ, dosya, sonsuz döngü içeren örnekler için).
 - front: "`cargo doc --open` ne yapar?"

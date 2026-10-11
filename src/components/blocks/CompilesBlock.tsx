@@ -1,4 +1,4 @@
-// "Derlenir mi?" — borrow-checker intuition: the learner judges whether rustc accepts the code,
+// "Derlenir mi?" - borrow-checker intuition: the learner judges whether rustc accepts the code,
 // then can ask the real compiler.
 import { useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';

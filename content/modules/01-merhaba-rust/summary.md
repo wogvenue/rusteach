@@ -1,4 +1,4 @@
-# Modül 1 Özet Kartı — Merhaba Rust
+# Modül 1 Özet Kartı: Merhaba Rust
 
 ## Temel fikirler
 
@@ -50,7 +50,7 @@ Metinler **çift tırnak**; tek tırnak yalnızca tek karakter içindir.
 | `{ad}` + `ad = …` | İsimli argüman | `println!("{s}", s = "Rize")` → `Rize` |
 | `{x}` | Kapsamdaki `x` değişkeni (**yalnızca ad**, ifade değil) | `{fiyat}` ✓ · `{fiyat * 2}` ✗ |
 | `{:?}` | Debug (programcı için; tırnaklı) | `"Ali"` → `"Ali"` |
-| `{:#?}` | Güzel (çok satırlı) Debug | — |
+| `{:#?}` | Güzel (çok satırlı) Debug | - |
 | `{{` `}}` | Süslü parantezin kendisi | `"{{x}}"` → `{x}` |
 
 ## Biçim belirteçleri
@@ -82,7 +82,7 @@ fn main() {
 |---|---|---|
 | `print!` / `println!` | stdout (asıl çıktı) | Hayır / Evet |
 | `eprint!` / `eprintln!` | stderr (hatalar, uyarılar) | Hayır / Evet |
-| `format!` | Hiçbir yere — bir `String` döndürür | — |
+| `format!` | Hiçbir yere, bir `String` döndürür | - |
 
 `cargo run > dosya.txt` yalnızca stdout'u dosyaya yönlendirir; stderr ekranda kalır.
 

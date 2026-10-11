@@ -61,7 +61,7 @@ error: E0603
 explanation: |
   `eczane` kökte tanımlı olduğu için `main` onu görür; `stok` `pub`, `rapor` da `pub`. Ama
   `ilac_sayisi` gizlidir: yalnızca `stok` modülünün (ve alt modüllerinin) içinden çağrılabilir. `rapor`
-  onu sorunsuz çağırır, `main` çağıramaz: **E0603 — function `ilac_sayisi` is private**. Gizlilik
+  onu sorunsuz çağırır, `main` çağıramaz: **E0603 - function `ilac_sayisi` is private**. Gizlilik
   "içeriden dışarıya" işler: üst modüller alt modüllerin gizli öğelerini göremez.
 ```
 
@@ -144,7 +144,7 @@ answer: false
 error: E0451
 explanation: |
   `pub struct` yalnızca tipi açar; alanlar tek tek açılır. `bakiye` gizli olduğu için `banka`'nın
-  dışında `Hesap { ... }` yazılamaz: **E0451 — field `bakiye` of struct `Hesap` is private**. İşte
+  dışında `Hesap { ... }` yazılamaz: **E0451 - field `bakiye` of struct `Hesap` is private**. İşte
   kapsüllemenin gücü: dışarıdaki kod kendine bir milyonluk hesap uyduramaz. Doğru tasarım, `banka`
   içinde `pub fn yeni(sahip: &str) -> Hesap` gibi bir kurucu sunmaktır.
 ```
@@ -313,7 +313,7 @@ error: E0382
 explanation: |
   Yollar ve gizlilik kusursuz: `Paket` ve alanları `pub`. Sorun **sahiplikte**: `gonder` paketi değer
   olarak (`Paket`) alır, yani `kargo::gonder(p)` çağrısı `p`'yi fonksiyona **taşır**. Sonraki satırda
-  `p.alici`'yi kullanmak **E0382 — borrow of moved value: `p`** verir. Çözüm: `gonder(p: &Paket)` ve
+  `p.alici`'yi kullanmak **E0382 - borrow of moved value: `p`** verir. Çözüm: `gonder(p: &Paket)` ve
   `kargo::gonder(&p)`. Modül sınırları sahiplik kurallarını değiştirmez.
 ```
 
@@ -388,7 +388,7 @@ code: |
 answer: false
 error: E0004
 explanation: |
-  `find` bir `Option<Match>` döndürür ve `match` **bütün** olasılıkları kapsamak zorundadır: **E0004 —
+  `find` bir `Option<Match>` döndürür ve `match` **bütün** olasılıkları kapsamak zorundadır: **E0004,
   non-exhaustive patterns: `None` not covered**. Bu metinde posta kodu olmadığı için `None` kolu tam
   da gerçekleşecek koldur! Ya `None => println!("Posta kodu yok"),` kolunu ekle ya da yalnızca bir
   durumla ilgileniyorsan `if let Some(m) = re.find(...)` kullan.

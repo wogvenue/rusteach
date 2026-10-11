@@ -15,12 +15,12 @@ dosyasında. Şimdi bu programın büyüdüğünü düşün: üyeler, gecikme ce
 bildirimleri... Birkaç ay sonra 5.000 satırlık tek bir dosyada `kaydet` adlı üç farklı fonksiyonu
 birbirinden ayırmaya çalışıyor olursun.
 
-Gerçek Rust projeleri — derleyicinin kendisi, Firefox'un parçaları, Discord'un sunucuları — yüz binlerce
+Gerçek Rust projeleri, derleyicinin kendisi, Firefox'un parçaları, Discord'un sunucuları, yüz binlerce
 satırdır ve yine de düzenlidir. Sırları, Rust'ın kodu düzenlemek için sunduğu üç katmanlı sistemdir:
 **paketler (packages)**, **crate**'ler ve **modüller (modules)**. Bu derste büyük resmi kuruyoruz.
 
 :::ferris
-Modül sistemi, Rust'a yeni başlayanların kafasının en çok karıştığı konulardan biridir — ama aslında
+Modül sistemi, Rust'a yeni başlayanların kafasının en çok karıştığı konulardan biridir, ama aslında
 birkaç basit kuraldan ibarettir. Her kuralı tek tek, örnekle oturtacağız. 🦀
 :::
 
@@ -46,7 +46,7 @@ answer: false
 error: E0428
 explanation: |
   Aynı isim alanında (burada programın en üst seviyesinde) iki öğe aynı adı taşıyamaz:
-  **E0428 — the name `rapor` is defined multiple times**. Derleyici hangi `rapor`'u kastettiğini
+  **E0428 - the name `rapor` is defined multiple times**. Derleyici hangi `rapor`'u kastettiğini
   bilemez. Küçük programlarda bu nadiren sorun olur; ama yüzlerce fonksiyonlu bir projede `rapor`,
   `kaydet`, `hesapla` gibi güzel isimler kaçınılmaz olarak çakışır.
 ```
@@ -58,7 +58,7 @@ Program büyüdükçe üç dert ortaya çıkar:
 2. **İsim çakışması:** Tek bir isim alanında (namespace) herkes aynı güzel isimleri kullanmak ister ve
    isimler çarpışır.
 3. **Korumak:** Bazı fonksiyonlar ve veriler iç ayrıntıdır; programın geri kalanının onlara dokunmaması
-   gerekir — tıpkı bir bankanın kasası gibi.
+   gerekir, tıpkı bir bankanın kasası gibi.
 
 Rust'ın üçüne birden cevabı **modüllerdir**:
 
@@ -130,8 +130,8 @@ Rust'ın düzenleme sistemi iç içe üç katmandan oluşur. En küçükten baş
 :::analogy Bir kitap seti
 Paketi, üzerinde etiketi olan bir **kitap seti kolisi** gibi düşün. Etiket (`Cargo.toml`) setin adını,
 sürümünü ve ihtiyaçlarını yazar. Kolideki her **kitap** bir crate'tir: matbaa (derleyici) her kitabı
-ayrı ayrı basar. Bir sette en fazla bir **başvuru kitabı** (library crate — baştan sona okunmaz, ihtiyaç
-duyulan yerine bakılır) bulunur ama istediğin kadar **hikâye kitabı** (binary crate — `main`'den başlar,
+ayrı ayrı basar. Bir sette en fazla bir **başvuru kitabı** (library crate, baştan sona okunmaz, ihtiyaç
+duyulan yerine bakılır) bulunur ama istediğin kadar **hikâye kitabı** (binary crate, `main`'den başlar,
 sonuna kadar akar) olabilir. Her kitabın **bölümleri ve alt bölümleri** modüllerdir; içindekiler tablosu
 da modül ağacıdır.
 :::
@@ -240,9 +240,9 @@ question: |
   Bir paketin `src` klasöründe şu dosyalar var: `main.rs`, `lib.rs`, `bin/sunucu.rs`, `bin/istemci.rs`.
   Bu pakette **kaç crate** vardır?
 options:
-  - "1 — paketin kendisi tek bir crate'tir"
-  - "2 — bir binary, bir library"
-  - "4 — üç binary crate ve bir library crate"
+  - "1, paketin kendisi tek bir crate'tir"
+  - "2, bir binary, bir library"
+  - "4, üç binary crate ve bir library crate"
   - "Hiçbiri; bir pakette yalnızca bir binary crate olabilir"
 answer: 2
 explanation: |
@@ -258,7 +258,7 @@ feedback:
 
 :::deep Neden "derleme birimi" önemli?
 `rustc` bir crate'i bir bütün olarak derler: içindeki tek bir satırı değiştirsen bile o crate yeniden
-derlenir (artımlı derleme — *incremental compilation* — bu işi hızlandırır). Bağımlılıklar ise bir kez
+derlenir (artımlı derleme, *incremental compilation*, bu işi hızlandırır). Bağımlılıklar ise bir kez
 derlenip `target/` klasöründe saklanır; bu yüzden ilk `cargo build` yavaş, sonrakiler hızlıdır. Büyük
 projeler bu sebeple kodlarını birden çok crate'e böler: birbirine bağımlı olmayan crate'ler paralel
 derlenebilir ve bir crate'te yaptığın değişiklik yalnızca o crate'i ve **ona bağımlı** olanları yeniden
@@ -318,7 +318,7 @@ içindedir. Bilgisayarındaki klasörler gibi düşün: `crate` kök klasör, mo
 fonksiyonlar da dosyalar.
 
 Bir öğeye ulaşmak için ağaçta kökten aşağı inersin ve her adımı `::` ile ayırırsın:
-`mutfak::corbalar::mercimek()` — klasör yolundaki `mutfak/corbalar/mercimek` gibi.
+`mutfak::corbalar::mercimek()`, klasör yolundaki `mutfak/corbalar/mercimek` gibi.
 
 `corbalar` ve `tatlilar` modüllerinin başında da `pub` olduğuna dikkat et: `main`, `mutfak`'ın
 **dışında** duruyor ve içerideki modülleri görebilmesi için onların açık olması gerekiyor. Peki neden
@@ -517,7 +517,7 @@ explanation: |
 
   Yollara dikkat: modülün **dışındaki** `main` varyantlara `kargo::Durum::Yolda` diye tam yoluyla ulaşır;
   modülün **içindeki** `mesaj` ise sadece `Durum::Yolda` yazar. Varyantların kendi başına `pub`
-  yazılmadığı hâlde dışarıdan kullanılabildiğini fark ettin mi? `pub enum`'un özel bir kuralı var —
+  yazılmadığı hâlde dışarıdan kullanılabildiğini fark ettin mi? `pub enum`'un özel bir kuralı var,
   bir sonraki derste.
 ```
 
@@ -701,11 +701,11 @@ answer: |
 - front: Bir pakette en fazla kaç **library** crate, kaç **binary** crate olabilir?
   back: En fazla **bir** library crate; binary crate sayısı ise sınırsızdır (en az bir crate şart).
 - front: Cargo kurallarına göre binary crate'in ve library crate'in kök dosyaları hangileridir?
-  back: "Binary: `src/main.rs` — Library: `src/lib.rs` (ek binary'ler: `src/bin/*.rs`)"
+  back: "Binary: `src/main.rs`, Library: `src/lib.rs` (ek binary'ler: `src/bin/*.rs`)"
 - front: Modül ağacının kökündeki örtük modülün adı nedir?
-  back: "`crate` — crate kök dosyasının (main.rs / lib.rs) içeriği bu modülü oluşturur."
+  back: "`crate`, crate kök dosyasının (main.rs / lib.rs) içeriği bu modülü oluşturur."
 - front: "`E0428` hatası ne zaman çıkar?"
-  back: Aynı modülde (aynı isim alanında) aynı ad iki kez tanımlandığında — "the name is defined multiple times".
+  back: Aynı modülde (aynı isim alanında) aynı ad iki kez tanımlandığında, "the name is defined multiple times".
 - front: Binary crate ile library crate arasındaki temel fark nedir?
   back: Binary crate'te giriş noktası olan `fn main` vardır ve çalıştırılabilir bir program üretir; library crate'in giriş noktası yoktur, başka kodların kullanacağı işlevsellik sunar.
 - front: "Modül yolunda hangi ayırıcı kullanılır, bir değerin alanına erişirken hangisi?"

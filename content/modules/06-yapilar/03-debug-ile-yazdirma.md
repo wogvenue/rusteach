@@ -257,7 +257,7 @@ Küçük örneklerde alanları yalnızca `{:?}` ile yazdırırsan derleyici şö
 `warning: fields sehir and ilce are never read ... Adres has a derived impl for the trait Debug, but
 this is intentionally ignored during dead code analysis`. Yani türetilmiş `Debug` kodu, alanı "kullanmak"
 sayılmaz; aksi hâlde gerçekten unutulmuş alanlar gizlenirdi. Gerçek programlarda alanlar başka yerlerde de
-okunduğu için bu uyarı kaybolur. Uyarıdır, hata değil — programın çalışır.
+okunduğu için bu uyarı kaybolur. Uyarıdır, hata değil, programın çalışır.
 :::
 
 Şimdi öğrendiklerini kullanıp derlenmeyen bir programı onar:
@@ -442,7 +442,7 @@ explanation: |
 ```
 
 ```memory
-title: "`let s = dbg!(s);` — sahiplik gidip geri geliyor"
+title: "`let s = dbg!(s);` - sahiplik gidip geri geliyor"
 steps:
   - caption: "Başlangıç: `s` sepetin sahibi; `sahibi` alanının karakterleri heap'te."
     stack:
@@ -495,7 +495,7 @@ answer: false
 explanation: |
   Derlenmez: `error: cannot find derive macro Display in this scope`. Derleyici ayrıca
   `Display is a trait, not a derive macro` ve `consider implementing Display for your type manually`
-  der. Standart kütüphanede `Display` için bir `derive` yoktur — ve bu bilinçli bir karardır.
+  der. Standart kütüphanede `Display` için bir `derive` yoktur - ve bu bilinçli bir karardır.
 ```
 
 Neden? Çünkü Debug'ın **tek bir doğru biçimi** vardır (tip adı + alanlar), derleyici onu kendisi

@@ -1,6 +1,6 @@
 ---
 id: m07-l01
-title: Enum'lar — bir değer, birçok olasılık
+title: "Enum'lar: bir değer, birçok olasılık"
 minutes: 20
 type: lesson
 objectives:
@@ -42,7 +42,7 @@ fn main() {
 
 Derleyici `"kuzye"` hatasını yakalayamaz, çünkü her metin geçerli bir `&str`'dir. Yönü sayıyla kodlamak
 (0 = kuzey, 1 = güney...) da aynı derde sahip: `let yon = 7;` hangi yön? Aslında söylemek istediğimiz şey
-şu: **"yön, şu dört şeyden biridir — başka hiçbir şey değil."** İşte enum tam olarak bunu söyler:
+şu: **"yön, şu dört şeyden biridir, başka hiçbir şey değil."** İşte enum tam olarak bunu söyler:
 
 ```rust
 #[derive(Debug)]
@@ -66,7 +66,7 @@ fn main() {
 - `enum Yon { ... }` yeni bir **tip** tanımlar. Tip adı ve seçeneklerin adları `UpperCamelCase` yazılır.
 - Her seçeneğe **varyant (variant)** denir. `Yon` tipinde bir değer, bu dört varyanttan **tam olarak biridir**.
 - Bir varyanta `Yon::Kuzey` diye, tip adı ve `::` ile ulaşırsın. Varyantlar enum'un **ad alanında
-  (namespace)** yaşar — tıpkı Modül 6'daki `String::from` gibi.
+  (namespace)** yaşar, tıpkı Modül 6'daki `String::from` gibi.
 - `gidis`, `donus` ve dizideki her eleman **aynı tiptedir**: `Yon`. Bu yüzden aynı diziye konabilirler.
 
 Artık yazım hatası derleme hatasıdır. `Yon::Kuzye` yazarsan Rust hem hatayı yakalar hem de doğrusunu önerir:
@@ -120,7 +120,7 @@ code: |
 answer: false
 error: E0369
 explanation: |
-  Derlenmez: **E0369** — *binary operation `==` cannot be applied to type `Yon`*. Rust, senin tanımladığın
+  Derlenmez: **E0369** - *binary operation `==` cannot be applied to type `Yon`*. Rust, senin tanımladığın
   bir tipin nasıl karşılaştırılacağını kendiliğinden varsaymaz; eşitlik, tipe açıkça kazandırılan bir
   yetenektir. Derleyici çözümü de söyler: *consider annotating `Yon` with `#[derive(PartialEq)]`*.
   `PartialEq`'i trait'leri öğrenince (Modül 11) ayrıntılı göreceğiz. Bir enum'un hangi varyant olduğunu
@@ -332,18 +332,18 @@ oluşur. Bütün varyantlar aynı boyutta bir "kutuya" konur:
 ```memory
 title: Üç `Mesaj` değeri, aynı boyutta üç kutu
 steps:
-  - caption: "`let a = Mesaj::Cik;` — etiket `Cik` diyor; veri alanı ayrılmış ama boş."
+  - caption: "`let a = Mesaj::Cik;`, etiket `Cik` diyor; veri alanı ayrılmış ama boş."
     stack:
       - frame: main
         vars:
           - { name: a, type: Mesaj, value: "etiket: Cik │ (boş)" }
-  - caption: "`let b = Mesaj::Tasi { x: 10, y: -3 };` — aynı boyutta bir kutu; etiket `Tasi`, içinde iki `i32`."
+  - caption: "`let b = Mesaj::Tasi { x: 10, y: -3 };`, aynı boyutta bir kutu; etiket `Tasi`, içinde iki `i32`."
     stack:
       - frame: main
         vars:
           - { name: a, type: Mesaj, value: "etiket: Cik │ (boş)" }
           - { name: b, type: Mesaj, value: "etiket: Tasi │ x=10 · y=-3" }
-  - caption: "`let c = Mesaj::Yaz(String::from(\"Merhaba\"));` — etiket `Yaz`; String'in işaretçisi, uzunluğu ve kapasitesi kutunun içinde, harfler heap'te."
+  - caption: "`let c = Mesaj::Yaz(String::from(\"Merhaba\"));`, etiket `Yaz`; String'in işaretçisi, uzunluğu ve kapasitesi kutunun içinde, harfler heap'te."
     stack:
       - frame: main
         vars:
@@ -420,9 +420,9 @@ code: |
 answer: false
 error: E0609
 explanation: |
-  Derlenmez: **E0609** — *no field `x` on type `Mesaj`*. `m`'nin tipi `Mesaj`'dır ve `Mesaj` tipinin
+  Derlenmez: **E0609** - *no field `x` on type `Mesaj`*. `m`'nin tipi `Mesaj`'dır ve `Mesaj` tipinin
   `x` diye bir alanı yoktur: `x` yalnızca `Tasi` varyantında vardır. Derleyici açısından `m` pekâlâ
-  `Cik` de olabilirdi. Bu yüzden önce **hangi varyant olduğunu kontrol etmen** gerekir — o da `match`'in işi.
+  `Cik` de olabilirdi. Bu yüzden önce **hangi varyant olduğunu kontrol etmen** gerekir - o da `match`'in işi.
 ```
 
 Derleyici haklı: `m`'nin tipi yalnızca "bir `Mesaj`" olduğunu söyler, hangi varyant olduğunu değil. Varyantın
@@ -589,7 +589,7 @@ code: |
 answer: false
 error: E0596
 explanation: |
-  Derlenmez: **E0596** — *cannot borrow `k` as mutable, as it is not declared as mutable*. Enum'la ilgisi
+  Derlenmez: **E0596** - *cannot borrow `k` as mutable, as it is not declared as mutable*. Enum'la ilgisi
   yok; Modül 6'daki kural: `yuru` metodu `&mut self` aldığı için, onu çağırabilmek için örneğin kendisi
   `let mut k` ile tanımlanmış olmalı. Derleyici de tam olarak bunu önerir. `Guney` hiç oluşturulmadığı
   için ayrıca bir uyarı verir, ama derlemeyi durduran şey E0596'dır.
@@ -795,7 +795,7 @@ explanation: |
 
   Testler farklı ağırlıklar ve her iki sigorta durumu için ücreti kontrol ettiği için "sabit sayı döndürme"
   hilesi işe yaramaz. Yeni bir gönderi türü eklendiğinde (örneğin `Zarf`) derleyici bu `match`'i
-  güncellemeni zorunlu kılacak — bunun nedenini 3. derste göreceksin.
+  güncellemeni zorunlu kılacak - bunun nedenini 3. derste göreceksin.
 ````
 
 ## Özet
@@ -813,7 +813,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — bir ödeme yöntemini neden `yontem: u8` ve birkaç alandan oluşan bir
+  Kendi cümlelerinle açıkla - bir ödeme yöntemini neden `yontem: u8` ve birkaç alandan oluşan bir
   struct yerine bir enum ile modellemek daha güvenlidir?
 answer: |
   Struct'ta bütün alanlar her zaman vardır; bu yüzden "nakit ama 6 taksitli" ya da "yöntem = 7" gibi

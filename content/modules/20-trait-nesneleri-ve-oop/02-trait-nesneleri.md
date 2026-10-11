@@ -1,6 +1,6 @@
 ---
 id: m20-l02
-title: "Trait nesneleri — dyn Trait"
+title: "Trait nesneleri, dyn Trait"
 minutes: 20
 type: lesson
 objectives:
@@ -862,7 +862,7 @@ answer: |
 - front: "`let b: dyn Ciz = Dugme;` neden derlenmez?"
   back: "`dyn Ciz`'in boyutu derleme zamanında bilinmez (dinamik boyutlu tip); yerel değişkenlerin boyutu bilinmeli. `&dyn Ciz` ya da `Box<dyn Ciz>` kullan."
 - front: "`Box<dyn Ciz>` üzerinde `Dugme`'ye özgü bir metodu çağırınca hangi hata gelir?"
-  back: "`E0599: no method named ... found for struct Box<dyn Ciz>` — trait nesnesinde yalnızca trait'in metotları görünür."
+  back: "`E0599: no method named ... found for struct Box<dyn Ciz>`, trait nesnesinde yalnızca trait'in metotları görünür."
 - front: "`Box<dyn Ciz>` aslında hangi tipin kısaltmasıdır?"
   back: "`Box<dyn Ciz + 'static>` (varsayılan nesne yaşam süresi kuralı)."
 - front: "`E0782: expected a type, found a trait` neyi düzeltmeni ister?"

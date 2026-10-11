@@ -83,7 +83,7 @@ vermeden `i32`'ye ulaşamazsın. Hata olasılığı imzada görünür ve derleyi
 
 :::analogy Sınav sonuç zarfı
 Sınav sonucun kapalı bir zarfla gelir. Zarfı açmadan puanını öğrenemezsin. İçinden ya
-"Puanınız: 452" (`Ok(452)`) ya da "Sınavınız geçersiz sayıldı — gerekçe: optik form okunamadı"
+"Puanınız: 452" (`Ok(452)`) ya da "Sınavınız geçersiz sayıldı, gerekçe: optik form okunamadı"
 (`Err(gerekçe)`) çıkar. Zarf, hem sonucun olup olmadığını hem de yoksa **nedenini** taşır. `Result` da
 böyle bir zarftır; `match` ise zarfı açmaktır.
 :::
@@ -122,7 +122,7 @@ code: |
 answer: false
 error: E0369
 explanation: |
-  Derlenmez: **E0369** — *cannot add `{integer}` to `Result<u32, ParseIntError>`*. `yas` bir `u32` değil,
+  Derlenmez: **E0369** - *cannot add `{integer}` to `Result<u32, ParseIntError>`*. `yas` bir `u32` değil,
   bir zarf: `Result<u32, ParseIntError>`. Modül 7'de bir `i32`'den `Option<i32>` çıkarmaya çalıştığımızda
   da aynı duvara çarpmıştık. Önce zarfı açman gerek: `match`, `unwrap_or` ya da bu dersteki diğer yollarla.
 
@@ -194,7 +194,7 @@ code: |
 answer: false
 error: E0004
 explanation: |
-  Derlenmez: **E0004** — *non-exhaustive patterns: `Err(_)` not covered*. Modül 7'den hatırla: `match`
+  Derlenmez: **E0004** - *non-exhaustive patterns: `Err(_)` not covered*. Modül 7'den hatırla: `match`
   **kapsayıcı (exhaustive)** olmak zorunda, enum'un her varyantı ele alınmalı. `Result` da bir enum olduğu için
   `Err` kolunu yazmadan derleyemezsin. Rust'ın seni hatayı düşünmeye zorladığı yer tam olarak burası:
   "mutlu yolu" yazıp hatayı unutmak mümkün değil.

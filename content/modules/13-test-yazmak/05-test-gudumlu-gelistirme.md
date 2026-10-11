@@ -12,7 +12,7 @@ keywords: [TDD, kırmızı-yeşil-yeniden düzenle, red-green-refactor, tablo g�
 ---
 
 Bu modül boyunca önce kodu yazdın, sonra testini. Şimdi sırayı **tersine çevireceğiz**: önce test, sonra kod.
-Kulağa garip geliyor — var olmayan bir şeyi nasıl test edersin? Ama bu yaklaşım, yani **test güdümlü
+Kulağa garip geliyor, var olmayan bir şeyi nasıl test edersin? Ama bu yaklaşım, yani **test güdümlü
 geliştirme (Test-Driven Development, TDD)**, dünyanın dört bir yanındaki ekiplerin kullandığı bir tasarım
 disiplinidir. Bu derste bir Roma rakamı çeviricisini adım adım, **testlerin güdümünde** inşa edeceksin.
 
@@ -29,8 +29,8 @@ bir döngüdür. Her tur birkaç dakika sürer:
 | adım | ne yaparsın? | ne zaman biter? |
 |---|---|---|
 | 🔴 **Kırmızı (red)** | Henüz desteklenmeyen **tek bir** davranış için küçük bir test yaz | Test **doğru sebepten** kalınca (derleme hatası da sayılır) |
-| 🟢 **Yeşil (green)** | Testi geçirecek **en basit** kodu yaz — şıklık yok, genelleme yok | Bütün testler geçince |
-| 🔵 **Yeniden düzenle (refactor)** | Tekrarı kaldır, adları düzelt, yapıyı iyileştir — davranışı değiştirmeden | Kod temiz ve testler hâlâ yeşil olunca |
+| 🟢 **Yeşil (green)** | Testi geçirecek **en basit** kodu yaz, şıklık yok, genelleme yok | Bütün testler geçince |
+| 🔵 **Yeniden düzenle (refactor)** | Tekrarı kaldır, adları düzelt, yapıyı iyileştir, davranışı değiştirmeden | Kod temiz ve testler hâlâ yeşil olunca |
 
 Neden bu kadar zahmet? Çünkü test önce yazılınca:
 
@@ -60,7 +60,7 @@ answer: 1
 explanation: |
   TDD **bir test, bir adım** ilerler. Yeni testin kaldığını görmek kritiktir: yeni yazdığın bir test daha
   ilk çalıştırmada geçiyorsa ya o davranış zaten vardır ya da test hiçbir şeyi kontrol etmiyordur.
-  Fonksiyon henüz yoksa test derlenmez (`E0425`); bu da geçerli bir kırmızıdır — derleyici sana bir
+  Fonksiyon henüz yoksa test derlenmez (`E0425`); bu da geçerli bir kırmızıdır - derleyici sana bir
   sonraki adımı söyler: "bu fonksiyonu tanımla".
 feedback:
   - Bu "test önce" değil, "plan önce" olur; TDD küçük adımlarla ilerler.
@@ -71,11 +71,11 @@ feedback:
 
 ## Kırmızı: önce test
 
-Hedef: `roma(n: u32) -> String` — 1 ile 3999 arasındaki bir sayıyı Roma rakamına çeviren fonksiyon.
+Hedef: `roma(n: u32) -> String`, 1 ile 3999 arasındaki bir sayıyı Roma rakamına çeviren fonksiyon.
 Kuralları biliyoruz: `I=1, V=5, X=10, L=50, C=100, D=500, M=1000`; küçük bir sembol büyüğün **önünde**
 ise çıkarılır (`IV = 4`, `IX = 9`, `XL = 40`, `CM = 900`).
 
-**Tur 1 — kırmızı.** Fonksiyon yok; sadece testi yazıyoruz:
+**Tur 1, kırmızı.** Fonksiyon yok; sadece testi yazıyoruz:
 
 ```rust,ignore
 #[cfg(test)]
@@ -102,7 +102,7 @@ Kırmızı! Derleyici bir sonraki adımı söylüyor: `roma` diye bir fonksiyon 
 "doğru sebepten kırmızı"dır.
 :::
 
-**Tur 1 — yeşil.** En basit kod nedir? Gülümseyebilirsin ama cevap gerçekten bu:
+**Tur 1, yeşil.** En basit kod nedir? Gülümseyebilirsin ama cevap gerçekten bu:
 
 ```rust
 pub fn roma(_n: u32) -> String {
@@ -111,7 +111,7 @@ pub fn roma(_n: u32) -> String {
 
 fn main() {
     println!("{}", roma(1));
-    println!("{}", roma(7)); // açıkça yanlış — ama henüz bunu isteyen bir test yok!
+    println!("{}", roma(7)); // açıkça yanlış - ama henüz bunu isteyen bir test yok!
 }
 ```
 
@@ -156,7 +156,7 @@ answer: 1
 explanation: |
   Döngü `n` kez `'I'` ekler; başka hiçbir kural bilmiyor. `1`, `2`, `3` için doğru, ama `4` ve `5` için
   yanlış. TDD'de bir sonraki adım bellidir: kodu "zaten bildiğin" kurallarla doldurmak yerine, şu anki kodu
-  **kıran en küçük testi** yazarsın — `assert_eq!(roma(4), "IV");`. Kod ancak bu test kırmızıya dönünce
+  **kıran en küçük testi** yazarsın - `assert_eq!(roma(4), "IV");`. Kod ancak bu test kırmızıya dönünce
   çıkarma kuralını öğrenir.
 ```
 
@@ -199,7 +199,7 @@ tablonun içinde birer satır olarak yaşıyor; yeni bir kural, yeni bir satır 
 
 Burada TDD'nin iki ödülünü görüyorsun. Birincisi: if zincirinden tabloya geçerken **korkmadın**, çünkü
 yazdığın her test hâlâ yeşil mi diye anında kontrol edebiliyordun. İkincisi: `assert!` ile eklediğimiz
-aralık kontrolü de bir test turunun sonucu — `#[should_panic(expected = "1-3999")] fn sifir_yazilamaz()`
+aralık kontrolü de bir test turunun sonucu, `#[should_panic(expected = "1-3999")] fn sifir_yazilamaz()`
 testi (Ders 2'deki `should_panic` kalıbı) bu satırı **talep etti**.
 
 :::warning Yeniden düzenleme ≠ yeni özellik
@@ -426,7 +426,7 @@ Bazen geçip bazen kalan bir teste (*flaky test*) kimse güvenmez.
 | sıfır ve sınır değerleri | `0`, eşik değeri ve hemen altı/üstü (`89`/`90`) |
 | en büyük değer / taşma | `u32::MAX`, `3999` |
 | geçersiz girdi | `"kırk"`, negatif anlamlı değerler, aralık dışı |
-| Unicode / Türkçe karakter | `"çiçek"`, `"İstanbul"` — bayt sayısı ≠ karakter sayısı |
+| Unicode / Türkçe karakter | `"çiçek"`, `"İstanbul"`, bayt sayısı ≠ karakter sayısı |
 
 ````quiz
 question: |
@@ -640,11 +640,11 @@ hints:
   - "Döngü bittikten sonra kuralları **sırayla** kontrol et ve ilk ihlalde `return Err(...)` ile çık: önce `uzunluk < 8`, sonra `bosluk_var`, sonra `!rakam_var`, sonra `!buyuk_var`. Sonda `Ok(())`."
 require:
   - pattern: "(#\\[test\\][\\s\\S]*){3}"
-    message: TDD ile ilerle — test modülünde en az üç `#[test]` olmalı (başlangıçtaki dahil).
+    message: TDD ile ilerle, test modülünde en az üç `#[test]` olmalı (başlangıçtaki dahil).
 explanation: |
   Kuralları **döngü sırasında değil, döngüden sonra** kontrol etmek, "ilk ihlal edilen kural" sırasını
   garanti eder. Döngü içinde boşluk görünce hemen `BoslukVar` döndürseydin, `"a b"` gibi kısa ve boşluklu
-  bir şifre `Kisa` yerine `BoslukVar` alırdı — gizli testteki tablo tam bu sırayı denetliyor.
+  bir şifre `Kisa` yerine `BoslukVar` alırdı - gizli testteki tablo tam bu sırayı denetliyor.
 
   İki tuzak daha: `sifre.len() < 8` yazsaydın `"Şğüçİ1a"` (7 karakter, 12 bayt) geçerdi; `is_ascii_uppercase()`
   kullansaydın `"güvenliŞifre9"` reddedilirdi. İkisi de sadece ASCII ile test edilen kodda **asla** görünmeyen
@@ -660,7 +660,7 @@ doğru olmalı.
 
 ```exercise
 id: m13-e-roma-coz
-title: Roma rakamını çöz — tablo testiyle
+title: "Roma rakamını çöz: tablo testiyle"
 difficulty: 4
 prompt: |
   `roma_coz(metin)` fonksiyonunu yaz: bir Roma rakamını sayıya çevirir. Metin boşsa ya da `I V X L C D M`
@@ -816,7 +816,7 @@ require:
 explanation: |
   Neden sağdan sola? Soldan sağa giderken `IV`'deki `I`'yı gördüğün an, onun çıkarılacağını bilmek için
   bir sonrakine bakman gerekir; ayrıca `toplam -= 1` ile başlamak `u32`'yi **eksiye düşürür** (debug modda
-  taşma paniği — Ders 2). Sağdan sola giderken ise çıkarılan sembolün hemen sağındaki daha büyük değer
+  taşma paniği - Ders 2). Sağdan sola giderken ise çıkarılan sembolün hemen sağındaki daha büyük değer
   **zaten toplanmıştır**. Üstelik Roma sembolleri öyle seçilmiştir ki her sembol, kendisinden küçük
   **bütün** sembollerin toplamından büyüktür (`V` > `I`, `X` > `V + I`, ... `M` > `D + C + L + X + V + I`
   = 666). Arka arkaya çıkarmalar (`IVX` gibi) olsa bile `toplam` bu yüzden asla eksiye düşmez. Soldan
@@ -824,7 +824,7 @@ explanation: |
   geri al" hilesini kullanırsın.
 
   Dikkat: "hemen sağdaki" yerine "o ana kadar görülen en büyük" değerle karşılaştıran bir sürüm de bütün
-  standart sayıları doğru çözer — ama `IIV` için 3 bulur, `IIIIIIV` içinse `5 - 6` hesaplayıp debug
+  standart sayıları doğru çözer - ama `IIV` için 3 bulur, `IIIIIIV` içinse `5 - 6` hesaplayıp debug
   modda **taşma paniği** verir. Gizli `standart_disi_yazimlar_komsu_kuraliyla` testi bu farkı yakalar:
   şartnameyi (`prompt`) test eden testler, iki "neredeyse aynı" algoritmayı birbirinden ayırır.
   (Toplama ise ancak milyonlarca `M`'lik bir metinde taşabilir; onu da kapatmak istersen
@@ -839,7 +839,7 @@ explanation: |
   Fark etmiş olabilirsin: `roma_coz("IIII")` → `Some(4)` ve `roma_coz("IC")` → `Some(99)` döner; yani
   fonksiyon bu şartnameyle **standart dışı** yazımları da kabul ediyor. Gerçek bir projede bunları
   reddetmek istersen şartname değişmiş demektir ve TDD sırası bellidir: önce beklentiyi değiştir
-  (`assert_eq!(roma_coz("IIII"), None)` — kırmızı!), sonra en kısa çözümü bul — ipucu:
+  (`assert_eq!(roma_coz("IIII"), None)` - kırmızı!), sonra en kısa çözümü bul - ipucu:
   `if roma(toplam) != metin { return None; }` (yalnızca `roma`'nın üreteceği kanonik yazımı kabul eder).
 ```
 
@@ -872,11 +872,11 @@ answer: |
 - front: TDD döngüsünün üç adımı nedir?
   back: "🔴 Kırmızı (kalan bir test yaz), 🟢 Yeşil (en basit kodla geçir), 🔵 Yeniden düzenle (davranışı değiştirmeden iyileştir)."
 - front: TDD'de yeni yazdığın bir test **ilk çalıştırmada geçerse** ne düşünmelisin?
-  back: Ya davranış zaten vardır ya da test hiçbir şeyi kontrol etmiyordur — test şüphelidir; kırmızıyı görmeden ilerleme.
+  back: Ya davranış zaten vardır ya da test hiçbir şeyi kontrol etmiyordur, test şüphelidir; kırmızıyı görmeden ilerleme.
 - front: "\"Sahte yap\" (fake it) ve üçgenleme nedir?"
   back: Testi önce sabit bir cevapla geçirmek; sonra eklenen yeni örnek testlerin kodu adım adım doğru genellemeye zorlaması.
 - front: Yeniden düzenleme (refactor) adımının altın kuralı nedir?
-  back: Davranış değişmez — test eklenmez, hiçbir test kırmızıya dönmez. Yeni davranış için önce yeni bir kırmızı test yazılır.
+  back: Davranış değişmez, test eklenmez, hiçbir test kırmızıya dönmez. Yeni davranış için önce yeni bir kırmızı test yazılır.
 - front: Tablo güdümlü testin temel kalıbı nedir?
   back: "`for (girdi, beklenen) in vakalar { assert_eq!(f(girdi), beklenen, \"girdi: {girdi}\"); }`"
 - front: Tablo güdümlü testte hata mesajına girdiyi neden eklersin?

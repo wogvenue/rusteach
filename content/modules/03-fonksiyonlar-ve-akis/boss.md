@@ -477,7 +477,7 @@ tests: |
 hints:
   - "Kaç gün süreceği belli değil, ama bulduğunda bir değer (gün sayısını) döndürmek istiyorsun: `loop` ve `break deger`. Önce `if hedef == 0 { return 0; }` ile özel durumu ayıkla."
   - "Üç değiştirilebilir değişken tut: `gun` (sayaç), `atilan` (o gün atılan para, `ilk_gun` ile başlar) ve `toplam`. Her turda önce `gun` artır ve `atilan`'ı `toplam`'a ekle, sonra kontrol et."
-  - "İskelet: `loop { gun += 1; toplam += atilan; if toplam >= hedef { break gun; } atilan += artis; }` — bu `loop`'u fonksiyonun son ifadesi yap."
+  - "İskelet: `loop { gun += 1; toplam += atilan; if toplam >= hedef { break gun; } atilan += artis; }`, bu `loop`'u fonksiyonun son ifadesi yap."
 explanation: |
   Döngünün bitiş anı ancak gövdenin içinde, toplam hesaplandıktan sonra anlaşılıyor ve sonunda bir değer
   döndürüyoruz: Bu tam bir `loop` + `break gun` işi. `loop` fonksiyonun son ifadesi olduğu için ürettiği
@@ -518,9 +518,9 @@ prompt: |
 
   Muhasebeciler eskiden uzun toplamaları bu yöntemle (dokuz sağlaması) kontrol ederdi. İki fonksiyon yaz:
 
-  1. `rakam_toplami(n: u32) -> u32` — `n`'nin rakamlarının toplamını döndürsün. Örnek: `2024` → 8.
+  1. `rakam_toplami(n: u32) -> u32` - `n`'nin rakamlarının toplamını döndürsün. Örnek: `2024` → 8.
      `0` için cevap 0.
-  2. `dijital_kok(n: u32) -> u32` — `n` tek basamaklı olana kadar `rakam_toplami`'nı tekrar tekrar
+  2. `dijital_kok(n: u32) -> u32` - `n` tek basamaklı olana kadar `rakam_toplami`'nı tekrar tekrar
      uygulasın. Tek basamaklı bir sayının (0 dahil) dijital kökü kendisidir. **İçinde `rakam_toplami`'nı
      kullan.**
 starter: |

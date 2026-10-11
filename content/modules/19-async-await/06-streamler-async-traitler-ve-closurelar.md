@@ -173,7 +173,7 @@ use std::time::Duration;
 
 #[tokio::main]
 async fn main() {
-    // Durum: (önceki, şimdiki) — sonsuz bir Fibonacci akışı
+    // Durum: (önceki, şimdiki) - sonsuz bir Fibonacci akışı
     let fibonacci = stream::unfold((0u64, 1u64), |(a, b)| async move {
         tokio::time::sleep(Duration::from_millis(1)).await; // her eleman "zamanla" geliyor
         Some((a, (b, a + b)))
@@ -237,7 +237,7 @@ explanation: |
 
 ````exercise
 id: m19-e-kasa-fisi
-title: Market kasası — barkod akışından fiş
+title: "Market kasası: barkod akışından fiş"
 difficulty: 3
 prompt: |
   Bir market kasasında barkod okuyucu, okuttuğun ürünleri bir **stream** olarak gönderiyor. Fiyatlar uzak bir
@@ -861,15 +861,15 @@ answer: |
 - front: "Senkron/async ve tek/çok değer tablosunda `Stream<Item = T>` hangi köşededir?"
   back: "Async + çok değer. (Senkron tek: `T`, senkron çok: `Iterator`, async tek: `Future`.)"
 - front: "Bir stream'in bütün elemanlarını işlemek için döngü kalıbı nedir?"
-  back: "`while let Some(x) = akis.next().await { ... }` — `next()` için `use futures::StreamExt;` gerekir; `for` stream'le çalışmaz."
+  back: "`while let Some(x) = akis.next().await { ... }`, `next()` için `use futures::StreamExt;` gerekir; `for` stream'le çalışmaz."
 - front: "`akis.next()` neden bazen \"cannot be unpinned\" (E0277) hatası verir, çözüm nedir?"
   back: "`next()` stream'i `&mut` ile ödünç alıp tekrar yokladığı için `Unpin` ister. Çözüm: `let mut akis = std::pin::pin!(akis);`"
 - front: "`then(f)` ile `buffered(n)` arasındaki fark nedir?"
   back: "`then` future'ları sırayla (biri bitince diğeri) çalıştırır; `.map(f).buffered(n)` en fazla `n` tanesini aynı anda yürütür ve sonuçları giriş sırasıyla verir."
 - front: "Trait'teki `async fn getir(&self) -> T` neye denktir?"
-  back: "`fn getir(&self) -> impl Future<Output = T>` — her uygulayıcı kendi future tipini döndürür (statik dispatch, heap yok)."
+  back: "`fn getir(&self) -> impl Future<Output = T>`, her uygulayıcı kendi future tipini döndürür (statik dispatch, heap yok)."
 - front: "Trait'teki bir async metodun future'ını `tokio::spawn` içinde kullanabilmek için trait'te ne yazılır?"
-  back: "`fn getir(&self) -> impl Future<Output = T> + Send;` — böylece bütün uygulamaların future'ı `Send` olmak zorundadır."
+  back: "`fn getir(&self) -> impl Future<Output = T> + Send;`, böylece bütün uygulamaların future'ı `Send` olmak zorundadır."
 - front: "Async closure sözdizimi ve onu kabul eden üç trait nedir? (Rust 1.85)"
   back: "`async |x| { ... }`; `AsyncFn`, `AsyncFnMut`, `AsyncFnOnce` (Fn/FnMut/FnOnce'ın async ikizleri)."
 - front: "`|| async { sayac += 1 }` neden `FnMut() -> Fut` sınırına verilemez?"

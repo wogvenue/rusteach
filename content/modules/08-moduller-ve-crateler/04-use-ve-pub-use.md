@@ -141,7 +141,7 @@ code: |
 answer: false
 error: E0425
 explanation: |
-  Derlenmez: **E0425 — cannot find function `max` in this scope**. `use`, kısayolu yalnızca
+  Derlenmez: **E0425 - cannot find function `max` in this scope**. `use`, kısayolu yalnızca
   **yazıldığı modüle** (burada crate kökü) ekler. `istatistik` ayrı bir modüldür ve Ders 3'te
   gördüğümüz gibi üst modülün adlarını devralmaz. Üstelik derleyici kökteki `use` için bir de
   "unused import" uyarısı verir: kökte `max`'ı kullanan kimse yok!
@@ -193,7 +193,7 @@ fn main() {
 
 Alıştırmalardaki testlerin başında gördüğün `use super::*;` satırı da tam bu yüzden var: test modülü
 **ayrı bir modüldür**; üst modülün öğelerine erişme izni olsa da (alt modüldür) onların adlarını kendi
-kapsamında bulamaz. `use super::*;` bir üst modüldeki bütün adları — gizli olanlar dahil — tek seferde
+kapsamında bulamaz. `use super::*;` bir üst modüldeki bütün adları, gizli olanlar dahil, tek seferde
 kapsama getirir (`*`'ı birazdan göreceksin).
 
 Bir de önceki bir modülden soru:
@@ -294,7 +294,7 @@ code: |
 answer: false
 error: E0252
 explanation: |
-  Derlenmez: **E0252 — the name `Kayit` is defined multiple times**. Bir modülde aynı ad (aynı ad
+  Derlenmez: **E0252 - the name `Kayit` is defined multiple times**. Bir modülde aynı ad (aynı ad
   alanında) iki kez bulunamaz; yoksa `Kayit { ... }` yazdığında hangisini kastettiğin belli olmazdı.
 ```
 
@@ -607,13 +607,13 @@ code: |
 
   fn main() {
       let b: sinema::Bilet = sinema::bilet_al("Babam ve Oğlum", 'F', 7);
-      println!("{} — koltuk {}", b.film, b.koltuk);
+      println!("{} - koltuk {}", b.film, b.koltuk);
   }
 blanks:
   - ["pub use"]
   - ["as"]
   - ["super", "crate::sinema::salon"]
-output: "Babam ve Oğlum — koltuk F7"
+output: "Babam ve Oğlum - koltuk F7"
 explanation: |
   - `pub use salon::koltuk::Bilet;` → `Bilet` artık `sinema::Bilet` yolundan da görünür.
   - `pub use salon::gise::satis_yap as bilet_al;` → aynı fonksiyon dışarıda `sinema::bilet_al` adıyla
@@ -745,7 +745,7 @@ solution: |
           kutuphane::Kitap::yeni("Tehlikeli Oyunlar", "Oğuz Atay", 503),
       ];
       let ilk = &raf[0];
-      println!("{} — {} ({} sayfa)", ilk.baslik, ilk.yazar, ilk.sayfa);
+      println!("{} - {} ({} sayfa)", ilk.baslik, ilk.yazar, ilk.sayfa);
       println!("Oğuz Atay: {} kitap", kutuphane::yazara_gore(&raf, "Oğuz Atay"));
       println!("10 gün gecikme cezası: {} TL", kutuphane::gecikme_cezasi(10));
   }

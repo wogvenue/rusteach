@@ -520,9 +520,9 @@ prompt: |
   Bir otobüs firmasının sefer süreleriyle çalışıyorsun. `Sure` tipi ve `dakikadan` kurucusu hazır.
   Şunları yaz:
 
-  - `new(saat, dakika)` — dakika 59'u aşarsa fazlasını saate aktarmalı: `Sure::new(1, 75)` → 2 saat 15 dakika.
-  - `toplam_dakika(&self) -> u32` — süreyi dakikaya çevirir.
-  - `topla(&self, diger: &Sure) -> Self` — iki sürenin toplamını **yeni** bir `Sure` olarak döndürür;
+  - `new(saat, dakika)`, dakika 59'u aşarsa fazlasını saate aktarmalı: `Sure::new(1, 75)` → 2 saat 15 dakika.
+  - `toplam_dakika(&self) -> u32`, süreyi dakikaya çevirir.
+  - `topla(&self, diger: &Sure) -> Self`, iki sürenin toplamını **yeni** bir `Sure` olarak döndürür;
     iki süre de değişmeden kalır.
 starter: |
   struct Sure {

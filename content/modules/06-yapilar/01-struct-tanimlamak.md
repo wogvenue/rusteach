@@ -20,7 +20,7 @@ Bu arada bir sır: Modül 4'ten beri kullandığın `String` ve `Vec` de aslınd
 
 :::ferris
 Bugüne kadar hep Rust'ın sana hazır verdiği tipleri kullandın. Bugün ilk kez kendi tipini
-tasarlıyorsun — programcılığın en keyifli anlarından biri! 🦀
+tasarlıyorsun, programcılığın en keyifli anlarından biri! 🦀
 :::
 
 ## Dağınık değişkenlerden struct'a
@@ -76,7 +76,7 @@ fn main() {
 Parçaları tek tek inceleyelim:
 
 - `struct Ogrenci { ... }` yeni bir **tip** tanımlar. Tip adları **UpperCamelCase** yazılır
-  (`Ogrenci`, `BankaHesabi`) — tıpkı `String` gibi.
+  (`Ogrenci`, `BankaHesabi`), tıpkı `String` gibi.
 - Süslü parantezin içindekiler **alanlardır (fields)**: `isim: Tip` biçiminde, `snake_case` adlarla,
   virgülle ayrılır. Son alandan sonraki virgül isteğe bağlıdır ama `rustfmt` onu koyar; sen de koy.
 - `Ogrenci { ad: ..., numara: ..., ... }` ifadesi bu tipten bir **örnek (instance)** oluşturur. Alanları
@@ -88,7 +88,7 @@ bir örnek oluşturduğun anda ortaya çıkar.
 
 :::info Diğer dillerde
 C'deki `struct` ile neredeyse aynı fikirdir. Python'da bir `class` ya da `@dataclass`, Java'da yalnızca
-alanları olan bir sınıf yazardın. JavaScript'te `{ ad: "Ayşe", numara: 1001 }` gibi bir nesne yeterdi —
+alanları olan bir sınıf yazardın. JavaScript'te `{ ad: "Ayşe", numara: 1001 }` gibi bir nesne yeterdi,
 ama JS nesnesine çalışma anında yeni alan eklenebilir ve `ayse.numaar` gibi bir yazım hatası sessizce
 `undefined` döndürür. Rust'ta bir struct'ın şekli derleme zamanında sabittir: yanlış yazılmış bir alan adı
 **derleme hatasıdır**.
@@ -107,7 +107,7 @@ explanation: |
 feedback:
   - Tanım tek başına hiçbir veri oluşturmaz. Üstelik Rust'ta "boş" alan diye bir şey yoktur (birazdan göreceksin).
   - Doğru!
-  - "`Ogrenci` bir değişken değil, bir **tip** adıdır — bu yüzden UpperCamelCase yazılır."
+  - "`Ogrenci` bir değişken değil, bir **tip** adıdır, bu yüzden UpperCamelCase yazılır."
 ```
 
 ## Örnek oluştururken her alan dolu olmalı
@@ -201,7 +201,7 @@ help: consider using a positional formatting argument instead
 7 -     println!("Merhaba {o.ad}");
 7 +     println!("Merhaba {0}", o.ad);
 ```
-Çözüm: alanı argüman olarak ver — `println!("Merhaba {}", o.ad);` — ya da önce bir değişkene al.
+Çözüm: alanı argüman olarak ver, `println!("Merhaba {}", o.ad);`, ya da önce bir değişkene al.
 :::
 
 Okumak kolay. Peki bir alanı **değiştirmek** istersek? Tahmin et:
@@ -366,9 +366,9 @@ difficulty: 2
 prompt: |
   Bir RPG oyunu için karakter sistemi yazıyorsun. `Karakter` struct'ı hazır; iki fonksiyonu tamamla:
 
-  1. `karakter_olustur(isim: String) -> Karakter` — verilen isimle, **100 can** ve **1. seviye** ile
+  1. `karakter_olustur(isim: String) -> Karakter` - verilen isimle, **100 can** ve **1. seviye** ile
      başlayan bir karakter döndürsün. `isim` alanı için **alan başlatma kısaltmasını** kullan.
-  2. `hasar_al(k: &mut Karakter, miktar: u32)` — karakterin canını `miktar` kadar azaltsın. Can
+  2. `hasar_al(k: &mut Karakter, miktar: u32)` - karakterin canını `miktar` kadar azaltsın. Can
      **hiçbir zaman 0'ın altına inmemeli** (dev bir ejderha tek vuruşta 250 hasar verebilir!).
 starter: |
   struct Karakter {
@@ -437,14 +437,14 @@ tests: |
   fn can_sifirin_altina_inmez() {
       let mut k = karakter_olustur(String::from("Hacivat"));
       hasar_al(&mut k, 250);
-      assert_eq!(k.can, 0, "can 0'ın altına inmemeli — u32 taşmasına dikkat!");
+      assert_eq!(k.can, 0, "can 0'ın altına inmemeli - u32 taşmasına dikkat!");
       hasar_al(&mut k, 10);
       assert_eq!(k.can, 0, "zaten 0 olan can 0'da kalmalı");
   }
 hints:
   - "`karakter_olustur` içinde bir `Karakter { ... }` ifadesi döndür. Parametrenin adı alan adıyla aynı olduğu için `isim: isim` yerine sadece `isim` yazabilirsin."
   - "`k` bir `&mut Karakter`; alanı doğrudan değiştirebilirsin: `k.can = ...`. Ama `k.can - miktar` negatif bir sonuç verecekse `u32` taşar ve debug modda program panikler (Modül 2)."
-  - "Modül 2'deki doygun çıkarma tam aradığın şey: `k.can = k.can.saturating_sub(miktar);` — ya da önce `if miktar >= k.can` ile kontrol et."
+  - "Modül 2'deki doygun çıkarma tam aradığın şey: `k.can = k.can.saturating_sub(miktar);`, ya da önce `if miktar >= k.can` ile kontrol et."
 require:
   - pattern: "\\{\\s*isim\\s*,|,\\s*isim\\s*[,}]"
     message: "`isim` alanını alan başlatma kısaltmasıyla yaz: `Karakter { isim, ... }`"
@@ -493,7 +493,7 @@ fn main() {
   (`error: cannot use a comma after the base struct`).
 - Açıkça yazdığın alanlar her zaman kazanır; `..` yalnızca boşlukları doldurur.
 
-Asıl ilginç soru şu: `o2` oluştuktan sonra `o1`'e ne oldu? Tahmin et — bu kod derlenir mi?
+Asıl ilginç soru şu: `o2` oluştuktan sonra `o1`'e ne oldu? Tahmin et, bu kod derlenir mi?
 
 ```compiles
 code: |
@@ -517,7 +517,7 @@ answer: true
 explanation: |
   Derlenir! `..o1` alanları **tek tek** taşır ya da kopyalar. `aktif` bir `bool` olduğu için
   **kopyalandı**; `numara`'yı ise zaten açıkça verdik, `o1`'den hiç alınmadı. Bu iki alan `o1`'de
-  hâlâ geçerli. Taşınan tek alan `ad` (bir `String`) — ve biz `o1.ad`'yi kullanmadık.
+  hâlâ geçerli. Taşınan tek alan `ad` (bir `String`) - ve biz `o1.ad`'yi kullanmadık.
 ```
 
 `..o1` yazmak, kabaca `ad: o1.ad, aktif: o1.aktif` yazmakla aynıdır. Her alan kendi tipinin kuralına
@@ -573,7 +573,7 @@ yalnızca `Copy` alanlar kopyalanır, hiçbir şey taşınmazdı ve `o1` tamamen
 :::info JavaScript'teki yayma (spread) ile farkı
 JS'de `{ ...o1, numara: 1002 }` yazarsın: yayma **başta** durur, sonraki anahtarlar onu ezer ve iç
 nesneler iki nesne arasında **paylaşılır** (sığ kopya). Rust'ta taban **en sonda** durur, açık alanlar
-her zaman kazanır ve `String` gibi alanlar paylaşılmaz, **taşınır** — çünkü bir verinin tek sahibi olur.
+her zaman kazanır ve `String` gibi alanlar paylaşılmaz, **taşınır**, çünkü bir verinin tek sahibi olur.
 :::
 
 :::deep Referanstan güncelleme: `..*sablon`
@@ -641,7 +641,7 @@ kanıtlayabilmek için ek bilgi ister: `'a` gibi **yaşam süresi (lifetime)** e
 
 O zamana kadar kuralımız basit: **struct'lar verilerinin sahibi olsun.** `String` alanlı bir struct kendi
 kendine yeter; kimseye bağımlı değildir, istediğin yere taşıyabilir, fonksiyondan döndürebilirsin. Sahibi
-kapsamdan çıktığında struct ile birlikte **bütün alanları** da otomatik olarak drop edilir — `ad`'ın heap
+kapsamdan çıktığında struct ile birlikte **bütün alanları** da otomatik olarak drop edilir, `ad`'ın heap
 belleği dahil. Bir sahiplik ağacı gibi düşün: `ayse` → `ayse.ad` → heap'teki karakterler.
 
 Sahiplik demişken, Modül 4'ten bir soru. Bu struct'ın bütün alanları `i32`, yani `Copy`. Peki ya
@@ -662,7 +662,7 @@ code: |
 answer: false
 error: E0382
 explanation: |
-  Struct'lar **otomatik olarak `Copy` olmaz** — bütün alanları `Copy` olsa bile. `let b = a;` değeri
+  Struct'lar **otomatik olarak `Copy` olmaz** - bütün alanları `Copy` olsa bile. `let b = a;` değeri
   **taşır** ve `a` artık kullanılamaz (`E0382`). Derleyicinin notu da bunu söylüyor:
   `move occurs because a has type Nokta, which does not implement the Copy trait`.
 ```
@@ -809,7 +809,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `let o2 = Ogrenci { numara: 1002, ..o1 };` satırından sonra `o1.numara`
+  Kendi cümlelerinle açıkla - `let o2 = Ogrenci { numara: 1002, ..o1 };` satırından sonra `o1.numara`
   ve `o1.aktif` kullanılabilirken neden `o1.ad` ya da `o1`'in bütünü kullanılamıyor?
 answer: |
   `..o1`, açıkça yazılmayan alanları `o1`'den **tek tek** alır. `aktif` bir `bool`, yani `Copy`; bu yüzden

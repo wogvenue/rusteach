@@ -58,7 +58,7 @@ question: |
   Kendi `Telefon` newtype'ın için (`struct Telefon(String)`) şu metotları yazıyorsun. Hangi
   eşleştirme Guidelines'a **uygundur**?
 options:
-  - "`fn as_string(&self) -> String` — içteki metnin bir kopyasını döndürür"
+  - "`fn as_string(&self) -> String`, içteki metnin bir kopyasını döndürür"
   - "`fn as_str(&self) -> &str`, `fn to_uluslararasi(&self) -> String`, `fn into_inner(self) -> String`"
   - "`fn to_str(&self) -> &str`, `fn into_uluslararasi(&self) -> String`"
 answer: 1
@@ -429,7 +429,7 @@ explanation: |
   Modül 11'deki **orphan rule** (yetim kuralı): bir trait'i bir tipe uygulayabilmek için ya trait'in
   ya da tipin **senin crate'inde** tanımlı olması gerekir. `Hash` std'de, `Para` `odeme`'de; sen
   ikisinin de sahibi değilsin. Tek çıkış yolun bir newtype (`struct BenimPara(Para)`) yazıp tüm
-  API'yi sarmak (Modül 22) — zahmetli. İşte bu yüzden kütüphane yazarları ortak trait'leri
+  API'yi sarmak (Modül 22) - zahmetli. İşte bu yüzden kütüphane yazarları ortak trait'leri
   **baştan** uygular: kullanıcıları onları sonradan ekleyemez.
 feedback:
   - Rust'ın tutarlılık (coherence) kuralları buna izin vermez; aksi hâlde iki crate aynı uygulamayı yazıp çakışabilirdi.
@@ -442,7 +442,7 @@ Pratik bir kontrol listesi:
 - **`Debug`**: her `pub` tipte (`C-DEBUG`). Kullanıcı `{:?}` ya da `dbg!` ile hata ayıklayamazsa
   tipin kullanışsızdır. İçinde parola gibi gizli veri varsa `Debug`'ı elle yaz ve maskele.
 - **`Clone`, `PartialEq`, `Eq`, `Hash`, `Ord`**: anlamlı oldukları sürece derive et. `f64` alanı
-  varsa `Eq`/`Ord`/`Hash` derive edilemez (NaN; Modül 9) — bu doğal bir sınırdır.
+  varsa `Eq`/`Ord`/`Hash` derive edilemez (NaN; Modül 9), bu doğal bir sınırdır.
 - **`Copy`**: yalnızca küçük, "değer gibi" tiplerde ve **gelecekte de** öyle kalacaksa. `Copy`'yi
   sonradan kaldırmak geriye dönük uyumsuz (breaking) bir değişikliktir.
 - **`Default`**: "boş/varsayılan" bir değer anlamlıysa; struct update sözdizimi
@@ -551,8 +551,8 @@ görmezden gelme), iterator adaptörleri (*"iterators are lazy and do nothing un
 ```quiz
 question: Aşağıdakilerden hangisine `#[must_use]` eklemek **en az** anlamlıdır?
 options:
-  - "`fn kdv_ekle(&self, oran: f64) -> Fiyat` — yeni bir fiyat döndürür, `self`'i değiştirmez"
-  - "`fn kaydet(&mut self) -> usize` — veriyi diske yazar ve yazılan bayt sayısını döndürür"
+  - "`fn kdv_ekle(&self, oran: f64) -> Fiyat`, yeni bir fiyat döndürür, `self`'i değiştirmez"
+  - "`fn kaydet(&mut self) -> usize`, veriyi diske yazar ve yazılan bayt sayısını döndürür"
   - "Bir builder tipi: `struct SorguBuilder { ... }`"
 answer: 1
 explanation: |

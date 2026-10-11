@@ -90,9 +90,9 @@ function memoryTone(R: number): string {
 }
 
 function dateLabel(iso: string | undefined): string {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '—';
+  if (Number.isNaN(d.getTime())) return '-';
   return shortDate(dayKey(d));
 }
 
@@ -113,8 +113,8 @@ function Detail({ row }: { row: Row }) {
   const facts: [string, string][] = [
     ['Tekrar sayısı', formatNumber(c.reps)],
     ['Unutma', formatNumber(c.lapses)],
-    ['Kararlılık', row.stage === 'new' ? '—' : `${c.stability < 1 ? '<1' : formatNumber(c.stability)} gün`],
-    ['Zorluk', row.stage === 'new' ? '—' : `${c.difficulty.toLocaleString('tr-TR', { maximumFractionDigits: 1 })}/10`],
+    ['Kararlılık', row.stage === 'new' ? '-' : `${c.stability < 1 ? '<1' : formatNumber(c.stability)} gün`],
+    ['Zorluk', row.stage === 'new' ? '-' : `${c.difficulty.toLocaleString('tr-TR', { maximumFractionDigits: 1 })}/10`],
     ['Eklendi', dateLabel(row.entry.addedAt)],
     ['Son tekrar', dateLabel(c.last_review)],
     ['Planlanan', row.entry.suspended ? 'Askıda' : dateLabel(c.due)],

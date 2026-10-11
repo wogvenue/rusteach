@@ -1,4 +1,4 @@
-// /ders/:lessonId — focus-mode lesson player (outside the app shell). Boss lessons run as the
+// /ders/:lessonId - focus-mode lesson player (outside the app shell). Boss lessons run as the
 // module mastery test; ?atlama=1 takes a boss as a skip / placement test.
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';

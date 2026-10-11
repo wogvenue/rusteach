@@ -480,7 +480,7 @@ tests: |
   }
 hints:
   - "Bir kanal kur; her istasyon için `let tx = tx.clone();` yapıp thread'e `move` ile taşı. `olcumler.iter().max()` bir `Option<&i32>` döndürür."
-  - "`if let Some(&en) = olcumler.iter().max() { tx.send((ad, en)).unwrap(); }` — boş istasyon hiçbir şey göndermez."
+  - "`if let Some(&en) = olcumler.iter().max() { tx.send((ad, en)).unwrap(); }`, boş istasyon hiçbir şey göndermez."
   - "Döngüden sonra `drop(tx);` yoksa `rx.iter()` hiç bitmez. Son olarak `collect` edip `sort()` uygula: tuple'lar önce ilk elemana (ada) göre sıralanır."
 require:
   - pattern: "mpsc::"
@@ -501,7 +501,7 @@ explanation: |
 ```
 
 ```exercise
-title: Konser biletleri — fazla satış yok!
+title: "Konser biletleri: fazla satış yok!"
 difficulty: 4
 prompt: |
   Bir konserin `kapasite` kadar bileti var ve birkaç gişe aynı anda satış yapıyor. `gise_istekleri[i]`,

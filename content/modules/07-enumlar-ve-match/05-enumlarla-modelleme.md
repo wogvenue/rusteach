@@ -1079,7 +1079,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — "geçersiz durumları temsil edilemez kılmak" ne demektir? Bunu bool
+  Kendi cümlelerinle açıkla - "geçersiz durumları temsil edilemez kılmak" ne demektir? Bunu bool
   alanlarla dolu bir struct'ı enum'a çevirdiğimiz sipariş örneği üzerinden anlat. Geçiş metotlarının
   `self` alması bu güvenliğe ne katar?
 answer: |

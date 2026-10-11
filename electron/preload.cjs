@@ -1,5 +1,5 @@
-// Rusteach preload (sandboxed, context-isolated): exposes window.rusteach — exactly the
-// RusteachBridge interface of src/types/bridge.ts — and nothing else.
+// Rusteach preload (sandboxed, context-isolated): exposes window.rusteach - exactly the
+// RusteachBridge interface of src/types/bridge.ts - and nothing else.
 'use strict';
 
 const { contextBridge, ipcRenderer } = require('electron');

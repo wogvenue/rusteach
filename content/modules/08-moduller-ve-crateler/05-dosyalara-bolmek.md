@@ -44,7 +44,7 @@ answer: false
 error: E0583
 explanation: |
   `mod kutuphane;` bir **bildirimdir (declaration)**: "crate'in modül ağacında `kutuphane` adında bir
-  modül var ve içeriği ayrı bir dosyada." Derleyici o dosyayı arar; bulamazsa **E0583 — file not found
+  modül var ve içeriği ayrı bir dosyada." Derleyici o dosyayı arar; bulamazsa **E0583 - file not found
   for module** verir. Yanına `src/kutuphane.rs` dosyasını koyduğunda aynı kod derlenir.
 ```
 
@@ -66,7 +66,7 @@ bildirilir" bölümünde ona döneceğiz.
 
 İki yazım biçimi **aynı modül ağacını** kurar:
 
-```rust,ignore,title=Satır içi — src/main.rs
+```rust,ignore,title=Satır içi - src/main.rs
 mod kutuphane {
     pub fn listele() {
         println!("Raf 1: Tutunamayanlar");
@@ -186,7 +186,7 @@ question: |
   `tahmin` fonksiyonunun tam yolu ne olur?
 options:
   - "`crate::hava::tahmin`"
-  - "`crate::hava::hava::tahmin` — ve iç `hava` modülü gizli olduğu için `main` onu çağıramaz"
+  - "`crate::hava::hava::tahmin`, ve iç `hava` modülü gizli olduğu için `main` onu çağıramaz"
   - Derlenmez; bir dosyada `mod` bloğu yazılamaz
 answer: 1
 explanation: |
@@ -309,8 +309,8 @@ explanation: |
   bağlanmamış bir dosya, diskte dursa bile crate'in parçası değildir. `yardim::temizle()` yazarsan
   **E0433** (``cannot find module or crate `yardim` ``) alırsın. rust-analyzer de böyle dosyalar için "bu
   dosya modül ağacına dahil değil" diye uyarır. (Tek istisna: Cargo'nun crate kökü olarak tanıdığı
-  dosyalar — `src/main.rs`, `src/lib.rs`, `src/bin/*.rs`, ileride göreceğin `tests/*.rs` ve
-  `examples/*.rs` — kendileri bir ağacın köküdür.)
+  dosyalar - `src/main.rs`, `src/lib.rs`, `src/bin/*.rs`, ileride göreceğin `tests/*.rs` ve
+  `examples/*.rs` - kendileri bir ağacın köküdür.)
 feedback:
   - Python/JS alışkanlığı! Rust'ta modül ağacına `mod` ile bağlanmayan dosya derlenmez.
   - Doğru!
@@ -320,7 +320,7 @@ feedback:
 :::deep `#[path]` özniteliği
 Nadir durumlarda (örneğin üretilmiş kodu ya da platforma özel dosyaları bağlarken) varsayılan arama
 kuralını `#[path = "baska/yer.rs"] mod ozel;` ile ezebilirsin. Bu bir kaçış kapısıdır; okuyanın dosyayı
-bulmasını zorlaştırdığı için günlük kodda kullanılmaz. Standart düzen herkesin bildiği düzendir — bu da
+bulmasını zorlaştırdığı için günlük kodda kullanılmaz. Standart düzen herkesin bildiği düzendir, bu da
 onun en büyük değeridir.
 :::
 
@@ -413,7 +413,7 @@ answer: false
 error: E0594
 explanation: |
   Yollar ve gizlilik kusursuz; sorun **ödünç almada**. `&Kitap` değişmez (immutable) bir referanstır ve
-  üzerinden alan değiştirilemez: **E0594 — cannot assign to `k.musait`, which is behind a `&`
+  üzerinden alan değiştirilemez: **E0594 - cannot assign to `k.musait`, which is behind a `&`
   reference**. Derleyici çözümü de önerir: parametreyi `&mut Kitap` yap. Bunun için çağıran tarafta
   `let mut k` ve `odunc_ver(&mut k)` da gerekir.
 
@@ -522,7 +522,7 @@ use kutuphane::katalog::Kitap;
 
 fn main() {
     let k = Kitap::yeni("Saatleri Ayarlama Enstitüsü", "Ahmet Hamdi Tanpınar");
-    println!("{} — {}", k.baslik, k.yazar);
+    println!("{} - {}", k.baslik, k.yazar);
     for gun in [3, 12, 40] {
         println!("{gun} gün gecikme: {} TL", kutuphane::gecikme_cezasi(gun));
     }
@@ -545,7 +545,7 @@ answer: 1
 explanation: |
   Gizlilik sınırları **crate** düzeyindedir, paket düzeyinde değil. `pub(crate)` "bu crate'in içinde
   herkese açık" demektir; `main.rs` ise kütüphaneyi dışarıdan kullanan ayrı bir binary crate'tir. Onun
-  gözünde `ic_kontrol` gizlidir: **E0603 — function `ic_kontrol` is private**. Fonksiyonu `main`'den
+  gözünde `ic_kontrol` gizlidir: **E0603 - function `ic_kontrol` is private**. Fonksiyonu `main`'den
   çağırmak istiyorsan `pub` yapmalısın; ama önce gerçekten dış API'nin parçası mı diye düşün.
 feedback:
   - Paket bir Cargo kavramıdır; derleyicinin gizlilik kuralları crate'lere bakar.
@@ -857,13 +857,13 @@ answer: |
 - front: "`src/oyun.rs` içinde `mod harita;` yazıyor. Derleyici hangi dosyaları arar?"
   back: "`src/oyun/harita.rs` ya da `src/oyun/harita/mod.rs`."
 - front: "`E0583` hatası ne zaman çıkar?"
-  back: "`mod ad;` bildirimine karşılık gelen dosya bulunamadığında — file not found for module."
+  back: "`mod ad;` bildirimine karşılık gelen dosya bulunamadığında, file not found for module."
 - front: "`src/hava.rs` dosyasının içine `mod hava { ... }` yazarsan ne olur?"
   back: "İstenmeyen bir kat oluşur: öğeler `crate::hava::hava::...` yoluna düşer. Dosya zaten modülün gövdesidir."
 - front: Diskte duran ama hiçbir `mod` satırının göstermediği bir `.rs` dosyası derlenir mi?
   back: Hayır. Modül ağacını `mod` bildirimleri kurar; ağaca bağlanmayan dosya crate'in parçası değildir.
 - front: "Kardeş modüldeki bir tipi kullanmak için `mod kitap;` mı yazılır, `use` mu?"
-  back: "`use crate::kitap::Kitap;` — `mod` her modül için ağaçtaki yerinde yalnızca bir kez yazılır."
+  back: "`use crate::kitap::Kitap;`, `mod` her modül için ağaçtaki yerinde yalnızca bir kez yazılır."
 - front: "Aynı paketteki `src/main.rs`, `src/lib.rs`'teki kodu nasıl kullanır?"
   back: "Paket adıyla, dış bir crate gibi: `use kutuphane::katalog::Kitap;` (tireler alt çizgiye döner). Yalnızca `pub` öğeleri görür."
 - front: "`E0761` hatası neyi anlatır?"

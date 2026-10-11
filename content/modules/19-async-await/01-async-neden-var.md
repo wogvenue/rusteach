@@ -19,7 +19,7 @@ Modül 18'de her işe bir thread açmayı öğrendin. Peki 10.000 thread açmak 
 **async** programlamanın hangi sorunu çözmek için doğduğunu, Rust'ın bu soruna neden diğer dillerden farklı
 yaklaştığını ve modülün geri kalanında kullanacağın kavramların büyük resmini göreceksin.
 
-## Beklemek de bir iştir — I/O-bound ve CPU-bound
+## Beklemek de bir iştir: I/O-bound ve CPU-bound
 
 Programların yaptığı işleri iki büyük gruba ayırabiliriz:
 
@@ -106,7 +106,7 @@ kullanarak çok daha fazla bağlantıyı az bellekle taşıdı. Rust'ın async'i
 soyutlama** ilkesine uygun bir hâlidir.
 
 ```memory
-title: 10.000 bağlantı — thread'ler ve async görevler
+title: "10.000 bağlantı: thread'ler ve async görevler"
 steps:
   - caption: "Thread başına bağlantı: her bağlantının **kendi stack'i** var (2 MiB). Çoğu sadece cevap bekliyor."
     stack:
@@ -382,7 +382,7 @@ starter: |
   fn main() {
       let gorevler = vec![Indirme::new("A", 3), Indirme::new("B", 1), Indirme::new("C", 2)];
       let (bitenler, tur) = zamanla(gorevler);
-      println!("{bitenler:?} — {tur} tur");
+      println!("{bitenler:?} - {tur} tur");
   }
 solution: |
   #[derive(Debug, PartialEq)]
@@ -435,7 +435,7 @@ solution: |
   fn main() {
       let gorevler = vec![Indirme::new("A", 3), Indirme::new("B", 1), Indirme::new("C", 2)];
       let (bitenler, tur) = zamanla(gorevler);
-      println!("{bitenler:?} — {tur} tur");
+      println!("{bitenler:?} - {tur} tur");
   }
 check: tests
 tests: |
@@ -572,7 +572,7 @@ feedback:
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — 10.000 bağlantılı bir sunucuda async görevler neden 10.000 thread'den daha verimlidir? "Bekleme" kavramını cevabında kullan.
+prompt: Kendi cümlelerinle açıkla, 10.000 bağlantılı bir sunucuda async görevler neden 10.000 thread'den daha verimlidir? "Bekleme" kavramını cevabında kullan.
 answer: |
   Model cevap: Bağlantıların çoğu zamanını ağdan cevap **bekleyerek** geçirir. Thread modelinde her bekleyen
   bağlantı bir OS thread'ini (megabaytlarca stack, bağlam değiştirme maliyeti) boşuna meşgul eder. Async'te
@@ -590,7 +590,7 @@ answer: |
 - front: Rust'ta bir future'ı "tembel" yapan nedir?
   back: Future oluşturmak hiçbir iş yapmaz; kod ancak bir executor onu **yokladığında (poll)** çalışmaya başlar.
 - front: "Future yoklandığında hangi iki cevaptan birini verir?"
-  back: "`Ready(değer)` — bitti; `Pending` — henüz değil, sonra tekrar sor."
+  back: "`Ready(değer)`, bitti; `Pending`, henüz değil, sonra tekrar sor."
 - front: Rust standart kütüphanesi neden bir async runtime içermez?
   back: "İhtiyaçlar çok farklı (gömülü sistem ↔ büyük sunucu); dil yalnızca `Future` arayüzünü verir, runtime'ı (tokio, smol, embassy) sen seçersin."
 - front: "JS `Promise` ile Rust future'ı arasındaki temel davranış farkı nedir?"

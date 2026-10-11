@@ -14,7 +14,7 @@ keywords: [cargo, cargo new, Cargo.toml, TOML, cargo build, cargo run, cargo che
 Tek bir `main.rs` dosyası için `rustc` yeterliydi. Peki projen on dosyaya, üç kütüphaneye ve beş
 kişilik bir ekibe büyüdüğünde ne olacak? Her seferinde onlarca dosyayı doğru sırayla derleyen, doğru
 kütüphane sürümlerini bulan uzun komutlar mı yazacaksın? Rust geliştiricileri bunun yerine tek bir
-araca güvenir: **Cargo**. Bu derste onunla tanışıyorsun — ve neden Rust ekosisteminin en sevilen
+araca güvenir: **Cargo**. Bu derste onunla tanışıyorsun, ve neden Rust ekosisteminin en sevilen
 parçalarından biri olduğunu göreceksin.
 
 ## Neden Cargo?
@@ -62,9 +62,9 @@ explanation: |
   Rust'ı (yani `rustc` ve `cargo`'nun kendisini) güncellemek **rustup**'ın işidir: `rustup update`.
   Cargo ise projeyle ilgili her şeyi yönetir: oluşturma, kütüphaneler, derleme, çalıştırma, test.
 feedback:
-  - Bu Cargo'nun işi — `cargo new`.
+  - Bu Cargo'nun işi, `cargo new`.
   - Bu da Cargo'nun işi; kütüphaneleri ileride Modül 8'de ekleyeceksin.
-  - Bu da Cargo'nun işi — `cargo build` ve `cargo run`.
+  - Bu da Cargo'nun işi, `cargo build` ve `cargo run`.
   - Doğru! Bu, `rustup update` ile yapılır.
 ```
 
@@ -132,7 +132,7 @@ feedback:
 
 ## Cargo.toml ve TOML
 
-`Cargo.toml`, projenin **manifest** dosyasıdır — kimlik kartı diyebiliriz. `cargo new`'in ürettiği
+`Cargo.toml`, projenin **manifest** dosyasıdır, kimlik kartı diyebiliriz. `cargo new`'in ürettiği
 hâli şöyledir:
 
 ```toml
@@ -152,13 +152,13 @@ Dosya **TOML** (*Tom's Obvious, Minimal Language*) biçiminde yazılır. TOML'un
 
 Satır satır inceleyelim:
 
-- **`name`** — paketin adı. Çalıştırılabilir dosyanın adı da buradan gelir: `merhaba.exe`.
-- **`version`** — paketin sürümü. `ana.ara.yama` biçimindeki bu numaralandırmaya **anlamsal
+- **`name`**, paketin adı. Çalıştırılabilir dosyanın adı da buradan gelir: `merhaba.exe`.
+- **`version`**, paketin sürümü. `ana.ara.yama` biçimindeki bu numaralandırmaya **anlamsal
   sürümleme** (*semantic versioning*) denir; Modül 8'de inceleyeceğiz.
-- **`edition`** — kodun hangi Rust **edisyonunun** kurallarıyla derleneceği. Rust, eski kodu bozmamak
+- **`edition`**, kodun hangi Rust **edisyonunun** kurallarıyla derleneceği. Rust, eski kodu bozmamak
   için büyük dil değişikliklerini edisyonlarla (2015, 2018, 2021, 2024) getirir. Bu kurs 2024
   edisyonunu kullanıyor.
-- **`[dependencies]`** — projenin kullandığı kütüphaneler. Şimdilik boş.
+- **`[dependencies]`**, projenin kullandığı kütüphaneler. Şimdilik boş.
 
 İstersen başka alanlar da ekleyebilirsin. Bir dizi (*array*) köşeli parantezle yazılır:
 

@@ -1,6 +1,6 @@
 id: m14
 title: Closure'lar ve Iterator'lar
-subtitle: Davranışı değer gibi taşı, veriyi boru hattından akıt — sıfır maliyetle
+subtitle: "Davranışı değer gibi taşı, veriyi boru hattından akıt: sıfır maliyetle"
 icon: "🔁"
 description: |
   Ortamını yakalayan isimsiz fonksiyonları (**closure**) ve Rust'ın en çok kullanılan soyutlamalarından

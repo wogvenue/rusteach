@@ -1,6 +1,6 @@
 ---
 id: m18-l03
-title: "Paylaşılan durum — Mutex ve Arc"
+title: "Paylaşılan durum, Mutex ve Arc"
 minutes: 22
 type: lesson
 objectives:
@@ -838,7 +838,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `Arc<Mutex<T>>` içindeki iki katmanın her biri hangi sorunu çözüyor?
+  Kendi cümlelerinle açıkla - `Arc<Mutex<T>>` içindeki iki katmanın her biri hangi sorunu çözüyor?
   Yalnızca `Arc<T>` ya da yalnızca `Mutex<T>` neden yetmez?
 answer: |
   `Arc` **sahiplik** sorununu çözer: aynı veriye birden çok thread'in sahip olmasını sağlar ve son sahip

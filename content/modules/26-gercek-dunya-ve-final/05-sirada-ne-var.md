@@ -62,7 +62,7 @@ fn main() {
     let biten: u32 = harita.iter().map(|b| b.biten).sum();
     println!("{biten}/{toplam} modül bitti.");
     if let Some(b) = harita.iter().find(|b| b.biten < b.moduller) {
-        println!("Son durak: {} — tam şu an buradasın!", b.ad);
+        println!("Son durak: {} - tam şu an buradasın!", b.ad);
     }
 }
 ```

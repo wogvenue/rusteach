@@ -41,7 +41,7 @@ const counts = {
   errors: reference.errors.length,
 };
 
-console.log(`\nRusteach içerik derleyici — ${only ? 'sadece ' + only.join(', ') : 'tüm modüller'}`);
+console.log(`\nRusteach içerik derleyici, ${only ? 'sadece ' + only.join(', ') : 'tüm modüller'}`);
 const { errors, warnings } = printProblems(problems, { showWarnings });
 
 if (write) {

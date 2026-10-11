@@ -158,10 +158,10 @@ question: |
   `struct Sifre(String)` newtype'ı için yazılmış aşağıdaki metotlardan hangisi Rust API Guidelines'ın
   isimlendirme sözleşmesine **aykırıdır**?
 options:
-  - "`fn as_str(&self) -> &str` — içteki metni ödünç verir"
-  - "`fn into_inner(self) -> String` — newtype'ı tüketip içteki `String`'i verir"
-  - "`fn as_hash(&self) -> String` — SHA-256 özetini hesaplayıp yeni bir `String` döndürür"
-  - "`fn to_maskeli(&self) -> String` — `\"****\"` gibi maskelenmiş yeni bir metin üretir"
+  - "`fn as_str(&self) -> &str`, içteki metni ödünç verir"
+  - "`fn into_inner(self) -> String`, newtype'ı tüketip içteki `String`'i verir"
+  - "`fn as_hash(&self) -> String`, SHA-256 özetini hesaplayıp yeni bir `String` döndürür"
+  - "`fn to_maskeli(&self) -> String`, `\"****\"` gibi maskelenmiş yeni bir metin üretir"
 answer: 2
 explanation: |
   `as_` önekinin vaadi **bedava bir görünümdür**: ödünç al, ödünç ver, tahsis yok. Özet hesaplamak
@@ -194,13 +194,13 @@ code: |
 
   fn main() {
       let k = Kitap::yeni("Tutunamayanlar", String::from("Oğuz Atay"));
-      println!("{} — {}", k.baslik(), k.yazar);
+      println!("{} - {}", k.baslik(), k.yazar);
   }
 blanks:
   - ["Into"]
   - ["into()"]
   - ["&str"]
-output: Tutunamayanlar — Oğuz Atay
+output: Tutunamayanlar - Oğuz Atay
 explanation: |
   Alan bir `String` olarak **saklanacağı** için `impl Into<String>` en iyisidir: çağıran `String`
   verirse taşınır (kopya yok), `&str` verirse tam bir kez kopyalanır. Getter `get_` öneki almaz ve

@@ -107,7 +107,7 @@ oyun, iki farklı düzen.
 ```quiz
 question: "`cargo test` komutu hangi profilin ayarlarıyla derlenir?"
 options:
-  - "`release` — testler gerçekçi olsun diye"
+  - "`release`, testler gerçekçi olsun diye"
   - "`test` profili; o da ayarlarını `dev`'den alır, yani taşma kontrolleri ve `debug_assert!` açıktır"
   - "`bench` profili"
   - Testler için profil kullanılmaz, her zaman `opt-level = 3` ile derlenir

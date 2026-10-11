@@ -1,6 +1,6 @@
 id: m20
 title: Trait Nesneleri ve OOP Desenleri
-subtitle: Kalıtımsız nesne yönelimi — dyn Trait, dispatch ve Rust'a özgü tasarım desenleri
+subtitle: "Kalıtımsız nesne yönelimi: dyn Trait, dispatch ve Rust'a özgü tasarım desenleri"
 icon: "🎭"
 description: |
   Rust'ın nesne yönelimli programlamaya bakışını öğreneceksin: kapsülleme var, kalıtım yok; yerine

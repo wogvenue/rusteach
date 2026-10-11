@@ -8,7 +8,7 @@ keywords: [closure, Fn, FnMut, FnOnce, move, Iterator, adaptör, tüketici, coll
 
 Fonksiyonel Vadi'nin girişinde bir bekçi duruyor: elinde bir sepet closure, sırtında bitmeyen bir iterator.
 Geçmek için ona closure'ların neyi nasıl yakaladığını, iterator zincirlerinin nasıl aktığını ve kendi
-iterator'ını yazabildiğini göstermelisin. Geçme notu **%80**. Arada önceki modüllerden de sorular var —
+iterator'ını yazabildiğini göstermelisin. Geçme notu **%80**. Arada önceki modüllerden de sorular var,
 sahiplik, ödünç alma ve yaşam süreleri hâlâ her yerde!
 
 ## Closure'lar ve yakalama
@@ -72,7 +72,7 @@ answer: 1
 explanation: |
   Closure defalarca çağrılacağı için `FnOnce` yetmez (bir kez çağrılabilir). `Fn` dışarıdaki sayacı
   değiştiren closure'ları reddeder. `FnMut` hem okuyanları hem değiştirenleri kabul eder ve sırayla çağırmaya
-  izin verir — doğru denge budur. `fn(&T)` bir fonksiyon işaretçisi tipidir; yakalayan closure'ları hiç kabul etmez.
+  izin verir - doğru denge budur. `fn(&T)` bir fonksiyon işaretçisi tipidir; yakalayan closure'ları hiç kabul etmez.
 feedback:
   - Sayacı değiştiren closure'lar `Fn` değildir, reddedilirler.
   - Doğru! Sırayla tekrar çağırma + değiştirmeye izin.
@@ -270,9 +270,9 @@ explanation: |
 question: |
   `let r: Result<Vec<u8>, _> = ["7", "300", "x"].iter().map(|s| s.parse::<u8>()).collect();` sonrası `r` nedir?
 options:
-  - "`Ok([7])` — hatalılar atlanır"
-  - "`Err(...)` — `\"300\"` `u8`'e sığmadığı için; `\"x\"` hiç ayrıştırılmaz"
-  - "`Err(...)` — `\"x\"` geçersiz olduğu için"
+  - "`Ok([7])`, hatalılar atlanır"
+  - "`Err(...)`, `\"300\"` `u8`'e sığmadığı için; `\"x\"` hiç ayrıştırılmaz"
+  - "`Err(...)`, `\"x\"` geçersiz olduğu için"
   - Program panikler
 answer: 1
 explanation: |
@@ -330,7 +330,7 @@ distractors: |
       type Item = Option<u32>;
 explanation: |
   `next` durumu değiştirdiği için `&mut self` almalı. `Item` elemanın kendisinin tipidir (`u32`); `Option`'ı
-  `next`'in dönüş tipi zaten ekler. `collect`'i biz yazmadık — varsayılan metot.
+  `next`'in dönüş tipi zaten ekler. `collect`'i biz yazmadık - varsayılan metot.
 ```
 
 ## Son sınav: üç görev
@@ -400,7 +400,7 @@ tests: |
 hints:
   - "Dönen closure `sinirlar` vektörünü sahiplenmeli (fonksiyon bitince yok olacak): `move |puan| { ... }`."
   - "`sinirlar.iter().find(|(alt, _)| puan >= *alt)` ilk uyan çifti `Option<&(u32, char)>` olarak verir."
-  - "`.map(|(_, harf)| *harf).unwrap_or('F')` — bulunduysa harf, bulunmadıysa F."
+  - "`.map(|(_, harf)| *harf).unwrap_or('F')`, bulunduysa harf, bulunmadıysa F."
 require:
   - pattern: "move\\s*\\|"
     message: "Closure `sinirlar`'ı sahiplenmeli: `move` kullan."
@@ -621,6 +621,6 @@ explanation: |
   `into_iter()` haritayı tükettiği için `String` anahtarları kopyalamadan sonuca taşıyabildik. `max_by` boş
   bir iterator'da `None` döndürdüğü için boş metin ayrıca ele alınmadı.
 
-  Alternatif: `max_by_key(|(k, s)| (*s, std::cmp::Reverse(k.clone())))` — Modül 9'daki `Reverse` sıralamayı ters çevirir,
+  Alternatif: `max_by_key(|(k, s)| (*s, std::cmp::Reverse(k.clone())))`, Modül 9'daki `Reverse` sıralamayı ters çevirir,
   ama `clone` gerektirir. `max_by` sürümü kopyasızdır.
 ```

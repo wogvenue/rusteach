@@ -712,7 +712,7 @@ feedback:
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — neden "kütüphaneler tipli hata döndürür, uygulamalar bağlam ekler"
+  Kendi cümlelerinle açıkla - neden "kütüphaneler tipli hata döndürür, uygulamalar bağlam ekler"
   deniyor? Bir kütüphanenin `anyhow::Error` döndürmesi kullanıcılarına neye mal olur?
 answer: |
   Model cevap: Kütüphanenin kullanıcısı başka bir programcıdır ve hatalara programatik olarak tepki

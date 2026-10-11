@@ -240,7 +240,7 @@ function Results({ result, onAgain, onClose, onOpenMistakes }: { result: Finishe
         </div>
         <div className="flex items-center justify-between px-4 py-2.5">
           <dt className="text-muted">Soru başına ortalama</dt>
-          <dd className="font-semibold text-fg lx-tabular">{avg === null ? '—' : `${avg.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} sn`}</dd>
+          <dd className="font-semibold text-fg lx-tabular">{avg === null ? '-' : `${avg.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} sn`}</dd>
         </div>
       </dl>
 

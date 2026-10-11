@@ -44,21 +44,21 @@ fn selam_ver() {
 
 `selam_ver();` satırı bir **fonksiyon çağrısıdır (function call)**: Program o anda `selam_ver`'in
 gövdesine atlar, oradaki satırları çalıştırır ve bitince **kaldığı yere geri döner**. Aynı fonksiyonu
-istediğin kadar çağırabilirsin — kodu bir kez yazar, defalarca kullanırsın.
+istediğin kadar çağırabilirsin, kodu bir kez yazar, defalarca kullanırsın.
 
 Dikkat ettiysen `selam_ver`'i `main`'den **sonra** tanımladık ve program yine de çalıştı. Rust'ta tanım
 sırası önemli değildir: Derleyici önce dosyanın tamamını okur, sonra çağrıları tanımlarla eşleştirir.
 
 | Dil | Bir fonksiyonu, dosyada tanımından önce çağırabilir misin? |
 |---|---|
-| C | Hayır — önce bir **bildirim (prototype)** yazman gerekir |
-| Python | Hayır — `def` satırı çalışmadan çağırırsan `NameError` alırsın |
-| Rust | **Evet** — derleyici tüm dosyayı birlikte görür |
+| C | Hayır, önce bir **bildirim (prototype)** yazman gerekir |
+| Python | Hayır, `def` satırı çalışmadan çağırırsan `NameError` alırsın |
+| Rust | **Evet**, derleyici tüm dosyayı birlikte görür |
 
 :::analogy Tarif kartları
 Fonksiyon, mutfaktaki bir **tarif kartı** gibidir. Kartı bir kez yazarsın (**tanım**); sonra "mercimek
 çorbası yap" dediğin her seferde (**çağrı**) aşçı kartı açar, adımları uygular ve işi bitince kaldığı
-yere döner. Kartların çekmecede hangi sırayla durduğu önemli değildir — önemli olan doğru kartın adını
+yere döner. Kartların çekmecede hangi sırayla durduğu önemli değildir, önemli olan doğru kartın adını
 söylemektir.
 :::
 
@@ -154,7 +154,7 @@ help: if this is a type, explicitly ignore the parameter name
 Derleyici `x`'ten sonra bir `:` ve bir tip bekliyordu. İlk **help** satırı çözümü söylüyor: `x: i32` gibi
 bir tip ekle. İkinci öneri ise `x`'in bir **tip adı** olabileceğini düşünüyor (`_: x`); burada işimize
 yaramaz. Derleyicinin önerileri birer tahmindir: Hangisinin niyetine uyduğunu sen seçersin. `let` ile
-değişken tanımlarken tipi kendisi çıkaran Rust, fonksiyon parametrelerinde **asla** tahmin yürütmez —
+değişken tanımlarken tipi kendisi çıkaran Rust, fonksiyon parametrelerinde **asla** tahmin yürütmez,
 nedenini birazdan göreceğiz.
 :::
 
@@ -162,7 +162,7 @@ nedenini birazdan göreceğiz.
 
 Şimdiye kadar kullandığımız tipler (`i32`, `f64`, `bool`, `char`...) fonksiyona verildiğinde
 **kopyalanır**: Parametre, argümanın bir kopyasını alır. Fonksiyon içinde parametreyi değiştirmek
-istersen onu `mut` ile işaretlemelisin — tıpkı `let mut` gibi. Bu `mut`, fonksiyonun **kendi** yerel
+istersen onu `mut` ile işaretlemelisin, tıpkı `let mut` gibi. Bu `mut`, fonksiyonun **kendi** yerel
 değişkenine aittir; imzanın dışarıya verdiği sözün parçası değildir ve çağıranı hiç ilgilendirmez.
 Peki parametredeki değişiklik çağıranı etkiler mi?
 
@@ -190,7 +190,7 @@ answer: 1
 explanation: |
   `ikiye_katla(sayi)` çağrısı `sayi` değişkeninin **değerini** (10) `x` parametresine kopyalar. `x` artık
   `ikiye_katla`'nın kendi değişkenidir; onu 20 yapmak `main`'deki `sayi` değişkenine dokunmaz. `sayi` değişkeninin
-  `mut` olmasına da gerek yok, çünkü o hiç değişmiyor — değişen, fonksiyonun kendi kopyası `x`.
+  `mut` olmasına da gerek yok, çünkü o hiç değişmiyor - değişen, fonksiyonun kendi kopyası `x`.
 ```
 
 Aşağıdaki diyagram, çağrı sırasında belleğin **stack** bölgesinde neler olduğunu adım adım gösteriyor:
@@ -290,7 +290,7 @@ blanks:
 output: "20"
 explanation: |
   Her parametrenin kendi tipi olmalı (`en: u32`) ve dönüş tipi parametre listesinden sonra `->` ile
-  yazılır. `en * boy` iki `u32`'nin çarpımıdır, yani yine bir `u32` — imzadaki sözle birebir uyumlu.
+  yazılır. `en * boy` iki `u32`'nin çarpımıdır, yani yine bir `u32` - imzadaki sözle birebir uyumlu.
 ```
 
 Şimdi Modül 2'deki tamsayı bilgini bu fonksiyonla bir araya getir:
@@ -363,7 +363,7 @@ zaman** ister. Bu bilinçli bir tasarım kararıdır:
    çağırdığı fonksiyonların **imzalarına** bakmak yeter. Bir fonksiyonun gövdesini değiştirmek, onu
    çağıran kodun tiplerini sessizce değiştiremez.
 3. **Hatalar doğru yerde yakalanır:** Python'da `def topla(a, b): return a + b` fonksiyonuna yanlışlıkla
-   bir sayı ve bir metin verirsen hatayı ancak program çalışırken — belki de kullanıcının bilgisayarında —
+   bir sayı ve bir metin verirsen hatayı ancak program çalışırken, belki de kullanıcının bilgisayarında,
    görürsün. Rust'ta aynı hata derleme anında, tam çağrının yapıldığı satırda yakalanır.
 
 Haskell gibi bazı diller tüm programda tip çıkarımı yapabilir; Rust bilerek orta yolu seçti: **gövdede
@@ -371,7 +371,7 @@ Haskell gibi bazı diller tüm programda tip çıkarımı yapabilir; Rust bilere
 
 :::analogy Duvardaki priz
 Fonksiyon imzası bir **elektrik prizi** gibidir. Prizin şekli (parametre tipleri) hangi fişin
-takılabileceğini belirler: Uymayan fiş daha takarken reddedilir — tıpkı derleyicinin yanlış tipteki
+takılabileceğini belirler: Uymayan fiş daha takarken reddedilir, tıpkı derleyicinin yanlış tipteki
 argümanı reddetmesi gibi. Prizden ne çıkacağı da bellidir (dönüş tipi: 220 volt). Duvarın içindeki
 kabloları (fonksiyonun gövdesini) bilmeden cihazını güvenle takabilirsin.
 :::
@@ -468,7 +468,7 @@ fn main() {
 `std::f64::consts::PI`, standart kütüphanedeki π sabitinin tam adıdır (`::` ile ayrılan bu adreslere
 **yol (path)** denir, Modül 8'de göreceğiz). `silindir_hacmi` alan formülünü yeniden yazmak yerine
 `daire_alani` fonksiyonunu çağırıyor: Formülde bir hata olsaydı onu tek bir yerde düzeltirdin.
-Programcıların **DRY** (*Don't Repeat Yourself* — kendini tekrar etme) dediği ilke budur.
+Programcıların **DRY** (*Don't Repeat Yourself*, kendini tekrar etme) dediği ilke budur.
 
 Her fonksiyon kendi küçük dünyasında yaşar: Yalnızca **kendi parametrelerini** ve **kendi içinde
 tanımlanan değişkenleri** görür. Bunu bir de derleyicinin gözünden dene:
@@ -509,14 +509,14 @@ distractors: |2
   fn kup(x) -> i64 {
 explanation: |
   `fn kup(x) -> i64` derlenmez, çünkü parametrenin tipi zorunludur. `x * x * x;` satırındaki noktalı virgül
-  ise son ifadeyi bir deyime çevirir ve gövde `i64` yerine `()` üretir — bunun neden böyle olduğu bir
+  ise son ifadeyi bir deyime çevirir ve gövde `i64` yerine `()` üretir - bunun neden böyle olduğu bir
   sonraki dersin konusu.
 ```
 
 ## Alıştırmalar
 
-Şimdi sıra sende. İlk alıştırmada fonksiyonun gövdesini, ikincisinde ise fonksiyonların tamamını —
-imzalarıyla birlikte — sen yazacaksın.
+Şimdi sıra sende. İlk alıştırmada fonksiyonun gövdesini, ikincisinde ise fonksiyonların tamamını,
+imzalarıyla birlikte, sen yazacaksın.
 
 ```exercise
 id: m03-e-saniye-coz
@@ -605,7 +605,7 @@ title: Lahmacun ikilemi
 difficulty: 3
 prompt: |
   Lahmacuncuda klasik soru: **Bir tane 30 cm'lik** mi daha doyurucu, yoksa **iki tane 20 cm'lik** mi?
-  Cevabı bulmak için iki fonksiyon yaz — bu kez imzalar da senden:
+  Cevabı bulmak için iki fonksiyon yaz - bu kez imzalar da senden:
 
   1. `daire_alani`: Dairenin **çapını** (`f64`, cm) alıp alanını (`f64`, cm²) döndürsün.
      Dikkat: Alan formülü yarıçapla çalışır ve yarıçap, çapın yarısıdır.
@@ -707,7 +707,7 @@ explanation: |
 
   Peki neden tek büyük lahmacun kazanıyor? Alan, çapın **karesiyle** büyür: Çap 1,5 katına çıkınca
   (20 → 30) alan 1,5² = 2,25 katına çıkar. 2,25 > 2 olduğu için bir büyük, iki küçükten fazladır.
-  Sezgilerimiz doğrusal düşünür, geometri ise karesel — fonksiyonlarla hesaplamak bu yüzden değerli!
+  Sezgilerimiz doğrusal düşünür, geometri ise karesel - fonksiyonlarla hesaplamak bu yüzden değerli!
 
   Alternatif: Karşılaştırmanın iki yanındaki π ve ¼ sadeleşir, yani
   `buyuk_cap * buyuk_cap > 2.0 * kucuk_cap * kucuk_cap` da aynı cevabı verir. Ama formülü bir kez
@@ -751,7 +751,7 @@ answer: |
 - front: "`E0061` hatası neyi anlatır?"
   back: Fonksiyona imzasındakinden farklı sayıda argüman verildiğini.
 - front: Dönüş tipi yazılmayan bir fonksiyon ne döndürür?
-  back: "Birim tipini: `()` — \"anlamlı bir değer yok\"."
+  back: "Birim tipini: `()`, \"anlamlı bir değer yok\"."
 - front: "`main`'den sonra tanımlanan bir fonksiyon `main` içinden çağrılabilir mi?"
   back: Evet. Rust'ta tanım sırası önemsizdir; derleyici dosyanın tamamını birlikte görür.
 - front: "`fn f(mut x: i32)` içinde `x`'i değiştirmek, çağıranın gönderdiği değişkeni değiştirir mi?"

@@ -14,7 +14,7 @@ keywords: [String, "&str", UTF-8, char, bayt, grafem, format!, to_lowercase, "İ
 Hızlı bir soru: `"şeker"` kelimesi kaç harftir? Beş, değil mi? Rust'a sorarsan cevap, **nasıl**
 sorduğuna göre 5 de olabilir 6 da. Hangisi doğru? İkisi de!
 
-Bu derste metinlerin bilgisayarda gerçekte nasıl saklandığını — **UTF-8**'i — öğrenecek ve Türkçe
+Bu derste metinlerin bilgisayarda gerçekte nasıl saklandığını, **UTF-8**'i, öğrenecek ve Türkçe
 metinleri hatasız işlemeyi göreceksin. Rust'ın `String`'i ilk bakışta diğer dillerdekinden "zor"
 gelebilir. Dersin sonunda bu zorluğun aslında bir **dürüstlük** olduğunu fark edeceksin: Rust, diğer
 dillerin halının altına süpürdüğü gerçek karmaşıklığı sana açıkça gösteriyor.
@@ -75,7 +75,7 @@ steps:
           - { name: selam, type: "&'static str", value: "ptr · len=7", to: s1 }
     heap:
       - { id: h1, value: "C5 9F | 65 | 6B | 65 | 72", label: "ş | e | k | e | r" }
-      - { id: s1, value: "4D 65 72 68 61 62 61", label: "\"Merhaba\" — programın içinde" }
+      - { id: s1, value: "4D 65 72 68 61 62 61", label: "\"Merhaba\", programın içinde" }
 ```
 
 İki metin tipini yan yana koyalım:
@@ -93,7 +93,7 @@ gereken yerde otomatik olarak `&str`'ye dönüşür; böylece fonksiyonun hem `S
 çalışır. (`"merhaba".to_string()` da `String::from("merhaba")` ile aynı işi yapar; nereden geldiğini
 Modül 11'de `Display` trait'iyle göreceğiz.)
 
-## UTF-8 — bayt, char ve grafem
+## UTF-8: bayt, char ve grafem
 
 Bilgisayar yalnızca sayı saklayabilir. **Unicode**, dünyadaki her karaktere bir numara verir: `A` =
 U+0041, `ş` = U+015F, `€` = U+20AC, `🦀` = U+1F980. Bu numaraya **kod noktası (code point)** denir. Rust'ın
@@ -115,7 +115,7 @@ Ama bir metni karakter başına 4 bayt harcayarak saklamak israf olurdu. **UTF-8
 
 Neden UTF-8? İngilizce metinlerde eski ASCII ile **birebir aynıdır** (geriye uyumlu), Latin
 alfabelerinde kompakttır ve bayt sırası (endianness) derdi yoktur. Bugün web sayfalarının çok büyük
-çoğunluğu UTF-8'dir. Rust da net bir karar verdi: **bir `String` her zaman geçerli UTF-8'dir** — tip
+çoğunluğu UTF-8'dir. Rust da net bir karar verdi: **bir `String` her zaman geçerli UTF-8'dir**, tip
 sistemi bunu garanti eder. Güvenli Rust'ta bozuk baytlar bir `String`'e asla giremez: ham baytlardan
 metin üretmek isteyen `String::from_utf8(baytlar)` bile sonucu doğrudan değil, baytlar geçersizse hata
 bildiren bir `Result` olarak döndürür (Modül 10).
@@ -419,12 +419,12 @@ explanation: |
   Bu sürüm karakterleri tek tek kopyalamaz; `n`'inci karakteri bulunca dilimi tek hamlede alır.
 ````
 
-## Metin birleştirmek — `push`, `push_str`, `+` ve `format!`
+## Metin birleştirmek: `push`, `push_str`, `+` ve `format!`
 
 Bir `String`'i büyütmenin dört yolu var. İlk ikisi basit:
 
-- `s.push('!')` — sona tek bir **`char`** ekler.
-- `s.push_str(" dünya")` — sona bir **`&str`** ekler. Argümanı ödünç aldığı için ona dokunmaz.
+- `s.push('!')`, sona tek bir **`char`** ekler.
+- `s.push_str(" dünya")`, sona bir **`&str`** ekler. Argümanı ödünç aldığı için ona dokunmaz.
 
 `+` operatörü ise bir sürpriz barındırıyor. Tahmin et:
 
@@ -451,8 +451,8 @@ fn add(self, s: &str) -> String
 
 Bu imza üç şey söyler:
 
-1. `self` — sol taraftaki `String`'in **sahipliği alınır**, yani taşınır.
-2. `s: &str` — sağ taraf yalnızca **ödünç** alınır; bu yüzden `&s2` yazarız.
+1. `self`, sol taraftaki `String`'in **sahipliği alınır**, yani taşınır.
+2. `s: &str`, sağ taraf yalnızca **ödünç** alınır; bu yüzden `&s2` yazarız.
 3. Dönen `String`, aslında sol taraftaki `String`'in **ta kendisidir**: sağdakinin baytları sonuna
    eklenmiş hâliyle.
 
@@ -767,7 +767,7 @@ answer: |
 - front: "`\"şeker\".len()` kaç döndürür ve neden?"
   back: "**6**. `len()` bayt sayar; `ş` UTF-8'de 2 bayt, diğer harfler 1'er bayt."
 - front: Bir metnin karakter sayısını nasıl bulursun, maliyeti nedir?
-  back: "`s.chars().count()` — metni baştan sona yürüdüğü için O(n)."
+  back: "`s.chars().count()`, metni baştan sona yürüdüğü için O(n)."
 - front: "`s[0]` neden derlenmez? (iki gerekçe)"
   back: "Bir bayt yarım harf olabilir (bayt mı karakter mi belirsiz) ve n'inci karakter O(1)'de bulunamaz → **E0277**."
 - front: "`&s[0..1]` (`s = \"şeker\"`) derlenir mi, çalışır mı?"
@@ -775,7 +775,7 @@ answer: |
 - front: "`let s3 = s1 + &s2;` satırından sonra `s1` ve `s2` kullanılabilir mi?"
   back: "`s1` hayır: `add(self, &str)` onu taşıdı (tamponu yeniden kullanıldı). `s2` evet: sadece ödünç verildi."
 - front: Birkaç parçayı sahiplik almadan, okunaklı biçimde birleştirmenin yolu nedir?
-  back: "`format!(\"{a} {b}\")` — hiçbir argümanı taşımaz, yeni bir `String` döndürür."
+  back: "`format!(\"{a} {b}\")` - hiçbir argümanı taşımaz, yeni bir `String` döndürür."
 - front: "`\"IŞIK\".to_lowercase()` ne döndürür?"
   back: "`\"işik\"`. Rust dilden bağımsız Unicode kurallarını uygular (`I` → `i`); Türkçe `I` → `ı` kuralını bilmez."
 - front: "🇹🇷 bayrağı kaç `char` ve kaç bayttır? Grafem kümesi nedir?"

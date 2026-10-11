@@ -1,6 +1,6 @@
 ---
 id: m14-l01
-title: "Closure'lar — isimsiz fonksiyonlar"
+title: "Closure'lar, isimsiz fonksiyonlar"
 minutes: 18
 type: lesson
 objectives:
@@ -15,8 +15,8 @@ Modül 9'da kitapları ada göre sıralarken şöyle bir şey yazmıştın: `raf
 O `|k| ...` parçası bir **closure**'dı; onu sıralamaya verilen kısa bir kural olarak kullanmış, asıl
 güçlerini bu modüle bırakmıştık. Şimdi zamanı geldi.
 
-Bu derste **closure**'ları — yazıldığı yerde tanımlanan, isimsiz ve **çevresindeki değişkenleri
-yakalayabilen** fonksiyonları — tanıyacaksın. Closure'lar Rust'ın fonksiyonel tarafının kapısıdır:
+Bu derste **closure**'ları, yazıldığı yerde tanımlanan, isimsiz ve **çevresindeki değişkenleri
+yakalayabilen** fonksiyonları, tanıyacaksın. Closure'lar Rust'ın fonksiyonel tarafının kapısıdır:
 modülün ikinci yarısındaki iterator'ların neredeyse her metodu bir closure ister.
 
 ## Yerinde yazılan fonksiyonlar
@@ -59,12 +59,12 @@ Kurallar kısaca şöyle:
 | parametreler | `( )` içinde, tipler **zorunlu** | `\| \|` içinde, tipler **isteğe bağlı** |
 | dönüş tipi | `->` ile, zorunlu (unit değilse) | isteğe bağlı; yazarsan gövde `{ }` olmalı |
 | gövde | her zaman `{ }` | tek ifadeyse `{ }` gerekmez |
-| çağırma | `ad(5)` | `degisken(5)` — aynı sözdizimi |
+| çağırma | `ad(5)` | `degisken(5)`, aynı sözdizimi |
 
 Neden fonksiyonda tipler zorunlu da closure'da değil? Fonksiyonlar bir **arayüzdür**: başka modüller,
 başka insanlar çağırır; imza belgedir (Modül 3). Closure'lar ise kısa ömürlü ve **yereldir**; genellikle
 tek bir yerde, tek bir amaçla kullanılır. Derleyici gövdeye ve kullanıldığı yere bakarak tipleri rahatça
-çıkarabilir — tıpkı `let x = 5;` yazarken tip yazmaman gibi.
+çıkarabilir, tıpkı `let x = 5;` yazarken tip yazmaman gibi.
 
 :::warning Dönüş tipi yazarsan süslü parantez şart
 `|x: i32| -> i32 x + 1` derlenmez: *"explicit return type requires closure body to be enclosed in braces"*.
@@ -75,7 +75,7 @@ Doğrusu `|x: i32| -> i32 { x + 1 }`.
 Fonksiyon, kütüphanedeki ciltli bir **tarif kitabı** gibidir: adı, içindekiler sayfası, resmî bir yeri vardır;
 herkes bulup kullanabilir. Closure ise mutfakta tezgâha yapıştırdığın **yapışkan nottur**: "bu sosa kalan
 domatesi ekle". İsmi yoktur, o anki işe özeldir ve en önemlisi, *tezgâhta duran* malzemelere ("kalan
-domates") doğrudan atıf yapabilir. Bu son özellik — çevreyi görebilmek — closure'ı fonksiyondan ayıran şeydir.
+domates") doğrudan atıf yapabilir. Bu son özellik, çevreyi görebilmek, closure'ı fonksiyondan ayıran şeydir.
 :::
 
 Diğer dillerden tanıyorsan: Python'daki `lambda x: x + 1`, JavaScript'teki `x => x + 1`, C++'taki
@@ -226,7 +226,7 @@ fn main() {
 ```
 
 Closure, gövdesinde kullandığı dış değişkenleri **yakalar (capture)**. Buradaki `gecti_mi` `esik`'i sadece
-**okuyor**, o yüzden onu `&esik` olarak — yani **değişmez referansla** — yakalıyor. Bu yüzden son satırda
+**okuyor**, o yüzden onu `&esik` olarak, yani **değişmez referansla**, yakalıyor. Bu yüzden son satırda
 `esik`'i kullanmaya devam edebiliyoruz: aynı anda birden çok `&` olabilir (Modül 5).
 
 Peki bir closure aslında nedir? Derleyici, perde arkasında yakalanan değerleri tutan **isimsiz bir struct**
@@ -300,7 +300,7 @@ Neden? Çünkü `ekle`'yi çağırmak, içindeki `&mut Vec` alanını kullanmak 
 değişiyor gibi davranır. `mut` unutursan derleyici *"calling `ekle` requires mutable binding due to mutable
 borrow of `sepet`"* der (E0596).
 
-Şimdi tahmin et — closure çağrıları arasına bir `println!` koyarsak?
+Şimdi tahmin et, closure çağrıları arasına bir `println!` koyarsak?
 
 ```compiles
 code: |
@@ -333,7 +333,7 @@ error[E0502]: cannot borrow `sayac` as immutable because it is also borrowed as 
   |     ----- mutable borrow later used here
 ```
 Modül 5'teki E0502'nin aynısı! Tek fark, `&mut` ödüncü alan şeyin bir closure olması. Etiketlere bak:
-*mutable borrow occurs here* closure'ın `||` kısmını gösteriyor — ödünç, closure **oluşturulurken** başlar.
+*mutable borrow occurs here* closure'ın `||` kısmını gösteriyor, ödünç, closure **oluşturulurken** başlar.
 :::
 
 ### Değerle (sahiplenerek) yakalama
@@ -413,7 +413,7 @@ fn main() {
 Hiçbir şey yakalamayan closure **0 bayttır**; bir referans yakalayan, bir işaretçi kadar; bir
 `String`'i sahiplenen, `String` başlığı (işaretçi + uzunluk + kapasite) kadar. 64 bit bir sistemde (ve
 Playground'da) bunlar `0`, `8` ve `24` bayttır. Gizli bir maliyet yok: closure tam olarak yakaladığı kadar
-yer kaplar — heap ayırması, gizli bir "ortam nesnesi" ya da çöp toplayıcı yoktur.
+yer kaplar, heap ayırması, gizli bir "ortam nesnesi" ya da çöp toplayıcı yoktur.
 
 :::deep Edition 2021+: closure'lar alanları ayrı ayrı yakalar
 Closure gövdesi bir struct'ın sadece **bir alanını** kullanıyorsa, Rust 2021'den beri yalnızca o alan
@@ -455,7 +455,7 @@ explanation: |
   çağrılmıyorsa ödünç hemen biter ve `println!` sorunsuzdur. `println!`'den sonra `f()` çağrılıyorsa,
   `&mut` ödünç hâlâ canlıdır ve E0502 alırsın.
 feedback:
-  - Sadece `f` daha sonra çağrılıyorsa doğru — cevap buna bağlı.
+  - Sadece `f` daha sonra çağrılıyorsa doğru, cevap buna bağlı.
   - Doğru! Ödünç süresini closure'ın son kullanımı belirler.
   - Closure'lar yakaladıklarını gerçekten ödünç alır; borrow checker kuralları aynen geçerli.
   - "`push` sadece `&mut self` ister; sahiplik gerekmez, o yüzden taşınmaz."
@@ -496,7 +496,7 @@ options:
     Elif Elif
 answer: 1
 explanation: |
-  `unwrap_or(varsayilan_isim())` çağrılmadan **önce** argümanı hesaplanır — Rust'ta argümanlar her zaman
+  `unwrap_or(varsayilan_isim())` çağrılmadan **önce** argümanı hesaplanır - Rust'ta argümanlar her zaman
   önce değerlendirilir. Yani `Some` olsa bile `varsayilan_isim()` çalışır ve sonucu çöpe gider.
   `unwrap_or_else(|| varsayilan_isim())` ise bir **closure** alır ve onu **yalnızca `None` durumunda**
   çağırır. Değer `Some` olduğu için ikinci satırda hiçbir şey yazdırılmaz.
@@ -513,7 +513,7 @@ Gövdesi yalnızca bir fonksiyonu aynı argümanlarla çağıran closure gereksi
 verilebilir. Bunun neden çalıştığını bir sonraki derste (fonksiyon işaretçileri) göreceksin.
 :::
 
-### `sort_by_key` ve `retain` — artık ortamı da görebilirler
+### `sort_by_key` ve `retain`: artık ortamı da görebilirler
 
 Modül 9'da `sort_by_key` ve `retain`'e sadece elemana bakan closure'lar verdik. Şimdi dışarıdaki bir
 değişkeni de kullanalım: sıcaklıkları **hedef sıcaklığa yakınlığa** göre sırala, aralık dışındakileri at.
@@ -544,7 +544,7 @@ ve `.abs()` çağrısında durup *"error[E0689]: can't call method `abs` on ambi
 `|&t|` deseni, closure'a gelen `&i32`'yi daha **parametrede açar**; böylece gövdede `t` doğrudan bir
 `i32` olur. (Modül 9'daki `retain` örneklerinde aynı işi gövdede `*p` ile yapmıştık; ikisi de geçerli.
 Bu açma yalnızca `Copy` tiplerde çalışır.) Ortamdan yakalanan `alt`, `ust` ve `hedef` ise değişmez referansla
-yakalanır — closure'lar sadece onları okuyor.
+yakalanır, closure'lar sadece onları okuyor.
 
 ```fill
 prompt: |
@@ -612,9 +612,9 @@ difficulty: 2
 prompt: |
   İki fonksiyonu **closure kullanarak** tamamla:
 
-  1. `araliga_kirp(olcumler, alt, ust)` — `alt` ile `ust` arasında (**ikisi de dahil**) olmayan ölçümleri
+  1. `araliga_kirp(olcumler, alt, ust)` - `alt` ile `ust` arasında (**ikisi de dahil**) olmayan ölçümleri
      vektörden **siler**. `retain` kullan.
-  2. `hedefe_gore_sirala(olcumler, hedef)` — ölçümleri `hedef`'e uzaklıklarına göre (yakından uzağa)
+  2. `hedefe_gore_sirala(olcumler, hedef)` - ölçümleri `hedef`'e uzaklıklarına göre (yakından uzağa)
      sıralar. Uzaklıkları **eşit** olan iki ölçümden **küçük olan önce** gelmeli
      (ör. hedef 20 iken 18, 22'den önce). `sort_by_key` kullan.
 
@@ -698,7 +698,7 @@ tests: |
 hints:
   - "`retain` closure'ı `true` döndürdüğü elemanları tutar. `alt` ve `ust` closure'ın içinde doğrudan kullanılabilir: closure onları yakalar."
   - "`sort_by_key` her eleman için bir anahtar ister. Anahtar bir tuple olabilir: `(uzaklık, değer)`."
-  - "`olcumler.sort_by_key(|&t| ((t - hedef).abs(), t));` — önce uzaklığa, eşitlikte değere bakar."
+  - "`olcumler.sort_by_key(|&t| ((t - hedef).abs(), t));`, önce uzaklığa, eşitlikte değere bakar."
 require:
   - pattern: "\\.retain\\("
     message: "`araliga_kirp`'ı `retain` ile yaz."
@@ -711,7 +711,7 @@ explanation: |
 
   İmzalara dikkat: `retain` eleman **silebildiği** için yalnızca `Vec`'te vardır, bu yüzden
   `araliga_kirp` `&mut Vec<i32>` alır. Sıralama ise uzunluğu değiştirmez ve dilimlerde (`[T]`)
-  tanımlıdır; `hedefe_gore_sirala` bu yüzden daha genel olan `&mut [i32]`'yi alır (Modül 5) —
+  tanımlıdır; `hedefe_gore_sirala` bu yüzden daha genel olan `&mut [i32]`'yi alır (Modül 5),
   `&mut Vec<i32>` oraya otomatik olarak dönüşür. Clippy de `&mut Vec` yerine dilim önerirdi (`ptr_arg`).
 
   `((t - hedef).abs(), t)` anahtarı iki kriteri birleştirir: tuple'lar sözlük sırasıyla karşılaştırıldığı
@@ -727,7 +727,7 @@ explanation: |
 
   `sort_by_key` sürümü daha kısa ve niyeti daha net gösteriyor. Not: `sort_by_key` **kararlı** (stable)
   bir sıralamadır; yalnızca uzaklığı anahtar yapsaydın eşit uzaklıktakiler **orijinal sıralarını**
-  korurdu — bu yüzden 4. test, ek kriter olmadan geçmezdi.
+  korurdu - bu yüzden 4. test, ek kriter olmadan geçmezdi.
 ````
 
 ## Özet
@@ -757,7 +757,7 @@ answer: |
 ```flashcards
 - front: "`fn` ile closure arasındaki **temel** fark nedir?"
   back: "Closure çevresindeki yerel değişkenleri **yakalayabilir** (capture); `fn` öğesi yakalayamaz (E0434)."
-- front: "`let f = |x| x;` sonra `f(String::from(\"a\"))` ve `f(5)` — neden derlenmez?"
+- front: "`let f = |x| x;` sonra `f(String::from(\"a\"))` ve `f(5)`, neden derlenmez?"
   back: "Closure'lar generic değildir; `x`'in tipi ilk çağrıda `String` olarak sabitlenir, `f(5)` E0308 verir."
 - front: Derleyici bir değişkeni closure'a hangi üç biçimde yakalayabilir? Nasıl seçer?
   back: "`&T` (sadece okuyorsa), `&mut T` (değiştiriyorsa), `T` (sahiplik istiyorsa). Gövdenin ihtiyacını karşılayan **en hafif** biçimi seçer."

@@ -481,7 +481,7 @@ explanation: |
 sırasıyla her bir `char` olur. (Metinleri karakter karakter gezmeyi Modül 9'da derinlemesine göreceğiz.)
 
 ```exercise
-title: Adam asmaca — harf kaç kez geçiyor?
+title: "Adam asmaca: harf kaç kez geçiyor?"
 difficulty: 2
 prompt: |
   Bir adam asmaca oyunu yazıyorsun. Oyuncu bir harf tahmin ettiğinde, o harfin gizli kelimede

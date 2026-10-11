@@ -1,4 +1,4 @@
-/* Learning engine (Tekrar / Antrenman / İstatistik) — scoped styles and chart tokens.
+/* Learning engine (Tekrar / Antrenman / İstatistik) - scoped styles and chart tokens.
    Chart colours were validated for both themes (dataviz palette checks): the categorical pair
    --lx-chart-1/2 passes lightness band, CVD and contrast checks; the heat ramp is single-hue,
    monotone and its light end clears 2:1 against the card surface. */

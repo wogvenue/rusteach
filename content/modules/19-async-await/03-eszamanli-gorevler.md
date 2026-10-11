@@ -129,7 +129,7 @@ explanation: |
   (`async move { ...; sepet }` ve `let sepet = kol.await.unwrap();`), önceden `clone()` al ya da `Arc` ile paylaş.
 ```
 
-## join! — tek görevde, aynı anda
+## join!: tek görevde, aynı anda
 
 `tokio::join!(a, b, c)`, verdiğin future'ların **hepsini birlikte yoklar** ve hepsi bitince sonuçları bir tuple
 olarak verir. Tahmin et:
@@ -204,7 +204,7 @@ garson, birden fazla masa. Beklemeleri çakıştırmak için bu yeterlidir; işl
 beklemek için `futures::future::join_all(vec)` ya da bu dersin sonundaki `JoinSet` kullanılır.
 :::
 
-## try_join! — ilk hatada vazgeç
+## try_join!: ilk hatada vazgeç
 
 Future'lar `Result` döndürüyorsa ve biri başarısız olunca diğerlerini beklemenin anlamı yoksa, `try_join!` kullan.
 Hepsi `Ok` olursa `Ok((a, b, ...))`, herhangi biri `Err` olursa **hemen** o `Err` döner. Bütün future'ların hata
@@ -258,7 +258,7 @@ Bu davranış hem güç hem sorumluluktur: future, herhangi bir `.await` noktas�
 bir işin (örneğin iki adımlı bir güncellemenin) tutarsız durum bırakmaması gerekir. Buna **iptal güvenliği
 (cancellation safety)** denir; Ders 7'de geri döneceğiz.
 
-## select! — yarıştır, kazananı al
+## select!: yarıştır, kazananı al
 
 `tokio::select!`, birkaç future'ı yarıştırır: **ilk biten** dalın kodu çalışır, diğer future'lar **drop edilir**
 (iptal). Örnek: aynı dosyayı iki farklı sunucudan (ayna/mirror) istiyoruz, hangisi önce cevap verirse onu alıyoruz.
@@ -404,7 +404,7 @@ explanation: |
   Servis 500 ms sürdüğü için 50 ms'lik sınır dolar, `Err(Elapsed)` gelir ve `sicaklik()` future'ı iptal edilir.
 ```
 
-## JoinSet — sayısı belirsiz görevler
+## JoinSet: sayısı belirsiz görevler
 
 Kaç görev başlatacağını çalışma zamanında öğreniyorsan (kullanıcının seçtiği şehirler, bir listedeki URL'ler)
 `tokio::task::JoinSet` en temiz araçtır:

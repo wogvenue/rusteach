@@ -1,6 +1,6 @@
 ---
 id: m09-l01
-title: Vec — büyüyebilen diziler
+title: "Vec: büyüyebilen diziler"
 minutes: 25
 type: lesson
 objectives:
@@ -11,7 +11,7 @@ objectives:
 keywords: [Vec, vektör, push, pop, get, capacity, with_capacity, E0502, E0507]
 ---
 
-Modül 2'de **dizileri (array)** öğrendin: `[i32; 5]` tam beş eleman tutar — ne bir eksik ne bir fazla — ve
+Modül 2'de **dizileri (array)** öğrendin: `[i32; 5]` tam beş eleman tutar, ne bir eksik ne bir fazla, ve
 bu sayının derleme zamanında bilinmesi gerekir. Ama gerçek hayattaki listelerin çoğunun boyunu önceden
 bilemezsin: Market sepetine kaç ürün atılacak? Sınıfa kaç öğrenci kaydolacak? Oyunda kaç düşman doğacak?
 
@@ -99,12 +99,12 @@ options:
 answer: 0
 explanation: |
   `push` sona ekler, `pop` **sondan** çıkarır: son giren ilk çıkar. Bu davranışa **LIFO** (last in, first
-  out — son giren ilk çıkar) denir; vektörü bir **yığın (stack)** gibi kullanmış olduk.
+  out - son giren ilk çıkar) denir; vektörü bir **yığın (stack)** gibi kullanmış olduk.
   `[10, 20, 30]` → `pop` → `Some(30)` → `pop` → `Some(20)` → kalan `[10]` → `push(40)` → `[10, 40]`.
   `pop` bir `Option<i32>` döndürdüğü için `{a:?}` çıktısı `30` değil `Some(30)` olur.
 ```
 
-## Elemanlara erişmek — `v[i]` mi, `get(i)` mi?
+## Elemanlara erişmek: `v[i]` mi, `get(i)` mi?
 
 Bir vektörün elemanını okumanın iki yolu var ve aralarındaki fark, programının **bir şeyler ters gittiğinde**
 nasıl davranacağını belirler:
@@ -197,7 +197,7 @@ question: |
   Kütüphane uygulamanda kullanıcı, görmek istediği kitabın sıra numarasını **kendisi yazıyor**
   (`n: usize`). Kitabı `kitaplar` vektöründen okumanın en doğru yolu hangisi?
 options:
-  - "`kitaplar[n]` — kısa ve hızlı"
+  - "`kitaplar[n]`, kısa ve hızlı"
   - "`kitaplar.get(n)` ile `Option` almak ve `None` durumunda \"böyle bir kitap yok\" demek"
   - "Önce `kitaplar[n]` dene; panik olursa programı yeniden başlat"
 answer: 1
@@ -211,7 +211,7 @@ feedback:
   - "Panik bir hata yönetimi stratejisi değildir; olası bir durumu `Option` ile önceden ele almak gerekir."
 ```
 
-## Vektörü dolaşmak — `&v`, `&mut v` ve `v`
+## Vektörü dolaşmak: `&v`, `&mut v` ve `v`
 
 Bir vektörü `for` ile dolaşmanın üç yolu var. Bunlar, Modül 4-5'te bir değeri fonksiyona vermenin üç
 yoluyla **birebir aynıdır**: ödünç vermek, değiştirilebilir ödünç vermek, sahipliği devretmek.
@@ -256,7 +256,7 @@ göreceğiz. Şimdilik kalıbı bilmen yeter: `for (i, x) in v.iter().enumerate(
 verir. Bir de küçük bir kısayol: `Copy` tiplerde `for &fiyat in &fiyatlar` yazarsan `&fiyat` **deseni**
 referansı açar ve `fiyat` doğrudan `i32` olur; `*` yazmana gerek kalmaz.
 
-Üçüncü yolun tuzağına dikkat — bu, Modül 4'teki taşıma (move) kuralının ta kendisi:
+Üçüncü yolun tuzağına dikkat, bu, Modül 4'teki taşıma (move) kuralının ta kendisi:
 
 ```rust,compile_fail,E0382
 fn main() {
@@ -291,7 +291,7 @@ Derleyici hem nedeni (`for` döngüsü gizlice `.into_iter()` çağırıp sahipl
 :::
 
 ```fill
-prompt: Her öğrencinin notuna 5 puan **bonus** ekle — vektörü yerinde değiştirerek.
+prompt: Her öğrencinin notuna 5 puan **bonus** ekle, vektörü yerinde değiştirerek.
 code: |
   fn main() {
       let mut notlar = vec![70, 85, 60];
@@ -389,11 +389,11 @@ explanation: |
   önce döngüyle elle yazmak, o kısayolun **ne yaptığını** anlamanı sağlar.
 ```
 
-## Kaputun altı — `len`, `capacity` ve yeniden tahsis
+## Kaputun altı: `len`, `capacity` ve yeniden tahsis
 
 Bir `Vec` aslında üç küçük parçadan oluşur ve bu parçalar **stack'te** durur: heap'teki elemanlara bir
 **işaretçi (pointer)**, eleman sayısı olan **uzunluk (len)** ve heap'te ayrılmış yerin kaç eleman
-alabildiğini gösteren **kapasite (capacity)**. Tanıdık geldi mi? `String` de tam olarak böyledir — çünkü
+alabildiğini gösteren **kapasite (capacity)**. Tanıdık geldi mi? `String` de tam olarak böyledir, çünkü
 `String` aslında içi UTF-8 baytlarla dolu bir `Vec<u8>`'dir!
 
 Uzunluk kapasiteye ulaştığında ve sen bir `push` daha yaptığında, vektör **yeniden tahsis
@@ -495,7 +495,7 @@ feedback:
   - "Derleyici bu durumu yakalamaz; vektörün uzunluğu çalışma zamanında belli olur."
 ```
 
-## Borrow checker ve vektörler — E0502'nin asıl sebebi
+## Borrow checker ve vektörler: E0502'nin asıl sebebi
 
 Şimdi Modül 5'teki ödünç alma kurallarının vektörlerde neden **hayati** olduğunu göreceğiz. Önce tahmin et:
 
@@ -521,7 +521,7 @@ Rust bu programa izin verseydi bellekte şunlar olurdu:
 ```memory
 title: "Rust izin verseydi: sarkan referans (dangling reference)"
 steps:
-  - caption: "`let ilk = &notlar[0];` — `ilk`, heap'teki ilk elemanın adresini tutuyor. Vektör dolu: `len == cap == 3`."
+  - caption: "`let ilk = &notlar[0];`, `ilk`, heap'teki ilk elemanın adresini tutuyor. Vektör dolu: `len == cap == 3`."
     stack:
       - frame: main
         vars:
@@ -529,7 +529,7 @@ steps:
           - { name: ilk, type: "&i32", value: "→ notlar[0]", to: h1 }
     heap:
       - { id: h1, value: "85 | 92 | 78" }
-  - caption: "`notlar.push(100)` — yer yok: yeni ve büyük bir alan ayrılır, elemanlar kopyalanır, **eski alan serbest bırakılır**. `ilk` ise hâlâ eski adresi gösteriyor!"
+  - caption: "`notlar.push(100)`, yer yok: yeni ve büyük bir alan ayrılır, elemanlar kopyalanır, **eski alan serbest bırakılır**. `ilk` ise hâlâ eski adresi gösteriyor!"
     stack:
       - frame: main
         vars:
@@ -568,7 +568,7 @@ Oku: **1)** paylaşımlı ödünç 3. satırda başladı, **2)** 4. satırda de�
 sonra kullanmasaydın, ödünç orada biterdi (NLL) ve kod derlenirdi.
 :::
 
-C++'ta aynı kod **derlenir** ve çoğu zaman "çalışıyor gibi" görünür — ta ki bir gün yeniden tahsis olup
+C++'ta aynı kod **derlenir** ve çoğu zaman "çalışıyor gibi" görünür, ta ki bir gün yeniden tahsis olup
 program saçma bir değer yazdırana ya da çökene kadar:
 
 ```cpp
@@ -645,7 +645,7 @@ feedback:
   - "Borrow checker hataları derleme hatasıdır; program hiç çalışmaz."
 ```
 
-## Karışık verileri saklamak — `Vec` ve `enum`
+## Karışık verileri saklamak: `Vec` ve `enum`
 
 Bir vektörün tüm elemanları **aynı tipte** olmak zorundadır. Bunun teknik bir nedeni var: elemanlar
 bellekte yan yana durduğu için `v[i]`'nin adresi basitçe `başlangıç + i × eleman_boyutu` diye hesaplanır.
@@ -689,7 +689,7 @@ sıkıştırır: burada `String`'in hiçbir zaman kullanmadığı değerlere giz
 tıpkı `size_of::<String>()` gibi, 64 bit sistemlerde 24 bayt çıkar. Bu ayrıntıya *niche optimization*
 denir.) Böylece hem farklı türde veriler bir arada durur hem de
 `match`'in **kapsayıcılık (exhaustiveness)** kontrolü sayesinde hiçbir varyantı ele almayı unutamazsın.
-(Tip kümesi kapalı değil de açıksa — örneğin başkalarının ekleyeceği eklentiler — **trait nesneleri**
+(Tip kümesi kapalı değil de açıksa, örneğin başkalarının ekleyeceği eklentiler, **trait nesneleri**
 kullanılır: `Vec<Box<dyn Trait>>`. Bunu Modül 20'de göreceğiz.)
 
 ```predict
@@ -742,8 +742,8 @@ difficulty: 3
 prompt: |
   Küçük bir metin editörü yazıyoruz. Kullanıcının komutları bir `Komut` dizisi olarak geliyor:
 
-  - `Komut::Yaz(metin)` — metni, mevcut yazının **sonuna** ekler.
-  - `Komut::GeriAl` — **en son** yazılan parçayı geri alır. Geri alınacak bir şey yoksa hiçbir şey olmaz.
+  - `Komut::Yaz(metin)`, metni, mevcut yazının **sonuna** ekler.
+  - `Komut::GeriAl`, **en son** yazılan parçayı geri alır. Geri alınacak bir şey yoksa hiçbir şey olmaz.
 
   `editor` fonksiyonu tüm komutları sırayla uygulasın ve ortaya çıkan son metni döndürsün. Örnek:
   `Yaz("Merhaba")`, `Yaz(" dünya")`, `GeriAl`, `Yaz(" Rust")` → `"Merhaba Rust"`.
@@ -842,7 +842,7 @@ tests: |
   }
 hints:
   - "Yazılan parçaları bir **yığında** (vektörde) biriktir: `Yaz` gelince `push`, `GeriAl` gelince `pop`."
-  - "`pop` bir `Option` döndürür ve boş vektörde sadece `None` verir — panik yok. Dönen değeri kullanmana gerek yok: `parcalar.pop();`"
+  - "`pop` bir `Option` döndürür ve boş vektörde sadece `None` verir, panik yok. Dönen değeri kullanmana gerek yok: `parcalar.pop();`"
   - "Komutları `for komut in komutlar` ile dolaşıp `match komut { Komut::Yaz(metin) => ..., Komut::GeriAl => ... }` yaz. En sonda boş bir `String` oluşturup parçaları `push_str` ile birleştir."
 explanation: |
   Yığın (LIFO) tam bu iş için biçilmiş kaftandır: geri alınması gereken şey her zaman **en son** yapılan
@@ -852,7 +852,7 @@ explanation: |
   Çözümde parçaları `Vec<&str>` içinde **ödünç** olarak tuttuk: metinlerin sahibi hâlâ `komutlar`
   dizisi, biz sadece onlara bakıyoruz. `parcalar.push(metin)` satırında `metin` bir `&String`'di; Rust onu
   otomatik olarak `&str`'ye dönüştürdü. İstersen `Vec<String>` kullanıp `metin.clone()` da
-  diyebilirdin — çalışır ama her parça için gereksiz bir kopya üretir.
+  diyebilirdin - çalışır ama her parça için gereksiz bir kopya üretir.
 
   Son birleştirme için bir kısayol daha var: `parcalar.concat()`, bir `&str` diliminin tüm parçalarını
   tek bir `String`'de birleştirir.
@@ -891,7 +891,7 @@ answer: |
 - front: "`notlar` 3 elemanlıyken `notlar[10]` ve `notlar.get(10)` ne yapar?"
   back: "`notlar[10]` panikler (*index out of bounds*); `notlar.get(10)` ise `None` döndürür."
 - front: "`for x in &mut v` döngüsünde elemana 1 eklemek için ne yazarsın?"
-  back: "`*x += 1;` — `x` bir `&mut T` olduğu için `*` ile gösterdiği değere ulaşılır."
+  back: "`*x += 1;`, `x` bir `&mut T` olduğu için `*` ile gösterdiği değere ulaşılır."
 - front: "`for s in v { ... }` döngüsünden sonra `v.len()` yazabilir misin?"
   back: "Hayır. Döngü vektörü tüketti (sahiplik taşındı) → **E0382**. Sonra kullanacaksan `&v` ile dolaş."
 - front: "`len` ile `capacity` arasındaki fark nedir?"

@@ -48,9 +48,9 @@ fn main() {
 
 Buradaki iki belgeleme biçimine dikkat et:
 
-- `/// # Safety` — `unsafe fn`'in **doküman yorumunda** (Modül 13) çağıranın uyması gereken sözleşme.
+- `/// # Safety`, `unsafe fn`'in **doküman yorumunda** (Modül 13) çağıranın uyması gereken sözleşme.
   Rust topluluğunda bu bölüm zorunlu sayılır; clippy'nin `missing_safety_doc` lint'i eksikliğini yakalar.
-- `// SAFETY:` — her `unsafe` **bloğunun** üstünde, o sözleşmenin **neden** sağlandığının açıklaması.
+- `// SAFETY:`, her `unsafe` **bloğunun** üstünde, o sözleşmenin **neden** sağlandığının açıklaması.
 
 `unsafe fn`'i `unsafe` blok olmadan çağırmak, beş süper güçten ikincisini izinsiz kullanmaktır. Tahmin et:
 
@@ -136,7 +136,7 @@ note: an unsafe function restricts its caller, but its body is safe by default
   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
 ```
-Anahtar cümle: *"an unsafe function restricts its caller, but its body is safe by default"* — unsafe bir
+Anahtar cümle: *"an unsafe function restricts its caller, but its body is safe by default"*, unsafe bir
 fonksiyon **çağıranı** kısıtlar, ama **gövdesi** varsayılan olarak güvenlidir.
 :::
 
@@ -541,7 +541,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — bir fonksiyonun içinde `unsafe` kod olması neden onun `unsafe fn` olması gerektiği anlamına gelmez?
+prompt: Kendi cümlelerinle açıkla, bir fonksiyonun içinde `unsafe` kod olması neden onun `unsafe fn` olması gerektiği anlamına gelmez?
 answer: |
   Model cevap: `unsafe fn` "beni çağıran bir şartı sağlamak zorunda" demektir. Eğer fonksiyon, içindeki
   unsafe işlemlerin tüm şartlarını kendisi kontrol edip garanti edebiliyorsa (örneğin `ikiye_bol`'daki
@@ -556,13 +556,13 @@ answer: |
 - front: "Edition 2024'te `unsafe fn` gövdesindeki ham işaretçi çözme neden uyarı verir?"
   back: "`unsafe_op_in_unsafe_fn` lint'i: unsafe fn'in gövdesi güvenli sayılır; her unsafe işlem kendi `unsafe { }` bloğunda olmalı."
 - front: "`split_at_mut`'u safe Rust ile `(&mut s[..m], &mut s[m..])` diye yazmak hangi hatayı verir?"
-  back: "`E0499` — borrow checker dilimin farklı bölgelerini ayrı takip etmez, iki `&mut` görür."
+  back: "`E0499`, borrow checker dilimin farklı bölgelerini ayrı takip etmez, iki `&mut` görür."
 - front: Ham işaretçi ve uzunluktan `&mut [T]` üreten std fonksiyonu hangisidir?
   back: "`std::slice::from_raw_parts_mut(ptr, len)` (salt okunur hâli: `from_raw_parts`)."
 - front: Bir güvenli fonksiyonun **sound (sağlam)** olması ne demektir?
   back: Güvenli koddan hangi girdiyle çağrılırsa çağrılsın tanımsız davranışa yol açamaması.
 - front: "`unsafe fn`'in doküman yorumuna hangi bölüm yazılır?"
-  back: "`/// # Safety` — çağıranın uyması gereken şartlar."
+  back: "`/// # Safety` - çağıranın uyması gereken şartlar."
 - front: Değişmeze (invariant) dayanan unsafe kodda güvenlik sınırı neden modüldür?
   back: Aynı modüldeki güvenli kod da gizli alanları değiştirip değişmezi bozabilir; dışarıdan ise yalnızca gizlilik sayesinde korunur.
 ```

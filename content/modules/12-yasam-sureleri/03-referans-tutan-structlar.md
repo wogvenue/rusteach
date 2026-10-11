@@ -209,7 +209,7 @@ impl<'a> Alinti<'a> {
     }
 
     fn kunye(&self) -> String {
-        format!("\"{}\" — {}", self.parca, self.yazar)
+        format!("\"{}\" - {}", self.parca, self.yazar)
     }
 }
 

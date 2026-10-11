@@ -42,7 +42,7 @@ fn main() {
     oduncte[1] = true; // 1 numaralı kitabı ödünç verdik
 
     for i in 0..basliklar.len() {
-        println!("{} — {} (ödünçte: {})", basliklar[i], yazarlar[i], oduncte[i]);
+        println!("{} - {} (ödünçte: {})", basliklar[i], yazarlar[i], oduncte[i]);
     }
 }
 ```
@@ -69,22 +69,22 @@ code: |
       basliklar.sort();
 
       for i in 0..basliklar.len() {
-          println!("{} — {}", basliklar[i], yazarlar[i]);
+          println!("{} - {}", basliklar[i], yazarlar[i]);
       }
   }
 options:
   - |
-    Beyaz Kale — Orhan Pamuk
-    Kürk Mantolu Madonna — Sabahattin Ali
-    Tutunamayanlar — Oğuz Atay
+    Beyaz Kale - Orhan Pamuk
+    Kürk Mantolu Madonna - Sabahattin Ali
+    Tutunamayanlar - Oğuz Atay
   - |
-    Beyaz Kale — Oğuz Atay
-    Kürk Mantolu Madonna — Sabahattin Ali
-    Tutunamayanlar — Orhan Pamuk
+    Beyaz Kale - Oğuz Atay
+    Kürk Mantolu Madonna - Sabahattin Ali
+    Tutunamayanlar - Orhan Pamuk
   - |
-    Tutunamayanlar — Oğuz Atay
-    Kürk Mantolu Madonna — Sabahattin Ali
-    Beyaz Kale — Orhan Pamuk
+    Tutunamayanlar - Oğuz Atay
+    Kürk Mantolu Madonna - Sabahattin Ali
+    Beyaz Kale - Orhan Pamuk
   - "Derlenmez: `yazarlar` da sıralanmalı"
 answer: 1
 explanation: |
@@ -413,9 +413,9 @@ difficulty: 2
 prompt: |
   Nesrin Hanım bir sorun fark etti: aynı demirbaş koduyla iki kitap eklenebiliyor. İki metodu tamamla:
 
-  - `ekle(&mut self, kitap: Kitap) -> bool` — kütüphanede **aynı `kod`'a sahip** bir kitap varsa
+  - `ekle(&mut self, kitap: Kitap) -> bool`, kütüphanede **aynı `kod`'a sahip** bir kitap varsa
     kitabı eklemez ve `false` döndürür; yoksa vektöre ekler ve `true` döndürür.
-  - `musait_sayisi(&self) -> usize` — **rafta olan** (ödünçte olmayan) kitapların sayısını döndürür.
+  - `musait_sayisi(&self) -> usize`, **rafta olan** (ödünçte olmayan) kitapların sayısını döndürür.
 starter: |
   #[derive(Debug)]
   struct Kitap {
@@ -840,10 +840,10 @@ difficulty: 3
 prompt: |
   `odunc_ver` hazır. İki metodu tamamla:
 
-  - `iade_et(&mut self, kod: u32) -> bool` — kitap varsa **ve ödünçteyse** rafa geri koyar (`oduncte = false`)
+  - `iade_et(&mut self, kod: u32) -> bool`, kitap varsa **ve ödünçteyse** rafa geri koyar (`oduncte = false`)
     ve `true` döndürür. Kitap yoksa ya da zaten raftaysa `false` döndürür. İade, `okunma_sayisi`'ni
     **değiştirmez**.
-  - `kaldir(&mut self, kod: u32) -> bool` — yıpranan bir kitabı envanterden siler. Ama **ödünçteki** bir
+  - `kaldir(&mut self, kod: u32) -> bool`, yıpranan bir kitabı envanterden siler. Ama **ödünçteki** bir
     kitap silinemez (okurun elindeki kitabı kayıttan düşemeyiz!). Kitap rafta ise vektörden çıkarır ve
     `true` döndürür; yoksa ya da ödünçteyse `false` döndürür.
 starter: |
@@ -1136,7 +1136,7 @@ impl Kutuphane {
     fn listele(&self) -> String {
         let mut rapor = format!("== {} ==\n", self.ad);
         for k in &self.kitaplar {
-            let satir = format!("#{} {} ({}) — {}\n", k.kod, k.baslik, k.yazar, k.durum());
+            let satir = format!("#{} {} ({}) - {}\n", k.kod, k.baslik, k.yazar, k.durum());
             rapor.push_str(&satir);
         }
         rapor
@@ -1212,9 +1212,9 @@ prompt: |
   Belediye, kütüphaneden aylık bir istatistik raporu istiyor. İki metot yaz (imzaları sen yazacaksın,
   `main`'deki ve testlerdeki kullanıma bak):
 
-  - `yazarin_kitaplari` — bir yazarın adını `&str` olarak alır ve o yazarın kütüphanedeki kitaplarının
+  - `yazarin_kitaplari`, bir yazarın adını `&str` olarak alır ve o yazarın kütüphanedeki kitaplarının
     **başlıklarını**, eklenme sırasıyla, bir `Vec<String>` olarak döndürür. Yazarın kitabı yoksa boş vektör.
-  - `en_cok_okunan` — `okunma_sayisi` en yüksek kitabın **başlığını** `String` olarak döndürür. Eşitlik
+  - `en_cok_okunan`, `okunma_sayisi` en yüksek kitabın **başlığını** `String` olarak döndürür. Eşitlik
     varsa **önce eklenen** kazanır. Kütüphane boşsa ya da hiçbir kitap hiç okunmamışsa (hepsi 0) boş bir
     `String` döndürür.
 

@@ -1,4 +1,4 @@
-// /oyun-alani — free Rust playground: snippets as tabs, templates, run / test / compile, stdin
+// /oyun-alani - free Rust playground: snippets as tabs, templates, run / test / compile, stdin
 // (local backend only) and copy-to-share.
 import { useCallback, useMemo, useRef, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import clsx from 'clsx';

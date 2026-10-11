@@ -151,14 +151,14 @@ zamanında vardır:
 ```memory
 title: Newtype bellekte ek yer kaplamaz
 steps:
-  - caption: "`let v = vec![...];` — `v` bir `Vec<String>`: stack'te 24 bayt (işaretçi, uzunluk, kapasite), elemanlar heap'te."
+  - caption: "`let v = vec![...];`, `v` bir `Vec<String>`: stack'te 24 bayt (işaretçi, uzunluk, kapasite), elemanlar heap'te."
     stack:
       - frame: main
         vars:
           - { name: v, type: "Vec<String>", value: "ptr · len=2 · cap=2", to: h1 }
     heap:
       - { id: h1, value: "[\"simit\"] [\"ayran\"]" }
-  - caption: "`let sepet = Sepet(v);` — `v` sepetin içine **taşındı**. `sepet` de 24 bayttır; aynı üç değer, aynı heap verisi. Fark yalnızca tipin adında: artık `Display` uygulayabiliyoruz."
+  - caption: "`let sepet = Sepet(v);`, `v` sepetin içine **taşındı**. `sepet` de 24 bayttır; aynı üç değer, aynı heap verisi. Fark yalnızca tipin adında: artık `Display` uygulayabiliyoruz."
     stack:
       - frame: main
         vars:
@@ -683,7 +683,7 @@ tests: |
       assert_eq!(l.to_string(), "elma ve armut", "ekle hem &str hem String kabul etmeli");
   }
 hints:
-  - "`ekle`: `self.0.push(oge.into());` — `uzunluk`: `self.0.len()`. Newtype'ın içine `.0` ile ulaşılır."
+  - "`ekle`: `self.0.push(oge.into());`, `uzunluk`: `self.0.len()`. Newtype'ın içine `.0` ile ulaşılır."
   - "`fmt`'de `match self.0.len()` ile üç durum ayır: `0`, `1` ve `n` (geri kalan her şey). İlk ikisi tek bir `write!`."
   - "`n` dalında önce ilk öğeyi yaz (`write!(f, \"{}\", ogeler[0])?;`), sonra ortadaki öğeleri dilimle dolaş: `for oge in &ogeler[1..n - 1] { write!(f, \", {oge}\")?; }`. Son olarak `write!(f, \" ve {}\", ogeler[n - 1])` ile bitir. Döngüdeki `write!`'lardan sonra `?` koymayı unutma."
 explanation: |

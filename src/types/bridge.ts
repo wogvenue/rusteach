@@ -21,7 +21,7 @@ export interface RunResult {
   timedOut: boolean;
   durationMs: number;
   backend: 'local' | 'online';
-  infraError?: string; // could not run at all (offline, playground down...) — show a friendly message
+  infraError?: string; // could not run at all (offline, playground down...) - show a friendly message
 }
 
 export interface ToolchainInfo {

@@ -265,7 +265,7 @@ Python'daki `for not in notlar:` ile aynı fikir. C'deki `for (int i = 0; i < 4;
 koşul ve artırma üçlüsü **yoktur**; Rust'ın `for`'u her zaman bir şeyin üzerinden geçer.
 
 ```memory
-title: for not in notlar — tur tur
+title: "for not in notlar: tur tur"
 steps:
   - caption: Döngüden önce `toplam` 0.
     stack:
@@ -724,8 +724,8 @@ prompt: |
   Bir sayı 1'den büyükse ve yalnızca 1'e ve kendisine bölünebiliyorsa **asaldır**: 2, 3, 5, 7, 11...
   İnternetteki şifrelemenin (HTTPS) temelinde dev asal sayılar yatar. İki fonksiyon yaz:
 
-  1. `asal_mi(n: u32) -> bool` — `n` asalsa `true` döndürsün. 0 ve 1 asal değildir.
-  2. `asal_sayisi(sinir: u32) -> u32` — 0'dan `sinir`'e kadar (`sinir` dahil) kaç asal sayı olduğunu
+  1. `asal_mi(n: u32) -> bool` - `n` asalsa `true` döndürsün. 0 ve 1 asal değildir.
+  2. `asal_sayisi(sinir: u32) -> u32` - 0'dan `sinir`'e kadar (`sinir` dahil) kaç asal sayı olduğunu
      döndürsün. İçinde `asal_mi` fonksiyonunu kullan.
 
   Örnek: 10'a kadar 4 asal sayı vardır (2, 3, 5, 7).
@@ -859,13 +859,13 @@ answer: |
 
 ```flashcards
 - front: Bir `loop`'tan nasıl değer döndürülür?
-  back: "`break deger;` ile: `let x = loop { ... break 42; };` — `loop` da bir ifadedir."
+  back: "`break deger;` ile: `let x = loop { ... break 42; };`, `loop` da bir ifadedir."
 - front: "`while` döngüsünden neden `break` ile değer döndürülemez (`E0571`)?"
   back: "`while` daha ilk turdan önce bitebilir; o zaman döngünün değeri belirsiz kalırdı. Yalnızca `loop` her zaman `break` ile biter."
 - front: "`1..5` ve `1..=5` aralıkları hangi sayıları üretir?"
   back: "`1..5`: 1, 2, 3, 4 (son hariç). `1..=5`: 1, 2, 3, 4, 5 (son dahil)."
 - front: 3'ten 1'e geri sayan bir `for` döngüsü nasıl yazılır?
-  back: "`for i in (1..=3).rev()` — parantezler şart; yoksa `.rev()` yalnızca `3`'e uygulanır (`E0689`)."
+  back: "`for i in (1..=3).rev()`, parantezler şart; yoksa `.rev()` yalnızca `3`'e uygulanır (`E0689`)."
 - front: "`continue` ile `break` arasındaki fark nedir?"
   back: "`continue` yalnızca bu turun geri kalanını atlayıp sıradaki tura geçer; `break` döngüyü tamamen bitirir."
 - front: İç içe iki döngüde, içteki döngüden dıştakini nasıl bitirirsin?

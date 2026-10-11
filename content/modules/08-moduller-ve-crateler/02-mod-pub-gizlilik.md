@@ -16,7 +16,7 @@ Bir bankanın yazılımında hesabının bakiyesini doğrudan değiştirebildiğ
 yatırma ve çekme işlemleriyle, kurallara uyarak değişir.
 
 Rust'ta bu korumayı **gizlilik (privacy)** kuralları sağlar. Bu derste `pub`'ın tam olarak neyi
-açtığını — ve neyi **açmadığını** — öğreneceksin. Ders sonunda bakiyesine dışarıdan kimsenin
+açtığını, ve neyi **açmadığını**, öğreneceksin. Ders sonunda bakiyesine dışarıdan kimsenin
 dokunamadığı bir banka hesabı tasarlayacaksın.
 
 ## Varsayılan: her şey gizli
@@ -40,7 +40,7 @@ error: E0603
 explanation: |
   `faiz_hesapla`'nın başında `pub` yok. Rust'ta bir modülün içindeki her öğe **varsayılan olarak
   gizlidir (private)**. `main` ise `banka` modülünün dışında duruyor, bu yüzden fonksiyonu göremez:
-  **E0603 — function `faiz_hesapla` is private**.
+  **E0603 - function `faiz_hesapla` is private**.
 ```
 
 Derleyicinin tam mesajı şöyle:
@@ -60,7 +60,7 @@ note: the function `faiz_hesapla` is defined here
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 Okuma sırası: **1)** hata kodu ve özet (gizli bir fonksiyon), **2)** `^^^` işaretleri yolun **hangi
-halkasının** gizli olduğunu gösterir, **3)** `note` satırı öğenin nerede tanımlandığını söyler —
+halkasının** gizli olduğunu gösterir, **3)** `note` satırı öğenin nerede tanımlandığını söyler,
 `pub` eklemeye karar verirsen gideceğin yer orasıdır.
 :::
 
@@ -133,7 +133,7 @@ fn main() {
 }
 ```
 
-`super::okul_kodu()` yolundaki `super` "bir üst modül" demektir — dosya sistemindeki `..` gibi.
+`super::okul_kodu()` yolundaki `super` "bir üst modül" demektir, dosya sistemindeki `..` gibi.
 Yolları bir sonraki derste ayrıntılı göreceğiz. Şimdilik kimin neyi gördüğüne odaklan:
 
 | Kim bakıyor? | `okul_kodu` (gizli, `okul` içinde) | `sinif::yoklama` (`pub`, `sinif` içinde) |
@@ -143,7 +143,7 @@ Yolları bir sonraki derste ayrıntılı göreceğiz. Şimdilik kimin neyi görd
 | crate kökündeki `main` | ❌ gizli ve `okul`'un içinde | ✅ yoldaki her halka açık |
 
 Son satır, geçen dersteki soruyu da cevaplıyor: `mod okul`'un başında `pub` yok ama `main` onu
-görebiliyor. Çünkü `okul` **crate kökünde** tanımlanmış gizli bir öğe ve `main` de crate kökünde —
+görebiliyor. Çünkü `okul` **crate kökünde** tanımlanmış gizli bir öğe ve `main` de crate kökünde,
 aynı modüldeler!
 
 :::analogy Filmli araba camı
@@ -369,8 +369,8 @@ fn main() {
     let siir = kutuphane::Kitap::yeni("Han Duvarları", kutuphane::Tur::Siir, 3);
 
     roman.baslik.push_str(" (Sabahattin Ali)"); // pub alan: okunur ve değiştirilir
-    println!("{} — {}", roman.baslik, tur_adi(&roman));
-    println!("{} — {}, stok: {}", siir.baslik, tur_adi(&siir), siir.stok());
+    println!("{} - {}", roman.baslik, tur_adi(&roman));
+    println!("{} - {}, stok: {}", siir.baslik, tur_adi(&siir), siir.stok());
 
     println!("İlk ödünç: {}", roman.odunc_ver());
     println!("İkinci ödünç: {}", roman.odunc_ver());
@@ -503,7 +503,7 @@ steps:
         vars:
           - { name: roman.baslik, type: String, value: "ptr | len | cap", to: h1, mut: true, note: pub }
           - { name: roman.tur, type: Tur, value: Roman, note: pub }
-          - { name: roman.stok, type: u32, value: "1", note: "gizli — yalnızca kutuphane modülü dokunur" }
+          - { name: roman.stok, type: u32, value: "1", note: "gizli, yalnızca kutuphane modülü dokunur" }
     heap:
       - { id: h1, value: "Kürk Mantolu Madonna (Sabahattin Ali)" }
 ```
@@ -808,7 +808,7 @@ explanation: |
 
   `can` alanı ise bilerek gizli kaldı. Böylece "can 0'ın altına inmez ve yalnızca hasarla azalır" kuralı
   sadece `hasar_al`'ın içinde yaşıyor; başka hiçbir kod onu çiğneyemez. `ad` için `pub` yerine bir
-  `ad()` okuma metodu da yazabilirdin — bu, adı da salt okunur yapardı. "En az `pub`" ilkesi:
+  `ad()` okuma metodu da yazabilirdin - bu, adı da salt okunur yapardı. "En az `pub`" ilkesi:
   dışarının **ihtiyaç duyduğu** kadarını aç.
 ```
 

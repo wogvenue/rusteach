@@ -70,8 +70,8 @@ struct Nokta<T, U> {
 
 fn main() {
     let a = Nokta { x: 5, y: 4.0 }; // Nokta<i32, f64>
-    let b = Nokta { x: "e", y: 4 }; // Nokta<&str, i32> — satranç karesi: e4
-    let c = Nokta { x: 'k', y: 'k' }; // Nokta<char, char> — T ile U aynı da olabilir
+    let b = Nokta { x: "e", y: 4 }; // Nokta<&str, i32> - satranç karesi: e4
+    let c = Nokta { x: 'k', y: 'k' }; // Nokta<char, char> - T ile U aynı da olabilir
     println!("a: ({}, {})", a.x, a.y);
     println!("b: {}{}", b.x, b.y);
     println!("c: {}{}", c.x, c.y);
@@ -150,7 +150,7 @@ question: |
   kullanmazsan ne olur?
 options:
   - Derlenir; `T` varsayılan olarak `i32` olur
-  - "`E0282`: tip notasyonu gerekir — `Bekliyor` varyantı `T` hakkında hiçbir ipucu taşımıyor"
+  - "`E0282`: tip notasyonu gerekir, `Bekliyor` varyantı `T` hakkında hiçbir ipucu taşımıyor"
   - Derlenir; veri taşımayan varyantların tipi olmaz
 answer: 1
 explanation: |
@@ -205,11 +205,11 @@ fn main() {
 
 İki farklı `impl` bloğu var:
 
-- **`impl<T> Nokta<T>`** — `impl`'den sonraki `<T>`, tıpkı fonksiyonlardaki gibi bir **bildirimdir**:
+- **`impl<T> Nokta<T>`**, `impl`'den sonraki `<T>`, tıpkı fonksiyonlardaki gibi bir **bildirimdir**:
   “şimdi `T` adında bir tip parametresi tanıtıyorum.” Ardından gelen `Nokta<T>` bu `T`'yi **kullanır**.
   `<T>`'yi `impl`'den sonra yazmayı unutursan derleyici `T`'yi gerçek bir tip adı sanar ve
   `cannot find type T in this scope` der. Bu bloktaki metotlar **her** `Nokta<T>` için vardır.
-- **`impl Nokta<f64>`** — burada `<T>` bildirilmiyor; somut bir tip yazıyoruz. Bu blok yalnızca
+- **`impl Nokta<f64>`**, burada `<T>` bildirilmiyor; somut bir tip yazıyoruz. Bu blok yalnızca
   `Nokta<f64>` için geçerlidir. `sqrt` yalnızca ondalıklı sayılarda olduğundan bu metodun `Nokta<char>`'da
   olması zaten anlamsız olurdu.
 
@@ -339,7 +339,7 @@ options:
   - "p3.x = 5, p3.y = c"
   - "p3.x = 5, p3.y = 10.4"
   - "p3.x = Merhaba, p3.y = c"
-  - Derlenmez — bir metot yeni tip parametreleri bildiremez
+  - Derlenmez, bir metot yeni tip parametreleri bildiremez
 answer: 0
 explanation: |
   `p1` bir `Nokta<i32, f64>`, `p2` bir `Nokta<String, char>`. `karistir` `self`'ten `x`'i (`5`), `diger`'den
@@ -352,7 +352,7 @@ Değişkenlerin kapsamı gibi düşün: `X1`, `Y1` bütün `impl` bloğunda geç
 olarak** (sahipliğini alarak) kabul ediyor:
 
 ```memory
-title: p1.karistir(p2) — sahiplik nereye gitti?
+title: "p1.karistir(p2): sahiplik nereye gitti?"
 steps:
   - caption: "Çağrıdan önce: `p1` tamamen stack'te; `p2.x` bir `String`, karakterleri heap'te."
     stack:
@@ -436,14 +436,14 @@ her misafir için boşluğu doldurup **ayrı, gerçek davetiyeler** basar. Davet
 kalıp değil, kendi adının basılı olduğu kartı görür.
 
 Generic kod kalıptır; monomorfizasyon matbaadır. Derleyici `Nokta<i32>` ve `Nokta<f64>` için ayrı ayrı,
-tamamen somut kod “basar”. Program çalışırken ortada kalıp yoktur, yalnızca baskılar vardır — bu yüzden
+tamamen somut kod “basar”. Program çalışırken ortada kalıp yoktur, yalnızca baskılar vardır, bu yüzden
 hiçbir ek maliyet de yoktur. Bedeli mi? Her misafire ayrı baskı yapıldığı için **kâğıt** (programın
 dosya boyutu) ve **baskı süresi** (derleme süresi) artar.
 :::
 
 Her somut tip gerçekten ayrı bir tiptir ve **kendi bellek düzenine** sahiptir. Bunu kendi gözünle gör:
 `std::mem::size_of::<T>()` bir tipin kaç bayt yer kapladığını söyler. (Argümanı olmayan bir generic
-fonksiyon — turbofish şart! Bellek düzenini Modül 24'te derinlemesine göreceğiz.)
+fonksiyon, turbofish şart! Bellek düzenini Modül 24'te derinlemesine göreceğiz.)
 
 ```rust
 # #![allow(dead_code)]
@@ -465,7 +465,7 @@ fn main() {
 ```memory
 title: Nokta<i32> ve Nokta<String> bellekte
 steps:
-  - caption: "`a` 8 bayttır ve tamamen stack'tedir. `b` 48 bayttır: içindeki iki `String`'in her biri 24 baytlık bir başlıktır (işaretçi, uzunluk, kapasite); karakterler heap'tedir. Hiçbir kutulama yok — değerler doğrudan struct'ın içinde duruyor."
+  - caption: "`a` 8 bayttır ve tamamen stack'tedir. `b` 48 bayttır: içindeki iki `String`'in her biri 24 baytlık bir başlıktır (işaretçi, uzunluk, kapasite); karakterler heap'tedir. Hiçbir kutulama yok, değerler doğrudan struct'ın içinde duruyor."
     stack:
       - frame: main
         vars:
@@ -484,7 +484,7 @@ yapar; Rust'ın farkı, 1. derste gördüğün gibi gövdeyi önceden sınırlar
 
 Rust'ın tasarım ilkesi buna **sıfır maliyetli soyutlama (zero-cost abstraction)** der: *kullanmadığın
 şeyin bedelini ödemezsin; kullandığın şeyi de elle daha iyi yazamazdın.* Tek kopya kodla çalışma anında
-karar veren alternatifi — trait nesneleri (`dyn Trait`) — Modül 20'de göreceksin.
+karar veren alternatifi, trait nesneleri (`dyn Trait`), Modül 20'de göreceksin.
 
 ```quiz
 question: Monomorfizasyonun gerçek bedeli nedir?
@@ -502,7 +502,7 @@ feedback:
   - Çalışma zamanında tip kontrolü yoktur; tipler derlemede kesinleşir.
   - "`Nokta<i32>` tamamen stack'te durur; heap'e yalnızca `String` gibi tiplerin kendi verisi gider."
   - Doğru! Bedel derleme süresi ve dosya boyutunda ödenir.
-  - Tersine — her kopya, o tipe özel yazılmış gibi ayrıca optimize edilir.
+  - Tersine, her kopya, o tipe özel yazılmış gibi ayrıca optimize edilir.
 ```
 
 ## Alıştırma: generic bir yığın
@@ -513,7 +513,7 @@ title: "Geri Al (Ctrl+Z) yığını"
 difficulty: 3
 prompt: |
   Bir metin editörü için **geri alma geçmişi** tutacaksın. Geçmiş bir **yığın (stack)** olmalı: en son
-  eklenen işlem ilk geri alınır (LIFO — *last in, first out*). Yığın generic olsun ki aynı yapı editörde
+  eklenen işlem ilk geri alınır (LIFO - *last in, first out*). Yığın generic olsun ki aynı yapı editörde
   metinler (`String`), bir çizim programında renk kodları (`u32`) için de kullanılabilsin.
 
   `Yigin<T>` struct'ı hazır. Sen `impl<T> Yigin<T>` bloğunu yaz ve şu metotları ekle:
@@ -627,13 +627,13 @@ hints:
   - "`Vec`'in hazır metotları işini görür: `push`, `pop` (zaten `Option<T>` döndürür), `len`, `is_empty`."
   - "`tepe` için `self.elemanlar.last()` kullan: son elemana `Option<&T>` olarak bakar, çıkarmaz."
 explanation: |
-  Yığın, `Vec<T>`'nin üstünde ince bir katman — ama **anlamlı bir arayüz**: kullanan kişi yığının ortasına
+  Yığın, `Vec<T>`'nin üstünde ince bir katman - ama **anlamlı bir arayüz**: kullanan kişi yığının ortasına
   dokunamaz, yalnızca tepeyle çalışır. Hiçbir metotta `T` hakkında bir şey varsaymadık (karşılaştırma,
   kopyalama, yazdırma yok); bu yüzden `impl<T>` bloğu **hiçbir trait sınırı** istemedi.
 
   İmzalar sahipliği net anlatıyor: `ekle` değerin sahipliğini **alır** (`T`), `geri_al` sahipliği çağırana
   **geri verir** (`Option<T>`), `tepe` ise yalnızca **ödünç verir** (`Option<&T>`). Testlerde aynı kodun
-  hem `String` hem `u32` hem `i32` ile çalıştığını gördün — üç ayrı kopya da monomorfizasyonla üretildi.
+  hem `String` hem `u32` hem `i32` ile çalıştığını gördün - üç ayrı kopya da monomorfizasyonla üretildi.
 
   Not: `Yigin { elemanlar: Vec::new() }` yerine `Self { elemanlar: Vec::new() }` da yazabilirdin.
 ```
@@ -641,7 +641,7 @@ explanation: |
 ## Özet
 
 :::remember
-- `struct Ad<T> { alan: T }`, `enum Ad<T> { A(T), B }` — tip parametresi addan sonra bildirilir.
+- `struct Ad<T> { alan: T }`, `enum Ad<T> { A(T), B }`, tip parametresi addan sonra bildirilir.
   `Option<T>`, `Result<T, E>`, `Vec<T>`, `HashMap<K, V>` hep bu şekilde tanımlanmıştır.
 - `impl<T> Ad<T> { ... }` → metotlar **her** `T` için; `impl Ad<f64> { ... }` → yalnızca o somut tip için.
 - Metotlar kendi tip parametrelerini bildirebilir: `fn karistir<X2, Y2>(self, ...)`.
@@ -667,7 +667,7 @@ answer: |
 ```flashcards
 - front: "`impl<T> Nokta<T>` satırında `impl`'den hemen sonraki `<T>` ne işe yarar?"
   back: "`T`'yi tip parametresi olarak **bildirir**. Yazılmazsa derleyici `T`'yi somut bir tip adı sanar ve bulamaz."
-- front: "`impl Nokta<f64> { fn uzaklik(&self) -> f64 {...} }` — `uzaklik` hangi değerlerde çağrılabilir?"
+- front: "`impl Nokta<f64> { fn uzaklik(&self) -> f64 {...} }`, `uzaklik` hangi değerlerde çağrılabilir?"
   back: "Yalnızca `Nokta<f64>` değerlerinde. `Nokta<i32>` üzerinde çağırmak `E0599` verir."
 - front: "`struct Nokta<T> { x: T, y: T }` ile `Nokta { x: 5, y: 4.0 }` neden derlenmez?"
   back: "Tek `T` var; iki alan aynı tipte olmalı (`E0308`). Farklı tipler için `Nokta<T, U>` gerekir."
@@ -677,6 +677,6 @@ answer: |
   back: Çalışma zamanında değil; derleme süresinde ve ikili (binary) dosya boyutunda.
 - front: "`let d = Indirme::Bekliyor;` neden tek başına derlenmez?"
   back: "`Bekliyor` varyantı `T` taşımaz; derleyici `T`'yi çıkaramaz (`E0282`). `let d: Indirme<u64> = ...` yaz."
-- front: "`fn karistir<X2, Y2>(self, diger: Nokta<X2, Y2>) -> Nokta<X1, Y2>` — `X1` ve `X2` kime aittir?"
+- front: "`fn karistir<X2, Y2>(self, diger: Nokta<X2, Y2>) -> Nokta<X1, Y2>`, `X1` ve `X2` kime aittir?"
   back: "`X1` struct'a (`impl<X1, Y1>` ile bildirildi), `X2` yalnızca `karistir` metoduna."
 ```

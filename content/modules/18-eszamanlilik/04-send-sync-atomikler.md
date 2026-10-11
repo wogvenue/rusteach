@@ -586,7 +586,7 @@ tests: |
   #[test]
   fn cok_isci_cok_istek() {
       let isciler: Vec<Vec<u16>> = (0..8).map(|i| vec![if i % 2 == 0 { 200 } else { 503 }; 1000]).collect();
-      assert_eq!(istatistik(isciler), (8000, 4000), "8 işçi × 1000 istek; yarısı 503 — hiçbir artış kaybolmamalı");
+      assert_eq!(istatistik(isciler), (8000, 4000), "8 işçi × 1000 istek; yarısı 503 - hiçbir artış kaybolmamalı");
   }
 
   #[test]
@@ -600,7 +600,7 @@ hints:
   - "Bütün tutamaçları `join` ettikten sonra `(toplam.load(Ordering::Relaxed), hata.load(Ordering::Relaxed))` döndür."
 forbid:
   - pattern: "Mutex"
-    message: Bu alıştırmada kilit yok — atomik sayaçlarla çöz.
+    message: Bu alıştırmada kilit yok, atomik sayaçlarla çöz.
 require:
   - pattern: "fetch_add"
     message: "Sayaçları `fetch_add` ile atomik olarak artır."
@@ -634,7 +634,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — Rust derleyicisi thread'leri "bilmediği" hâlde veri yarışlarını nasıl
+  Kendi cümlelerinle açıkla - Rust derleyicisi thread'leri "bilmediği" hâlde veri yarışlarını nasıl
   derleme zamanında engelleyebiliyor?
 answer: |
   Engelleme iki parçanın birleşiminden doğuyor. Birincisi sahiplik ve ödünç alma kuralları: bir değeri

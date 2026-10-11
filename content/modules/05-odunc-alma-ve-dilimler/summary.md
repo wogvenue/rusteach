@@ -2,7 +2,7 @@
 title: "Özet Kartı: Ödünç Alma ve Dilimler"
 ---
 
-# Ödünç Alma ve Dilimler — Özet Kartı
+# Ödünç Alma ve Dilimler: Özet Kartı
 
 ## Referans türleri
 
@@ -10,7 +10,7 @@ title: "Özet Kartı: Ödünç Alma ve Dilimler"
 |-----------|--------|-----|
 | `&x` | `x`'e **değişmez** referans (okumak için ödünç) | Sahiplik taşınmaz; `&T` `Copy`'dir |
 | `&mut x` | `x`'e **değiştirilebilir** referans | `x` `let mut` olmalı; `&mut T` `Copy` değildir |
-| `*r` | Referansın gösterdiği değer (çözümleme) | `*r += 1;` — metot çağrılarında otomatik: `r.len()` |
+| `*r` | Referansın gösterdiği değer (çözümleme) | `*r += 1;`, metot çağrılarında otomatik: `r.len()` |
 | `&s[a..b]` | `String` / `&str` dilimi → `&str` | İndeksler **bayt** sayar, `b` hariç |
 | `&v[a..b]` | Dizi/vektör dilimi → `&[T]` | İndeksler **eleman** sayar |
 | `&mut v[a..b]` | Değiştirilebilir dilim → `&mut [T]` | Bir bölümü yerinde değiştirir |

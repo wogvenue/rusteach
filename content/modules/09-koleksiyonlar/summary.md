@@ -1,6 +1,6 @@
-# Özet Kartı — Koleksiyonlar
+# Özet Kartı: Koleksiyonlar
 
-## `Vec<T>` — büyüyebilen dizi
+## `Vec<T>`: büyüyebilen dizi
 
 | İş | Kod | Not |
 |---|---|---|
@@ -15,7 +15,7 @@
 - `Copy` olmayan bir elemanı indeksle dışarı taşıyamazsın (**E0507**): `&v[i]`, `v[i].clone()` ya da `v.remove(i)` kullan.
 - Farklı türde verileri bir arada tutmak için bir `enum` tanımla, sonra `Vec<Enum>` kullan.
 
-## `String` — UTF-8 metin
+## `String`: UTF-8 metin
 
 | | `String` | `&str` |
 |---|---|---|
@@ -29,7 +29,7 @@
 - Araçlar: `trim`, `split_whitespace`, `contains`, `replace`, `to_uppercase` / `to_lowercase`.
 - **Türkçe tuzağı**: `"i".to_uppercase()` sonucu `"I"` olur, `"İ"` değil. `"I".to_lowercase()` sonucu da `"i"` olur, `"ı"` değil.
 
-## `HashMap<K, V>` — anahtar → değer
+## `HashMap<K, V>`: anahtar → değer
 
 ```rust
 use std::collections::HashMap;

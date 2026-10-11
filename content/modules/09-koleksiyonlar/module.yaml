@@ -1,6 +1,6 @@
 id: m09
 title: Koleksiyonlar
-subtitle: Vec, String, HashMap ve dostları — veriyi toplamak, aramak, sıralamak
+subtitle: "Vec, String, HashMap ve dostları: veriyi toplamak, aramak, sıralamak"
 icon: "🧺"
 description: |
   Gerçek programlar tek bir değerle değil, değer yığınlarıyla çalışır: öğrenci listeleri, stok

@@ -32,7 +32,7 @@ export default function XpChart({ days, goal, className }: { days: XpDay[]; goal
 
   const facts = [
     { label: 'Toplam', value: `${formatNumber(sum.total)} XP` },
-    { label: 'Aktif gün başına', value: sum.perActiveDay ? `${formatNumber(sum.perActiveDay)} XP` : '—' },
+    { label: 'Aktif gün başına', value: sum.perActiveDay ? `${formatNumber(sum.perActiveDay)} XP` : '-' },
     { label: 'Hedef günü', value: `${sum.goalDays}/${days.length}` },
   ];
 
@@ -50,7 +50,7 @@ export default function XpChart({ days, goal, className }: { days: XpDay[]; goal
             { key: 'xp', label: 'XP', align: 'right' },
             { key: 'goal', label: 'Hedef', align: 'right' },
           ]}
-          rows={[...days].reverse().map((d) => ({ date: longDate(d.key), xp: formatNumber(d.xp), goal: d.goalMet && d.xp > 0 ? 'Ulaşıldı' : '—' }))}
+          rows={[...days].reverse().map((d) => ({ date: longDate(d.key), xp: formatNumber(d.xp), goal: d.goalMet && d.xp > 0 ? 'Ulaşıldı' : '-' }))}
         />
       }
     >

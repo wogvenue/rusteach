@@ -2,7 +2,7 @@
 title: "Özet Kartı: Modüller, Paketler ve Crate'ler"
 ---
 
-# Modüller, Paketler ve Crate'ler — Özet Kartı
+# Modüller, Paketler ve Crate'ler: Özet Kartı
 
 ## Üç katman
 
@@ -183,6 +183,6 @@ re.replace_all(metin, "$3-$2-$1");
 | `E0255` | `use` edilen ad aynı modüldeki bir tanımla çakışıyor | `as` ile takma ad |
 | `E0364` | `pub use` öğeyi kendi görünürlüğünden geniş açıyor | öğeyi `pub` yap ya da vitrini daralt (`pub(crate) use`) |
 | `E0659` | iki glob aynı adı getiriyor | adı açıkça `use` et |
-| `E0583` | `mod ad;` için dosya yok — ya da `use` yerine `mod` yazıldı | dosyayı oluştur / `use crate::...` |
+| `E0583` | `mod ad;` için dosya yok, ya da `use` yerine `mod` yazıldı | dosyayı oluştur / `use crate::...` |
 | `E0761` | hem `ad.rs` hem `ad/mod.rs` var | birini sil |
 | `E0428` | aynı modülde aynı ad iki kez | farklı modüllere ayır ya da yeniden adlandır |

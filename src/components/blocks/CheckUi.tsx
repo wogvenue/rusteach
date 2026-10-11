@@ -151,7 +151,7 @@ export function FeedbackPanel({
     if (correct && confidence === 1)
       note = 'Tahminle buldun; bu soruyu tekrar destene ekledik, yakında yeniden sorulacak.';
     else if (!correct && confidence === 3)
-      note = 'Emin olduğun bir yanılgı — bu tür hatalar düzeltildiğinde en kalıcı öğrenme gerçekleşir. Açıklamayı dikkatle oku.';
+      note = 'Emin olduğun bir yanılgı, bu tür hatalar düzeltildiğinde en kalıcı öğrenme gerçekleşir. Açıklamayı dikkatle oku.';
     else if (!correct && revealed) note = 'Bu soru tekrar destene eklendi; birkaç gün içinde yeniden karşına çıkacak.';
   }
   return (

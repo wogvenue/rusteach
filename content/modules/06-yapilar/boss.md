@@ -339,11 +339,11 @@ difficulty: 2
 prompt: |
   Bir rol yapma oyunu için `Karakter` tipini tamamla. `max_can` hazır: 1. seviyede 100, her seviye +20.
 
-  - `new(ad: &str) -> Self` — yeni karakter 1. seviyededir ve canı doludur (100).
-  - `hasar_al(&mut self, miktar: u32)` — canı azaltır ama can **0'ın altına inmez** (`u32` taşmasına dikkat!).
-  - `iyiles(&mut self, miktar: u32)` — canı artırır ama **`max_can()`'i aşamaz**.
-  - `hayatta_mi(&self) -> bool` — can 0'dan büyükse `true`.
-  - `seviye_atla(&mut self)` — seviyeyi bir artırır ve canı yeni seviyenin `max_can()` değerine doldurur.
+  - `new(ad: &str) -> Self`, yeni karakter 1. seviyededir ve canı doludur (100).
+  - `hasar_al(&mut self, miktar: u32)`, canı azaltır ama can **0'ın altına inmez** (`u32` taşmasına dikkat!).
+  - `iyiles(&mut self, miktar: u32)`, canı artırır ama **`max_can()`'i aşamaz**.
+  - `hayatta_mi(&self) -> bool`, can 0'dan büyükse `true`.
+  - `seviye_atla(&mut self)`, seviyeyi bir artırır ve canı yeni seviyenin `max_can()` değerine doldurur.
 starter: |
   #[derive(Debug)]
   struct Karakter {
@@ -497,11 +497,11 @@ difficulty: 3
 prompt: |
   Bir online market için sepet yazıyorsun. Fiyatlar **kuruş** cinsinden (`u64`) tutuluyor. Tamamla:
 
-  - `Sepet::new() -> Self` — boş sepet.
-  - `ekle(&mut self, ad: &str, fiyat: u64, adet: u32)` — sepette **aynı adlı** ürün varsa yeni satır açmaz,
+  - `Sepet::new() -> Self`, boş sepet.
+  - `ekle(&mut self, ad: &str, fiyat: u64, adet: u32)`, sepette **aynı adlı** ürün varsa yeni satır açmaz,
     sadece adedini artırır (fiyat değişmez). Yoksa yeni bir `Urun` ekler.
-  - `toplam(&self) -> u64` — bütün ürünler için `fiyat × adet` toplamı (kuruş).
-  - `cikar(&mut self, ad: &str, adet: u32) -> bool` — üründen `adet` kadar azaltır ve `true` döndürür. Ürün
+  - `toplam(&self) -> u64`, bütün ürünler için `fiyat × adet` toplamı (kuruş).
+  - `cikar(&mut self, ad: &str, adet: u32) -> bool`, üründen `adet` kadar azaltır ve `true` döndürür. Ürün
     yoksa ya da sepetteki adet yetmiyorsa **hiçbir şeyi değiştirmeden** `false` döndürür. Adet 0'a inerse ürün
     sepetten **tamamen silinir**.
 starter: |
@@ -674,7 +674,7 @@ explanation: |
 
 ```exercise
 id: m06-boss-kargo
-title: Kargo takibi — geçersiz durumlar derlenmesin
+title: "Kargo takibi: geçersiz durumlar derlenmesin"
 difficulty: 4
 prompt: |
   Bir kargo şirketi, "henüz kargoya verilmemiş bir siparişin teslim edilmesi" gibi hataların **hiç
@@ -683,10 +683,10 @@ prompt: |
   (`self`), böylece aynı sipariş iki kez kargolanamaz.
 
   - `Siparis::new(no: u32, urun: &str) -> Self`
-  - `kargola(self, sube: u32) -> Kargoda` — takip kodu `"TR"` + sipariş numarası (en az **6 haneli**, soldan
+  - `kargola(self, sube: u32) -> Kargoda`, takip kodu `"TR"` + sipariş numarası (en az **6 haneli**, soldan
     sıfırlı) + `"-"` + şube numarası olmalı. Örnek: sipariş 42, şube 7 → `"TR000042-7"`.
   - `teslim_et(self, alan: &str) -> Teslim`
-  - `ozet(&self) -> String` — örnek: `"#42 Çaydanlık → Zeynep Arslan (TR000042-7)"`
+  - `ozet(&self) -> String`, örnek: `"#42 Çaydanlık → Zeynep Arslan (TR000042-7)"`
 
   `urun` ve takip kodu bir aşamadan diğerine **taşınmalı**: `clone` kullanma.
 starter: |

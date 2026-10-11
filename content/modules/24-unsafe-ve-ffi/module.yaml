@@ -1,6 +1,6 @@
 id: m24
 title: Unsafe Rust ve FFI
-subtitle: Derleyicinin göremediği yerde sorumluluğu almak — ham işaretçiler, C ile konuşmak, bellek düzeni
+subtitle: "Derleyicinin göremediği yerde sorumluluğu almak: ham işaretçiler, C ile konuşmak, bellek düzeni"
 icon: "☢️"
 description: |
   Rust'ın güvenlik garantilerinin altındaki katmana ineceksin: `unsafe`'in beş süper gücünü, ham

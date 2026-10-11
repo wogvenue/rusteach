@@ -35,7 +35,7 @@ content/
 ```yaml
 id: m04                    # m + two-digit number
 title: Sahiplik
-subtitle: Rust'ın kalbi — belleği güvenle yönetmek
+subtitle: "Rust'ın kalbi: belleği güvenle yönetmek"
 icon: "🦀"                 # one emoji
 description: |
   2-4 sentence Turkish description of what the learner will be able to do.
@@ -53,7 +53,7 @@ summary: summary.md
 ## 2. Lesson file format
 
 A lesson is Markdown with YAML front matter. **`## ` (H2) headings split the lesson into
-steps** — the player shows one step at a time ("chunking"); the learner presses *Devam* to
+steps** - the player shows one step at a time ("chunking"); the learner presses *Devam* to
 reveal the next one, and cannot continue until every check in the step is answered.
 Content before the first H2 is the lesson intro (keep it short: a hook + why this matters).
 
@@ -79,7 +79,7 @@ Text, code, checks...
 ...
 ```
 
-Recommended lesson size: **4-7 steps**, 10-15 minutes. Every step should end with — or contain —
+Recommended lesson size: **4-7 steps**, 10-15 minutes. Every step should end with, or contain,
 at least one active element (check, exercise, run-it code). Avoid walls of text: a step is
 roughly 150-400 words of prose plus code/checks.
 
@@ -103,9 +103,9 @@ Kinds:
 | `info`    | background facts |
 | `warning` | pitfalls, common mistakes |
 | `error`   | showing a real compiler error message and how to read it |
-| `analogy` | an everyday-life analogy (elaboration / dual coding) — **use at least one per lesson where a concept is new** |
+| `analogy` | an everyday-life analogy (elaboration / dual coding) - **use at least one per lesson where a concept is new** |
 | `ferris`  | the mascot Ferris (a crab) speaking directly, friendly/encouraging, 1-3 sentences |
-| `deep`    | optional deep dive, collapsed by default ("Derinlemesine") — for curious learners |
+| `deep`    | optional deep dive, collapsed by default ("Derinlemesine") - for curious learners |
 | `remember`| a key rule to memorize, boxed ("Unutma!") |
 
 Callouts may contain markdown and **plain** code fences (static only). Interactive blocks
@@ -127,10 +127,10 @@ The info string controls behaviour (comma separated flags, like rustdoc):
 |------------------------|---------|----------------------|
 | `rust`                 | runnable example; learner can press **Çalıştır** and edit it | compiles and runs with exit code 0 |
 | `rust,norun`           | complete program that must not be run in the app (infinite loop, reads stdin, opens a server, reads files, uses `std::env::args`) | compiles |
-| `rust,compile_fail`    | intentionally broken code (shown with a red "Derlenmez" badge) — the point is the error | **fails** to compile. Add `E0382`-style code to the info string to assert the exact error: `rust,compile_fail,E0382` |
+| `rust,compile_fail`    | intentionally broken code (shown with a red "Derlenmez" badge) - the point is the error | **fails** to compile. Add `E0382`-style code to the info string to assert the exact error: `rust,compile_fail,E0382` |
 | `rust,should_panic`    | compiles, panics at runtime (shown with a "Panik!" badge) | compiles, exits non-zero with `panicked` |
-| `rust,ignore`          | fragment that cannot compile on its own (e.g. a Cargo-project file layout, pseudo code). **Use sparingly** — prefer hidden lines | not checked |
-| `rust,title=src/lib.rs`| optional title shown above the block (can combine with other flags) | — |
+| `rust,ignore`          | fragment that cannot compile on its own (e.g. a Cargo-project file layout, pseudo code). **Use sparingly** - prefer hidden lines | not checked |
+| `rust,title=src/lib.rs`| optional title shown above the block (can combine with other flags) | - |
 
 A block **without `fn main`** is compiled as a library (no Run button, a *Derle* button instead).
 
@@ -159,14 +159,14 @@ no stdin, no files, no network. External crates available online:
 
 Interactive blocks are fenced code blocks whose language is one of the names below and whose
 body is **YAML**. Use YAML block scalars (`|`) for any code or multi-line markdown. Strings that
-contain `: ` or start with special characters (`*`, `&`, `!`, `[`, `{`, `` ` ``, `'`, `"`, `#`, `%`, `@`, `|`, `>`) must be quoted or written as block scalars — when in doubt, use `|`.
+contain `: ` or start with special characters (`*`, `&`, `!`, `[`, `{`, `` ` ``, `'`, `"`, `#`, `%`, `@`, `|`, `>`) must be quoted or written as block scalars - when in doubt, use `|`.
 If a block's YAML contains a line with three backticks, use a four-backtick outer fence.
 
 All markdown fields (question, explanation, prompt, hints, options...) accept markdown incl. `inline code`.
 IDs are generated automatically from position (`<lessonId>-<type>-<n>`); you may set `id:` explicitly
 for exercises if you want a stable name.
 
-#### `quiz` — multiple choice (retrieval practice)
+#### `quiz` - multiple choice (retrieval practice)
 
 ````markdown
 ```quiz
@@ -189,7 +189,7 @@ feedback:                        # optional, one entry per option: why that opti
 Write plausible distractors based on **real misconceptions**. 3-4 options. Explanations must teach,
 not just confirm.
 
-#### `predict` — "Bu kod ne yazdırır?" (predict-then-run, desirable difficulty)
+#### `predict` - "Bu kod ne yazdırır?" (predict-then-run, desirable difficulty)
 
 ````markdown
 ```predict
@@ -221,7 +221,7 @@ Without `options`, the learner types the output; then give `output: |` with the 
 The verifier RUNS the code and checks stdout equals the correct option / `output` (trailing
 whitespace trimmed). Code supports hidden `# ` lines.
 
-#### `compiles` — "Derlenir mi?" (borrow-checker intuition)
+#### `compiles` - "Derlenir mi?" (borrow-checker intuition)
 
 ````markdown
 ```compiles
@@ -239,7 +239,7 @@ explanation: |
 ```
 ````
 
-#### `fill` — fill in the blanks
+#### `fill` - fill in the blanks
 
 ````markdown
 ```fill
@@ -264,7 +264,7 @@ explanation: |
 Blanks are written `___0`, `___1`, ... Answers compare after trimming and removing spaces.
 The verifier substitutes the **first** answer of each blank and requires the program to run (or compile, for libs).
 
-#### `parsons` — put the lines in order
+#### `parsons` - put the lines in order
 
 ````markdown
 ```parsons
@@ -287,7 +287,7 @@ explanation: ...
 Indentation is applied automatically; the learner orders lines. Verifier runs the correct order.
 Keep it to 4-10 lines.
 
-#### `exercise` — write code (generation effect, the core of mastery)
+#### `exercise` - write code (generation effect, the core of mastery)
 
 ````markdown
 ```exercise
@@ -341,12 +341,12 @@ explanation: |               # shown after success: why the solution works, alte
 ````
 
 Check modes:
-- `tests` — the app appends `#[cfg(test)] mod rusteach_tests { use super::*; <tests> }` to the
+- `tests` - the app appends `#[cfg(test)] mod rusteach_tests { use super::*; <tests> }` to the
   learner code and runs `cargo test`. Tests should have **Turkish snake_case names** describing behaviour
   and assertion messages helpful to beginners: `assert_eq!(n, 7, "\"merhaba\" 7 harflidir");`
   Test `pub`/private functions freely (same crate). 2-5 tests including edge cases.
-- `output` — runs the program; stdout (trimmed) must equal `expected_output: |`.
-- `run` — the program must compile and run with exit code 0 (use for "fix the compile error" tasks;
+- `output` - runs the program; stdout (trimmed) must equal `expected_output: |`.
+- `run` - the program must compile and run with exit code 0 (use for "fix the compile error" tasks;
   combine with `forbid`/`require` to prevent trivial cheats).
 
 Rules: `starter` must compile (use `todo!()`/`unimplemented!()` for missing bodies) **unless**
@@ -355,7 +355,7 @@ The starter must NOT already pass the check. The verifier checks: solution passe
 not pass; solution satisfies forbid/require.
 Exercises must only use concepts already taught (see "allowed concepts" in curriculum.yaml).
 
-#### `flashcards` — spaced repetition deck (added to the learner's SRS on lesson completion)
+#### `flashcards` - spaced repetition deck (added to the learner's SRS on lesson completion)
 
 ````markdown
 ```flashcards
@@ -371,7 +371,7 @@ question on the front phrased to force recall (not recognition). Mix: definition
 code-reading (`front` may contain a short code fence via `|`), error codes. Put the
 flashcards block in the LAST step of the lesson (usually a "Özet" step).
 
-#### `memory` — stack/heap diagram (dual coding), optionally animated in steps
+#### `memory` - stack/heap diagram (dual coding), optionally animated in steps
 
 ````markdown
 ```memory
@@ -398,11 +398,11 @@ steps:
 var fields: `name, value, type?, to? (heap id or another var name for references), moved?, mut?, note?`.
 heap fields: `id, value, label?, freed?`. Use these generously in ownership/borrowing/smart pointer lessons.
 
-#### `reflect` — self-explanation / elaborative interrogation
+#### `reflect` - self-explanation / elaborative interrogation
 
 ````markdown
 ```reflect
-prompt: Kendi cümlelerinle açıkla — Rust neden aynı anda iki `&mut` referansa izin vermez?
+prompt: Kendi cümlelerinle açıkla, Rust neden aynı anda iki `&mut` referansa izin vermez?
 answer: |
   Model cevap: Veri yarışlarını (data race) derleme zamanında engellemek için...
 ```
@@ -420,9 +420,9 @@ The module mastery test. Pass threshold **80%**. Structure: a short intro, then 
 2-3 items from earlier modules (spiral review). No new teaching in a boss; explanations still
 required. No flashcards in a boss.
 
-## 4. summary.md — "Özet Kartı" (cheat sheet)
+## 4. summary.md - "Özet Kartı" (cheat sheet)
 
-Plain markdown (no interactive blocks, static code allowed using ```rust,ignore or plain ```rust —
+Plain markdown (no interactive blocks, static code allowed using ```rust,ignore or plain ```rust -
 code is compile-checked unless `ignore`): the module's key rules, syntax, common errors and fixes,
 in a compact scannable format (tables, short bullets, tiny code). ~1-2 screens.
 
@@ -457,6 +457,6 @@ in a compact scannable format (tables, short bullets, tiny code). ~1-2 screens.
   **closure** (keep), **iterator** (keep), **crate** (keep), **makro (macro)**. After that, use the
   term the Rust community in Turkey commonly uses; keep English for words with no good Turkish equivalent.
 - Identifiers in examples: Turkish names are welcome (`ogrenci`, `toplam`, `hesapla`) but must be ASCII
-  (no ç/ş/ğ/ı/ö/ü in identifiers — Rust allows Unicode identifiers but it hurts typing). String
+  (no ç/ş/ğ/ı/ö/ü in identifiers - Rust allows Unicode identifiers but it hurts typing). String
   literals can contain Turkish characters freely.
 - Numbers/format: use `println!("{x}")` inline-args style (modern Rust) mostly.

@@ -1,6 +1,6 @@
 ---
 id: m17-l04
-title: "Rc<T> — paylaşılan sahiplik"
+title: "Rc<T>, paylaşılan sahiplik"
 minutes: 21
 type: lesson
 objectives:
@@ -646,7 +646,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `Rc<T>`, "her değerin tek bir sahibi vardır" kuralını çiğniyor mu? Bellek güvenliğini nasıl koruyor?
+prompt: Kendi cümlelerinle açıkla, `Rc<T>`, "her değerin tek bir sahibi vardır" kuralını çiğniyor mu? Bellek güvenliğini nasıl koruyor?
 answer: |
   Model cevap: Bir anlamda kuralı esnetiyor ama güvenliği bozmuyor. Teknik olarak heap'teki değerin tek
   sahibi `Rc`'nin kutusudur; her `Rc` işaretçisi o kutunun "hissedarı" gibidir ve kutu, sayaç sıfıra
@@ -660,7 +660,7 @@ answer: |
 - front: "`Rc::clone(&a)` heap'teki değeri kopyalar mı?"
   back: "Hayır. Sayacı bir artırır ve aynı kutuyu gösteren yeni bir `Rc` döndürür. Maliyeti bir tamsayı artırımıdır."
 - front: "`Rc::new(x)` hemen sonra `Rc::strong_count` kaçtır?"
-  back: "1 — oluşturan değişken ilk sahiptir."
+  back: "1, oluşturan değişken ilk sahiptir."
 - front: "Neden `a.clone()` yerine `Rc::clone(&a)` yazılır?"
   back: "İkisi aynı işi yapar; `Rc::clone` okuyana \"bu ucuz bir sayaç artırımı, derin kopya değil\" niyetini açıkça gösterir."
 - front: "`E0594: cannot assign to data in an Rc` neden olur?"

@@ -237,7 +237,7 @@ explanation: |
 
 ```exercise
 id: m15-e-build-iterator
-title: Config::build — iterator sürümü
+title: "Config::build: iterator sürümü"
 difficulty: 3
 prompt: |
   `Config::build`'i iterator alan sürümüyle yaz:

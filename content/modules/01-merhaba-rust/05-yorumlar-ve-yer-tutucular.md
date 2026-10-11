@@ -159,7 +159,7 @@ sonraki değerler de boşluklara yazdığın bilgilerdir.
 :::
 
 Peki boşluk sayısı tutmazsa? C'de `printf("%d elma, %d armut\n", 5);` derlenir ve ikinci sayının
-yerine bellekte o an ne varsa onu yazdırır — **tanımsız davranış**. Rust'ta ise program hiç
+yerine bellekte o an ne varsa onu yazdırır, **tanımsız davranış**. Rust'ta ise program hiç
 derlenmez:
 
 :::error
@@ -471,7 +471,7 @@ kullan.**
 :::
 
 Biçim metninde `{{` ekrana `{`, `}}` ekrana `}` yazar. Yani süslü parantezi **iki kez** yazarak
-"kaçırırsın" — tıpkı metinlerde `\\` yazıp tek `\` elde ettiğin gibi.
+"kaçırırsın", tıpkı metinlerde `\\` yazıp tek `\` elde ettiğin gibi.
 
 ```predict
 code: |
@@ -675,7 +675,7 @@ hints:
     `"film"` ve `"salon"` anahtarlarının etrafındaki tırnaklar metnin parçası; onları `\"` ile yaz.
     Film adının tırnakları ise `{film:?}`'den gelecek.
   - |
-    İkinci satırın sonu biraz kalabalık görünür: `\"salon\": {salon}}}` — buradaki ilk `}` yer
+    İkinci satırın sonu biraz kalabalık görünür: `\"salon\": {salon}}}` - buradaki ilk `}` yer
     tutucuyu kapatır, ardından gelen `}}` ise ekrana tek bir `}` yazar.
 explanation: |
   Çözümün ikinci satırını parça parça okuyalım:
@@ -732,7 +732,7 @@ answer: |
 - front: "`{}` ile `{:?}` arasındaki fark nedir?"
   back: "`{}` Display biçimidir (kullanıcı için, temiz). `{:?}` Debug biçimidir (programcı için; metinleri tırnaklı ve kaçış dizileriyle gösterir)."
 - front: "`println!(\"{1} {0}\", \"a\", \"b\");` ne yazdırır?"
-  back: "`b a` — sıra numaraları sıfırdan başlar."
+  back: "`b a`, sıra numaraları sıfırdan başlar."
 - front: Biçim metninde ekrana süslü parantez nasıl yazılır?
   back: "`{{` bir `{`, `}}` bir `}` yazar."
 ```

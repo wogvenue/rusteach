@@ -25,7 +25,7 @@ Bu ders modülün son taşı. Sıralamayı Rust'ın gözünden görünce, başka
 neden burada hiç yaşanmadığını da anlayacaksın. Hadi başlayalım! 🦀
 :::
 
-## `sort` — yerinde sıralama
+## `sort`: yerinde sıralama
 
 Önce tahmin et. Bir manav listesini alfabetik sıraya koymak istiyoruz:
 
@@ -121,7 +121,7 @@ Gerçek Türkçe sıralama (`ç` harfi `c`'den hemen sonra, `İ`/`ı` ayrımı, 
 anahtarını üretebilirsin.
 :::
 
-## `Ordering` ve `sort_by` — kuralı sen koy
+## `Ordering` ve `sort_by`: kuralı sen koy
 
 Sıralama algoritması her adımda tek bir soru sorar: "Bu ikisinden hangisi önce gelmeli?" Rust'ta bu
 sorunun cevabı bir enum'dur. Bu enum'u Modül 3'teki tahmin oyunundan ve Modül 7'den tanıyorsun.
@@ -414,7 +414,7 @@ starter: |
       ];
       sirala(&mut liste);
       for (i, y) in liste.iter().enumerate() {
-          println!("{}. {} — {} puan, {} sn", i + 1, y.ad, y.puan, y.sure);
+          println!("{}. {} - {} puan, {} sn", i + 1, y.ad, y.puan, y.sure);
       }
   }
 solution: |
@@ -442,7 +442,7 @@ solution: |
       ];
       sirala(&mut liste);
       for (i, y) in liste.iter().enumerate() {
-          println!("{}. {} — {} puan, {} sn", i + 1, y.ad, y.puan, y.sure);
+          println!("{}. {} - {} puan, {} sn", i + 1, y.ad, y.puan, y.sure);
       }
   }
 check: tests
@@ -530,7 +530,7 @@ explanation: |
   farklıysa). Yine de kararlı `sort_by` güvenli varsayılandır.
 ````
 
-## Aramak — `contains` ve `binary_search`
+## Aramak: `contains` ve `binary_search`
 
 En basit arama **`contains`**'tir: `v.contains(&x)` baştan sona bakar ve `bool` döndürür. Bu metot
 liste sıralı olsun olmasın çalışır, ama maliyeti O(n)'dir. Bir milyon elemanda, en kötü ihtimalle bir
@@ -628,7 +628,7 @@ Hangisini ne zaman kullanmalı? Tek seferlik bir arama için `contains` yeter. A
 listede çok arama yapıyorsan `binary_search` kullan. Hem çok arama hem çok ekleme/silme varsa Ders
 4'teki `HashSet` (ortalama O(1)) ya da `BTreeSet` (O(log n), sıralı) daha doğru seçimdir.
 
-## Filtrelemek — `retain`, `dedup`, `max` ve `min`
+## Filtrelemek: `retain`, `dedup`, `max` ve `min`
 
 Bir listeden istemediğin elemanları atmanın yolu **`retain`**'dir. Adı "tut, alıkoy" demektir: verdiğin
 closure `true` döndürdüğü elemanlar **kalır**, diğerleri silinir. Tahmin et, bu kod derlenir mi?
@@ -745,7 +745,7 @@ Birden çok eleman eşit derecede en büyükse `max` **sonuncusunu**, `min` ise 
 `let en: Option<i32> = puanlar.iter().max().copied();`
 :::
 
-## Ondalık sayıları sıralamak — `NaN` sorunu
+## Ondalık sayıları sıralamak: `NaN` sorunu
 
 Şimdiye kadar her şey yolunda gitti. Şimdi bir sınıfın boy ölçümlerini sıralayalım:
 
@@ -798,7 +798,7 @@ fn main() {
     println!("NaN == NaN? {}", nan == yine_nan); // false!
     println!("{:?}", nan.partial_cmp(&1.0)); // None
 
-    // Seçenek 1: partial_cmp + unwrap — NaN yoksa çalışır, varsa PANİK
+    // Seçenek 1: partial_cmp + unwrap - NaN yoksa çalışır, varsa PANİK
     let mut olcumler = vec![3.2, f64::NAN, 1.5];
     olcumler.sort_by(|a, b| a.partial_cmp(b).unwrap());
     println!("{olcumler:?}"); // buraya hiç gelinmez
@@ -807,7 +807,7 @@ fn main() {
 
 ```rust
 fn main() {
-    // Seçenek 2: total_cmp — her f64 için TAM bir sıra tanımlar, asla panik yapmaz
+    // Seçenek 2: total_cmp - her f64 için TAM bir sıra tanımlar, asla panik yapmaz
     let mut olcumler = vec![2.5, f64::NAN, -0.0, 0.0, -1.0, f64::INFINITY];
     olcumler.sort_by(|a, b| a.total_cmp(b));
     println!("{olcumler:?}");

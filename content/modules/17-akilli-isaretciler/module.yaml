@@ -1,6 +1,6 @@
 id: m17
 title: Akıllı İşaretçiler
-subtitle: Box, Rc, RefCell ve Weak — sahipliği esnetmek, güvenliği korumak
+subtitle: "Box, Rc, RefCell ve Weak: sahipliği esnetmek, güvenliği korumak"
 icon: "📦"
 description: |
   Şimdiye kadar her değerin tek bir sahibi vardı ve ödünç alma kuralları derleme zamanında denetleniyordu.

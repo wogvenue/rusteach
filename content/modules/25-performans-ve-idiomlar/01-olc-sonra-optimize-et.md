@@ -100,7 +100,7 @@ fn main() {
     let gecen = baslangic.elapsed();
 
     println!("toplam = {toplam}");
-    println!("süre   = {gecen:?} (debug derlemesi — release'te çok daha hızlı!)");
+    println!("süre   = {gecen:?} (debug derlemesi - release'te çok daha hızlı!)");
 }
 ```
 
@@ -523,7 +523,7 @@ getirir; derleyici seviyesindeki ince ayarlar ise çoğu zaman yüzdelerle ölç
 sırası her zaman aynıdır:
 
 1. **Doğru algoritma ve veri yapısı** (O(n²) → O(n log n) → O(n))
-2. **Gereksiz işi kaldırmak** (aynı şeyi tekrar tekrar hesaplamamak, gereksiz tahsisler — sonraki ders)
+2. **Gereksiz işi kaldırmak** (aynı şeyi tekrar tekrar hesaplamamak, gereksiz tahsisler, sonraki ders)
 3. **Sabit çarpanlar** (önbellek dostu veri düzeni, dallanmayı azaltmak, en son `unsafe`)
 
 ```exercise
@@ -646,7 +646,7 @@ Bunun Rust'taki somut örneklerini zaten biliyorsun:
 edilemez (Modül 20), `Rc`/`Arc` sayaç günceller, `RefCell` çalışma zamanı kontrolü yapar. Bunlar
 kötü değildir; sadece bedelleri vardır ve onları **bilerek** seçersin.
 
-Önce tahmin et — tembellik (laziness) de sıfır maliyetin bir parçasıdır:
+Önce tahmin et, tembellik (laziness) de sıfır maliyetin bir parçasıdır:
 
 ```predict
 code: |
@@ -734,7 +734,7 @@ fn main() {
 ```
 
 - `#[inline]`: "crate dışında da inline edilebilsin" ipucu.
-- `#[inline(always)]` / `#[inline(never)]`: daha güçlü istekler; ölçmeden kullanma — aşırı inlining
+- `#[inline(always)]` / `#[inline(never)]`: daha güçlü istekler; ölçmeden kullanma, aşırı inlining
   kodu şişirir ve talimat önbelleğini (instruction cache) zorlayarak programı **yavaşlatabilir**.
 - `#[cold]`: "bu fonksiyon nadiren çağrılır"; derleyici onu sıcak yolun dışına yerleştirir.
 

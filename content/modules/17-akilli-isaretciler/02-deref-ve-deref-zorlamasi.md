@@ -575,7 +575,7 @@ tests: |
 hints:
   - "`ham.trim().to_ascii_uppercase()` sana temizlenmiş, büyük harfli yeni bir `String` verir. Sonra onu kontrol et."
   - "Geçerlilik için `for c in temiz.chars()` ile dolaş; `c.is_ascii_alphanumeric() || c == '-'` değilse `return None;`. Boşluk kontrolünü de unutma: `temiz.is_empty()`."
-  - "`deref` gövdesi tek satır: `&self.0` — `&String` dönüş tipindeki `&str`'ye kendiliğinden zorlanır."
+  - "`deref` gövdesi tek satır: `&self.0`, `&String` dönüş tipindeki `&str`'ye kendiliğinden zorlanır."
 require:
   - pattern: "impl\\s+Deref\\s+for\\s+UrunKodu"
     message: "`UrunKodu` için `Deref` uygulamalısın."
@@ -608,7 +608,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `&str` parametresi alan bir fonksiyona `&String` ve hatta `&Box<String>` verebilmenin arkasında ne var? Neden bunun bir çalışma zamanı maliyeti yok?
+prompt: Kendi cümlelerinle açıkla, `&str` parametresi alan bir fonksiyona `&String` ve hatta `&Box<String>` verebilmenin arkasında ne var? Neden bunun bir çalışma zamanı maliyeti yok?
 answer: |
   Model cevap: `String`, `Deref<Target = str>`; `Box<T>` de `Deref<Target = T>` uygular. Derleyici
   beklenen tiple elimdeki tip uyuşmadığında `Deref` uygulamalarını zincirleme dener ve gereken `deref`
@@ -619,7 +619,7 @@ answer: |
 
 ```flashcards
 - front: "`*y` ifadesi, `y` kendi `Deref` uygulayan tipinse derleyici tarafından neye çevrilir?"
-  back: "`*(y.deref())` — önce `deref` ile bir `&Target` alınır, sonra o referans açılır."
+  back: "`*(y.deref())`, önce `deref` ile bir `&Target` alınır, sonra o referans açılır."
 - front: "`E0614: type ... cannot be dereferenced` hatası neyi gösterir?"
   back: "Tipin `Deref` uygulaması yok; `*` operatörünün o tip için anlamı tanımlı değil."
 - front: "`Deref` trait'indeki `type Target` ne işe yarar?"
@@ -629,7 +629,7 @@ answer: |
 - front: "Deref zorlaması `&T`'den `&mut U`'ya neden asla geçmez?"
   back: "Paylaşılan referans başka `&`'lerle bir arada olabilir; onu `&mut`'a çevirmek \"aliasing XOR mutation\" kuralını bozardı."
 - front: "`E0596: cannot borrow data in dereference of ... as mutable` hatasının tipik çözümü nedir?"
-  back: "Tipe `DerefMut` uygulamak (ve değişkeni `mut` yapmak) — tabii değişiklik değişmezi bozmuyorsa."
+  back: "Tipe `DerefMut` uygulamak (ve değişkeni `mut` yapmak), tabii değişiklik değişmezi bozmuyorsa."
 - front: "Doğrulanmış bir newtype'a neden `DerefMut` uygulamamalısın?"
   back: "İçteki veriye yazma yetkisi verir; doğrulamayı atlayarak değişmezi (invariant) bozmaya izin verir."
 ```

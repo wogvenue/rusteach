@@ -38,10 +38,10 @@ o değeri görür. Çocuğun kendi kopyasında yaptığı değişiklik ise ebeve
 Terminaline göre ayarlama yolları:
 
 ```console
-# bash / zsh (Linux, macOS, Git Bash) — yalnızca bu komut için:
+# bash / zsh (Linux, macOS, Git Bash) - yalnızca bu komut için:
 $ IGNORE_CASE=1 cargo run -- rust siir.txt
 
-# PowerShell — oturum boyunca geçerli, işin bitince kaldır:
+# PowerShell - oturum boyunca geçerli, işin bitince kaldır:
 PS> $Env:IGNORE_CASE=1; cargo run -- rust siir.txt
 PS> Remove-Item Env:IGNORE_CASE
 
@@ -700,7 +700,7 @@ az bir kez elle denemek gerekir. Aşağıdaki küçük test planını kendi bilg
 | `IGNORE_CASE=0 cargo run -- rust siir.txt` | tek satır (`ortam_bayragi` sayesinde) | (yönlendirme yok) | 0 |
 | `cargo run -- rust siir.txt > cikti.txt` | hiçbir şey | eşleşen satır | 0 |
 | `cargo run > cikti.txt` | `Argümanlar ayrıştırılamadı: ...` | boş | 1 |
-| `cargo run -- rust yok.txt 2> hatalar.txt` | hiçbir şey | — (`hatalar.txt`'de hata mesajı) | 1 |
+| `cargo run -- rust yok.txt 2> hatalar.txt` | hiçbir şey |, (`hatalar.txt`'de hata mesajı) | 1 |
 
 `2>` stderr'i yönlendirir (`2`, stderr'in kanal numarasıdır; stdout `1`'dir). İkisini aynı dosyaya
 toplamak için `> hepsi.txt 2>&1` yazılır. PowerShell'de çıkış kodunu `$LASTEXITCODE` ile görürsün;
@@ -833,9 +833,9 @@ answer: |
 - front: "`env::var(\"IGNORE_CASE\")`'in dönüş tipi nedir ve değişken tanımsızsa ne döner?"
   back: "`Result<String, VarError>`; tanımsızsa `Err(VarError::NotPresent)`."
 - front: "`IGNORE_CASE=0` ayarlıyken `env::var(\"IGNORE_CASE\").is_ok()` ne verir?"
-  back: "`true` — `is_ok()` yalnızca değişkenin tanımlı olup olmadığına bakar, değerine değil."
+  back: "`true`, `is_ok()` yalnızca değişkenin tanımlı olup olmadığına bakar, değerine değil."
 - front: "`Option<String>`'i `Option<&str>`'ye hangi metot çevirir?"
-  back: "`as_deref()` — içerideki `String`'i `&str` olarak ödünç alır."
+  back: "`as_deref()`, içerideki `String`'i `&str` olarak ödünç alır."
 - front: "Edition 2024'te `env::set_var` neden `unsafe`'tir?"
   back: Ortam sürecin global durumudur; bir thread onu değiştirirken başka bir thread okursa tanımsız davranış oluşabilir (testler de paralel thread'lerde çalışır).
 - front: Bağımlılık enjeksiyonu (dependency injection) bu projede ne anlama geldi?

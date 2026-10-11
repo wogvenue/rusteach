@@ -347,7 +347,7 @@ if (!singleFile && (ONLY_REFERENCE || !onlyModules.length)) {
 // ------------------------------------------------------------------ run
 const structural = printProblems(problems.filter((p) => p.level === 'error'), { showWarnings: false });
 console.log(
-  `\nRust doğrulayıcı — ${checks.length} kontrol · arka uç: ${LOCAL_RUSTC ? 'yerel rustc (+ Playground crate için)' : 'Rust Playground'} · eşzamanlılık ${CONCURRENCY}`,
+  `\nRust doğrulayıcı, ${checks.length} kontrol · arka uç: ${LOCAL_RUSTC ? 'yerel rustc (+ Playground crate için)' : 'Rust Playground'} · eşzamanlılık ${CONCURRENCY}`,
 );
 
 const warningsList = [];
@@ -393,5 +393,5 @@ console.log(
     `${warningsList.length} uyarılı örnek${SHOW_WARNINGS ? '' : ' (--show-warnings ile göster)'} · ` +
     `${structural.errors} yapısal hata · ${stats.requests} derleme, ${stats.cached} önbellekten · ${Math.round((Date.now() - t0) / 1000)} sn`,
 );
-if (infraFailures) console.log(`! ${infraFailures} kontrol altyapı (ağ) sorunu nedeniyle başarısız — tekrar çalıştırın.`);
+if (infraFailures) console.log(`! ${infraFailures} kontrol altyapı (ağ) sorunu nedeniyle başarısız, tekrar çalıştırın.`);
 process.exit(failures.length || structural.errors ? 1 : 0);

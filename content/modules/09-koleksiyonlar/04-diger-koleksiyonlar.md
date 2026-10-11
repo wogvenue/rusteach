@@ -33,7 +33,7 @@ gerekir. İkisini zaten tanıyorsun; bu dersin sonunda neredeyse hepsini, en ön
 zaman** seçeceğini bileceksin!
 :::
 
-## `HashSet` — her şeyden yalnızca bir tane
+## `HashSet`: her şeyden yalnızca bir tane
 
 Konser girişindeki turnike yalnızca tek bir soruyu sorar: "Bu bilet daha önce okutuldu mu?" Biletin
 kime ait olduğu ya da kaç lira olduğu umurunda değildir. İşte **küme (set)** budur: değeri olmayan,
@@ -241,7 +241,7 @@ explanation: |
   Bu yaşam süresi (lifetime) etiketlerini Modül 12'de öğreneceksin.
 ```
 
-## Küme işlemleri — birleşim, kesişim, fark
+## Küme işlemleri: birleşim, kesişim, fark
 
 Ali ile Ayşe birlikte çalışma grubu kurmak istiyor: hangi seçmeli dersleri ortak? Hangileri yalnızca
 birinde var? Bu sorular matematikteki küme işlemleridir ve `HashSet` hepsini hazır sunar.
@@ -265,8 +265,8 @@ birinde var? Bu sorular matematikteki küme işlemleridir ve `HashSet` hepsini h
 | Kesişim | `a.intersection(&b)` | `&a & &b` | ikisinde de olanlar |
 | Fark | `a.difference(&b)` | `&a - &b` | `a`'da olup `b`'de olmayanlar |
 | Simetrik fark | `a.symmetric_difference(&b)` | `&a ^ &b` | yalnızca birinde olanlar |
-| Alt küme mi? | `a.is_subset(&b)` | — | `a`'nın her elemanı `b`'de mi? |
-| Ayrık mı? | `a.is_disjoint(&b)` | — | hiç ortak eleman yok mu? |
+| Alt küme mi? | `a.is_subset(&b)` | - | `a`'nın her elemanı `b`'de mi? |
+| Ayrık mı? | `a.is_disjoint(&b)` | - | hiç ortak eleman yok mu? |
 
 ```rust
 use std::collections::HashSet;
@@ -335,7 +335,7 @@ feedback:
   - "Bu kesişim (`&a & &b`): ikisinde de olanlar."
 ```
 
-## `BTreeMap` ve `BTreeSet` — her zaman sıralı
+## `BTreeMap` ve `BTreeSet`: her zaman sıralı
 
 Ders 3'te `HashMap`'in sırasız olduğunu gördün. Peki plakaları küçükten büyüğe listelemen gerekirse?
 Her seferinde anahtarları bir vektöre alıp sıralamak yerine, anahtarlarını **her an sıralı tutan** bir
@@ -458,7 +458,7 @@ anahtar için yalnızca 6-8 seviye. Sonuç: aynı O(log n) karmaşıklığında,
 beklemesi. Rust'ın belgelerinde de bu tercih tam bu gerekçeyle açıklanır.
 :::
 
-## `VecDeque` — iki ucu açık kuyruk
+## `VecDeque`: iki ucu açık kuyruk
 
 Bir banka gişesi simülasyonu yazıyorsun: gelen müşteri sıranın **sonuna** girer, gişeye **baştaki**
 gider. Bunu `Vec` ile yapsan sona eklemek kolay (`push`), ama baştan çıkarmak için `remove(0)` gerekir
@@ -480,14 +480,14 @@ steps:
         vars:
           - { name: sira, type: "VecDeque<&str>", value: "ptr · baş=0 · len=3 · cap=4", to: h1, mut: true }
     heap:
-      - { id: h1, value: "[0] Ali | [1] Ayşe | [2] Can | [3] —", label: "4 yuvalık tampon" }
+      - { id: h1, value: "[0] Ali | [1] Ayşe | [2] Can | [3] -", label: "4 yuvalık tampon" }
   - caption: "`pop_front()` ile Ali gişeye gitti. **Hiçbir eleman kaydırılmadı**; yalnızca `baş` bir yuva ilerledi. (`Vec::remove(0)` olsaydı Ayşe ve Can birer yuva sola taşınırdı.)"
     stack:
       - frame: main
         vars:
           - { name: sira, type: "VecDeque<&str>", value: "ptr · baş=1 · len=2 · cap=4", to: h1, mut: true }
     heap:
-      - { id: h1, value: "[0] — | [1] Ayşe | [2] Can | [3] —", label: "4 yuvalık tampon" }
+      - { id: h1, value: "[0], | [1] Ayşe | [2] Can | [3] -", label: "4 yuvalık tampon" }
   - caption: "Deniz son yuvaya oturdu. Ece için sonda yer kalmadı, ama baştaki boş yuva kullanıldı: tampon bir **halka** gibi başa sarıldı. Mantıksal sıra: Ayşe, Can, Deniz, Ece. Yeniden tahsis yok!"
     stack:
       - frame: main
@@ -614,7 +614,7 @@ explanation: |
   döndürdüğü `Option`'ı kullanmadığımıza dikkat et: atılan kayıtla işimiz yok.
 ```
 
-## `BinaryHeap` — öncelik kuyruğu
+## `BinaryHeap`: öncelik kuyruğu
 
 Bazen sıranın kuralı "ilk gelen" değil, "en önemli olan"dır. Bir sunucu çökmüşse, bekleyen rapor
 işinden önce o halledilir. Bu tür kuyruklara **öncelik kuyruğu (priority queue)** denir ve Rust'taki
@@ -823,7 +823,7 @@ explanation: |
   gelmeye devam ediyorsa her yeni hasta O(log n)'de eklenir ve sıradaki hasta her an hazırdır.
 ```
 
-## Hangi koleksiyon? — seçim rehberi
+## Hangi koleksiyon?: seçim rehberi
 
 Artık bütün takımı tanıyorsun. Doğru seçimi yapmak için her koleksiyonun **neyi ucuz, neyi pahalı**
 yaptığını bilmek gerekir. Big-O gösterimi bunun özetidir; sezgi kazanmak için n = 1.000.000 eleman

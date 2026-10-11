@@ -67,7 +67,7 @@ export function isNew(card: SerializedCard): boolean {
   return card.state === State.New;
 }
 
-/** Human readable interval for each grade, e.g. { 1: "1 dk", 3: "2 gün" } — for grade buttons. */
+/** Human readable interval for each grade, e.g. { 1: "1 dk", 3: "2 gün" } - for grade buttons. */
 export function previewIntervals(card: SerializedCard, now = new Date()): Record<Grade, string> {
   const rec = scheduler.repeat(toCard(card), now);
   const out = {} as Record<Grade, string>;

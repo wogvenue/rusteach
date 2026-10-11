@@ -72,7 +72,7 @@ Diğer diller bu sorunu farklı yollarla çözer:
 | Java | Generic'ler var ama derlemeden sonra tip bilgisi silinir (*type erasure*) | `int` gibi ilkel tipler doğrudan kullanılamaz, kutulama (boxing) gerekir |
 | C++ | Şablonlar (*templates*) | Rust'a en yakın akraba; farkını birazdan göreceğiz |
 
-Rust'ın cevabı: **generic fonksiyonlar**. Ama önce dilimleri hatırlayalım — generic fonksiyonlarımız
+Rust'ın cevabı: **generic fonksiyonlar**. Ama önce dilimleri hatırlayalım, generic fonksiyonlarımız
 hep dilimlerle çalışacak.
 
 ```quiz
@@ -115,7 +115,7 @@ adının hemen ardından **açılı parantez** içinde bildirirsin. Okunuşu: *�
 için: `T`'lerden oluşan bir dilim alır, bir `T` referansı içeren `Option` döndürür.”*
 
 **Adlandırma geleneği:** tip parametreleri kısa ve `UpperCamelCase` olur. Tek parametre için `T` (*type*),
-ikincisi için `U`; anlamlı harfler de yaygındır: `K`/`V` (*key/value* — `HashMap<K, V>`), `E` (*error* —
+ikincisi için `U`; anlamlı harfler de yaygındır: `K`/`V` (*key/value*, `HashMap<K, V>`), `E` (*error*,
 `Result<T, E>`).
 
 ```rust
@@ -165,7 +165,7 @@ options:
   - "('z', 7) (8, 'z')"
   - "('z', 7) ('z', 8)"
   - "(7, 'z') ('z', 8)"
-  - Derlenmez — `T` ile `U` aynı tip olmalı
+  - Derlenmez, `T` ile `U` aynı tip olmalı
 answer: 0
 explanation: |
   İlk çağrıda `T = i32`, `U = char` olur ve sonuç `('z', 7)` gelir. İkinci çağrıya `a.0` (`'z'`) ve
@@ -199,7 +199,7 @@ answer: false
 error: E0369
 explanation: |
   Derlenmez! `i32` ve `char` karşılaştırılabilir, ama derleyici gövdeyi **her olası `T` için** kontrol eder.
-  Ya `T` karşılaştırılamayan bir tipse — örneğin bir `Kitap` struct'ı? “Hangi kitap daha büyük?” sorusunun
+  Ya `T` karşılaştırılamayan bir tipse - örneğin bir `Kitap` struct'ı? “Hangi kitap daha büyük?” sorusunun
   bir anlamı yok. Bu yüzden `>` kullanımı reddedilir.
 ```
 
@@ -225,7 +225,7 @@ Derleyici sorunu söylemekle kalmıyor, çözümü de öneriyor: **`T`'yi `Parti
 `PartialOrd`, standart kütüphanede tanımlı bir **trait**'tir ve “bu tipin değerleri `<`, `>`, `<=`, `>=`
 ile karşılaştırılabilir” anlamına gelir. Trait'leri 3. derste ayrıntılı göreceğiz; şimdilik trait'i
 **bir tipin sahip olduğu bir yetenek** gibi düşün. `T: PartialOrd` yazmak bir **trait sınırı (trait bound)**
-koymaktır: *“`T` her tip olabilir — yeter ki karşılaştırılabilsin.”* (`PartialOrd` her Rust programında
+koymaktır: *“`T` her tip olabilir, yeter ki karşılaştırılabilsin.”* (`PartialOrd` her Rust programında
 otomatik olarak görünür olduğu için `std::cmp::` önekini yazmana gerek yok.)
 
 ```rust
@@ -251,14 +251,14 @@ Tek fonksiyon; tam sayılar, harfler, ondalıklı sayılar ve metinler için ça
 
 :::analogy İş ilanı
 Bir şirket ilan veriyor: *“B sınıfı ehliyeti olan şoför aranıyor.”* Adayın adı, yaşı, memleketi önemli
-değil — yeter ki ehliyeti olsun. İşe alındıktan sonra şirket ondan yalnızca **ilanda yazan** şeyi
+değil, yeter ki ehliyeti olsun. İşe alındıktan sonra şirket ondan yalnızca **ilanda yazan** şeyi
 isteyebilir: araba kullanmak. Yemek pişirmesini bekleyemez; ilanda böyle bir şart yoktu.
 
 `fn en_buyuk<T: PartialOrd>` de bir ilandır: *“Karşılaştırılabilen her tip başvurabilir.”* Fonksiyonun
 gövdesi de `T`'den yalnızca sınırda söz verilen yeteneği (`>`) isteyebilir.
 :::
 
-**C++ ile fark — işin “neden” kısmı:** C++ şablonları gövdeyi ancak şablon belirli bir tiple *kullanıldığı
+**C++ ile fark, işin “neden” kısmı:** C++ şablonları gövdeyi ancak şablon belirli bir tiple *kullanıldığı
 anda* denetler. Karşılaştırılamayan bir tiple çağırırsan hata, şablonun derinliklerinden sayfalarca
 mesajla gelir. (C++20'deki *concepts* buna benzer sınırlar getirir, ama isteğe bağlıdır ve gövdeyi
 sınırlara göre denetlemez.) Rust ise generic gövdeyi **tanımlandığı yerde, bir kez** ve yalnızca
@@ -278,7 +278,7 @@ explanation: |
   Gövde `T` hakkında yalnızca **sınırların söylediklerini** bilir. `T: PartialOrd` karşılaştırma iznini verir;
   `len()` ve indeksleme ise dilimin kendi yetenekleridir, `T`'ye bağlı değildir. Ama `{}` ile yazdırmak
   `T`'nin `Display` trait'ini uygulamasını gerektirir ve bu sınırda yok (`E0277`). Yazdırmak istersen
-  sınırı genişletirsin: `T: PartialOrd + std::fmt::Display` — çoklu sınırlar 4. dersin konusu.
+  sınırı genişletirsin: `T: PartialOrd + std::fmt::Display` - çoklu sınırlar 4. dersin konusu.
 feedback:
   - "Bunu tam olarak `PartialOrd` sınırı mümkün kılıyor."
   - "`len()` dilimin metodudur; `T` ne olursa olsun çalışır."
@@ -339,7 +339,7 @@ kopyalanamaz; taşınamaz da, çünkü dilim senin değil. Önerilen çözüm: �
 Referans döndürmenin bellekte neden bu kadar ucuz olduğuna bak:
 
 ```memory
-title: en_buyuk(&sicakliklar) — referans döndürmek hiçbir şeyi kopyalamaz
+title: "en_buyuk(&sicakliklar): referans döndürmek hiçbir şeyi kopyalamaz"
 steps:
   - caption: "`en_buyuk` çağrıldı. `liste` parametresi `main`'deki diziyi gösteren bir **dilimdir** (işaretçi + uzunluk). Döngü başında yerel `en_buyuk` referansı ilk elemanı gösteriyor."
     stack:
@@ -360,11 +360,11 @@ steps:
 
 Kısacası en büyük elemanı çağırana vermenin üç yolu var:
 
-1. **Referans döndür** (`-> &T`) — çoğu zaman en iyisi: hiçbir şey kopyalanmaz, her tiple çalışır.
+1. **Referans döndür** (`-> &T`), çoğu zaman en iyisi: hiçbir şey kopyalanmaz, her tiple çalışır.
    Elemanın kendisi değil, ona bakan bir referans döner.
-2. **`T: PartialOrd + Copy`** — `+` ile ikinci bir sınır ekleyip yalnızca `Copy` tiplere izin verirsin.
+2. **`T: PartialOrd + Copy`**, `+` ile ikinci bir sınır ekleyip yalnızca `Copy` tiplere izin verirsin.
    `i32`, `char`, `f64` çalışır; `String` artık kabul edilmez.
-3. **`T: PartialOrd + Clone`** ve `liste[0].clone()` — her tiple çalışır ama `String` gibi tiplerde
+3. **`T: PartialOrd + Clone`** ve `liste[0].clone()`, her tiple çalışır ama `String` gibi tiplerde
    heap kopyası yapar (Modül 4: `clone` bilinçli bir karardır).
 
 ```rust
@@ -505,7 +505,7 @@ prompt: |
   (`&str`), zar atışları (`i32`) ve harfler (`char`) için çalışmalı.
 
   Başlangıç kodundaki imzada `T` için **hiçbir sınır yok**. Gövdeyi yazınca derleyici sana hangi
-  trait'in gerektiğini söyleyecek — mesajı oku ve sınırı ekle!
+  trait'in gerektiğini söyleyecek - mesajı oku ve sınırı ekle!
 starter: |
   fn kac_kez<T>(liste: &[T], aranan: &T) -> usize {
       todo!()
@@ -574,7 +574,7 @@ explanation: |
 
   `oge` ve `aranan` aynı tipte (`&T`) oldukları için doğrudan karşılaştırılabildi. Bir incelik:
   `String::from("Ada") == "Ada"` gibi bir `String`'i bir `&str` ile karşılaştırabilmen de standart
-  kütüphanedeki bir `PartialEq` uygulaması sayesindedir — trait'ler farklı tipler arasında da tanımlanabilir!
+  kütüphanedeki bir `PartialEq` uygulaması sayesindedir - trait'ler farklı tipler arasında da tanımlanabilir!
 
   Modül 14'te aynı işi tek satırda yapmayı öğreneceksin: `liste.iter().filter(|x| *x == aranan).count()`.
 ```
@@ -653,7 +653,7 @@ tests: |
 hints:
   - "Önce boş dilim durumunu ele al: `if liste.is_empty() { return None; }`"
   - "İki aday referans tut: `let mut en_kucuk = &liste[0];` ve `let mut en_buyuk = &liste[0];` Sonra dilimi dolaşıp `<` ve `>` ile güncelle."
-  - "Sonunda iki referansı bir tuple'a koyup `Some` ile sar: `Some((en_kucuk, en_buyuk))` — çift parantez dikkat!"
+  - "Sonunda iki referansı bir tuple'a koyup `Some` ile sar: `Some((en_kucuk, en_buyuk))`, çift parantez dikkat!"
 explanation: |
   Fonksiyon hiçbir elemanı kopyalamıyor: iki referans tutuyor ve sonunda onları döndürüyor. Bu yüzden
   `T` için `Copy` ya da `Clone` istemedik; sadece `PartialOrd` yetti. İmzadaki referanslar dilimin
@@ -664,7 +664,7 @@ explanation: |
   zorundadır. `&liste[0]` ile panik yapan sürümden çok daha güvenli.
 
   Standart kütüphanede bu işin hazırı var: `liste.iter().min()` ve `liste.iter().max()` (Modül 9).
-  Ama onlar `T: Ord` ister — yani `f64` dizisiyle çalışmazlar. Senin `PartialOrd` sürümün çalışır!
+  Ama onlar `T: Ord` ister - yani `f64` dizisiyle çalışmazlar. Senin `PartialOrd` sürümün çalışır!
 ```
 
 ## Özet
@@ -682,7 +682,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — Rust neden `fn en_buyuk<T>(liste: &[T]) -> &T` gövdesinde `>` kullanmana
+  Kendi cümlelerinle açıkla - Rust neden `fn en_buyuk<T>(liste: &[T]) -> &T` gövdesinde `>` kullanmana
   izin vermiyor, ama `T: PartialOrd` ekleyince izin veriyor? C++ şablonlarının yaklaşımına göre
   bunun avantajı ne?
 answer: |
@@ -704,7 +704,7 @@ answer: |
 - front: "`==` kullanmak için `T`'ye hangi sınır eklenir?"
   back: "`T: PartialEq`"
 - front: Rust generic bir fonksiyonun gövdesini ne zaman ve neye göre denetler?
-  back: Tanımlandığı yerde, bir kez, yalnızca trait sınırlarına bakarak — her olası `T` için geçerli olmalı. (C++ şablonları ise her kullanımda ayrı denetlenir.)
+  back: Tanımlandığı yerde, bir kez, yalnızca trait sınırlarına bakarak, her olası `T` için geçerli olmalı. (C++ şablonları ise her kullanımda ayrı denetlenir.)
 - front: |
     Neden derlenmez?
     ```rust
@@ -714,5 +714,5 @@ answer: |
 - front: Derleyici `T`'yi çıkaramazsa (`E0282`) hangi iki çözüm var?
   back: "Tip notasyonu (`let v: Vec<i32> = f();`) ya da turbofish (`f::<i32>()`)."
 - front: "`fn takas<T, U>(c: (T, U)) -> (U, T)` için `takas((1, 'a'))` ne döndürür?"
-  back: "`('a', 1)` — burada `T = i32`, `U = char`."
+  back: "`('a', 1)`, burada `T = i32`, `U = char`."
 ```

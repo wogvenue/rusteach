@@ -35,9 +35,9 @@ Bazı işler ise doğası gereği derleyicinin göremeyeceği bilgiye dayanır:
 | Durum | Neden derleyici kontrol edemez? |
 |-------|----------------------------------|
 | **Donanımla konuşmak** (gömülü sistemler, işletim sistemi çekirdeği) | `0x4000_0000` adresinde bir LED kaydı olduğunu derleyici bilemez |
-| **FFI** — C kütüphanesi çağırmak | C kodu Rust'ın kurallarını bilmez; derleyici C'nin içini göremez |
-| **Performans** — sınır kontrolünü atlamak, özel veri yapıları | "Bu indeks kesinlikle geçerli" bilgisi programcının kafasındadır |
-| **Temel soyutlamalar** — `Vec`, `Rc`, `Mutex` | Ham bellekle çalışırlar; güvenliği tasarımları sağlar |
+| **FFI**, C kütüphanesi çağırmak | C kodu Rust'ın kurallarını bilmez; derleyici C'nin içini göremez |
+| **Performans**, sınır kontrolünü atlamak, özel veri yapıları | "Bu indeks kesinlikle geçerli" bilgisi programcının kafasındadır |
+| **Temel soyutlamalar**, `Vec`, `Rc`, `Mutex` | Ham bellekle çalışırlar; güvenliği tasarımları sağlar |
 
 Diğer diller de bu kaçış kapısına sahiptir: Python'ın C uzantıları (`ctypes`, CPython C API), Java'nın
 JNI'ı ve `sun.misc.Unsafe`'i, C#'ın `unsafe` anahtar kelimesi. Fark şu: C ve C++'ta **bütün program**
@@ -81,7 +81,7 @@ feedback:
 ## Unsafe borrow checker'ı kapatmaz
 
 Pek çok kişi `unsafe`'i "derleyiciyi susturan bir düğme" sanır. Modül 5'teki kuralı hatırla: aynı anda
-**ya tek bir `&mut` ya da istediğin kadar `&`**. Önce tahmin et — bu kod `unsafe` blok sayesinde derlenir mi?
+**ya tek bir `&mut` ya da istediğin kadar `&`**. Önce tahmin et, bu kod `unsafe` blok sayesinde derlenir mi?
 
 ```compiles
 code: |
@@ -99,17 +99,17 @@ answer: false
 error: E0499
 explanation: |
   `unsafe` bloğu **referans** kurallarını değiştirmez. `a` hâlâ kullanılırken ikinci bir `&mut`
-  oluşturmak, Modül 5'teki gibi `E0499` verir. Tip kontrolü, sahiplik, ödünç alma, yaşam süreleri —
+  oluşturmak, Modül 5'teki gibi `E0499` verir. Tip kontrolü, sahiplik, ödünç alma, yaşam süreleri,
   hepsi `unsafe` içinde de aynen çalışır. Derleyici ayrıca "gereksiz `unsafe` bloğu" uyarısı da verir,
   çünkü bu blok içinde unsafe bir işlem yok.
 ```
 
 Peki `unsafe` tam olarak neyi açıyor? Sadece şu **beş süper güç**:
 
-1. **Ham işaretçiyi çözmek (dereference)** — `*p` (bu ders)
-2. **`unsafe` fonksiyon ya da metot çağırmak** — C fonksiyonları dahil (2. ve 3. ders)
+1. **Ham işaretçiyi çözmek (dereference)**, `*p` (bu ders)
+2. **`unsafe` fonksiyon ya da metot çağırmak**, C fonksiyonları dahil (2. ve 3. ders)
 3. **Değiştirilebilir statik değişkene (`static mut`) erişmek** (4. ders)
-4. **`unsafe` bir trait'i uygulamak** — `unsafe impl Send for ...` (4. ders)
+4. **`unsafe` bir trait'i uygulamak**, `unsafe impl Send for ...` (4. ders)
 5. **`union` alanlarını okumak** (4. ders)
 
 Bu kadar. Başka hiçbir şey. `unsafe` içinde yazdığın her şey, bu beşi dışında, normal Rust kurallarına
@@ -136,9 +136,9 @@ explanation: |
   `union` alanı okumak beş süper güçten üçüdür.
 feedback:
   - Oluşturmak güvenli! Sadece bir adres hesaplıyorsun; o adrese henüz dokunmadın.
-  - "Doğru — süper güç #1."
-  - "Doğru — süper güç #3."
-  - "Doğru — süper güç #5."
+  - "Doğru, süper güç #1."
+  - "Doğru, süper güç #3."
+  - "Doğru, süper güç #5."
   - "`v[3]` sınır kontrolü yapar; geçersizse **panik** olur, bu güvenli bir davranıştır."
 ```
 
@@ -146,8 +146,8 @@ feedback:
 
 Rust'ta iki tür **ham işaretçi (raw pointer)** vardır:
 
-- `*const T` — gösterdiği yerden okunabilir (C'deki `const T*`)
-- `*mut T` — gösterdiği yere yazılabilir de (C'deki `T*`)
+- `*const T`, gösterdiği yerden okunabilir (C'deki `const T*`)
+- `*mut T`, gösterdiği yere yazılabilir de (C'deki `T*`)
 
 Buradaki `*` çözme operatörü değil, tip adının parçasıdır. Ham işaretçi oluşturmanın modern yolu
 **`&raw const`** ve **`&raw mut`** sözdizimidir (Rust 1.82):
@@ -328,9 +328,9 @@ feedback:
 C'de bir dizinin elemanlarına işaretçi ilerleterek erişmek çok yaygındır: `*(p + 2)`. Rust'ta bunun
 karşılığı ham işaretçilerin **`add`** ve **`offset`** metotlarıdır:
 
-- `p.add(n)` — `n` **eleman** ileri (n: `usize`)
-- `p.offset(n)` — `n` eleman ileri ya da geri (n: `isize`, negatif olabilir)
-- `p.sub(n)` — `n` eleman geri
+- `p.add(n)`, `n` **eleman** ileri (n: `usize`)
+- `p.offset(n)`, `n` eleman ileri ya da geri (n: `isize`, negatif olabilir)
+- `p.sub(n)`, `n` eleman geri
 
 Birim **bayt değil, eleman**dır: `*const i32` üzerinde `add(1)` adresi 4 bayt ilerletir, C'deki `p + 1`
 ile aynı.
@@ -440,7 +440,7 @@ prompt: |
   Kurallar:
   - `dizi.as_mut_ptr()` ile başlangıç adresini al ve iki uçtan ortaya doğru ilerle.
   - Elemanları `*sol` ve `*sag` üzerinden takas et.
-  - `reverse`, `swap` ve `v[i]` gibi indeksleme kullanma — amaç işaretçi aritmetiği.
+  - `reverse`, `swap` ve `v[i]` gibi indeksleme kullanma, amaç işaretçi aritmetiği.
   - `unsafe` bloğunun üstüne neden güvenli olduğunu anlatan bir `// SAFETY:` yorumu yaz.
 starter: |
   fn ters_cevir(dizi: &mut [i32]) {
@@ -517,7 +517,7 @@ tests: |
 hints:
   - "İki indeks tut: `i` baştan (0), `j` sondan (`n - 1`). `i < j` olduğu sürece takas et, sonra `i`'yi artır, `j`'yi azalt."
   - "Boş dilimde `n - 1` ifadesi `usize`'ı taşırır ve panik verir. `n < 2` ise hemen `return` et."
-  - "Döngü gövdesi: `let sol = bas.add(i); let sag = bas.add(j); let gecici = *sol; *sol = *sag; *sag = gecici;` — hepsi bir `unsafe { }` içinde."
+  - "Döngü gövdesi: `let sol = bas.add(i); let sag = bas.add(j); let gecici = *sol; *sol = *sag; *sag = gecici;`, hepsi bir `unsafe { }` içinde."
 forbid:
   - pattern: "\\.reverse\\(|\\.swap\\("
     message: "`reverse`/`swap` kullanmadan, ham işaretçilerle çöz!"
@@ -553,7 +553,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — ham işaretçi oluşturmak neden güvenli ama onu çözmek neden `unsafe`?
+prompt: Kendi cümlelerinle açıkla, ham işaretçi oluşturmak neden güvenli ama onu çözmek neden `unsafe`?
 answer: |
   Model cevap: İşaretçi oluşturmak sadece bir adres hesaplamaktır; o adresteki belleğe dokunulmaz, bu
   yüzden hiçbir zarar oluşmaz. Çözmek ise o adresteki belleği okumak ya da yazmaktır. Ham işaretçinin
@@ -570,11 +570,11 @@ answer: |
 - front: "Referans kullanmadan bir değişkenin `*mut` ham işaretçisini oluşturan modern sözdizimi nedir?"
   back: "`&raw mut x` (salt okunur için `&raw const x`)."
 - front: Ham işaretçiyi `unsafe` blok olmadan çözmeye çalışınca hangi hata kodu çıkar?
-  back: "`E0133` — dereference of raw pointer is unsafe and requires unsafe block."
+  back: "`E0133`, dereference of raw pointer is unsafe and requires unsafe block."
 - front: "`*const i32` üzerinde `p.add(3)` adresi kaç bayt ilerletir?"
   back: "12 bayt. `add` eleman sayar: 3 × `size_of::<i32>()` = 3 × 4."
 - front: Ham işaretçilerin referanslardan farklı olarak sahip olmadığı üç garanti say.
-  back: "Null olmama, geçerli (sarkmayan) veriyi gösterme, hizalı olma — ayrıca yaşam süresi ve ödünç alma kuralı yoktur."
+  back: "Null olmama, geçerli (sarkmayan) veriyi gösterme, hizalı olma, ayrıca yaşam süresi ve ödünç alma kuralı yoktur."
 - front: "`v.as_ptr()` aldıktan sonra `v.push(..)` yapmak neden tehlikelidir?"
   back: "`push` belleği yeniden tahsis edebilir; eski işaretçi sarkan (dangling) olur ve onu çözmek tanımsız davranıştır."
 ```

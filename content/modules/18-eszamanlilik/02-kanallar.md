@@ -162,7 +162,7 @@ steps:
 
 | Çağrı | `Ok` | `Err` ne zaman? |
 |---|---|---|
-| `tx.send(v)` | değer kuyruğa kondu | **alıcı drop edilmişse** (`SendError(v)` — değer sana geri verilir) |
+| `tx.send(v)` | değer kuyruğa kondu | **alıcı drop edilmişse** (`SendError(v)`, değer sana geri verilir) |
 | `rx.recv()` | `Ok(değer)`, gerekirse bekleyerek | **bütün göndericiler drop edilmiş ve kuyruk boşsa** (`RecvError`) |
 | `rx.try_recv()` | hazır mesaj varsa | hemen döner: `Empty` (şu an mesaj yok) ya da `Disconnected` |
 | `rx.recv_timeout(süre)` | süre içinde mesaj gelirse | `Timeout` ya da `Disconnected` |
@@ -549,7 +549,7 @@ tests: |
 hints:
   - "Masa numarası için `masalar.into_iter().enumerate()` kullan: `(i, yemekler)` çiftleri gelir, numara `i + 1`."
   - "Her thread için `let tx = tx.clone();` yaz, sonra `thread::spawn(move || ...)` içinde her yemeği `tx.send(format!(...))` ile gönder."
-  - "Döngüden sonra `drop(tx);` yazmayı unutma — yoksa `rx.iter().collect()` hiç bitmez. Sonra `sort()` ile sırala."
+  - "Döngüden sonra `drop(tx);` yazmayı unutma, yoksa `rx.iter().collect()` hiç bitmez. Sonra `sort()` ile sırala."
 require:
   - pattern: "mpsc::"
     message: Siparişleri bir `mpsc` kanalı üzerinden ilet.
@@ -678,7 +678,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `send` değerin sahipliğini neden taşıyor? Değeri kopyalasaydı ya da
+  Kendi cümlelerinle açıkla - `send` değerin sahipliğini neden taşıyor? Değeri kopyalasaydı ya da
   referans gönderseydi ne gibi sorunlar çıkardı?
 answer: |
   Sahiplik taşındığı için, gönderdikten sonra o değere yalnızca alıcı dokunabilir; iki thread aynı veriyi

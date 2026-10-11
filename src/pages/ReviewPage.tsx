@@ -1,4 +1,4 @@
-// /tekrar — spaced repetition. Tabs: today's session (start screen → interleaved session → summary,
+// /tekrar - spaced repetition. Tabs: today's session (start screen → interleaved session → summary,
 // or the "nothing due" state) and the card browser (?sekme=kartlar).
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

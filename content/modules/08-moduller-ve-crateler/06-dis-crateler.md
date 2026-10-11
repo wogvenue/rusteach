@@ -120,7 +120,7 @@ $ cargo build
 2. Seçtiği tam sürümleri `Cargo.lock` dosyasına kilitler (bir sonraki ders).
 3. Crate'leri indirir; bilgisayarındaki ortak önbellekte (`~/.cargo/registry`) saklar, yani başka
    projeler aynı sürümü yeniden indirmez.
-4. Yalnızca senin eklediklerini değil, **onların bağımlılıklarını** da (geçişli bağımlılıklar —
+4. Yalnızca senin eklediklerini değil, **onların bağımlılıklarını** da (geçişli bağımlılıklar,
    *transitive dependencies*) derler. Yukarıda `rand_core`'u sen istemedin; `rand` istedi.
 5. Derlenmiş bağımlılıklar `target/` klasöründe kalır. Bu yüzden ilk derleme yavaştır, sonrakiler
    hızlıdır.
@@ -841,11 +841,11 @@ answer: |
 - front: Rust'ın standart kütüphanesi neden küçük tutulur?
   back: "`std` sonsuza kadar geriye dönük uyumluluk sözü verir; giren hiçbir şey kaldırılamaz. Tasarımı zamanla değişebilecek alanlar crate olarak kalır."
 - front: "`rand::random_range(1..6)` hangi değerleri üretebilir?"
-  back: "1, 2, 3, 4, 5 — `..` aralığı üst sınırı **içermez**. Zar için `1..=6` gerekir."
+  back: "1, 2, 3, 4, 5, `..` aralığı üst sınırı **içermez**. Zar için `1..=6` gerekir."
 - front: Kodda kullandığın bir crate `Cargo.toml`'da yoksa hangi hatayı alırsın?
   back: "E0433 (yolda) ya da E0432 (`use`'da): use of unresolved module or unlinked crate, `cargo add` önerisiyle."
 - front: "`Cargo.toml`'daki `chrono-tz` crate'i kodda nasıl yazılır?"
-  back: "`chrono_tz::...` — crate adındaki tireler kodda alt çizgiye dönüşür."
+  back: "`chrono_tz::...`, crate adındaki tireler kodda alt çizgiye dönüşür."
 - front: "regex'te `[0-9]{5}` ile `^[0-9]{5}$` arasındaki fark nedir?"
   back: "İlki metnin **herhangi bir yerinde** beş rakam arar; ikincisi metnin **tamamının** tam beş rakam olmasını ister."
 - front: "`re.captures(metin)` sonucunda `c[0]` ve `c[1]` neyi verir?"

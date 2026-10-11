@@ -1,4 +1,4 @@
-# Özet Kartı — Cargo ve Ekosistem
+# Özet Kartı: Cargo ve Ekosistem
 
 ## Profiller (`[profile.*]`)
 

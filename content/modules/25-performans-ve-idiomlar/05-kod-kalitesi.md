@@ -1,6 +1,6 @@
 ---
 id: m25-l05
-title: Kod Kalitesi — clippy, rustfmt ve Kalıplar
+title: "Kod Kalitesi: clippy, rustfmt ve Kalıplar"
 minutes: 28
 type: lesson
 objectives:
@@ -238,7 +238,7 @@ lint'i, kayıpsız durumlarda `From`'u önerir. Tip ileride değişirse (`u32` �
 bırakarak seni uyarır; `as` sessizce hassasiyet kaybeder.
 
 ```fill
-prompt: Clippy uyarılarını gider — dilim parametresi, `is_empty` ve düzleştirilmiş `if`.
+prompt: Clippy uyarılarını gider, dilim parametresi, `is_empty` ve düzleştirilmiş `if`.
 code: |
   fn ortalama(notlar: ___0) -> f64 {
       if notlar.___1 {
@@ -390,7 +390,7 @@ fikrinin otomatik denetimidir.
 
 ```exercise
 id: m25-e-karne-clippy
-title: Clippy temizliği — karne modülü
+title: "Clippy temizliği: karne modülü"
 difficulty: 2
 prompt: |
   Okulun karne modülü **çalışıyor** ama CI'daki `cargo clippy -- -D warnings` adımı kırmızı. Aşağıdaki
@@ -558,17 +558,17 @@ hints:
   - "`karne_satiri`: `let harf = harf_notu(ortalama(&ogrenci.notlar)).unwrap_or('-');` ve `format!(\"{}: {harf} {}\", ogrenci.ad, rozet(ogrenci))`. `main`'de `if let Some(ilk) = sinif.first() { ... }`."
 forbid:
   - pattern: "&Vec<"
-    message: "clippy::ptr_arg — `&Vec<u32>` yerine `&[u32]` al."
+    message: "clippy::ptr_arg, `&Vec<u32>` yerine `&[u32]` al."
   - pattern: "\\.len\\(\\)\\s*(==|!=|>)\\s*0\\b"
-    message: "clippy::len_zero — uzunluğu sıfırla karşılaştırma; `is_empty()` kullan."
+    message: "clippy::len_zero, uzunluğu sıfırla karşılaştırma; `is_empty()` kullan."
   - pattern: "return\\s+Some\\("
-    message: "clippy::needless_return — son ifade `return` olmadan yazılır."
+    message: "clippy::needless_return, son ifade `return` olmadan yazılır."
   - pattern: "None\\s*=>\\s*None"
-    message: "clippy::manual_map — `Some(x) => Some(..), None => None` yerine `Option::map` kullan."
+    message: "clippy::manual_map, `Some(x) => Some(..), None => None` yerine `Option::map` kullan."
   - pattern: "if [^{}]*\\{\\s*if\\s"
-    message: "clippy::collapsible_if — iç içe iki `if`'i `&&` ile tek koşulda birleştir."
+    message: "clippy::collapsible_if, iç içe iki `if`'i `&&` ile tek koşulda birleştir."
   - pattern: "_\\s*=>\\s*\\{\\s*\\}"
-    message: "clippy::single_match — tek durumu yakalamak için `if let` kullan."
+    message: "clippy::single_match, tek durumu yakalamak için `if let` kullan."
   - pattern: "\\.clone\\(\\)"
     message: "Gereksiz `clone`: `format!` argümanlarını ödünç alır, `ogrenci.ad`'ı kopyalamana gerek yok."
   - pattern: "unwrap_or\\((String::from|\"[^\"]*\"\\.to_string)"
@@ -601,7 +601,7 @@ Kazancı estetik değil, ekonomiktir:
 Çoğu proje varsayılan stili kullanır; gerekirse kök dizinde küçük bir `rustfmt.toml`:
 
 ```toml
-# rustfmt.toml — ne kadar az ayar, o kadar ortak stil
+# rustfmt.toml - ne kadar az ayar, o kadar ortak stil
 edition = "2024"
 max_width = 100
 ```
@@ -1235,7 +1235,7 @@ tasarım kurması ve geri kalanını araçlara bırakmasıdır. Artık o araçla
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — bir projede kalite neden "kod incelemesinde dikkat etmek" yerine
+  Kendi cümlelerinle açıkla - bir projede kalite neden "kod incelemesinde dikkat etmek" yerine
   araçlara (clippy, rustfmt, CI) ve tip sistemine (typestate, sealed trait) emanet edilmeli?
   Her birinin hangi tür hatayı, ne zaman yakaladığını karşılaştır.
 answer: |
@@ -1256,7 +1256,7 @@ answer: |
 - front: "`match o { Some(x) => Some(f(x)), None => None }` için clippy hangi lint'i verir, düzeltme ne?"
   back: "`manual_map` → `o.map(f)` (ya da `o.map(|x| f(x))`)."
 - front: "`x.map(f).unwrap_or(v)` yerine idiomatik yazım nedir? Argüman sırası?"
-  back: "`x.map_or(v, f)` — varsayılan **ilk** argüman (`map_unwrap_or`, pedantic)."
+  back: "`x.map_or(v, f)`, varsayılan **ilk** argüman (`map_unwrap_or`, pedantic)."
 - front: "`cargo test --all-targets` hangi testleri çalıştırmaz?"
   back: Doc testlerini. Ayrıca `cargo test --doc` eklenmeli ya da bayraksız `cargo test` kullanılmalı.
 - front: "Kütüphane kaynağına `#![deny(warnings)]` koymak neden kötü bir fikirdir?"

@@ -2,7 +2,7 @@
 title: "Özet Kartı: Yapılar (Structs)"
 ---
 
-# Yapılar (Structs) — Özet Kartı
+# Yapılar (Structs): Özet Kartı
 
 ## Üç struct biçimi
 
@@ -11,7 +11,7 @@ title: "Özet Kartı: Yapılar (Structs)"
 | Adlandırılmış alanlı | `struct Kitap { kod: u32, baslik: String }` | `Kitap { kod: 1, baslik: s }` | `k.baslik` | Çoğu veri; alan adları anlam taşır |
 | Tuple struct | `struct Renk(u8, u8, u8);` | `Renk(255, 165, 0)` | `r.0`, `let Renk(r, g, b) = x;` | Kısa, sırası belli veri |
 | Newtype | `struct Metre(f64);` | `Metre(3.5)` | `m.0` | Aynı ham tipi taşıyan değerleri **karıştırmamak** |
-| Birim struct | `struct Isaret;` | `Isaret` | — | Verisi olmayan işaret tipleri (0 bayt) |
+| Birim struct | `struct Isaret;` | `Isaret` | - | Verisi olmayan işaret tipleri (0 bayt) |
 
 ## Örnek oluşturma kuralları
 

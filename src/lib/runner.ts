@@ -8,7 +8,7 @@ export function hasMain(code: string): boolean {
   return /(^|\n)\s*(pub\s+)?(async\s+)?fn\s+main\s*\(/.test(code);
 }
 
-/** Exactly mirrors wrapTests() in scripts/lib/lesson-parser.mjs — keep them in sync. */
+/** Exactly mirrors wrapTests() in scripts/lib/lesson-parser.mjs - keep them in sync. */
 export function wrapTests(code: string, tests: string): string {
   const indented = tests
     .replace(/\s+$/, '')
@@ -120,8 +120,8 @@ export async function runRust(req: RunRequest): Promise<RunResult> {
 /** Learner-facing explanation of a run result, in Turkish. */
 export function describeResult(r: RunResult): string {
   if (r.infraError) return r.infraError;
-  if (r.timedOut) return 'Program zaman aşımına uğradı — sonsuz bir döngü olabilir mi?';
-  if (r.compileError) return 'Derleme hatası — derleyicinin mesajını dikkatle oku, genellikle çözümü söyler.';
+  if (r.timedOut) return 'Program zaman aşımına uğradı, sonsuz bir döngü olabilir mi?';
+  if (r.compileError) return 'Derleme hatası, derleyicinin mesajını dikkatle oku, genellikle çözümü söyler.';
   if (!r.ok) return /panicked/.test(r.stderr) ? 'Program panik yaptı (panic).' : 'Program hata koduyla sonlandı.';
   return 'Başarılı!';
 }

@@ -147,7 +147,7 @@ bu karışıklığı giderdi: kök artık açıkça `crate` diye yazılıyor ve 
 "bu adı taşıyan **dış crate**" anlamına gelir; çoğunlukla makroların içinde karşına çıkar.
 :::
 
-## self:: ve super:: — bulunduğun yerden yürümek
+## self:: ve super::: bulunduğun yerden yürümek
 
 Göreli yollar bulunduğun modülden başlar ve ağaçta yukarı ya da aşağı yürür:
 
@@ -242,7 +242,7 @@ code: |
 answer: false
 error: E0425
 explanation: |
-  Derlenmez: **E0425 — cannot find function `indirim_orani` in this scope**. `kasa` modülü
+  Derlenmez: **E0425 - cannot find function `indirim_orani` in this scope**. `kasa` modülü
   `indirim_orani`'na erişmeye **yetkili** ama o adı kendi içinde bulamıyor. Her modül kendi ad
   alanıdır ve üst modülün adlarını devralmaz. Doğrusu: `super::indirim_orani()`.
 ```

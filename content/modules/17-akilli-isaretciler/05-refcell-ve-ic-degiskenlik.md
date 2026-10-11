@@ -191,7 +191,7 @@ yapsaydın (yazıcı yaşarken `borrow()`) mesaj `RefCell already mutably borrow
 ```memory
 title: RefCell'in iç sayacı
 steps:
-  - caption: "`let bakis = sepet.borrow();` — `RefCell` bir okuyucu kaydeder. `bakis`, içerideki `Vec`'i gösteren bir `Ref`."
+  - caption: "`let bakis = sepet.borrow();`, `RefCell` bir okuyucu kaydeder. `bakis`, içerideki `Vec`'i gösteren bir `Ref`."
     stack:
       - frame: main
         vars:
@@ -199,7 +199,7 @@ steps:
           - { name: bakis, type: "Ref<Vec<&str>>", value: "ref", to: sepet }
     heap:
       - { id: h1, value: "\"elma\"" }
-  - caption: "`sepet.borrow_mut()` — okuyucu varken yazıcı istendi. `RefCell` sayaca bakar ve **panik** atar. Panik olmasaydı, `push` `Vec`'i yeniden tahsis edip `bakis`'in gösterdiği belleği geçersiz kılabilirdi."
+  - caption: "`sepet.borrow_mut()`, okuyucu varken yazıcı istendi. `RefCell` sayaca bakar ve **panik** atar. Panik olmasaydı, `push` `Vec`'i yeniden tahsis edip `bakis`'in gösterdiği belleği geçersiz kılabilirdi."
     stack:
       - frame: main
         vars:
@@ -679,7 +679,7 @@ tests: |
   }
 hints:
   - "`ac`: önce `gunluk.borrow_mut().push(...)` ile girişi yaz, sonra `Oturum { kullanici: kullanici.to_string(), gunluk: Rc::clone(gunluk) }` döndür."
-  - "`islem` ve `drop` gövdeleri tek satır: `self.gunluk.borrow_mut().push(format!(...));` — geçici `RefMut` satırın sonunda bırakılır."
+  - "`islem` ve `drop` gövdeleri tek satır: `self.gunluk.borrow_mut().push(format!(...));` - geçici `RefMut` satırın sonunda bırakılır."
   - "Struct'ta bir `RefMut` saklamaya çalışma: oturum yaşadıkça günlük kilitli kalır ve okuma paniğe yol açar."
 explanation: |
   3. derste `&'a mut Vec<String>` tutan oturum, günlüğe **özel** erişim istiyordu. Bu yüzden iki oturum aynı
@@ -843,7 +843,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `RefCell<T>` ödünç alma kurallarını "kaldırıyor" mu? Derleme zamanı denetimi yerine çalışma zamanı denetimine geçmenin kazancı ve bedeli nedir?
+prompt: Kendi cümlelerinle açıkla, `RefCell<T>` ödünç alma kurallarını "kaldırıyor" mu? Derleme zamanı denetimi yerine çalışma zamanı denetimine geçmenin kazancı ve bedeli nedir?
 answer: |
   Model cevap: Hayır. Kurallar aynıdır: ya tek bir yazıcı ya da istediğin kadar okuyucu. `RefCell` yalnızca
   denetimin **zamanını** değiştirir; her `borrow`/`borrow_mut` çağrısında içerideki sayaca bakar. Kazanç,

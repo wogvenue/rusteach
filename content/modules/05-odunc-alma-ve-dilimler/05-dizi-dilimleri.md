@@ -1,6 +1,6 @@
 ---
 id: m05-l05
-title: Dizi dilimleri — &[T] ve &mut [T]
+title: "Dizi dilimleri: &[T] ve &mut [T]"
 minutes: 18
 type: lesson
 objectives:

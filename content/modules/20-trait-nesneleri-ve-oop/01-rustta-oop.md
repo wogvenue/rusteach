@@ -14,7 +14,7 @@ keywords: [OOP, nesne yönelimli, kapsülleme, kalıtım, kompozisyon, çok biç
 Java ya da C# bilen bir arkadaşın sana soruyor: *“Rust nesne yönelimli bir dil mi? Sınıf yok, `extends`
 yok... Peki büyük programları nasıl düzenliyorsunuz?”* Cevap, “nesne yönelimli”den ne kastettiğine bağlı.
 
-Nesne yönelimli programlamanın (**OOP — object-oriented programming**) tek bir resmî tanımı yoktur, ama
+Nesne yönelimli programlamanın (**OOP, object-oriented programming**) tek bir resmî tanımı yoktur, ama
 herkesin aklına üç fikir gelir: **kapsülleme**, **kalıtım** ve **çok biçimlilik**. Rust bunlardan ikisini
 kendi yoluyla sunar, birini ise **bilerek** dışarıda bırakır. Bu derste hangisinin neden dışarıda kaldığını
 ve yerine neyin geldiğini göreceksin. Modülün geri kalanı (trait nesneleri, dispatch, tasarım desenleri)
@@ -376,7 +376,7 @@ hints:
   - "`ayarla`'da önce kontrol et ve hatalıysa hemen `return Err(format!(\"{deger}°C izin verilen aralığın dışında ({EN_AZ}-{EN_COK})\"));` yaz; geçerliyse alanı güncelleyip `Ok(())` döndür."
 forbid:
   - pattern: "pub\\s+hedef\\s*:"
-    message: "`hedef` alanı gizli kalmalı — kapsüllemenin bütün amacı bu!"
+    message: "`hedef` alanı gizli kalmalı, kapsüllemenin bütün amacı bu!"
 explanation: |
   Değişmez, `Termostat`'ın **tek giriş kapısı** olan metotlarda korunuyor: kurucu kırpıyor, `artir`/`azalt`
   sınırda duruyor, `ayarla` geçersiz değeri reddediyor. `hedef` gizli olduğu için `ev` modülü dışındaki
@@ -391,7 +391,7 @@ explanation: |
   göreceksin.
 ```
 
-## Kalıtım yok — ve bu bilinçli bir karar
+## Kalıtım yok: ve bu bilinçli bir karar
 
 **Kalıtım (inheritance)**, bir sınıfın başka bir sınıfın alanlarını ve metotlarını devralmasıdır:
 `class Kedi extends Hayvan`. Rust'ta bir struct'ın başka bir struct'tan alan ya da metot devralmasının
@@ -563,7 +563,7 @@ options:
   - "2 11"
   - "2 1"
   - "3 11"
-  - Derlenmez — iki alan aynı tipte olamaz
+  - Derlenmez, iki alan aynı tipte olamaz
 answer: 0
 explanation: |
   `giris` ve `cikis` aynı tipte iki **bağımsız** parça; her birinin kendi `deger`'i var. `giris` iki kez
@@ -788,7 +788,7 @@ starter: |
       fn can_mut(&mut self) -> &mut Can {
           &mut self.can
       }
-      // TODO: saldiriya_ugra'yı ez — zırh hasarı azaltır
+      // TODO: saldiriya_ugra'yı ez - zırh hasarı azaltır
   }
 
   fn main() {

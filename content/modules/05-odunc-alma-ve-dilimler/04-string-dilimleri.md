@@ -1,6 +1,6 @@
 ---
 id: m05-l04
-title: String dilimleri — &str
+title: "String dilimleri: &str"
 minutes: 18
 type: lesson
 objectives:

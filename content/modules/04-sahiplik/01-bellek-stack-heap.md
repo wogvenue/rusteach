@@ -1,6 +1,6 @@
 ---
 id: m04-l01
-title: Bellek nasıl çalışır — stack ve heap
+title: "Bellek nasıl çalışır: stack ve heap"
 minutes: 18
 type: lesson
 objectives:
@@ -14,7 +14,7 @@ keywords: [stack, heap, bellek, işaretçi, pointer, malloc, free, çöp toplay�
 Şimdiye kadar yazdığın her programda değişkenler bir yerde saklandı, işi bitince de sessizce ortadan
 kayboldu. Peki tam olarak **nerede** saklandılar ve onları **kim** temizledi?
 
-Bu sorunun cevabı, Rust'ı diğer bütün dillerden ayıran fikre — **sahiplik (ownership)** — açılan kapıdır.
+Bu sorunun cevabı, Rust'ı diğer bütün dillerden ayıran fikre, **sahiplik (ownership)**, açılan kapıdır.
 Modül 1'deki çarpıcı istatistiği hatırla: büyük yazılım şirketlerinde ciddi güvenlik açıklarının yaklaşık
 **%70'i bellek hatalarından** çıkıyor. Bu derste o hataların tam olarak ne olduğunu, dillerin onlarla nasıl
 savaştığını ve Rust'ın neden bambaşka bir yol seçtiğini göreceksin.
@@ -27,7 +27,7 @@ Burayı sindirirsen sonraki modüllerin hepsi çok daha kolay gelecek! 🦀
 ## Stack: tabak yığını
 
 Modül 3'te her fonksiyon çağrısının **çağrı yığınının (call stack)** tepesine kendi **çerçevesini
-(frame)** eklediğini görmüştün. Şimdi o yapıya daha yakından bakalım. Önce tahmin et — yanılsan bile
+(frame)** eklediğini görmüştün. Şimdi o yapıya daha yakından bakalım. Önce tahmin et, yanılsan bile
 tahmin etmek, birazdan okuyacağın açıklamayı daha kalıcı yapar:
 
 ```predict
@@ -129,7 +129,7 @@ steps:
 
 Bu diyagram stack'in dört özelliğini gösteriyor:
 
-- **LIFO** (*Last In, First Out* — son giren ilk çıkar): En son eklenen çerçeve, ilk kaldırılandır.
+- **LIFO** (*Last In, First Out*, son giren ilk çıkar): En son eklenen çerçeve, ilk kaldırılandır.
 - **Sabit boyut**: Derleyici her çerçevenin kaç bayt olduğunu önceden bilir. `dis`'in çerçevesi her
   çağrıda aynı büyüklüktedir.
 - **Çok hızlı**: Çerçeve eklemek, işlemcinin *stack işaretçisini* birkaç bayt kaydırmasından ibarettir.
@@ -152,7 +152,7 @@ klavyeden yazacağı bir isim 3 harf mi olacak, 300 harf mi? Bir alışveriş li
 Bunlar ancak program **çalışırken** belli olur.
 
 **2. Stack küçüktür.** Ana thread'in stack'i genellikle Linux'ta 8 MB, Windows'ta yalnızca 1 MB'tır.
-Kendi kendini çağıran — **özyinelemeli (recursive)** — şu fonksiyona bak. Mantığı kusursuz: 0'a kadar
+Kendi kendini çağıran, **özyinelemeli (recursive)**, şu fonksiyona bak. Mantığı kusursuz: 0'a kadar
 geri sayıp her adımda 1 ekliyor. Ama her çağrı yeni bir çerçeve açıyor ve hiçbiri hemen dönmüyor:
 
 ```rust,norun
@@ -183,7 +183,7 @@ hatadan alır.
 :::info Release derlemede neden çökmeyebilir?
 Aynı programı `cargo run --release` ile derlersen büyük ihtimalle çökmeden `10000000` yazar: optimize
 eden derleyici bu özyinelemeyi fark edip onu bir **döngüye** çevirebilir. Ama Rust bu dönüşümü **garanti
-etmez**; ufak bir değişiklik optimizasyonu bozabilir. Çok derin özyinelemeye güvenme — gerektiğinde
+etmez**; ufak bir değişiklik optimizasyonu bozabilir. Çok derin özyinelemeye güvenme, gerektiğinde
 döngü kullan.
 :::
 
@@ -193,15 +193,15 @@ ikinci bölgesi, **heap**.
 ```quiz
 question: Aşağıdakilerden hangisi **tamamen** stack'te tutulamaz?
 options:
-  - "`[i32; 1000]` — bin elemanlı bir dizi"
-  - "`(f64, bool, char)` — üç elemanlı bir tuple"
+  - "`[i32; 1000]`, bin elemanlı bir dizi"
+  - "`(f64, bool, char)`, üç elemanlı bir tuple"
   - Kullanıcının programa klavyeden yazacağı adı
   - "`u128` tipinde bir sayı"
 answer: 2
 explanation: |
   Stack'e konacak her şeyin boyutu **derleme zamanında** bilinmelidir. `[i32; 1000]` her zaman 4000
   bayttır; tuple'ın boyutu elemanlarının tiplerinden hesaplanır; `u128` her zaman 16 bayttır. Kullanıcının
-  yazacağı adın uzunluğu ise ancak program çalışırken belli olur — böyle veriler heap'te tutulur.
+  yazacağı adın uzunluğu ise ancak program çalışırken belli olur - böyle veriler heap'te tutulur.
 feedback:
   - "Büyük ama boyutu **sabit**: 1000 × 4 = 4000 bayt. (Çok büyük diziler stack'i taşırabilir ama boyutları derleme zamanında bilinir.)"
   - Tuple'ın boyutu, elemanlarının tiplerinden derleme zamanında hesaplanır.
@@ -220,7 +220,7 @@ Heap'ten yer almanın adı **bellek ayırma (allocation)**dır: program, **belle
 :::analogy Otel resepsiyonu
 Heap bir otel gibidir. Resepsiyona "dört kişilik bir oda" dersin; görevli boş bir oda bulur ve sana
 **oda numarasını** verir. Oda numarası küçük bir bilgidir, cebine (stack'e) sığar; odanın kendisi ise
-otelin içindedir (heap). Eşyalarına ulaşmak için önce numaraya bakıp koridorda yürümen gerekir — bu yüzden
+otelin içindedir (heap). Eşyalarına ulaşmak için önce numaraya bakıp koridorda yürümen gerekir, bu yüzden
 heap'e erişmek, cebinden bir şey çıkarmaktan yavaştır.
 :::
 
@@ -240,7 +240,7 @@ Bu tek satır bellekte şöyle görünür:
 ```memory
 title: let s = String::from("merhaba");
 steps:
-  - caption: "Stack'te üç parça var: heap'teki veriye **işaretçi** (ptr), **uzunluk** (len — kullanılan bayt) ve **kapasite** (cap — ayrılan bayt). Karakterlerin kendisi heap'te."
+  - caption: "Stack'te üç parça var: heap'teki veriye **işaretçi** (ptr), **uzunluk** (len, kullanılan bayt) ve **kapasite** (cap, ayrılan bayt). Karakterlerin kendisi heap'te."
     stack:
       - frame: main
         vars:
@@ -250,7 +250,7 @@ steps:
 ```
 
 Bunu kendin ölçebilirsin. `std::mem::size_of::<T>()` bir `T` değerinin **kendisinin** kaç bayt
-kapladığını söyler; bir `String` için bu, stack'teki başlıktır — gösterdiği heap verisi bu sayıya dahil
+kapladığını söyler; bir `String` için bu, stack'teki başlıktır, gösterdiği heap verisi bu sayıya dahil
 **değildir** (bellek düzenini Modül 24'te derinlemesine göreceğiz; şimdilik onu bir cetvel gibi
 kullanıyoruz):
 
@@ -272,7 +272,7 @@ Bir `String` ister tek harf ister koca bir roman tutsun, stack'teki başlığı 
 sistemde 3 × 8 bayt). Değişen yalnızca heap'teki kısımdır.
 
 Heap'in asıl gücü **büyüyebilmesidir**. `push_str` bir `String`'in sonuna metin, `push` ise tek bir
-karakter ekler. (Değiştirebilmek için değişkenin `mut` olması gerekir — Modül 2'yi hatırla; ayrıntısı
+karakter ekler. (Değiştirebilmek için değişkenin `mut` olması gerekir, Modül 2'yi hatırla; ayrıntısı
 bir sonraki derste.)
 
 ```rust
@@ -289,12 +289,12 @@ fn main() {
 Kapasite yetmediğinde `String` ayırıcıdan **daha büyük** bir alan ister: ayırıcı ya mevcut alanı yerinde
 genişletir ya da yeni bir yer bulup baytları oraya kopyalar ve eski alanı geri alır; ikinci durumda
 stack'teki işaretçi artık yeni adresi gösterir. Kapasitenin tam olarak ne kadar büyüdüğü bir uygulama
-ayrıntısıdır (yukarıdaki sayılar Rust sürümüne göre değişebilir) — önemli olan, heap verisinin çalışma
+ayrıntısıdır (yukarıdaki sayılar Rust sürümüne göre değişebilir), önemli olan, heap verisinin çalışma
 zamanında büyüyebilmesi.
 
 Bedeli de var: heap kullanmak stack'ten **yavaştır**. Asıl maliyet ayırma ve geri vermededir: ayırıcı
 her istekte boş yer arayıp kayıt tutmak zorundadır. Veriye ulaşmak için de önce işaretçiyi izlemek
-gerekir — fazladan bir adım. (Bellek donanımı aynıdır: heap baytları "daha yavaş bir bellekte" durmaz;
+gerekir, fazladan bir adım. (Bellek donanımı aynıdır: heap baytları "daha yavaş bir bellekte" durmaz;
 yavaşlık ayırmadan ve bu dolaylı erişimden gelir.) Bu yüzden deneyimli Rust programcıları gereksiz heap
 ayırmalarından kaçınır (Modül 25).
 
@@ -343,20 +343,20 @@ int main(void) {
 }
 ```
 
-C derleyicisi bu programı derler — belki bir uyarı verir, ama durdurmaz. Hatalar çalışma zamanında,
+C derleyicisi bu programı derler, belki bir uyarı verir, ama durdurmaz. Hatalar çalışma zamanında,
 belki aylar sonra, belki de bir saldırganın elinde patlar. Elle yönetimin dört klasik hatası:
 
 | Hata | Ne olur? | Sonuç |
 |---|---|---|
 | **Bellek sızıntısı (memory leak)** | `free` unutulur | Program giderek daha çok bellek yer; uzun çalışan programlarda bellek tükenebilir |
 | **Çift serbest bırakma (double free)** | Aynı alan iki kez `free` edilir | Ayırıcının kayıtları bozulur; güvenlik açığı |
-| **Serbest bıraktıktan sonra kullanım (use-after-free)** | Geri verilmiş alan okunur ya da yazılır | Başka bir verinin belleği bozulur — saldırganların favorisi |
+| **Serbest bıraktıktan sonra kullanım (use-after-free)** | Geri verilmiş alan okunur ya da yazılır | Başka bir verinin belleği bozulur, saldırganların favorisi |
 | **Sarkan işaretçi (dangling pointer)** | İşaretçi, artık geçersiz bir alanı gösterir | Use-after-free'nin kaynağı: gizli bir saatli bomba |
 
 Sarkan işaretçinin neden bu kadar tehlikeli olduğunu adım adım gör:
 
 ```memory
-title: C'de free(isim) sonrası — sarkan işaretçi
+title: "C'de free(isim) sonrası: sarkan işaretçi"
 steps:
   - caption: "`malloc(8)` heap'te 8 bayt ayırdı; `isim` bu alanın adresini tutuyor."
     stack:
@@ -365,7 +365,7 @@ steps:
           - { name: isim, type: "char *", value: "0x5a10", to: h1 }
     heap:
       - { id: h1, value: "m e r h a b a", label: "isim'in verisi" }
-  - caption: "`free(isim)`: alan ayırıcıya geri verildi. Ama `isim` **hâlâ aynı adresi** tutuyor — artık sarkan bir işaretçi."
+  - caption: "`free(isim)`: alan ayırıcıya geri verildi. Ama `isim` **hâlâ aynı adresi** tutuyor, artık sarkan bir işaretçi."
     stack:
       - frame: main
         vars:
@@ -381,9 +381,9 @@ steps:
       - { id: h1, value: "ş i f r e = 1 2 3 4", label: "artık başka bir verinin" }
 ```
 
-Otel benzetmesiyle: sızıntı, çıkış yapmayı unutmaktır — oda sonsuza dek dolu görünür. Double free,
-anahtarı iki kez teslim etmektir — resepsiyon odayı iki misafire birden verebilir. Use-after-free ise
-çıkış yaptıktan sonra sakladığın anahtar kopyasıyla odaya girmektir — içeride artık başka bir misafir var!
+Otel benzetmesiyle: sızıntı, çıkış yapmayı unutmaktır, oda sonsuza dek dolu görünür. Double free,
+anahtarı iki kez teslim etmektir, resepsiyon odayı iki misafire birden verebilir. Use-after-free ise
+çıkış yaptıktan sonra sakladığın anahtar kopyasıyla odaya girmektir, içeride artık başka bir misafir var!
 
 Bu hatalar teorik değil. Google, Android'de yeni kodu Rust gibi bellek güvenli dillerle yazmaya
 başladıktan sonra bellek kaynaklı güvenlik açıklarının payının %76'dan (2019) %24'e (2024) düştüğünü
@@ -460,7 +460,7 @@ feedback:
 
 Üçüncü cevap Rust'ınki: **derleyici ayarlasın**. Rust'ta heap belleği yine otomatik geri verilir, ama
 bunu çalışma zamanında bir toplayıcı yapmaz. Her değerin bir **sahibi (owner)** vardır ve sahip kapsam
-dışına çıktığı anda — derleyicinin tam o noktaya yerleştirdiği kodla — bellek serbest bırakılır.
+dışına çıktığı anda, derleyicinin tam o noktaya yerleştirdiği kodla, bellek serbest bırakılır.
 Aynı belleği iki kez serbest bırakabilecek ya da serbest bırakılmış belleğe erişebilecek bir program
 ise **derlenmez** (`unsafe` kullanmayan, yani **güvenli Rust** kodunda; `unsafe`'i Modül 24'te
 göreceğiz).
@@ -487,7 +487,7 @@ steps:
           - { name: mesaj, type: String, value: "ptr · len=7 · cap=7", to: h1 }
     heap:
       - { id: h1, value: "g e ç i c i" }
-  - caption: "`}` geldi: `mesaj`'ın kapsamı bitti. Rust belleği **anında** geri verdi — ne GC ne de elle `free`."
+  - caption: "`}` geldi: `mesaj`'ın kapsamı bitti. Rust belleği **anında** geri verdi, ne GC ne de elle `free`."
     stack:
       - frame: main
         vars:
@@ -503,7 +503,7 @@ steps:
 | Belleği kim geri verir? | Programcı (`free`) | Çalışma zamanında GC | Derleyicinin yerleştirdiği kod |
 | Ne zaman? | Programcı ne zaman yazarsa | GC ne zaman karar verirse | Sahip kapsamdan çıktığı anda |
 | Toplayıcı gibi ek çalışma zamanı maliyeti | Yok | Var (CPU, bellek, duraklama) | Yok |
-| Double free, use-after-free | Korumasız | Güvenli | Güvenli — derleme zamanında denetlenir |
+| Double free, use-after-free | Korumasız | Güvenli | Güvenli, derleme zamanında denetlenir |
 | Bedeli | Hatalar, güvenlik açıkları | Performans, öngörülemezlik | Kuralları öğrenmek |
 
 Bir dürüstlük notu: Rust'ın derleme zamanı garantisi double free, use-after-free ve sarkan işaretçiler
@@ -529,9 +529,9 @@ explanation: |
   denetlendiği için toplayıcı taraması, duraklama gibi ek bir çalışma zamanı maliyeti yoktur.
 feedback:
   - Rust'ta GC yoktur; temizlik derleme zamanında belirlenen noktalarda yapılır.
-  - Doğru! Ne GC ne elle `free` — sahiplik.
+  - Doğru! Ne GC ne elle `free`, sahiplik.
   - Rust'ta `free` diye bir şey yazmazsın; temizlik otomatiktir.
-  - "Bu hatalar program çalışmadan, **derleme sırasında** engellenir; böyle bir program hiç derlenmez. (Dizi sınırı aşımı gibi bazı hatalar ise çalışma zamanında panikle yakalanır — Modül 2 — ama sahiplik hataları derlemede.)"
+  - "Bu hatalar program çalışmadan, **derleme sırasında** engellenir; böyle bir program hiç derlenmez. (Dizi sınırı aşımı gibi bazı hatalar ise çalışma zamanında panikle yakalanır, Modül 2, ama sahiplik hataları derlemede.)"
 ```
 
 ## Alıştırma: metni heap'te büyüt
@@ -585,7 +585,7 @@ output: |
   ***
 explanation: |
   Boş bir `String` ile başlayıp her satırda `push` ile karakter, satır sonunda da `'\n'` (yeni satır)
-  ekliyoruz. Ortaya çıkan metnin uzunluğu `n`'ye bağlı, yani derleme zamanında bilinemez — işte bu yüzden
+  ekliyoruz. Ortaya çıkan metnin uzunluğu `n`'ye bağlı, yani derleme zamanında bilinemez - işte bu yüzden
   heap'te büyüyen bir `String` kullanıyoruz. Dikkat: `push` bir `char` alır (`'*'`), `push_str` ise bir
   metin (`"*"`); ikisini karıştırırsan tip hatası (`E0308`) alırsın.
 ```
@@ -688,7 +688,7 @@ tests: |
 hints:
   - |
     Önce değeri sınırla: `let yuzde = if yuzde > 100 { 100 } else { yuzde };` (gölgeleme, Modül 2).
-    Dolu kutu sayısı `yuzde / 10` — tam sayı bölmesi kesirli kısmı atar.
+    Dolu kutu sayısı `yuzde / 10` - tam sayı bölmesi kesirli kısmı atar.
   - |
     `let mut cubuk = String::new();` ile başla. `for i in 0..10` döngüsünde `i < dolu` ise
     `cubuk.push('#')`, değilse `cubuk.push('-')` yap.
@@ -720,7 +720,7 @@ explanation: |
 - `String` = stack'te **ptr + len + cap** (24 bayt) + heap'te karakterler.
 - C: elle `free` → sızıntı, double free, use-after-free, sarkan işaretçi riski.
 - GC: güvenli ama çalışma zamanı maliyeti, duraklamalar, belirsiz zamanlama.
-- Rust: **sahiplik** — sahip kapsamdan çıkınca derleyicinin yerleştirdiği kod belleği geri verir;
+- Rust: **sahiplik**, sahip kapsamdan çıkınca derleyicinin yerleştirdiği kod belleği geri verir;
   kurala uymayan program derlenmez.
 :::
 
@@ -742,7 +742,7 @@ answer: |
 - front: Stack'te yer ayırmak neden heap'ten çok daha hızlıdır?
   back: Stack'te ayırma sadece stack işaretçisini kaydırmaktır. Heap'te ayırıcının uygun boş alan araması ve kayıt tutması gerekir.
 - front: "Bir `String` stack'te hangi üç parçayı tutar?"
-  back: Heap'teki veriye işaretçi (ptr), uzunluk (len) ve kapasite (cap) — 64-bit sistemde toplam 24 bayt.
+  back: Heap'teki veriye işaretçi (ptr), uzunluk (len) ve kapasite (cap), 64-bit sistemde toplam 24 bayt.
 - front: Bellek sızıntısı (memory leak) nedir?
   back: Artık kullanılmayan heap belleğinin hiç geri verilmemesi; program giderek daha fazla bellek tüketir.
 - front: Double free nedir?
@@ -752,5 +752,5 @@ answer: |
 - front: Çöp toplayıcılı bir dilde bir nesne ne zaman temizlenebilir hâle gelir?
   back: Programın hiçbir yerinden ona artık ulaşılamadığında. Temizliğin tam anını ise GC kendisi seçer.
 - front: Rust heap belleğini ne zaman ve kimin eliyle geri verir?
-  back: Değerin sahibi kapsam dışına çıktığı anda, derleyicinin oraya yerleştirdiği kodla — GC ya da elle `free` olmadan.
+  back: Değerin sahibi kapsam dışına çıktığı anda, derleyicinin oraya yerleştirdiği kodla, GC ya da elle `free` olmadan.
 ```

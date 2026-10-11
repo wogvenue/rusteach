@@ -105,7 +105,7 @@ fn main() {
 
 Tasarım üç parçadan oluşuyor ve her iterator'da aynıdır:
 
-1. **Durum (state)**: iterator'ın "neredeyim?" sorusunun cevabı — burada `simdiki` ve `bitis` alanları.
+1. **Durum (state)**: iterator'ın "neredeyim?" sorusunun cevabı, burada `simdiki` ve `bitis` alanları.
 2. **`type Item`**: dışarıya hangi tipte eleman vereceğin.
 3. **`next`**: durumu bir adım ilerlet, ya `Some(eleman)` ya da `None` döndür.
 
@@ -163,7 +163,7 @@ options:
   - "70"
 answer: 0
 explanation: |
-  `zip` `(1,2)`, `(2,3)`, `(3,4)`, `(4,5)` çiftlerini üretir — ikinci sayaç bir eleman atladığı için 4'te
+  `zip` `(1,2)`, `(2,3)`, `(3,4)`, `(4,5)` çiftlerini üretir - ikinci sayaç bir eleman atladığı için 4'te
   biter ve `zip` kısa olanda durur. Çarpımlar: 2, 6, 12, 20. 3'e bölünebilenler: 6 ve 12. Toplam: **18**.
   Bu metotların hiçbirini biz yazmadık; hepsi `next` üzerine kurulu varsayılan metotlar.
 ```
@@ -253,7 +253,7 @@ steps:
       - frame: main
         vars:
           - { name: fib, type: Fibonacci, value: "{ a: 1, b: 1 }", mut: true, note: "verilen: 0" }
-  - caption: "2. ve 3. `next()`: `Some(1)`, `Some(1)`; durum `{ a: 2, b: 3 }`. Her adımda sadece iki `u64` değişiyor — 16 bayt."
+  - caption: "2. ve 3. `next()`: `Some(1)`, `Some(1)`; durum `{ a: 2, b: 3 }`. Her adımda sadece iki `u64` değişiyor, 16 bayt."
     stack:
       - frame: main
         vars:
@@ -423,7 +423,7 @@ explanation: |
 
 ## Struct yazmadan iterator: from_fn, successors ve impl Iterator
 
-Her iterator için bir struct tanımlamak zorunda değilsin. Durumu bir closure yakalayabilir — 2. dersteki
+Her iterator için bir struct tanımlamak zorunda değilsin. Durumu bir closure yakalayabilir, 2. dersteki
 `numarator`'ı hatırla! **`std::iter::from_fn`** bir `FnMut() -> Option<T>` closure'ını alır ve her
 `next()`'te onu çağırır. **`std::iter::successors`** ise bir başlangıç değeri ve "bir öncekinden sıradakini
 üret" kuralı alır:
@@ -505,7 +505,7 @@ blanks:
 output: Some(161051)
 explanation: |
   `successors`'ın kuralı bir `Option` döndürür: `Some(sonraki)` devam, `None` bitiş. Burada kural hiç `None`
-  döndürmüyor — iterator **sonsuz**! Ama `find` kısa devre yaptığı için sorun yok: 100.000 → 110.000 →
+  döndürmüyor - iterator **sonsuz**! Ama `find` kısa devre yaptığı için sorun yok: 100.000 → 110.000 →
   121.000 → 133.100 → 146.410 → **161.051**'de durur. `find` yerine `filter(...).collect()` yazsaydın
   program hiç bitmezdi (sonunda taşma paniğiyle çökerdi).
 ```
@@ -549,7 +549,7 @@ Optimizasyonla (`cargo build --release`) derlendiğinde iterator sürümü en az
 2. **Sınır kontrolünün kalkması (bounds-check elimination)**: `notlar[i]` her seferinde `i < len` kontrolü
    yapar, çünkü yanlış bir indeks panik demektir (Modül 9). Iterator ise dilimin sonunu zaten bildiği için
    "dışarı taşma" ihtimali yoktur; kontrol gereksizdir. Üstelik indeksli sürümde `agirliklar` daha kısaysa
-   panik olur — iterator sürümünde `zip` kısa olanda durur.
+   panik olur, iterator sürümünde `zip` kısa olanda durur.
 3. **Vektörleştirme (SIMD)**: Düz, kontrolsüz bir döngü, işlemcinin aynı anda birden çok sayıyı işleyen
    komutlarına (SIMD) çevrilmeye çok daha uygundur.
 
@@ -585,7 +585,7 @@ feedback:
   - Hiçbir kopyalama yapılmaz; `iter()` sadece ödünç alır.
 ```
 
-## Döngüden boru hattına — ve ne zaman yapmamalı
+## Döngüden boru hattına: ve ne zaman yapmamalı
 
 Tipik bir "biriktirici döngü"yü adım adım boru hattına çevirelim. Görev: aktif kullanıcıların e-postalarını
 küçük harfe çevirip listelemek.
@@ -611,7 +611,7 @@ fn main() {
         }
     }
 
-    // Sonra: her satır bir adım — "aktifleri süz, küçült, topla"
+    // Sonra: her satır bir adım - "aktifleri süz, küçült, topla"
     let liste2: Vec<String> = kullanicilar
         .iter()
         .filter(|k| k.aktif)
@@ -674,7 +674,7 @@ explanation: |
   ve daha okunaklı ifade eder.
 feedback:
   - "`filter(...).map(...).collect()` bunu çok net ifade eder."
-  - "`v.iter().map(|x| x * x).sum::<i32>()` — tek satır, tek niyet."
+  - "`v.iter().map(|x| x * x).sum::<i32>()`, tek satır, tek niyet."
   - Doğru! Çok sonuçlu, çok durumlu işler döngüde daha okunaklıdır.
   - "`position` tam olarak bunun için var."
 ```
@@ -781,7 +781,7 @@ tests: |
 hints:
   - "Adımları sırala: süz (`filter`), dönüştür (`map`), sınırla (`take`), topla (`collect`)."
   - "`filter(|k| k.aktif && k.eposta.contains('@'))` iki koşulu birden kontrol eder."
-  - "`.map(|k| k.eposta.trim().to_lowercase()).take(limit).collect()` — `take`'i `filter`'dan **sonra** koymalısın; yoksa geçersiz adresler de limitten yer."
+  - "`.map(|k| k.eposta.trim().to_lowercase()).take(limit).collect()`, `take`'i `filter`'dan **sonra** koymalısın; yoksa geçersiz adresler de limitten yer."
 forbid:
   - pattern: "\\bfor\\b|\\bwhile\\b|\\bloop\\b"
     message: "Bu alıştırmada döngü yazmadan, boru hattıyla çöz."
@@ -791,7 +791,7 @@ require:
 explanation: |
   Döngüdeki her yapı bir adaptöre karşılık geliyor: `if` → `filter`, `push(dönüştürülmüş)` → `map`,
   `if len == limit { break }` → `take(limit)`, `Vec::new()` + `push` → `collect`. Tembellik sayesinde
-  `take` limiti doldurduğu anda zincir durur; kalan kullanıcılara hiç bakılmaz — tıpkı döngüdeki `break` gibi.
+  `take` limiti doldurduğu anda zincir durur; kalan kullanıcılara hiç bakılmaz - tıpkı döngüdeki `break` gibi.
 
   Adaptörlerin **sırası** anlamı değiştirir: `take(limit)`'i `filter`'dan önce koysaydın "ilk `limit`
   kullanıcıdan uygun olanlar" anlamına gelirdi; `limit_uygulanir` testi bu farkı yakalar.

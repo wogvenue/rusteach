@@ -14,7 +14,7 @@ keywords: [derive, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Def
 Modül 6'dan beri neredeyse her struct'ın üstüne `#[derive(Debug)]` yazdın ve `{:?}` sihirli bir şekilde
 çalıştı. Artık trait'leri bildiğine göre sihri bozabiliriz: `derive`, **senin yerine `impl` bloğu yazan**
 bir makrodur. Bu derste standart kütüphanenin türetilebilen dokuz trait'ini, her birinin sana ne kazandırdığını
-ve — en az onun kadar önemli — ne zaman türetilemeyeceğini (ya da türetilmemesi gerektiğini) öğreneceksin.
+ve, en az onun kadar önemli, ne zaman türetilemeyeceğini (ya da türetilmemesi gerektiğini) öğreneceksin.
 
 ## `derive` perde arkasında ne yazar?
 
@@ -98,7 +98,7 @@ explanation: |
   yeterlidir; `String` alanlı bir struct da rahatça `Clone` türetebilir.
 feedback:
   - Rust'ta çalışma zamanı yansıtması (reflection) yoktur; her şey derleme zamanında üretilir.
-  - Doğru — `derive`, `impl` bloğunu senin yerine yazar.
+  - Doğru, `derive`, `impl` bloğunu senin yerine yazar.
   - "`Clone` için alanların `Clone` olması yeterli. `Copy` şartı `Copy` türetmek içindir."
 ```
 
@@ -115,9 +115,9 @@ olarak yazılır; kendininkini Modül 23'te yazacaksın. Üretilen kodu görmek 
 Modül 4'te `String`'in atamada **taşındığını**, `i32`'nin ise **kopyalandığını** öğrenmiştin. Bu farkın
 arkasında iki trait var:
 
-- **`Clone`** — açık (explicit) kopya. Sen `.clone()` yazmadıkça gerçekleşmez ve pahalı olabilir: bir
+- **`Clone`**, açık (explicit) kopya. Sen `.clone()` yazmadıkça gerçekleşmez ve pahalı olabilir: bir
   `String`'i klonlamak heap'te yeni bellek ayırıp bütün baytları kopyalar.
-- **`Copy`** — örtük (implicit) kopya. Atama ve fonksiyona geçirme, taşımak yerine değeri bit bit kopyalar.
+- **`Copy`**, örtük (implicit) kopya. Atama ve fonksiyona geçirme, taşımak yerine değeri bit bit kopyalar.
   Metodu olmayan bir **işaret trait'idir (marker trait)**: *“Bu tipi bayt bayt kopyalamak güvenli ve ucuz.”*
 
 ```rust
@@ -166,7 +166,7 @@ error: E0382
 explanation: |
   `Clone` türetmek atamanın anlamını **değiştirmez**: `Copy` olmayan her tip atamada taşınır, yani
   `let b = a;` satırından sonra `a` geçersizdir. İki çözüm var: kopyayı açıkça iste (`let b = a.clone();`)
-  ya da — bütün alanlar `i32` olduğu için — `Copy`'yi de türet.
+  ya da - bütün alanlar `i32` olduğu için - `Copy`'yi de türet.
 ```
 
 Peki neden her tipi `Copy` yapmıyoruz? Bir öğrenci kaydını deneyelim:
@@ -204,7 +204,7 @@ steps:
         vars:
           - { name: a, type: Nokta, value: "x=1 · y=2" }
           - { name: b, type: Nokta, value: "x=1 · y=20", mut: true }
-  - caption: "Bir `Ogrenci` bit bit kopyalanabilseydi (Rust buna izin vermez!), iki değişken **aynı** heap belleğe işaret ederdi. Kapsam bitince ikisi de drop edilir ve aynı bellek iki kez serbest bırakılırdı (double free) — tanımsız davranış."
+  - caption: "Bir `Ogrenci` bit bit kopyalanabilseydi (Rust buna izin vermez!), iki değişken **aynı** heap belleğe işaret ederdi. Kapsam bitince ikisi de drop edilir ve aynı bellek iki kez serbest bırakılırdı (double free), tanımsız davranış."
     stack:
       - frame: main
         vars:
@@ -245,7 +245,7 @@ Enum'larda ise iki değer aynı varyantta olup aynı veriyi taşıyorsa eşittir
 
 Peki adındaki “Partial” (kısmi) nereden geliyor? Matematikte eşitlik birkaç kurala uyar; bunların ilki
 **yansımadır**: Her değer kendisine eşittir (`a == a`). `f64` bu kurala uymaz: IEEE 754 standardına göre `NaN`
-(*Not a Number* — `0.0 / 0.0` gibi tanımsız işlemlerin sonucu) hiçbir şeye, **kendisine bile** eşit değildir.
+(*Not a Number*, `0.0 / 0.0` gibi tanımsız işlemlerin sonucu) hiçbir şeye, **kendisine bile** eşit değildir.
 Bunu aklında tutarak tahmin et:
 
 ```predict
@@ -341,7 +341,7 @@ output: |
   Ayşe / AYŞE / Ayşe
 explanation: |
   `PartialEq`'in tek zorunlu metodu `eq`'dur: `self` ile `other`'ı karşılaştırıp `bool` döndürür. `!=`
-  (`ne` metodu) varsayılan uygulama olarak hazır gelir — 3. dersteki varsayılan metotlar gibi! Adlar farklı
+  (`ne` metodu) varsayılan uygulama olarak hazır gelir - 3. dersteki varsayılan metotlar gibi! Adlar farklı
   yazılmış olsa da `a == b` doğru; adları aynı ama numaraları farklı olan `a` ile `c` ise farklı öğrenciler.
 ```
 
@@ -446,7 +446,7 @@ explanation: |
   `notlar.sort_by(|a, b| a.total_cmp(b));`
 feedback:
   - "`Vec<String>` ya da `Vec<char>` de sıralanabilir; sınır tipin cinsine değil `Ord` uygulamasına bakar."
-  - Doğru — `sort` toplam sıralama ister.
+  - Doğru, `sort` toplam sıralama ister.
   - "`72.5 < 90.0` gayet çalışır, çünkü `f64` `PartialOrd`'dur. Eksik olan *toplam* sıralamadır."
 ```
 

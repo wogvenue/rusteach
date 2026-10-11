@@ -1,4 +1,4 @@
-// Tests for electron/runner.cjs — run with plain Node:  node electron/runner.test.mjs
+// Tests for electron/runner.cjs - run with plain Node:  node electron/runner.test.mjs
 //
 // Offline tests cover the building blocks (process control, request validation, backend choice,
 // output post-processing parity with src/lib/runner.ts). The end-to-end tests talk to the real
@@ -42,10 +42,10 @@ test('output post-processing is identical to src/lib/runner.ts', () => {
   const ts = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'runner.ts'), 'utf8');
   const m = ts.match(/const NOISE =\s*\/(.+)\/;\s*$/m);
   assert.ok(m, 'NOISE pattern not found in src/lib/runner.ts');
-  assert.equal(R.NOISE.source, m[1], 'NOISE differs from src/lib/runner.ts — keep them in sync');
+  assert.equal(R.NOISE.source, m[1], 'NOISE differs from src/lib/runner.ts, keep them in sync');
   const compileErrorExpr =
     '/(^|\\n)error(\\[E\\d{4}\\])?:/.test(stderr) && !/Running `/.test(stderr) && !/running \\d+ tests?/.test(stdout)';
-  assert.ok(ts.includes(compileErrorExpr), 'isCompileError differs from src/lib/runner.ts — keep them in sync');
+  assert.ok(ts.includes(compileErrorExpr), 'isCompileError differs from src/lib/runner.ts, keep them in sync');
   assert.ok(fs.readFileSync(path.join(HERE, 'runner.cjs'), 'utf8').includes(compileErrorExpr));
 
   const playgroundStderr =
@@ -299,7 +299,7 @@ fn bos_metin() {
     assert_eq!(uzunluk_hesapla(String::new()).1, 0);
 }`;
 
-test('e2e: wrapTests — all tests pass', { timeout: 120_000 }, async () => {
+test('e2e: wrapTests, all tests pass', { timeout: 120_000 }, async () => {
   const solution = 'fn uzunluk_hesapla(s: String) -> (String, usize) {\n    let n = s.len();\n    (s, n)\n}\n\nfn main() {\n    let (s, n) = uzunluk_hesapla(String::from("rust"));\n    println!("{s}: {n}");\n}\n';
   const r = await play({ code: wrapTests(solution, exerciseTests), mode: 'test' });
   assert.equal(r.ok, true, r.stderr);
@@ -309,7 +309,7 @@ test('e2e: wrapTests — all tests pass', { timeout: 120_000 }, async () => {
   assert.match(r.stdout, /test result: ok\. 2 passed/);
 });
 
-test('e2e: wrapTests — a failing test', { timeout: 120_000 }, async () => {
+test('e2e: wrapTests, a failing test', { timeout: 120_000 }, async () => {
   const wrong = 'fn uzunluk_hesapla(s: String) -> (String, usize) {\n    (s, 3)\n}\n';
   const r = await play({ code: wrapTests(wrong, exerciseTests), mode: 'test' });
   assert.equal(r.ok, false);

@@ -22,7 +22,7 @@ import CodeView from '../../editor/CodeView';
 
 type View = 'open' | 'resolved';
 
-/** The learner's "Neden yanıldım?" note — saved while typing (debounced) and on blur. */
+/** The learner's "Neden yanıldım?" note - saved while typing (debounced) and on blur. */
 function NoteField({ blockId, initial }: { blockId: string; initial: string }) {
   const [value, setValue] = useState(initial);
   const [status, setStatus] = useState<'idle' | 'pending' | 'saved'>('idle');

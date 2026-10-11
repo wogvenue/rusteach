@@ -1,4 +1,4 @@
-# Özet Kartı — Trait Nesneleri ve OOP Desenleri
+# Özet Kartı: Trait Nesneleri ve OOP Desenleri
 
 Rust'ta **nesne = veri (struct/enum) + davranış (impl)**. Kapsülleme var (`pub` / gizli alanlar, modül
 düzeyinde gizlilik), **kalıtım yok**. Kod paylaşımı: trait'lerin **varsayılan metotları** + **kompozisyon**

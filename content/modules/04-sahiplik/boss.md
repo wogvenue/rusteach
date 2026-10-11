@@ -108,7 +108,7 @@ explanation: |
   **tersiyle** drop edilir: önce `_b` (sarı), sonra `_a` (kırmızı). `b` taşınmış olduğu için onun için
   drop yapılmaz.
 feedback:
-  - Doğru! Yeniden atama, kapsam sonu, taşıma ve ters sıra — hepsini doğru izledin.
+  - Doğru! Yeniden atama, kapsam sonu, taşıma ve ters sıra, hepsini doğru izledin.
   - "Yeniden atama (`b = ...`) eski değeri **atama anında** drop eder; mavi balon kapsam sonunu beklemez."
   - "Ters sıra kuralı: `_b`, `_a`'dan **sonra** tanımlandı, bu yüzden önce o drop edilir."
 ```
@@ -379,7 +379,7 @@ distractors: |
       for _ in 0..=n {
 explanation: |
   `String::new()` boş bir metinle başlar; değiştireceğimiz için `let mut` gerekir. `0..n` tam `n` tur
-  döner (`0..=n` bir fazlasını, `n + 1` tur dönerdi — Modül 3'teki "bir eksik/bir fazla" hatası). Son
+  döner (`0..=n` bir fazlasını, `n + 1` tur dönerdi - Modül 3'teki "bir eksik/bir fazla" hatası). Son
   satırdaki noktalı virgülsüz `sonuc`, değerin sahipliğini çağırana **taşır**; `sonuc;` yazsaydın fonksiyon
   `()` döndürürdü ve `E0308` alırdın.
 ```
@@ -447,7 +447,7 @@ forbid:
 hints:
   - "Hata `value moved here, in previous iteration of loop` diyor: ilk turda duyuru `duyur`'a taşınıyor ve fonksiyonun sonunda drop ediliyor."
   - "`duyur` her çağrıda **kendi** `String`'ini istiyor ve döngüden sonra aslı da lazım. Toplam dört bağımsız değere ihtiyacın var. Bu bir \"gereksiz\" kopya mı, yoksa gerekçeli bir kopya mı?"
-  - "Her turda fonksiyona bir kopya ver: `duyur(sinif, duyuru.clone());` — asıl `duyuru` döngüden sonra arşiv için kalır."
+  - "Her turda fonksiyona bir kopya ver: `duyur(sinif, duyuru.clone());`, asıl `duyuru` döngüden sonra arşiv için kalır."
 explanation: |
   Burada `clone` **gerekçeli** bir karardır: `duyur` imzası gereği her çağrıda sahiplik istiyor (her pano
   kendi nüshasını tutuyor) ve döngüden sonra aslı da kullanılacak. Dört bağımsız değer gerektiği için her
@@ -540,7 +540,7 @@ tests: |
       assert_eq!(
           kelime,
           "ağaç",
-          "\"ağaç\" 4 harf ama 6 bayt (ğ ve ç ikişer bayt); \"kalem\" 5 bayt — harf değil `len()` (bayt) karşılaştır"
+          "\"ağaç\" 4 harf ama 6 bayt (ğ ve ç ikişer bayt); \"kalem\" 5 bayt - harf değil `len()` (bayt) karşılaştır"
       );
   }
 
@@ -559,7 +559,7 @@ tests: |
   }
 hints:
   - "İki `mut` `String` tut: `en_uzun` (şimdiye kadarki en uzun kelime) ve `kelime` (şu an biriktirilen kelime). Boşluk değilse `kelime.push(harf)`."
-  - "Boşluk gördüğünde kelime bitti demektir: `kelime.len() > en_uzun.len()` ise `en_uzun = kelime;` ile **taşı** (kopya gerekmez). Sonra `kelime = String::new();` ile yeni bir kelimeye başla — taşınmış bir `mut` değişkene yeni değer atamak serbesttir."
+  - "Boşluk gördüğünde kelime bitti demektir: `kelime.len() > en_uzun.len()` ise `en_uzun = kelime;` ile **taşı** (kopya gerekmez). Sonra `kelime = String::new();` ile yeni bir kelimeye başla, taşınmış bir `mut` değişkene yeni değer atamak serbesttir."
   - "Cümlenin son kelimesinden sonra boşluk yok! Döngüden sonra aynı karşılaştırmayı bir kez daha yap. En sonda `(cumle, en_uzun)` döndür."
 explanation: |
   Çözüm modülün bütün fikirlerini bir araya getiriyor:

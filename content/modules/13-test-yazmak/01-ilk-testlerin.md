@@ -16,7 +16,7 @@ küçük bir "iyileştirme" yaptın. Hâlâ çalışıyor mu? Emin olmak için o
 çıktıları **gözle** mi kontrol edeceksin? Ya projede 300 fonksiyon varsa?
 
 Bu derste bu işi bilgisayara devretmeyi öğreneceksin: **otomatik test (automated test)**. Rust'ta test
-yazmak için hiçbir ek kütüphane kurman gerekmez — test altyapısı dilin ve Cargo'nun içine gömülüdür.
+yazmak için hiçbir ek kütüphane kurman gerekmez, test altyapısı dilin ve Cargo'nun içine gömülüdür.
 
 :::ferris
 Testler, gelecekteki sana yazılmış küçük mektuplardır: "Bu fonksiyon böyle çalışmalı, bozarsan haber
@@ -26,7 +26,7 @@ veririm." Birkaç satırlık yatırım, yıllarca huzur! 🦀
 ## Derleyici her şeyi yakalayamaz
 
 Rust derleyicisi tip hatalarını, sahiplik ihlallerini ve sarkan referansları yakalar. Ama şu fonksiyona
-bak — bir arkadaşın KDV hesabını "sadeleştirmiş":
+bak, bir arkadaşın KDV hesabını "sadeleştirmiş":
 
 ```rust
 pub fn kdv_ekle(fiyat: u32) -> u32 {
@@ -143,7 +143,7 @@ Testlerin tam adı `tests::yuz_liranin_kdvli_hali` biçimindedir: **modül yolu 
 dosyadakiyle aynı olmadığına dikkat et: test koşucusu testleri **adlarına göre alfabetik** sıralayıp başlatır
 (`sifir...` < `yuz...`), ama testler varsayılan olarak **paralel** çalıştığı için sonuç satırları **bitiş
 sırasıyla** yazılır (bir sonraki derste ayrıntısıyla). Kısacası testlerin hangi sırayla çalışacağına asla
-güvenme. En alttaki `Doc-tests` bölümü, belge yorumlarındaki örnekleri çalıştırır — Ders 4'ün konusu.
+güvenme. En alttaki `Doc-tests` bölümü, belge yorumlarındaki örnekleri çalıştırır, Ders 4'ün konusu.
 
 :::info Uygulamadaki "Derle" düğmesi
 Yukarıdaki gibi `main` içermeyen bloklar uygulamada **kütüphane** olarak derlenir; `#[cfg(test)]` modülü bu
@@ -222,7 +222,7 @@ paniklerini test koşucusu yakalar ve "FAILED" olarak raporlar.
 | makro | kullanım | ne zaman? |
 |---|---|---|
 | `assert!(kosul)` | `assert!(liste.is_empty())` | Sonuç zaten `bool` ise: `is_empty`, `contains`, `is_ok`, karşılaştırmalar (`x > 0`) |
-| `assert_eq!(a, b)` | `assert_eq!(toplam, 42)` | Bir değerin **beklenen** değere eşit olması — testlerin büyük çoğunluğu |
+| `assert_eq!(a, b)` | `assert_eq!(toplam, 42)` | Bir değerin **beklenen** değere eşit olması, testlerin büyük çoğunluğu |
 | `assert_ne!(a, b)` | `assert_ne!(yeni_sifre, eski_sifre)` | Sadece "farklı olsun" yeter, tam değeri önemli değilse |
 
 Neden her şeyi `assert!(a == b)` ile yazmıyoruz? Çünkü başarısızlıkta `assert!` sadece "koşul yanlış"
@@ -381,7 +381,7 @@ options:
 answer: 3
 explanation: |
   Test çıktısı **ne** olduğunu (beklenen 0, gelen 2) ve **nerede** olduğunu (`src/lib.rs:42:9`, test
-  `tests::sepet_bos`) söyler; **neden** olduğunu söylemez. Nedeni bulmak senin işindir — ama artık
+  `tests::sepet_bos`) söyler; **neden** olduğunu söylemez. Nedeni bulmak senin işindir - ama artık
   hangi girdinin, hangi satırda, hangi sonucu ürettiğini bildiğin için arama alanı çok küçüktür. Burada
   özel bir mesaj (`"boş sepet 0 ürün içermeli"`) okumayı daha da kolaylaştırırdı.
 feedback:
@@ -475,7 +475,7 @@ istisna değil, sıradan modül kuralı.
 
 :::warning "never used" uyarısı
 Özel bir fonksiyonu **sadece** testlerde kullanırsan, normal `cargo build`'de derleyici
-`` warning: function `x` is never used `` der — çünkü `#[cfg(test)]` modülü yokken o fonksiyonu kimse
+`` warning: function `x` is never used `` der, çünkü `#[cfg(test)]` modülü yokken o fonksiyonu kimse
 çağırmıyordur. Bu uyarı genellikle gerçek bir şeyi işaret eder: kullanılmayan kodu sil ya da gerçekten
 kullanıldığı yere bağla. Yukarıdaki örnekte `on_kurusa_yuvarla`'yı `sepet_toplami` kullandığı için uyarı yoktur.
 :::
@@ -628,7 +628,7 @@ hints:
 explanation: |
   Bu, yazılımın en yaygın hata türlerinden biridir: **sınır hatası (off-by-one)**. `<` ile `<=`
   arasındaki tek karakterlik fark, tam sınırdaki müşteriye yanlış ücret çıkarır. Dikkat: hatalı sürüm
-  `3` ve `12` desi için **doğru** sonuç veriyordu — `main`'deki `println!` denemeleri hatayı hiç
+  `3` ve `12` desi için **doğru** sonuç veriyordu - `main`'deki `println!` denemeleri hatayı hiç
   göstermezdi. Testler bu yüzden özellikle **sınır değerlerini** (5, 6, 10, 11) dener.
 
   Testteki mesajlar da işini kolaylaştırdı: `"5 desi dahil 50 TL olmalı"` sana hem beklentiyi hem
@@ -728,7 +728,7 @@ tests: |
   }
 hints:
   - "Önce fonksiyonu yaz: en yüksek eşikten başlayan bir `if / else if` zinciri en okunaklısıdır (`puan >= 90` ...)."
-  - "Bir test şöyle görünür: `#[test] fn doksan_a_dir() { assert_eq!(harf_notu(90), 'A'); }` — bunu `mod tests` içine yaz."
+  - "Bir test şöyle görünür: `#[test] fn doksan_a_dir() { assert_eq!(harf_notu(90), 'A'); }` - bunu `mod tests` içine yaz."
   - "Sınır testi için eşiği ve hemen altını birlikte dene: `harf_notu(90)` → `'A'`, `harf_notu(89)` → `'B'`. Üç ayrı `#[test]` fonksiyonu olmalı."
 require:
   - pattern: "(#\\[test\\][\\s\\S]*){3}"
@@ -787,5 +787,5 @@ answer: |
 - front: "`pub` olmayan bir fonksiyon `mod tests` içinden neden çağrılabilir?"
   back: Özel öğeler, tanımlandıkları modülde ve onun **çocuk** modüllerinde görünür; `tests` bir çocuk modüldür.
 - front: "İki `f64` değerini testte nasıl karşılaştırmalısın?"
-  back: "Tolerans ile: `assert!((a - b).abs() < 1e-9);` — `assert_eq!` küçük yuvarlama farklarında kalır."
+  back: "Tolerans ile: `assert!((a - b).abs() < 1e-9);` - `assert_eq!` küçük yuvarlama farklarında kalır."
 ```

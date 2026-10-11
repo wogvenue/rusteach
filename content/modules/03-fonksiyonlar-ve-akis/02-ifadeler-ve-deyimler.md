@@ -11,7 +11,7 @@ objectives:
 keywords: [ifade, deyim, expression, statement, blok, noktalı virgül, return, erken dönüş, E0308]
 ---
 
-Önceki derste `topla` fonksiyonunun son satırına `a + b` yazdık — noktalı virgül koymadan — ve bunun
+Önceki derste `topla` fonksiyonunun son satırına `a + b` yazdık, noktalı virgül koymadan, ve bunun
 dönüş değeri olduğunu söyledik. Peki noktalı virgül koysaydık ne olurdu? Bu minicik işaret, Rust'ın en
 temel fikirlerinden birinin kapısını aralıyor: Rust **ifade odaklı (expression-oriented)** bir dildir.
 
@@ -36,7 +36,7 @@ code: |
 answer: false
 error: E0308
 explanation: |
-  Önceki dersteki fonksiyonlardan tek farkı, `x * x`'in sonundaki noktalı virgül — ve bu, programı
+  Önceki dersteki fonksiyonlardan tek farkı, `x * x`'in sonundaki noktalı virgül - ve bu, programı
   derlenmez hâle getiriyor! Noktalı virgül `x * x` ifadesini bir **deyime** çevirir: "Hesapla ve sonucu
   at." Gövdenin dönüş değeri kalmaz, gövde `()` üretir; imza ise `i32` söz vermişti → `E0308`. Dersin
   geri kalanı bunun neden böyle olduğunu adım adım açıklıyor.
@@ -81,10 +81,10 @@ Rust'ta yazdığın her parça iki gruptan birine girer:
 | `kare(3)` | ifade | `9` |
 | `x > 10` | ifade | `true` ya da `false` |
 | `{ let a = 2; a * 3 }` | ifade | `6` |
-| `let y = 6;` | deyim | — |
-| `kare(3);` | deyim | — (değer hesaplanır ve atılır) |
+| `let y = 6;` | deyim | - |
+| `kare(3);` | deyim |, (değer hesaplanır ve atılır) |
 
-Her ifade bir değer ürettiği için, **değer beklenen her yere** yazılabilir — bir toplamın içine, bir
+Her ifade bir değer ürettiği için, **değer beklenen her yere** yazılabilir, bir toplamın içine, bir
 argümanın yerine, hatta başka bir çağrının içine:
 
 ```rust
@@ -257,7 +257,7 @@ explanation: |
   uyarır: Hesaplanan 6'nın hiçbir yerde kullanılmadığını fark etmiştir.
 ```
 
-Kural basit: **Noktalı virgül bir ifadeyi deyime çevirir** — "bu değeri hesapla ve at." Bir bloğun ya da
+Kural basit: **Noktalı virgül bir ifadeyi deyime çevirir**, "bu değeri hesapla ve at." Bir bloğun ya da
 fonksiyon gövdesinin son satırı noktalı virgülle biterse, bloğun değeri `()` olur. Modül 2'den hatırla:
 `()` **birim tipidir (unit type)** ve "anlamlı bir değer yok" demektir.
 
@@ -275,9 +275,9 @@ error[E0308]: mismatched types
 2 |     x * x;
   |          - help: remove this semicolon to return this value
 ```
-Okuma sırası: **1)** `expected i32, found ()` — imza `i32` söz vermiş, gövde `()` üretmiş.
-**2)** `implicitly returns ()...` — gövdenin son ifadesi (tail) ya da bir `return`'ü yok.
-**3)** `help: remove this semicolon` — çözüm tam da işaretlenen noktalı virgülde.
+Okuma sırası: **1)** `expected i32, found ()`, imza `i32` söz vermiş, gövde `()` üretmiş.
+**2)** `implicitly returns ()...`, gövdenin son ifadesi (tail) ya da bir `return`'ü yok.
+**3)** `help: remove this semicolon`, çözüm tam da işaretlenen noktalı virgülde.
 :::
 
 Aynı hatanın bir başka biçimi de son ifadeyi hiç yazmamaktır:
@@ -331,12 +331,12 @@ fn main() {
 Erken dönüş, özel durumları fonksiyonun başında halledip "normal yolu" sade bırakır. Bu kalıba
 **koruma koşulu (guard clause)** denir; bir sonraki derste iç içe `if`'lerle karşılaştıracağız.
 
-:::deep `return` da bir ifadedir — ama hiç değer üretmez
+:::deep `return` da bir ifadedir, ama hiç değer üretmez
 `return 0` da teknik olarak bir ifadedir; ama çalıştığı anda fonksiyondan çıkıldığı için "sonrası"
 yoktur, yani yerine hiçbir değer konmaz. Rust bu tür ifadelere özel bir tip verir: **`!`**, okunuşu
 *never* ("asla"). `!` tipindeki bir ifade **her tipin yerine** geçebilir, çünkü o noktaya hiçbir değer
 ulaşmayacağı kesindir. Bu yüzden şu satır derlenir:
-`let indirim = if uye { 10 } else { return 0; };` — `else` dalı bir `i32` üretmez ama fonksiyonu terk
+`let indirim = if uye { 10 } else { return 0; };`, `else` dalı bir `i32` üretmez ama fonksiyonu terk
 eder, tipler yine uyumludur. Aynı ayrıcalık programı durduran `panic!`'e (Modül 10) ve döngüler
 dersinde göreceğin `break`/`continue`'ya da tanınır.
 :::
@@ -545,8 +545,8 @@ forbid:
     message: Bu alıştırmada `return` kullanma; sonucu gövdenin son ifadesi olarak bırak.
 explanation: |
   Gövde bir **bloğun** bütün özelliklerini sergiliyor: Önce sırayla çalışan `let` **deyimleri** ara
-  değerleri hesaplıyor, en sonda noktalı virgülsüz `carpim.sqrt()` **ifadesi** bloğun — dolayısıyla
-  fonksiyonun — değerini veriyor.
+  değerleri hesaplıyor, en sonda noktalı virgülsüz `carpim.sqrt()` **ifadesi** bloğun - dolayısıyla
+  fonksiyonun - değerini veriyor.
 
   `(a + b + c) / 2` yazsaydın `E0277` (*cannot divide `f64` by `{integer}`*) hatası alırdın: Rust bir
   ondalık sayıyı sessizce tamsayıya bölmez, `2.0` yazman gerekir. Ara değişken kullanmadan tek ve uzun bir
@@ -591,13 +591,13 @@ answer: |
     ```rust
     { let a = 2; a * 3 }
     ```
-  back: "`6` — bloğun değeri, noktalı virgülsüz son ifadesidir."
+  back: "`6`, bloğun değeri, noktalı virgülsüz son ifadesidir."
 - front: |
     Bu bloğun değeri nedir?
     ```rust
     { let a = 2; a * 3; }
     ```
-  back: "`()` — son satırdaki noktalı virgül değeri yuttu."
+  back: "`()`, son satırdaki noktalı virgül değeri yuttu."
 - front: "`expected i32, found ()` hatasının en yaygın sebebi nedir?"
   back: Değer döndürmesi gereken fonksiyonun son satırına konmuş fazladan bir noktalı virgül.
 - front: Rust'ta `return` en çok ne için kullanılır?

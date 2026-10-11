@@ -207,7 +207,7 @@ pool)** kurar ve işi parçalara böler. Bir thread kendi işini bitirince başk
   paralel çalıştırır.
 
 ```fill
-prompt: Sınav notlarını paralel işle — geçen öğrencileri say ve notların toplamını bul.
+prompt: Sınav notlarını paralel işle, geçen öğrencileri say ve notların toplamını bul.
 code: |
   use rayon::prelude::*;
 
@@ -640,7 +640,7 @@ require:
     message: "Satır parçalarını `thread::scope` ile ödünç vererek işle."
 forbid:
   - pattern: "Mutex|Arc::"
-    message: Bu alıştırmada paylaşılan kilit yok — her thread yerel sayım döndürsün.
+    message: Bu alıştırmada paylaşılan kilit yok, her thread yerel sayım döndürsün.
 explanation: |
   Bu çözüm modülün özeti gibi:
 
@@ -690,7 +690,7 @@ answer: |
 - front: "`thread::scope` neden `'static` olmayan (yerel) veriyi thread'lere ödünç vermeye izin verir?"
   back: Kapsam, içinde açılan bütün thread'ler bitmeden dönmez; bu yüzden derleyici thread'lerin veriden kısa yaşadığını kanıtlayabilir.
 - front: "İki kapsamlı thread aynı değişkeni `+=` ile değiştirmeye çalışırsa hangi hata alınır?"
-  back: "`E0499`: aynı anda iki `&mut` ödünç — yani bir veri yarışı girişimi."
+  back: "`E0499`: aynı anda iki `&mut` ödünç, yani bir veri yarışı girişimi."
 - front: Sıralı bir iterator zincirini `rayon` ile paralelleştirmek için ne değiştirilir?
   back: "`iter()` → `par_iter()` (sahiplik için `into_par_iter()`, değiştirmek için `par_iter_mut()`); başa `use rayon::prelude::*;`."
 - front: "`rayon`'un **work stealing** yaklaşımı ne demektir?"

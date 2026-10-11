@@ -1,4 +1,4 @@
-// Learning analytics — pure functions over ProgressData + content (no React, no store access), so
+// Learning analytics - pure functions over ProgressData + content (no React, no store access), so
 // every number on the statistics page can be unit tested with a hand-written ProgressData.
 import { addDays, dayKey, dueReviews, type DayActivity, type ProgressData, type SrsEntry } from '../store/progress';
 import type { Module } from '../types/content';
@@ -17,7 +17,7 @@ export function formatNumber(n: number): string {
 
 /** 0.92 → "%92" (Turkish puts the sign first). */
 export function formatPercent(ratio: number | null | undefined, digits = 0): string {
-  if (ratio === null || ratio === undefined || Number.isNaN(ratio)) return '—';
+  if (ratio === null || ratio === undefined || Number.isNaN(ratio)) return '-';
   return `%${(ratio * 100).toLocaleString('tr-TR', { maximumFractionDigits: digits, minimumFractionDigits: 0 })}`;
 }
 
@@ -68,9 +68,9 @@ export function longDate(key: string): string {
 
 /** "bugün", "dün", "3 gün önce", "2 hafta önce", or "12 Eki" for older dates. */
 export function relativeDayLabel(iso: string | undefined, now: Date = new Date()): string {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '—';
+  if (Number.isNaN(d.getTime())) return '-';
   const days = calendarDayDiff(d, now);
   if (days <= 0) return 'bugün';
   if (days === 1) return 'dün';
@@ -744,7 +744,7 @@ export function summarizeForecast(days: readonly ForecastDay[]): ForecastSummary
 }
 
 /**
- * What a well-calibrated learner would score at each confidence level — the "ideal" markers on the
+ * What a well-calibrated learner would score at each confidence level - the "ideal" markers on the
  * calibration chart ("tahmin" is close to chance, "çok emin" should almost always be right).
  */
 export const CALIBRATION_TARGET: Record<1 | 2 | 3, number> = { 1: 0.45, 2: 0.75, 3: 0.95 };

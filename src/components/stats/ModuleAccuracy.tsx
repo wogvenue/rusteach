@@ -30,7 +30,7 @@ export default function ModuleAccuracy({ rows, className }: { rows: ModuleAccura
             module: `${r.module.number}. ${r.module.title}`,
             answered: formatNumber(r.answered),
             accuracy: formatPercent(r.accuracy),
-            open: r.openMistakes || '—',
+            open: r.openMistakes || '-',
           }))}
         />
       }

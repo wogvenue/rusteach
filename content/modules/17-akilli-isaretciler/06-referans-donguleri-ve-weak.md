@@ -637,7 +637,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — bir ağaçta çocuklar ebeveynlerini neden `Rc` ile değil de `Weak` ile tutmalı? Tersini (ebeveyn çocukları `Weak` ile tutsun) yapsaydık ne olurdu?
+prompt: Kendi cümlelerinle açıkla, bir ağaçta çocuklar ebeveynlerini neden `Rc` ile değil de `Weak` ile tutmalı? Tersini (ebeveyn çocukları `Weak` ile tutsun) yapsaydık ne olurdu?
 answer: |
   Model cevap: Ebeveyn çocuklarını `Rc` ile tutuyor. Çocuklar da ebeveyni `Rc` ile tutsaydı her ebeveyn-çocuk
   çifti bir döngü oluştururdu ve güçlü sayaçlar hiçbir zaman 0'a inmezdi: ağaç asla bırakılmaz, bellek sızardı.

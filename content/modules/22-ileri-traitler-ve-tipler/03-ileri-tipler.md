@@ -510,14 +510,14 @@ fn main() {
 ```memory
 title: Thin ve fat pointer'lar
 steps:
-  - caption: "`let s = String::from(\"merhaba\");` — `String` stack'te 24 bayt (ptr, len, cap), metin heap'te."
+  - caption: "`let s = String::from(\"merhaba\");`, `String` stack'te 24 bayt (ptr, len, cap), metin heap'te."
     stack:
       - frame: main
         vars:
           - { name: s, type: String, value: "ptr · len=7 · cap=7", to: h1 }
     heap:
       - { id: h1, value: "m e r h a b a" }
-  - caption: "`let r = &s;` — `&String` tek bir adres (8 bayt): `s`'yi gösterir. Uzunluğu `s`'nin içinden okur."
+  - caption: "`let r = &s;`, `&String` tek bir adres (8 bayt): `s`'yi gösterir. Uzunluğu `s`'nin içinden okur."
     stack:
       - frame: main
         vars:
@@ -525,7 +525,7 @@ steps:
           - { name: r, type: "&String", value: "ptr", to: s, note: "thin, 8 bayt" }
     heap:
       - { id: h1, value: "m e r h a b a" }
-  - caption: "`let d = &s[3..];` — `&str` doğrudan heap'teki 4. bayta işaret eder ve uzunluğu (4) **yanında taşır**: 16 bayt."
+  - caption: "`let d = &s[3..];`, `&str` doğrudan heap'teki 4. bayta işaret eder ve uzunluğu (4) **yanında taşır**: 16 bayt."
     stack:
       - frame: main
         vars:
@@ -534,7 +534,7 @@ steps:
           - { name: d, type: "&str", value: "ptr+3 · len=4", to: h1, note: "fat, 16 bayt" }
     heap:
       - { id: h1, value: "m e r [h a b a]" }
-  - caption: "`let g: Box<dyn Display> = Box::new(42);` — veri adresi + vtable adresi. Vtable, `i32`'nin `fmt` fonksiyonunu ve boyut bilgisini tutar."
+  - caption: "`let g: Box<dyn Display> = Box::new(42);`, veri adresi + vtable adresi. Vtable, `i32`'nin `fmt` fonksiyonunu ve boyut bilgisini tutar."
     stack:
       - frame: main
         vars:

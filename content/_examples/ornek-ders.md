@@ -22,7 +22,7 @@ yol arkadaşın olur! 🦀
 ## Önce tahmin et
 
 Aşağıdaki iki program neredeyse aynı. Biri `i32`, diğeri `String` kullanıyor. Açıklamayı okumadan önce
-tahmin etmeye çalış — yanılsan bile tahmin etmek öğrenmeni güçlendirir.
+tahmin etmeye çalış, yanılsan bile tahmin etmek öğrenmeni güçlendirir.
 
 ```compiles
 code: |
@@ -89,7 +89,7 @@ belleğini serbest bırakmaya çalışırdı. Buna **çift serbest bırakma (dou
 programlarında ciddi güvenlik açıklarına yol açar.
 
 :::analogy Ev tapusu
-Bir evin tapusunu birine devrettiğinde, evin kendisini kopyalamazsın — sadece **sahiplik belgesi** el
+Bir evin tapusunu birine devrettiğinde, evin kendisini kopyalamazsın, sadece **sahiplik belgesi** el
 değiştirir. Devirden sonra eski tapun geçersizdir; evi satmaya kalkarsan noter seni durdurur.
 Rust'ta noterin adı **borrow checker**'dır.
 :::
@@ -127,7 +127,7 @@ error[E0382]: borrow of moved value: `s1`
   |                    ^^^^ value borrowed here after move
 ```
 Okuma sırası: **1)** hata kodu ve özet, **2)** konum (`4:23` → 4. satır 23. sütun),
-**3)** etiketli satırlar — hikâyeyi anlatır: *burada taşındı*, *burada kullanıldı*.
+**3)** etiketli satırlar, hikâyeyi anlatır: *burada taşındı*, *burada kullanıldı*.
 :::
 
 `rustc --explain E0382` komutu bu hatanın uzun açıklamasını gösterir. Çözüm yolların:
@@ -260,14 +260,14 @@ hints:
   - "Son ifade noktalı virgülsüz `(s, n)` olmalı."
 forbid:
   - pattern: "\\.clone\\(\\)"
-    message: Bu alıştırmayı `clone` kullanmadan çöz — amaç sahipliği geri vermek!
+    message: Bu alıştırmayı `clone` kullanmadan çöz, amaç sahipliği geri vermek!
 explanation: |
   `s.len()` sadece okuma yapar, sahipliği almaz; bu yüzden önce uzunluğu hesaplayıp sonra `s`'yi
   taşıyarak döndürebiliyoruz.
 
   Dikkat: doğrudan `(s, s.len())` yazsaydın kod **derlenmezdi**. Tuple elemanları soldan sağa
   değerlendirilir: `s` önce tuple'a taşınır, ardından `s.len()` taşınmış bir değeri kullanmaya çalışır
-  (E0382). Bu yöntem çalışır ama zahmetli — Modül 5'teki **referanslar** bu sorunu zarifçe çözer.
+  (E0382). Bu yöntem çalışır ama zahmetli - Modül 5'teki **referanslar** bu sorunu zarifçe çözer.
 ```
 
 ## Özet ve tekrar
@@ -280,7 +280,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `let s2 = s1;` sonrasında Rust neden `s1`'i geçersiz sayıyor?
+prompt: Kendi cümlelerinle açıkla, `let s2 = s1;` sonrasında Rust neden `s1`'i geçersiz sayıyor?
 answer: |
   İkisi de geçerli kalsaydı, kapsam bittiğinde her ikisi de aynı heap belleğini serbest bırakmaya
   çalışırdı (double free). Rust, her değerin **tek sahibi** olması kuralıyla bunu derleme zamanında
@@ -295,7 +295,7 @@ answer: |
 - front: Rust neden taşınan değişkeni geçersiz sayar?
   back: Aynı belleğin iki kez serbest bırakılmasını (**double free**) önlemek için.
 - front: "`E0382` hata kodu ne anlama gelir?"
-  back: "**borrow of moved value** — taşınmış bir değer kullanılmaya çalışılıyor."
+  back: "**borrow of moved value**, taşınmış bir değer kullanılmaya çalışılıyor."
 - front: Bir `String`'i fonksiyona argüman olarak vermek ne yapar?
   back: Sahipliği fonksiyonun parametresine taşır; fonksiyon bitince değer `drop` edilir (geri döndürülmezse).
 - front: "`let b = a;` satırında `a: i32` ise ne olur?"

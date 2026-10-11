@@ -1,6 +1,6 @@
 ---
 id: m01-l03
-title: İlk programın — Merhaba, Dünya!
+title: "İlk programın: Merhaba, Dünya!"
 minutes: 17
 type: lesson
 objectives:
@@ -13,7 +13,7 @@ keywords: [main, fn, println!, makro, string, kaçış dizisi, noktalı virgül,
 
 1978'den beri neredeyse her programlama kitabı aynı şekilde başlar: ekrana "Merhaba, Dünya!"
 (*Hello, World!*) yazdırarak. Bu gelenek, Brian Kernighan ve Dennis Ritchie'nin ünlü C kitabından
-kalma. Sen de bu geleneği sürdüreceksin — ama bu kez yazdığın her karakterin **ne işe yaradığını**
+kalma. Sen de bu geleneği sürdüreceksin, ama bu kez yazdığın her karakterin **ne işe yaradığını**
 bilerek.
 
 ## Satır satır: fn main() { ... }
@@ -192,10 +192,10 @@ explanation: |
   **derleme zamanında** denetler. C'nin `printf`'inde bu hatalar ancak çalışma zamanında, çoğu zaman
   sessizce ortaya çıkar.
 feedback:
-  - Doğru — Rust fonksiyonları sabit sayıda parametre alır.
-  - Doğru — hatalı biçimler program çalışmadan yakalanır.
+  - Doğru, Rust fonksiyonları sabit sayıda parametre alır.
+  - Doğru, hatalı biçimler program çalışmadan yakalanır.
   - Hayır; makro olmak tek başına hız kazandırmaz. Asıl kazanç esneklik ve güvenliktir.
-  - Hayır; fonksiyonlar da yazabilir — `println!` sonunda standart kütüphanedeki bir fonksiyonu çağırır.
+  - Hayır; fonksiyonlar da yazabilir - `println!` sonunda standart kütüphanedeki bir fonksiyonu çağırır.
 ```
 
 ## Metinler ve kaçış dizileri
@@ -269,7 +269,7 @@ error: character literal may only contain one codepoint
 help: if you meant to write a string literal, use double quotes
 ```
 Python ve JavaScript'te tek ve çift tırnak birbirinin yerine kullanılabilir; Rust'ta kullanılamaz. Tek
-tırnak yalnızca **tek bir karakter** içindir (`'a'`, `'ğ'` — Modül 2). Metinler için çift tırnak şart.
+tırnak yalnızca **tek bir karakter** içindir (`'a'`, `'ğ'`, Modül 2). Metinler için çift tırnak şart.
 :::
 
 :::error
@@ -399,7 +399,7 @@ Merhaba, Dünya!
 
 Neler oldu?
 
-- **`rustc main.rs`** kaynak kodu derledi. Hata yoksa hiçbir şey yazmaz — Rust araçlarında sessizlik
+- **`rustc main.rs`** kaynak kodu derledi. Hata yoksa hiçbir şey yazmaz, Rust araçlarında sessizlik
   iyi haberdir.
 - **`main.exe`**, makine kodunu içeren **çalıştırılabilir dosyadır**. Çift tıklayarak da
   çalıştırabilirsin (ama pencere hemen kapanır, çünkü program yazıp bitiyor).
@@ -433,7 +433,7 @@ explanation: |
   yeniden derlemelisin. (Cargo bunu senin yerine hatırlar: 4. ders.)
 feedback:
   - Ancak yeniden derlersen! Eski `.exe` hâlâ eski kodun çevirisi.
-  - Doğru — çalıştırılabilir dosya eski kodun çevirisidir.
+  - Doğru, çalıştırılabilir dosya eski kodun çevirisidir.
   - Derleme yapmadın ki hata çıksın; yalnızca eski programı çalıştırdın.
   - Eski `.exe` hâlâ geçerli bir programdır ve sorunsuz çalışır.
 ```
@@ -518,7 +518,7 @@ hints:
     Başlık satırını örnek al: `println!("...");` kalıbını kopyala, tırnakların içini değiştir. Her
     satırın sonunda `;` olmalı.
   - |
-    İlk ürün satırı şöyle: `println!("Simit: 15 TL");` — diğer ikisini aynı kalıpla yaz. Büyük harf
+    İlk ürün satırı şöyle: `println!("Simit: 15 TL");` - diğer ikisini aynı kalıpla yaz. Büyük harf
     "Ç"yi ve iki nokta üst üsteden sonraki boşluğu unutma.
 explanation: |
   Her `println!` bir satır yazar ve talimatlar sırayla çalışır; bu yüzden çıktıdaki satır sırası,
@@ -568,7 +568,7 @@ hints:
     Metnin içindeki çift tırnaklar `\"` ile, ters eğik çizgiler `\\` ile yazılır. Tek bir `\`
     yazarsan derleyici onu bir kaçış dizisinin başlangıcı sanır.
   - |
-    İkinci satırın parçası şöyle görünmeli: `\nMeslek: \"Rust maskotu\"` — üçüncü satırda da
+    İkinci satırın parçası şöyle görünmeli: `\nMeslek: \"Rust maskotu\"` - üçüncü satırda da
     `C:\\Okyanus\\Kaya` yaz.
 explanation: |
   Tek satırlık çözüm:
@@ -607,7 +607,7 @@ answer: |
   programı çalıştırınca ilk onu çağırır. Süslü parantezler bu fonksiyonun gövdesinin sınırlarını
   çizer. `println!` bir makrodur: Derleme sırasında ekrana yazdıran koda dönüşür ve biçim metnini
   önceden denetler. Tırnaklar arasındaki metin yazdırılacak string'dir, `;` ise talimatın bittiğini
-  söyler. Python bu yapıların bazılarını gizler; Rust ise açık olmayı tercih eder — ve karşılığında
+  söyler. Python bu yapıların bazılarını gizler; Rust ise açık olmayı tercih eder - ve karşılığında
   hataları program çalışmadan yakalar.
 ```
 

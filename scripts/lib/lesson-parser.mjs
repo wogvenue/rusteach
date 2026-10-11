@@ -525,7 +525,7 @@ export function parseLesson(raw, { file = '?', md, kind = 'lesson' } = {}) {
           errors.push({
             line: yl,
             message:
-              `${lang} bloğu (satır ${line}): YAML ayrıştırılamadı, sorunlu satır ${yl} — ${e.reason || e.message.split('\n')[0]}. ` +
+              `${lang} bloğu (satır ${line}): YAML ayrıştırılamadı, sorunlu satır ${yl}, ${e.reason || e.message.split('\n')[0]}. ` +
               "İpucu: ': ' içeren ya da tırnak/backtick ile başlayan metinleri tırnakla ya da '|' blok skaleriyle yaz.",
           });
           continue;

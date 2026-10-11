@@ -179,7 +179,7 @@ prompt: |
 starter: |
   use std::time::Duration;
 
-  // Ağır, bloklayan bir iş — bu fonksiyonu değiştirme
+  // Ağır, bloklayan bir iş - bu fonksiyonu değiştirme
   fn ozet_hesapla(sifre: &str) -> u64 {
       std::thread::sleep(Duration::from_millis(50)); // ~50 ms işlemci işi gibi
       sifre.bytes().fold(5381u64, |h, b| h.wrapping_mul(33) ^ b as u64)
@@ -201,7 +201,7 @@ starter: |
 solution: |
   use std::time::Duration;
 
-  // Ağır, bloklayan bir iş — bu fonksiyonu değiştirme
+  // Ağır, bloklayan bir iş - bu fonksiyonu değiştirme
   fn ozet_hesapla(sifre: &str) -> u64 {
       std::thread::sleep(Duration::from_millis(50)); // ~50 ms işlemci işi gibi
       sifre.bytes().fold(5381u64, |h, b| h.wrapping_mul(33) ^ b as u64)
@@ -288,7 +288,7 @@ tests: |
 hints:
   - "`ozetle`: `tokio::task::spawn_blocking(move || ozet_hesapla(&sifre))` bir `JoinHandle<u64>` döndürür; onu `.await` et ve `Result`'ı `expect` ile aç."
   - "`hepsini_ozetle`: önce **bütün** işleri başlat, sonra bekle. Bir döngüde her şifre için `tokio::spawn(ozetle(sifre))` ile görev başlatıp `JoinHandle`'ları bir `Vec`'te topla."
-  - "İkinci döngüde `for kol in kollar { sonuclar.push(kol.await.expect(\"görev panikledi\")); }` — handle'ları başlatma sırasıyla beklediğin için sonuçlar giriş sırasıyla gelir. `ozetle(sifre).await`'i ilk döngünün içinde yapmak işleri sıraya sokar (200 ms)."
+  - "İkinci döngüde `for kol in kollar { sonuclar.push(kol.await.expect(\"görev panikledi\")); }`, handle'ları başlatma sırasıyla beklediğin için sonuçlar giriş sırasıyla gelir. `ozetle(sifre).await`'i ilk döngünün içinde yapmak işleri sıraya sokar (200 ms)."
 explanation: |
   `ozetle` iki işi birden yapıyor: ağır hesabı bloklama havuzuna gönderiyor ve async tarafta **sırayı bırakarak**
   bekliyor. `executor_bloklanmaz` testi bunu ölçüyor: `#[tokio::test]` tek thread'li bir runtime kurar; hesap bu
@@ -709,7 +709,7 @@ answer: |
 - front: "Async kodda `std::thread::sleep` ya da ağır bir hesap neden tehlikelidir?"
   back: "Görevler sırayı sadece `.await`'te bırakır; bloklayan kod thread'i tutar ve o thread'deki bütün görevler donar."
 - front: "Kaçınılmaz senkron/ağır bir işi async kodda nasıl çalıştırırsın?"
-  back: "`tokio::task::spawn_blocking(move || is()).await` — ayrı bloklama havuzunda çalışır, sonuç `Result<T, JoinError>` gelir."
+  back: "`tokio::task::spawn_blocking(move || is()).await`, ayrı bloklama havuzunda çalışır, sonuç `Result<T, JoinError>` gelir."
 - front: "Spawn edilen bir future ne zaman `Send` olur?"
   back: "`.await` noktalarında yaşayan (future'ın içinde saklanan) bütün değerler `Send` ise."
 - front: "`let g = m.lock().unwrap(); ...; drop(g); x.await;` neden yine \"future is not `Send`\" hatası verebilir?"

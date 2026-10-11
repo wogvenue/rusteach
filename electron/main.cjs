@@ -1,4 +1,4 @@
-// Rusteach — Electron main process (CommonJS; package.json is "type": "module").
+// Rusteach - Electron main process (CommonJS; package.json is "type": "module").
 //
 //   electron .                          production renderer from dist/ (run `npm run build` first)
 //   ELECTRON_DEV_URL=http://… electron . development: load the Vite dev server (npm run dev)
@@ -478,7 +478,7 @@ function attachSmokeTest(win) {
     if (problem) problems.push(problem);
     const all = [...consoleErrors.map((e) => `konsol hatası: ${e}`), ...problems];
     for (const p of all) log(`✗ ${p}`);
-    log(all.length ? `BAŞARISIZ (${all.length} sorun)` : 'BAŞARILI — renderer hatasız yüklendi');
+    log(all.length ? `BAŞARISIZ (${all.length} sorun)` : 'BAŞARILI, renderer hatasız yüklendi');
     const userData = app.getPath('userData');
     if (!win.isDestroyed()) win.destroy();
     setTimeout(() => {

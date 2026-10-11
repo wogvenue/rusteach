@@ -1,6 +1,6 @@
 // Achievement definitions + the watcher hook mounted once at the app root.
 // Achievements reward the behaviours that make learning stick (spaced reviews, explaining in
-// your own words, fixing mistakes, honest confidence ratings) — not just raw grinding.
+// your own words, fixing mistakes, honest confidence ratings) - not just raw grinding.
 import { useEffect } from 'react';
 import { useProgress, type ProgressData } from '../store/progress';
 import { toast } from '../store/ui';

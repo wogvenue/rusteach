@@ -28,7 +28,7 @@ function Column({ r, index }: { r: CalibrationRow; index: number }) {
           aria-label={rowText(r)}
           className="flex flex-col items-center rounded-2xl px-2 pb-1 pt-1 outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
-          <div className={clsx('mb-2 text-lg font-semibold tracking-tight lx-tabular', r.n ? 'text-fg' : 'text-subtle')}>{r.n ? formatPercent(r.rate) : '—'}</div>
+          <div className={clsx('mb-2 text-lg font-semibold tracking-tight lx-tabular', r.n ? 'text-fg' : 'text-subtle')}>{r.n ? formatPercent(r.rate) : '-'}</div>
           <div className="relative w-14 rounded-xl bg-[color-mix(in_oklab,var(--c-fg)_7%,transparent)]" style={{ height: BAR_H }} aria-hidden>
             {r.n > 0 && (
               <motion.div
@@ -79,7 +79,7 @@ export default function CalibrationChart({ data, className }: { data: Calibratio
               { key: 'rate', label: 'Doğru', align: 'right' },
               { key: 'target', label: 'Beklenen', align: 'right' },
             ]}
-            rows={data.rows.map((r) => ({ level: r.label, n: r.n, rate: r.n ? formatPercent(r.rate) : '—', target: formatPercent(CALIBRATION_TARGET[r.level]) }))}
+            rows={data.rows.map((r) => ({ level: r.label, n: r.n, rate: r.n ? formatPercent(r.rate) : '-', target: formatPercent(CALIBRATION_TARGET[r.level]) }))}
           />
         ) : undefined
       }

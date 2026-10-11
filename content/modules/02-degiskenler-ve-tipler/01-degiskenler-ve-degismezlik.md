@@ -246,17 +246,17 @@ göreceksin. Clippy de seni o kısa yazıma yönlendirir.)
 ```memory
 title: let mut sepet adım adım
 steps:
-  - caption: "`let mut sepet = 0;` — `main` fonksiyonunun bellek alanında (**stack**) `sepet` için bir yer ayrılır."
+  - caption: "`let mut sepet = 0;`, `main` fonksiyonunun bellek alanında (**stack**) `sepet` için bir yer ayrılır."
     stack:
       - frame: main
         vars:
           - { name: sepet, type: i32, value: "0", mut: true }
-  - caption: "`sepet = sepet + 45;` — yeni bir yer açılmaz; **aynı yerdeki** değer güncellenir."
+  - caption: "`sepet = sepet + 45;`, yeni bir yer açılmaz; **aynı yerdeki** değer güncellenir."
     stack:
       - frame: main
         vars:
           - { name: sepet, type: i32, value: "45", mut: true, note: "0 → 45" }
-  - caption: "`sepet = sepet + 120;` — yine aynı yer; değer artık `165`."
+  - caption: "`sepet = sepet + 120;`, yine aynı yer; değer artık `165`."
     stack:
       - frame: main
         vars:

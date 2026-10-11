@@ -585,7 +585,7 @@ export function moduleStatus(s: ProgressData, m: Module): ModuleStatus {
   return 'available';
 }
 
-/** 0..1 — lessons completed (+ boss counts as one extra unit). */
+/** 0..1 - lessons completed (+ boss counts as one extra unit). */
 export function moduleProgress(s: ProgressData, m: Module): number {
   const units = m.lessonIds.length + (m.bossId ? 1 : 0);
   if (!units) return 0;

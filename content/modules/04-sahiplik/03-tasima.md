@@ -27,7 +27,7 @@ sana bir azar değil, bir harita gibi gelecek! 🦀
 ## Önce tahmin et
 
 Aşağıdaki iki program neredeyse aynı. Biri `i32`, diğeri `String` kullanıyor. Açıklamaları okumadan
-önce ikisi için de karar ver — yanılsan bile tahmin etmek öğrenmeni güçlendirir.
+önce ikisi için de karar ver, yanılsan bile tahmin etmek öğrenmeni güçlendirir.
 
 ```compiles
 code: |
@@ -60,8 +60,8 @@ explanation: |
 
 ## Bellekte ne olur?
 
-Ders 1'den hatırla: bir `String` stack'te üç parçalı bir **başlık** tutar — heap'teki veriye
-**işaretçi (ptr)**, **uzunluk (len)** ve **kapasite (cap)** — karakterlerin kendisi heap'tedir.
+Ders 1'den hatırla: bir `String` stack'te üç parçalı bir **başlık** tutar, heap'teki veriye
+**işaretçi (ptr)**, **uzunluk (len)** ve **kapasite (cap)**, karakterlerin kendisi heap'tedir.
 `let s2 = s1;` satırını adım adım izle:
 
 ```memory
@@ -121,14 +121,14 @@ Bir dil `b = a` gördüğünde aslında üç şeyden birini yapabilir:
 |---|---|---|---|
 | **Derin kopya** | C++: `std::string s2 = s1;` | Heap verisi de kopyalanır; iki bağımsız metin | Her atama gizlice bellek ayırır ve bayt kopyalar |
 | **Paylaşım** | Python, Java, JS: `b = a` | İki isim aynı nesneyi gösterir; temizliği GC yapar | GC maliyeti; birinden yapılan değişiklik ötekinde de görünür |
-| **Taşıma** | Rust: `let s2 = s1;` | Sadece başlık kopyalanır, eski isim geçersiz olur | Eski ismi kullanamazsın — derleyici bunu denetler |
+| **Taşıma** | Rust: `let s2 = s1;` | Sadece başlık kopyalanır, eski isim geçersiz olur | Eski ismi kullanamazsın, derleyici bunu denetler |
 
 Rust'ın seçimi hem **ucuz** (24 bayt kopyalanır, metin ne kadar uzun olursa olsun) hem de **güvenli**
 (heap verisinin her an tek sahibi var). Derin kopya istiyorsan bunu açıkça söylersin; bir sonraki dersin
 konusu `.clone()` tam olarak bu.
 
 :::analogy Ev tapusu
-Bir evin tapusunu birine devrettiğinde evin kendisini kopyalamazsın — sadece **sahiplik belgesi** el
+Bir evin tapusunu birine devrettiğinde evin kendisini kopyalamazsın, sadece **sahiplik belgesi** el
 değiştirir. Devirden sonra eski tapun geçersizdir; evi satmaya kalkarsan noter seni durdurur. Rust'ta
 noterin adı **borrow checker**'dır ve kontrolü ev satılmadan, yani program çalışmadan önce yapar.
 :::
@@ -188,10 +188,10 @@ help: consider cloning the value if the performance cost is acceptable
   |                ++++++++
 ```
 Okuma sırası: **1)** hata kodu ve özet: *taşınmış bir değerin ödünç alınması* (`println!` bir değeri
-yazdırmak için onu ödünç alır — ödünç almayı Modül 5'te göreceğiz). **2)** Konum: `4:21` → 4. satır,
+yazdırmak için onu ödünç alır, ödünç almayı Modül 5'te göreceğiz). **2)** Konum: `4:21` → 4. satır,
 21. sütun. **3)** Etiketli satırlar hikâyeyi yukarıdan aşağı anlatır: `s1` `Copy` olmayan bir `String`
 (2. satır), *burada taşındı* (3. satır), *taşındıktan sonra burada kullanıldı* (4. satır).
-**4)** `help` bir öneri sunar — ama "performans maliyeti kabul edilebilirse" diye başladığına dikkat et.
+**4)** `help` bir öneri sunar, ama "performans maliyeti kabul edilebilirse" diye başladığına dikkat et.
 :::
 
 Mesajın sonundaki `help` satırı tek çözüm değildir, çoğu zaman en iyisi de değildir. `E0382` ile
@@ -303,7 +303,7 @@ gölgeleme (Modül 2) ile de bir değeri "değiştirilebilir hâle" getirebilirs
 :::deep C++'taki std::move ile farkı
 C++11 de taşıma kavramını ekledi: `std::string s2 = std::move(s1);`. Ama iki önemli fark var. Birincisi,
 C++'ta varsayılan davranış **derin kopyadır**; taşımak için `std::move` yazman gerekir. Rust'ta ise
-varsayılan taşımadır, kopya için `.clone()` yazarsın — pahalı işlem görünür olandır. İkincisi, C++'ta
+varsayılan taşımadır, kopya için `.clone()` yazarsın, pahalı işlem görünür olandır. İkincisi, C++'ta
 taşınmış `s1` hâlâ kullanılabilir (geçerli ama "belirsiz" bir durumda kalır) ve onu yanlışlıkla okumak
 derleyiciyi hiç rahatsız etmez; kapsam sonunda taşınmış nesnenin yıkıcısı (destructor) da yine çalışır.
 Rust'ta taşınmış bir değişkeni okumak **derleme hatasıdır** ve onun için drop hiç çalışmaz.
@@ -317,7 +317,7 @@ bu kopyayı da çoğu zaman tamamen ortadan kaldırır.
 
 Atama tek taşıma yolu değil. Bir `String`'i fonksiyona argüman olarak verdiğinde de sahiplik
 fonksiyonun **parametresine** taşınır. Fonksiyon bittiğinde parametre kapsamdan çıkar ve değer drop
-edilir (geri döndürülmediyse — ayrıntıları Ders 5'te):
+edilir (geri döndürülmediyse, ayrıntıları Ders 5'te):
 
 ```rust
 fn kaydet(not: String) {
@@ -354,7 +354,7 @@ options:
   - Derlenmez (E0382)
 answer: 1
 explanation: |
-  Program derlenir, çünkü `kelime` taşındıktan sonra bir daha kullanılmıyor — taşımanın kendisi hata
+  Program derlenir, çünkü `kelime` taşındıktan sonra bir daha kullanılmıyor - taşımanın kendisi hata
   değildir, taşınmış değeri **kullanmak** hatadır. Peki neden 4? `len()` **bayt** sayısını verir; `ç`
   harfi UTF-8 kodlamasında 2 bayt tutar: `ç`(2) + `a`(1) + `y`(1) = 4. (Bu ayrıntıya Modül 9'da
   döneceğiz.)
@@ -380,7 +380,7 @@ code: |
 answer: false
 error: E0382
 explanation: |
-  `acil` `false` olduğu için `if`'in içi hiç çalışmayacak — ama derleyici programı **çalıştırmaz**, sadece
+  `acil` `false` olduğu için `if`'in içi hiç çalışmayacak - ama derleyici programı **çalıştırmaz**, sadece
   inceler. Onun bakış açısından `println!`'e iki yoldan gelinebilir ve yollardan birinde `mesaj` taşınmış
   olur. "Belki taşındı" bir değer, kullanılamaz bir değerdir. Rust burada temkinlidir: her olası yolun
   güvenli olduğunu kanıtlayamıyorsa kodu reddeder. Hata mesajı yine `value moved here` diyerek `if`'in
@@ -442,7 +442,7 @@ ve sahiplik ilişkisini Modül 9 ve 14'te çok daha ayrıntılı göreceksin.
 :::
 
 Son olarak: taşıma `String`'e özgü değildir. Heap'te veri tutan **her** tip aynı kurala uyar (aslında
-kural daha da geniş: `Copy` olmayan her tip taşınır — Ders 4). Modül 9'da
+kural daha da geniş: `Copy` olmayan her tip taşınır, Ders 4). Modül 9'da
 derinlemesine göreceğin, büyüyebilen liste tipi **`Vec`** de öyle (şimdilik `vec![...]` ile oluşturup
 `len()` ile uzunluğuna bakmak yeterli):
 
@@ -497,7 +497,7 @@ prompt: |
   Programı **`clone` kullanmadan** düzelt. Çıktı tam olarak şu olmalı:
 
   ```text
-  Etiket: Atatürk Cad. No: 5, İzmir — KIRILACAK EŞYA
+  Etiket: Atatürk Cad. No: 5, İzmir - KIRILACAK EŞYA
   Adres uzunluğu: 27 bayt
   ```
 
@@ -506,7 +506,7 @@ starter: |
   fn main() {
       let adres = String::from("Atatürk Cad. No: 5, İzmir");
       let mut etiket = adres;
-      etiket.push_str(" — KIRILACAK EŞYA");
+      etiket.push_str(" - KIRILACAK EŞYA");
       println!("Etiket: {etiket}");
       println!("Adres uzunluğu: {} bayt", adres.len());
   }
@@ -516,21 +516,21 @@ solution: |
       let adres = String::from("Atatürk Cad. No: 5, İzmir");
       let uzunluk = adres.len();
       let mut etiket = adres;
-      etiket.push_str(" — KIRILACAK EŞYA");
+      etiket.push_str(" - KIRILACAK EŞYA");
       println!("Etiket: {etiket}");
       println!("Adres uzunluğu: {uzunluk} bayt");
   }
 check: output
 expected_output: |
-  Etiket: Atatürk Cad. No: 5, İzmir — KIRILACAK EŞYA
+  Etiket: Atatürk Cad. No: 5, İzmir - KIRILACAK EŞYA
   Adres uzunluğu: 27 bayt
 forbid:
   - pattern: '\.clone\('
-    message: Bu alıştırmayı `clone` kullanmadan çöz — amaç taşımadan önce işini bitirmek!
+    message: Bu alıştırmayı `clone` kullanmadan çöz, amaç taşımadan önce işini bitirmek!
   - pattern: '27'
     message: "Uzunluğu elle yazma; `len()` ile hesapla (adres değişirse program yine doğru çalışmalı)."
   - pattern: '\.to_string\(\)|\.to_owned\(\)|String::from\(\s*(&|adres)'
-    message: Adresin ikinci bir kopyasını oluşturma (bu da gizli bir `clone` olur) — taşımadan önce işini bitir!
+    message: Adresin ikinci bir kopyasını oluşturma (bu da gizli bir `clone` olur), taşımadan önce işini bitir!
 require:
   - pattern: '\.len\(\)'
     message: Uzunluğu `len()` ile hesaplamalısın.
@@ -630,7 +630,7 @@ tests: |
 hints:
   - "Modül 3'ü hatırla: `if` bir **ifadedir** ve bir değer üretebilir. Fonksiyonun gövdesi tek bir `if ... { ... } else { ... }` olabilir."
   - "Koşul `b.len() > a.len()` olsun. Eşitlikte `a` kazanmalı; bu yüzden `>=` değil `>` kullan."
-  - "Tam gövde: `if b.len() > a.len() { b } else { a }` — noktalı virgül yok, çünkü bu ifade fonksiyonun dönüş değeri."
+  - "Tam gövde: `if b.len() > a.len() { b } else { a }`, noktalı virgül yok, çünkü bu ifade fonksiyonun dönüş değeri."
 explanation: |
   `if b.len() > a.len() { b } else { a }` bir ifade olduğu için doğrudan fonksiyonun dönüş değeridir
   (Modül 3). Sahiplik açısından olan şu: hangi dal seçilirse o `String` fonksiyondan **dışarı taşınır**;
@@ -645,7 +645,7 @@ explanation: |
 ## Özet
 
 :::remember
-- `Copy` olmayan tipler — örneğin heap verisi tutan `String` ve `Vec` — atamada, fonksiyon çağrısında
+- `Copy` olmayan tipler, örneğin heap verisi tutan `String` ve `Vec`, atamada, fonksiyon çağrısında
   ve döngülerde **taşınır**.
 - Taşıma ucuzdur: `String`/`Vec` için yalnızca stack'teki başlık (24 bayt) kopyalanır; heap verisi
   yerinde kalır.

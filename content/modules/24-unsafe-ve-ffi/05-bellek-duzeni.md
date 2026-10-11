@@ -674,7 +674,7 @@ tests: |
 hints:
   - "Alanın tipini `u32` yerine `std::num::NonZeroU32` yap. Bu tip 0 değerini asla almaz; Rust da o deseni `None` için kullanır."
   - "`NonZeroU32::new(n)` zaten `Option<NonZeroU32>` döndürür. Onu `match` ile ya da `.map(...)` ile `Option<OgrenciNo>`'ya çevirebilirsin."
-  - "`NonZeroU32::new(n).map(OgrenciNo)` — tuple struct'ın adı bir fonksiyon gibi kullanılabilir (Modül 22). `deger` için `self.0.get()`."
+  - "`NonZeroU32::new(n).map(OgrenciNo)`, tuple struct'ın adı bir fonksiyon gibi kullanılabilir (Modül 22). `deger` için `self.0.get()`."
 forbid:
   - pattern: "unsafe"
     message: "Bu alıştırma hiç `unsafe` yazmadan çözülebilir; `NonZeroU32::new` kontrolü senin yerine yapar."
@@ -811,7 +811,7 @@ explanation: |
 ```
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — Rust'ın varsayılan struct düzeni neden hiçbir garanti vermiyor ve bu, `repr(C)` ile niş optimizasyonunu nasıl etkiliyor?
+prompt: Kendi cümlelerinle açıkla, Rust'ın varsayılan struct düzeni neden hiçbir garanti vermiyor ve bu, `repr(C)` ile niş optimizasyonunu nasıl etkiliyor?
 answer: |
   Model cevap: Garanti vermemek derleyiciye özgürlük tanır: alanları dolguyu en aza indirecek şekilde
   yeniden sıralayabilir ve enum etiketlerini tiplerin hiç kullanmadığı bit desenlerine (nişlere) saklayabilir.
@@ -859,7 +859,7 @@ kullanacağız! 🦀
 - front: "`repr(transparent)` ne garanti eder?"
   back: "Tek (sıfır boyutlu olmayan) alanlı struct'ın bellek düzeninin ve ABI'sinin o alanla birebir aynı olmasını. FFI'da newtype için kullanılır."
 - front: "`repr(packed)` bir struct'ın alanına `&p.alan` yazınca hangi hata çıkar?"
-  back: "`E0793` — hizasız referans oluşturmak, kullanılmasa bile UB'dir. Alanı kopyala ya da `&raw const` + `read_unaligned` kullan."
+  back: "`E0793`, hizasız referans oluşturmak, kullanılmasa bile UB'dir. Alanı kopyala ya da `&raw const` + `read_unaligned` kullan."
 - front: "`size_of::<Option<&i32>>()` neden `size_of::<&i32>()` ile aynıdır?"
   back: "Niş optimizasyonu: referans asla null olamaz, Rust null desenini `None` için kullanır; ayrı etikete gerek kalmaz."
 - front: "`MaybeUninit` içindeki bir `String` alanına neden `*p = s` değil `p.write(s)` yazılır?"

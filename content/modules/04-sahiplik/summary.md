@@ -2,7 +2,7 @@
 title: "Özet Kartı: Sahiplik"
 ---
 
-# Sahiplik (Ownership) — Özet Kartı
+# Sahiplik (Ownership): Özet Kartı
 
 ## Stack ve heap
 
@@ -30,7 +30,7 @@ title: "Özet Kartı: Sahiplik"
 - Gölgeleme drop **etmez** (eski değer kapsam sonuna kadar yaşar); `x = yeni;` eski değeri **hemen** drop eder.
 - `let _x = Balon(..);` kapsam sonuna kadar yaşar. `let _ = Balon(..);` bağlamaz → geçici değer hemen
   drop. Dikkat: `let _ = x;` mevcut `x`'i **taşımaz ve drop etmez**.
-- Erken bırakmak için `drop(x);` — gövdesi boş, sahipliği alan bir fonksiyon.
+- Erken bırakmak için `drop(x);`, gövdesi boş, sahipliği alan bir fonksiyon.
 - **RAII**: bellek, dosya, kilit... kaynak, onu tutan değerle birlikte bırakılır.
 
 ## Taşıma, Copy, clone

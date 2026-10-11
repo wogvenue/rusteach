@@ -49,7 +49,7 @@ error: E0369
 explanation: |
   `assert_eq!` iki tarafı `==` ile karşılaştırır; bunun için tipin `PartialEq` uygulaması gerekir (Modül 11).
   `Durum` sadece `Debug` türetiyor: ``binary operation `==` cannot be applied to type `Durum` `` (E0369).
-  Çözüm: `#[derive(Debug, PartialEq)]`. (Tersi — `PartialEq` var, `Debug` yok — E0277 verirdi.)
+  Çözüm: `#[derive(Debug, PartialEq)]`. (Tersi - `PartialEq` var, `Debug` yok - E0277 verirdi.)
 ```
 
 ```compiles
@@ -161,7 +161,7 @@ options:
 answer: 1
 explanation: |
   `adim(3)` `Ok(6)` döner, `a = 6` yazdırılır. `adim(6 - 10)` yani `adim(-4)` `Err` döner ve `?` (Modül 10)
-  fonksiyondan **hemen** çıkar: `b` satırı hiç çalışmaz. `Result` döndüren bir test de aynen böyle kalır —
+  fonksiyondan **hemen** çıkar: `b` satırı hiç çalışmaz. `Result` döndüren bir test de aynen böyle kalır,
   ilk `Err`'de biter ve koşucu hatayı yazdırır.
 ```
 
@@ -205,7 +205,7 @@ code: |
 answer: false
 error: E0616
 explanation: |
-  `main`, `kargo` modülünün dışındadır — bir entegrasyon testinin kütüphaneye dışarıdan bakması gibi.
+  `main`, `kargo` modülünün dışındadır - bir entegrasyon testinin kütüphaneye dışarıdan bakması gibi.
   `Gonderi` ve `yeni` `pub`, ama `agirlik` alanı değil (Modül 8: struct alanları ayrı ayrı `pub` yapılır):
   ``field `agirlik` of struct `Gonderi` is private`` (E0616). Entegrasyon testi bu alanı ancak bir
   `pub fn agirlik(&self) -> u32` getter'ı üzerinden okuyabilir; alanın kendisini sınamak birim testinin işidir.
@@ -335,7 +335,7 @@ answer: 1
 explanation: |
   Modül 9: `len()` **bayt** sayar. Büyük `İ` (noktalı) UTF-8'de 2 bayttır, kalan 7 harf birer bayt: toplam
   **9**. `chars()` ise karakterleri tek tek verir: **8**. "Türkçe karakter" satırının uç durum listesinde
-  durmasının sebebi budur — sadece ASCII ile test edilen bir uzunluk kontrolü bu farkı asla görmez.
+  durmasının sebebi budur - sadece ASCII ile test edilen bir uzunluk kontrolü bu farkı asla görmez.
 ```
 
 ## Uygulama: test ağı ör
@@ -439,7 +439,7 @@ tests: |
 hints:
   - "\"ve üzeri\" ifadesi sınırın **dahil** olduğunu söyler. `tutar > 500` koşulu tam 500'ü kapsıyor mu?"
   - "Üç karşılaştırmanın hepsini `>=` yap. Tablo testi için: `let vakalar = [(199, 0), (200, 5), (499, 5), (500, 10)];`"
-  - "Döngü: `for (tutar, beklenen) in vakalar { assert_eq!(indirim_orani(tutar), beklenen, \"{tutar} TL için oran\"); }` — her sınırı ve hemen altını eklemeyi unutma."
+  - "Döngü: `for (tutar, beklenen) in vakalar { assert_eq!(indirim_orani(tutar), beklenen, \"{tutar} TL için oran\"); }` - her sınırı ve hemen altını eklemeyi unutma."
 require:
   - pattern: "#\\[test\\][\\s\\S]*for\\s*&?\\s*\\(\\s*\\w+\\s*,\\s*\\w+\\s*\\)\\s+in\\b"
     message: "Test modülünde `for (tutar, beklenen) in vakalar` biçiminde bir tablo güdümlü test yazmalısın."
@@ -594,7 +594,7 @@ tests: |
       assert_eq!(puan_hesapla("ABÇ", "ABC"), Err(SinavHatasi::GecersizCevap('Ç')));
   }
 hints:
-  - "Önce iki metnin karakterlerini `for c in metin.chars()` ile birer `Vec<char>`'a topla; böylece uzunluğu **karakter** olarak ölçer (`len()` bayt sayar — `Ç` 2 bayt!) ve `verilen[i]` ile `dogrular[i]`'yi yan yana karşılaştırabilirsin."
+  - "Önce iki metnin karakterlerini `for c in metin.chars()` ile birer `Vec<char>`'a topla; böylece uzunluğu **karakter** olarak ölçer (`len()` bayt sayar, `Ç` 2 bayt!) ve `verilen[i]` ile `dogrular[i]`'yi yan yana karşılaştırabilirsin."
   - "Her soru için `match c { '-' => {}, 'A'..='E' => { ... }, _ => return Err(SinavHatasi::GecersizCevap(c)) }` kullan (Modül 7'deki karakter aralıkları)."
   - "Puanı eksiye düşürmeden hesapla: `u32` ile `dogru * 4 - yanlis` eksiye düşerse debug modda taşma paniği alırsın. Modül 2'deki `saturating_sub` tam bunun için: `Ok((dogru * 4).saturating_sub(yanlis))`."
 require:
@@ -610,7 +610,7 @@ explanation: |
   olduğu için yanlışlıkla `UzunlukFarki` dönerdi. **(2)** `dogru * 4 - yanlis` doğrudan `u32` ile hesaplanırsa
   yanlışlar fazla olduğunda **taşma paniği** (debug) ya da devasa bir sayı (release) çıkar;
   `saturating_sub` (ya da önce karşılaştırıp sonra çıkarmak: `if yanlis >= arti { 0 } else { arti - yanlis }`)
-  güvenlidir. **(3)** Kontrol sırası: uzunluk önce, sonra karakterler — gizli testteki `"ABx"` / `"ABCDE"`
+  güvenlidir. **(3)** Kontrol sırası: uzunluk önce, sonra karakterler - gizli testteki `"ABx"` / `"ABCDE"`
   vakası hem kısa hem geçersiz karakterli; doğru cevap `UzunlukFarki`'dir, `GecersizCevap('x')` değil.
 
   İndekslerle iki `Vec<char>` dolaşmak yerine Modül 14'te göreceğin `zip` ile iki metni yan yana

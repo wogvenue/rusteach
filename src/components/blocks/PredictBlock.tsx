@@ -1,4 +1,4 @@
-// "Bu kod ne yazdırır?" — predict the output (options or free text), then really run the code.
+// "Bu kod ne yazdırır?" - predict the output (options or free text), then really run the code.
 import { useCallback, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Play, ScanEye, X } from 'lucide-react';

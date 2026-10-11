@@ -1,4 +1,4 @@
-# Özet Kartı — Test Yazmak
+# Özet Kartı: Test Yazmak
 
 ## Test modülü kalıbı
 
@@ -97,7 +97,7 @@ kargo/
 ## Belgeler ve doc testleri
 
 ````rust,ignore
-//! # not_defteri — crate açıklaması (lib.rs'in EN BAŞINDA)
+//! # not_defteri - crate açıklaması (lib.rs'in EN BAŞINDA)
 
 /// Metni puana çevirir. Bağlantı: [`NotHatasi`].
 ///
@@ -124,7 +124,7 @@ pub fn not_coz(metin: &str) -> Result<u32, NotHatasi> { /* ... */ }
 ## TDD
 
 1. 🔴 **Kırmızı**: tek davranış için kalan bir test (derleme hatası da kırmızı). Hemen geçen yeni teste şüpheyle bak.
-2. 🟢 **Yeşil**: en basit kod (gerekirse sahte cevap; yeni testler genellemeye zorlar — üçgenleme).
+2. 🟢 **Yeşil**: en basit kod (gerekirse sahte cevap; yeni testler genellemeye zorlar, üçgenleme).
 3. 🔵 **Yeniden düzenle**: davranış aynı, testler yeşil.
 
 ```rust,ignore

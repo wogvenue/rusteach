@@ -1,4 +1,4 @@
-// Module page: the "Modül Sınavı" card — threshold, best score, attempts, lock state and the
+// Module page: the "Modül Sınavı" card - threshold, best score, attempts, lock state and the
 // skip-test entry for experienced learners.
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';

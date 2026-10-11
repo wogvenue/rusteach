@@ -1,4 +1,4 @@
-// Ferris the crab — Rusteach's mascot (Ferris is the Rust community's public-domain mascot,
+// Ferris the crab - Rusteach's mascot (Ferris is the Rust community's public-domain mascot,
 // created by Karen Rustad Tölva, CC0). This is an original simplified drawing.
 // Props API is shared: { mood, size, className, animate }.
 import { useId } from 'react';

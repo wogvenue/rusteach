@@ -174,19 +174,19 @@ fn main() {
 
 Satır satır inceleyelim:
 
-- **`use std::io;`** — standart kütüphanenin girdi/çıktı (input/output) bölümünü kullanacağımızı söyler.
+- **`use std::io;`**, standart kütüphanenin girdi/çıktı (input/output) bölümünü kullanacağımızı söyler.
   Bu satır olmasaydı her seferinde `std::io::stdin()` diye uzun adı yazardık. (`use` ve modül sistemi:
   Modül 8.)
-- **`let mut girdi = String::new();`** — boş bir **`String`** oluşturur. Şimdiye kadar kullandığın
+- **`let mut girdi = String::new();`**, boş bir **`String`** oluşturur. Şimdiye kadar kullandığın
   `"merhaba"` gibi metin sabitleri programın içine gömülüdür ve değiştirilemez. `String` ise
   **büyüyebilen** bir metindir; oyuncunun ne yazacağını önceden bilmediğimiz için ona ihtiyacımız var.
   `String`'i Modül 4'te derinlemesine göreceksin. `mut` şart, çünkü birazdan içine yazılacak.
-- **`io::stdin()`** — klavyeye bağlı **standart girdiye (standard input)** erişim verir.
-- **`.read_line(&mut girdi)`** — oyuncu Enter'a basana kadar bekler, yazılanı `girdi`'nin **sonuna ekler**.
+- **`io::stdin()`**, klavyeye bağlı **standart girdiye (standard input)** erişim verir.
+- **`.read_line(&mut girdi)`**, oyuncu Enter'a basana kadar bekler, yazılanı `girdi`'nin **sonuna ekler**.
   `&mut girdi`, "`girdi` değişkenini sana **ödünç veriyorum**, içini değiştirebilirsin; ama değişken hâlâ
   benim" demektir. Buna **değiştirilebilir referans (mutable reference)** denir ve Modül 5'in konusudur.
   Şimdilik kalıp olarak öğren.
-- **`.expect("Satır okunamadı")`** — okuma nadiren de olsa başarısız olabilir (örneğin girdi kaynağı
+- **`.expect("Satır okunamadı")`**, okuma nadiren de olsa başarısız olabilir (örneğin girdi kaynağı
   kapanmışsa). `expect`, Modül 2'de `parse` ile tanıdığın "başarısız olursa bu mesajla programı durdur"
   aracıdır. Hata yönetiminin doğrusunu Modül 10'da öğreneceğiz.
 
@@ -760,7 +760,7 @@ tests: |
 hints:
   - "Önce en kolay durumu ele al: `if tahmin == gizli { return \"Bildin!\"; }`. Geriye iki durum kalır: tahmin küçük ya da büyük."
   - "`u32`'de `tahmin - gizli` yazarsan ve `tahmin` küçükse program **taşma paniği** verir. Farkı, hangi sayının büyük olduğunu bildiğin dalın içinde hesapla: Tahmin küçükse `gizli - tahmin`, büyükse `tahmin - gizli`."
-  - "İskelet: `if tahmin < gizli { let fark = gizli - tahmin; if fark <= 5 { \"Sıcak! Biraz daha büyük.\" } else { \"Soğuk! Çok daha büyük.\" } } else { ... }` — `else` dalı aynısının küçük için olan hâli."
+  - "İskelet: `if tahmin < gizli { let fark = gizli - tahmin; if fark <= 5 { \"Sıcak! Biraz daha büyük.\" } else { \"Soğuk! Çok daha büyük.\" } } else { ... }`, `else` dalı aynısının küçük için olan hâli."
 explanation: |
   Çözümde bu modülün bütün parçaları var: Erken dönüşle (`return`) en kolay durum en başta ayıklanıyor,
   geri kalanı ise iç içe `if` **ifadeleriyle** değer üretiyor. Fonksiyonun son ifadesi dıştaki
@@ -885,7 +885,7 @@ tests: |
 hints:
   - "Üç değiştirilebilir değişkene ihtiyacın var: `let mut alt = 1;`, `let mut ust = 100;` ve bir sayaç `let mut deneme = 0;`. Kaç tur süreceği belli değil ve bulunca bir değer döndürmek istiyorsun: `loop` ve `break deger`."
   - "Her turda: `let tahmin = (alt + ust) / 2;` ve `deneme += 1;`. Sonra üç durum: eşitse `break deneme;`, küçükse `alt = tahmin + 1;`, büyükse `ust = tahmin - 1;`."
-  - "İskelet: `loop { let tahmin = (alt + ust) / 2; deneme += 1; if tahmin == gizli { break deneme; } else if tahmin < gizli { alt = tahmin + 1; } else { ust = tahmin - 1; } }` — bu `loop` fonksiyonun son ifadesi olsun (sonuna noktalı virgül koyma)."
+  - "İskelet: `loop { let tahmin = (alt + ust) / 2; deneme += 1; if tahmin == gizli { break deneme; } else if tahmin < gizli { alt = tahmin + 1; } else { ust = tahmin - 1; } }`, bu `loop` fonksiyonun son ifadesi olsun (sonuna noktalı virgül koyma)."
 explanation: |
   Fonksiyonun gövdesi bir `loop` ifadesiyle bitiyor ve `break deneme` ile ürettiği değer fonksiyonun dönüş
   değeri oluyor (bu modülün 2. ve 4. dersleri bir arada). `while` kullanamazdık, çünkü `while`'dan değerle
@@ -912,7 +912,7 @@ explanation: |
 - Girdi okumak: `let mut girdi = String::new();` ve
   `io::stdin().read_line(&mut girdi).expect("...");`. `read_line` metni **sonuna ekler** ve satır sonunu
   (`\n` ya da `\r\n`) da içerir.
-- Metinden sayıya: `let tahmin: u32 = girdi.trim().parse().expect("...");` — önce `trim`, sonra `parse`;
+- Metinden sayıya: `let tahmin: u32 = girdi.trim().parse().expect("...");`, önce `trim`, sonra `parse`;
   hedef tipi belirtmek şart. Aynı adı gölgeleme (shadowing) ile yeniden kullanmak deyimseldir.
 - Metin ve sayı karşılaştırılamaz (`E0308`); metinler sözlük sırasıyla karşılaştırılır (`"9" > "10"`).
 - Oyun döngüsü `loop`: geçersiz girdide `continue`, doğru tahminde `break`.

@@ -11,7 +11,7 @@ objectives:
 keywords: [birim testi, entegrasyon testi, unit test, integration test, "tests/", common, lib.rs, pub API]
 ---
 
-Bir otomobil fabrikası düşün. Motorun her parçası — pistonlar, supaplar, bujiler — üretim bandında tek tek
+Bir otomobil fabrikası düşün. Motorun her parçası, pistonlar, supaplar, bujiler, üretim bandında tek tek
 ölçülür ve test edilir. Ama bütün parçaların kusursuz olması, arabanın **yola çıktığında** çalışacağını
 garanti etmez: parçalar birbirine uyuyor mu, direksiyon gerçekten tekerlekleri çeviriyor mu?
 
@@ -29,9 +29,9 @@ yabancı bir programcı gibi kullanan testler.
 | | birim testi | entegrasyon testi |
 |---|---|---|
 | nerede? | `src/` içinde, genellikle test ettiği kodla **aynı dosyada** | Paket kökündeki **`tests/`** dizininde, ayrı dosyalarda |
-| ne görür? | Her şeyi — özel (private) fonksiyonlar dahil | Sadece kütüphanenin **`pub`** API'sini |
+| ne görür? | Her şeyi, özel (private) fonksiyonlar dahil | Sadece kütüphanenin **`pub`** API'sini |
 | crate | Test ettiği crate'in bir parçası (`mod tests`) | **Her dosya ayrı bir crate** |
-| `#[cfg(test)]`? | Gerekli | Gereksiz — Cargo bu dosyaları zaten sadece `cargo test`'te derler |
+| `#[cfg(test)]`? | Gerekli | Gereksiz, Cargo bu dosyaları zaten sadece `cargo test`'te derler |
 | sorduğu soru | "Bu parça doğru mu?" | "Kütüphane, kullanıcının kullandığı şekliyle doğru mu?" |
 | hız ve sayı | Çok sayıda, çok hızlı | Daha az, daha geniş kapsamlı |
 
@@ -51,7 +51,7 @@ gerçekten ayrı bir crate olduğu için, `pub` olmayan bir şeye dokunması **d
 question: Hangi durum bir **entegrasyon testi** ile daha iyi sınanır?
 options:
   - Özel `desi_hesapla` yardımcı fonksiyonunun yuvarlamayı doğru yapması
-  - Bir kullanıcının `Gonderi::yeni(...)` ile paket oluşturup `ucret(&gonderi)` ile fiyat alabilmesi — tüm akışın dışarıdan çalışması
+  - Bir kullanıcının `Gonderi::yeni(...)` ile paket oluşturup `ucret(&gonderi)` ile fiyat alabilmesi, tüm akışın dışarıdan çalışması
   - "`pub` olmayan bir struct alanının başlangıç değeri"
   - Bir `match` kolunun belirli bir sınır değerinde doğru dalı seçmesi
 answer: 1
@@ -190,7 +190,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 ```
 
 Entegrasyon testlerinin adlarında `tests::` öneki yok: her dosya kendi crate'inin köküdür. Bir bölüm
-kalırsa Cargo **sonraki bölümleri çalıştırmaz** — birim testleri kalırsa entegrasyon testlerini görmezsin.
+kalırsa Cargo **sonraki bölümleri çalıştırmaz**, birim testleri kalırsa entegrasyon testlerini görmezsin.
 Mantıklı: parçalar bozuksa yol testine çıkmanın anlamı yok. (Yine de hepsini görmek istersen:
 `cargo test --no-fail-fast`.)
 
@@ -206,14 +206,14 @@ question: |
   Bir paketin `tests/` dizininde `odeme.rs`, `iade.rs` ve `yardimci.rs` adlı üç dosya var; `src/lib.rs`'te de
   birim testleri var. `cargo test` çıktısında kaç tane `Running ...` satırı görürsün?
 options:
-  - "1 — bütün testler tek programda toplanır"
-  - "2 — biri birim testleri, biri bütün `tests/` dizini için"
-  - "4 — biri `src/lib.rs`, üçü `tests/` dizinindeki her dosya için"
-  - "3 — `yardimci.rs` test içermediği için sayılmaz"
+  - "1, bütün testler tek programda toplanır"
+  - "2, biri birim testleri, biri bütün `tests/` dizini için"
+  - "4, biri `src/lib.rs`, üçü `tests/` dizinindeki her dosya için"
+  - "3, `yardimci.rs` test içermediği için sayılmaz"
 answer: 2
 explanation: |
   `tests/` dizininin **doğrudan içindeki her `.rs` dosyası** ayrı bir crate olarak derlenir ve ayrı bir
-  `Running tests\....rs` bölümü üretir — içinde hiç test olmasa bile. `yardimci.rs` için de bir bölüm
+  `Running tests\....rs` bölümü üretir - içinde hiç test olmasa bile. `yardimci.rs` için de bir bölüm
   açılır ve `running 0 tests` yazar. Bu, "Ortak yardımcılar" bölümünde çözeceğimiz küçük bir rahatsızlığın kaynağıdır.
   (Bunlara ek olarak en sonda bir de `Doc-tests` bölümü vardır.)
 feedback:
@@ -226,7 +226,7 @@ feedback:
 ## Sadece `pub` API: dışarıdan bakmak
 
 Uygulama içindeki kod blokları tek dosyadan oluşur, `tests/` dizini kuramayız. Ama entegrasyon testinin
-özünü — **sadece `pub` olanı görmek** — tek dosyada bir modülle birebir taklit edebiliriz. Modül 8'den
+özünü, **sadece `pub` olanı görmek**, tek dosyada bir modülle birebir taklit edebiliriz. Modül 8'den
 hatırla: bir modülün dışındaki kod, o modülün yalnızca `pub` öğelerine erişebilir.
 
 ```compiles
@@ -253,7 +253,7 @@ code: |
 answer: false
 error: E0603
 explanation: |
-  `main`, `kargo` modülünün **dışında**dır — tıpkı bir entegrasyon testinin kütüphanenin dışında olması gibi.
+  `main`, `kargo` modülünün **dışında**dır - tıpkı bir entegrasyon testinin kütüphanenin dışında olması gibi.
   `Gonderi`, `agirlik_kg` alanı ve `ucret` `pub` olduğu için sorun yok; ama `taban_ucret` özeldir:
   ``error[E0603]: function `taban_ucret` is private``. Gerçek bir entegrasyon testinde de aynı hatayı
   alırdın. Entegrasyon testleri bu yüzden **sözleşmeyi** sınar: kullanıcının erişebildiği her şey ve sadece o.
@@ -318,7 +318,7 @@ görür: sadece `pub` olanlara erişebilir. Bu dersin alıştırmasında bundan 
 
 Entegrasyon test dosyaları çoğaldıkça aynı hazırlık kodunu tekrar tekrar yazmaya başlarsın: "örnek bir
 gönderi oluştur", "test müşterisi oluştur"... Bunu bir yardımcı dosyaya koymak isteriz. İlk akla gelen
-`tests/common.rs` olur — ama hatırla: `tests/` kökündeki **her** `.rs` dosyası ayrı bir test crate'idir.
+`tests/common.rs` olur, ama hatırla: `tests/` kökündeki **her** `.rs` dosyası ayrı bir test crate'idir.
 Çıktında şu gereksiz bölüm belirir:
 
 ```console
@@ -470,7 +470,7 @@ derlenirken bağlanır; kütüphaneni kullananlara yük olmaz.
 question: Projen sadece `src/main.rs` içeriyor ve `tests/hesap.rs` dosyasında `use hesap_makinesi::topla;` yazıyorsun. Ne olur?
 options:
   - Çalışır; Cargo binary crate'in fonksiyonlarını otomatik olarak dışa açar
-  - "Derlenmez; binary crate içe aktarılabilecek bir kütüphane değildir — mantığı `src/lib.rs`'e taşıman gerekir"
+  - "Derlenmez; binary crate içe aktarılabilecek bir kütüphane değildir, mantığı `src/lib.rs`'e taşıman gerekir"
   - "Çalışır, ama sadece `topla` fonksiyonu `pub` ise"
   - "Çalışır, ama testin içinde `#[cfg(test)]` kullanman gerekir"
 answer: 1
@@ -506,11 +506,11 @@ verify: false
 explanation: |
   Entegrasyon test dosyası bir **crate köküdür**: en üstte `mod common;` ile yardımcı modül bildirilir;
   kütüphaneye ise dış bir crate gibi adıyla (`kargo::ucret`) ya da `use kargo::ucret;` ile ulaşılır. `#[cfg(test)]` gerekmez (dosya zaten sadece
-  testte derlenir) ve `use super::*;` anlamsızdır — kökün `super`'i yoktur, kütüphane de ebeveyn değil,
+  testte derlenir) ve `use super::*;` anlamsızdır - kökün `super`'i yoktur, kütüphane de ebeveyn değil,
   ayrı bir crate'tir. (Bu blok çok dosyalı bir düzen gerektirdiği için uygulamada çalıştırılmaz.)
 ```
 
-Şimdi asıl alıştırma. Gizli testler kodunun **dışından** — bir entegrasyon testi gibi — `kargo` modülünü
+Şimdi asıl alıştırma. Gizli testler kodunun **dışından**, bir entegrasyon testi gibi, `kargo` modülünü
 kullanacak.
 
 ```exercise
@@ -645,13 +645,13 @@ explanation: |
 
   - Modülün **içindeki** `mod tests`, gizli `desi`'ye erişebilen bir **birim testi**dir (çocuk modül kuralı).
   - Gizli testler kodun en dış seviyesinde durdu; `kargo`'ya **dışarıdan** baktılar ve sadece `pub`
-    olanları gördüler — tıpkı `tests/` dizinindeki bir entegrasyon testi gibi.
+    olanları gördüler - tıpkı `tests/` dizinindeki bir entegrasyon testi gibi.
 
   `pub struct Gonderi` yazıp alanları gizli bırakmak, Modül 8'deki kapsüllemenin ta kendisidir: dış dünya
   bir gönderiyi yalnızca `yeni` kurucusuyla oluşturabilir. Bu sayede ileride alanları değiştirsen bile
   (örneğin boyutları milimetreye çevirsen), entegrasyon testleri ve kullanıcılar etkilenmez.
   `forbid` kuralları da bu sözleşmeyi koruyor: `desi`'yi sırf test edebilmek için `pub` yapmak, iç
-  ayrıntıyı dünyaya açmak olurdu — birim testleri buna gerek bırakmaz.
+  ayrıntıyı dünyaya açmak olurdu - birim testleri buna gerek bırakmaz.
 ```
 
 ## Özet
@@ -682,7 +682,7 @@ answer: |
 - front: Entegrasyon testleri hangi dizine konur ve her dosya nasıl derlenir?
   back: "Paket kökündeki `tests/` dizinine; doğrudan içindeki her `.rs` dosyası **ayrı bir crate** olarak derlenir."
 - front: Bir entegrasyon testi kütüphanenin hangi öğelerine erişebilir?
-  back: "Sadece `pub` olanlara — kütüphaneyi `use crate_adi::...` ile dış bir crate gibi kullanır."
+  back: "Sadece `pub` olanlara, kütüphaneyi `use crate_adi::...` ile dış bir crate gibi kullanır."
 - front: "Entegrasyon test dosyalarında neden `#[cfg(test)]` yazılmaz?"
   back: "Cargo `tests/` dizinini zaten sadece `cargo test` sırasında derler."
 - front: Sadece entegrasyon testlerini (tek bir dosyayı) çalıştıran komut nedir?

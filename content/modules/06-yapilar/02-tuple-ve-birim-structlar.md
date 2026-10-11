@@ -30,15 +30,15 @@ fn main() {
     let turuncu = Renk(255, 165, 0);
     let baslangic = Nokta(0, 0);
 
-    // Alanlara sırayla .0, .1, .2 ile erişilir — tıpkı tuple'larda olduğu gibi
+    // Alanlara sırayla .0, .1, .2 ile erişilir - tıpkı tuple'larda olduğu gibi
     println!("Kırmızı kanal: {}", turuncu.0);
     println!("RGB: {} {} {}", turuncu.0, turuncu.1, turuncu.2);
     println!("Başlangıç: ({}, {})", baslangic.0, baslangic.1);
 }
 ```
 
-- Tanım: `struct Ad(Tip1, Tip2, ...);` — sonunda **noktalı virgül** var, süslü parantez yok.
-- Oluşturma: `Ad(deger1, deger2, ...)` — tıpkı bir fonksiyon çağrısı gibi görünür.
+- Tanım: `struct Ad(Tip1, Tip2, ...);`, sonunda **noktalı virgül** var, süslü parantez yok.
+- Oluşturma: `Ad(deger1, deger2, ...)`, tıpkı bir fonksiyon çağrısı gibi görünür.
 - Erişim: `.0`, `.1`, ... (Modül 2'deki tuple'larla aynı).
 
 Modül 2'de bir tuple'ı `let (a, b) = t;` ile parçalarına ayırmıştın. Tuple struct'larda da aynısını,
@@ -196,7 +196,7 @@ ikisi de içinde `f64` taşır ama derleyici birini diğerinin deliğine sokmana
 
 Bu güvenlik bedava mı? **Evet.** `Metre(f64)` bellekte düz bir `f64` ile birebir aynıdır: 8 bayt, ek
 işlem yok. Tip bilgisi yalnızca derleme sırasında var olur. Buna **sıfır maliyetli soyutlama
-(zero-cost abstraction)** denir — Rust'ın en sevdiğin özelliklerinden biri olacak.
+(zero-cost abstraction)** denir, Rust'ın en sevdiğin özelliklerinden biri olacak.
 
 Newtype'ın bir bedeli ise var. Tahmin et:
 
@@ -231,7 +231,7 @@ error[E0369]: cannot add `Metre` to `Metre`
 note: an implementation of `Add` might be missing for `Metre`
 ```
 Bu bir kusur değil, bir özelliktir: hangi işlemlerin anlamlı olduğuna **sen** karar verirsin. İki
-mesafeyi toplamak anlamlıdır, ama iki `OgrenciNo`'yu toplamak anlamsızdır — newtype bunu da engeller.
+mesafeyi toplamak anlamlıdır, ama iki `OgrenciNo`'yu toplamak anlamsızdır, newtype bunu da engeller.
 :::
 
 ```exercise
@@ -243,8 +243,8 @@ prompt: |
   **Fahrenheit** gönderiyor. İkisini karıştırmamak için iki newtype tanımlandı. Dönüşüm fonksiyonlarını
   tamamla:
 
-  - `c_den_f(c: Celsius) -> Fahrenheit` — formül: `F = C × 9 / 5 + 32`
-  - `f_den_c(f: Fahrenheit) -> Celsius` — formül: `C = (F − 32) × 5 / 9`
+  - `c_den_f(c: Celsius) -> Fahrenheit`, formül: `F = C × 9 / 5 + 32`
+  - `f_den_c(f: Fahrenheit) -> Celsius`, formül: `C = (F − 32) × 5 / 9`
 
   İpucu: Ondalıklı sayılarla çalışıyorsun; sabitleri `9.0`, `5.0`, `32.0` diye yaz.
 starter: |
@@ -366,10 +366,10 @@ options:
 answer: 0
 explanation: |
   Birim struct `Bos;` biçiminde tanımlanır ve `Bos` yazılarak oluşturulur. Hiç veri taşımadığı için
-  boyutu **0 bayttır** (sıfır boyutlu tip — zero-sized type). Derleyici onu tamamen ortadan kaldırabilir.
+  boyutu **0 bayttır** (sıfır boyutlu tip - zero-sized type). Derleyici onu tamamen ortadan kaldırabilir.
 feedback:
   - Doğru!
-  - "İkisi de 0 bayttır ama `Bos` kendine ait **ayrı bir tiptir** — tıpkı `Renk` ile `Konum` gibi."
+  - "İkisi de 0 bayttır ama `Bos` kendine ait **ayrı bir tiptir**, tıpkı `Renk` ile `Konum` gibi."
   - Taşıyacak hiçbir verisi yok; işaretçiye de ihtiyacı yok.
   - Tanımlanabilir; bunlara birim struct (unit-like struct) denir.
 ```
@@ -451,7 +451,7 @@ explanation: |
 
 ```exercise
 id: m06-e-gri-ton
-title: Fotoğraf filtresi — gri ton
+title: "Fotoğraf filtresi: gri ton"
 difficulty: 3
 prompt: |
   Bir fotoğraf uygulaması için "siyah-beyaz" filtresi yazıyorsun. `gri_ton` fonksiyonu bir rengi
@@ -498,7 +498,7 @@ tests: |
   #[test]
   fn beyaz_tasma_yapmaz() {
       let g = gri_ton(&Renk(255, 255, 255));
-      assert_eq!((g.0, g.1, g.2), (255, 255, 255), "beyaz beyaz kalmalı — 255 + 255 bir u8'e sığmaz!");
+      assert_eq!((g.0, g.1, g.2), (255, 255, 255), "beyaz beyaz kalmalı - 255 + 255 bir u8'e sığmaz!");
   }
 
   #[test]
@@ -515,7 +515,7 @@ tests: |
       assert_eq!((g.0, g.1, g.2), (100, 100, 100), "(200 + 100 + 0) / 3 = 100");
   }
 hints:
-  - "Üç `u8`'i doğrudan toplarsan sonuç 255'i aşabilir — debug modda bu bir **taşma paniğidir** (Modül 2)."
+  - "Üç `u8`'i doğrudan toplarsan sonuç 255'i aşabilir, debug modda bu bir **taşma paniğidir** (Modül 2)."
   - "Toplamadan **önce** her kanalı daha geniş bir tipe çevir: `renk.0 as u16`. Önce bölüp sonra toplamak ise kesirleri kaybettirir!"
   - "`let toplam = renk.0 as u16 + renk.1 as u16 + renk.2 as u16;` sonra `let ort = (toplam / 3) as u8;` ve `Renk(ort, ort, ort)`."
 explanation: |
@@ -561,7 +561,7 @@ answer: |
 - front: Newtype deseni nedir?
   back: "Mevcut bir tipi tek alanlı bir tuple struct ile yeni, ayrı bir tipe sarmak: `struct Metre(f64);`"
 - front: "`struct Metre(f64);` bellekte kaç bayttır ve neden?"
-  back: 8 bayt — düz bir `f64` ile aynı. Tip bilgisi yalnızca derleme zamanında vardır; newtype sıfır maliyetlidir.
+  back: 8 bayt, düz bir `f64` ile aynı. Tip bilgisi yalnızca derleme zamanında vardır; newtype sıfır maliyetlidir.
 - front: "`Metre(1.0) + Metre(2.0)` neden derlenmez?"
   back: "Newtype iç tipin işlemlerini devralmaz (**E0369**). Şimdilik `Metre(a.0 + b.0)`; Modül 22'de `+` tanımlanır."
 - front: Birim struct nasıl tanımlanır, nasıl oluşturulur, kaç bayttır?

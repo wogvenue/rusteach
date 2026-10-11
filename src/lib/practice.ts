@@ -2,7 +2,7 @@
 // queue, the speed round, the mistakes notebook and the exercise catalog.
 //
 // Pure functions over ProgressData + content. Randomness only comes from an explicit numeric seed
-// (mulberry32), so the same seed always yields the same session — easy to unit test.
+// (mulberry32), so the same seed always yields the same session - easy to unit test.
 import type { ExerciseProgress, MistakeEntry, ProgressData, SrsEntry, SrsKind } from '../store/progress';
 import type { Block, ExerciseBlock, Lesson, Module } from '../types/content';
 import { allBlocks, findBlock, findFlashcard, isCheck, moduleLessons, modules } from './content';
@@ -48,7 +48,7 @@ export function weightedSample<T>(items: readonly T[], weight: (t: T) => number,
 
 /**
  * Interleaving: reorders items so that no two consecutive items share a `group` (e.g. the same lesson)
- * whenever that is possible and — as a softer preference — not the same `family` (module) either.
+ * whenever that is possible and - as a softer preference - not the same `family` (module) either.
  * Within a group the incoming priority order is kept. Picking the group with the most remaining
  * items (that is not the previous one) is optimal for the adjacency constraint; ties are broken by a
  * family change, then by the seeded random.
@@ -91,7 +91,7 @@ export function interleave<T>(
   return out;
 }
 
-/** Number of adjacent pairs that share a group — 0 means perfectly interleaved. */
+/** Number of adjacent pairs that share a group - 0 means perfectly interleaved. */
 export function adjacencyCount<T>(items: readonly T[], group: (t: T) => string): number {
   let n = 0;
   for (let i = 1; i < items.length; i++) if (group(items[i]) === group(items[i - 1])) n++;
@@ -123,7 +123,7 @@ export function requeueIndex<T>(
 
 // ------------------------------------------------------------------ review queue
 
-/** Seconds a typical item takes — used for "≈ N dakika" estimates. */
+/** Seconds a typical item takes - used for "≈ N dakika" estimates. */
 export const ITEM_SECONDS: Record<SrsKind, number> = { flashcard: 12, check: 40 };
 
 export function estimateMinutes(entries: readonly { kind: SrsKind }[]): number {
@@ -156,7 +156,7 @@ export interface PracticeItem {
   reasons: string[];
 }
 
-/** Completed regular/project lessons in curriculum order (bosses excluded — they stay tests). */
+/** Completed regular/project lessons in curriculum order (bosses excluded - they stay tests). */
 export function completedLessons(s: ProgressData): Lesson[] {
   const out: Lesson[] = [];
   for (const m of modules) for (const l of moduleLessons(m)) if (s.lessons[l.id]?.status === 'completed') out.push(l);
@@ -266,7 +266,7 @@ export interface PracticeSetOptions extends CandidateOptions {
 }
 
 /**
- * "Karma antrenman": a weighted (toward weak spots), interleaved set of checks — plus about one
+ * "Karma antrenman": a weighted (toward weak spots), interleaved set of checks - plus about one
  * exercise in five when exercises are included. Deterministic for a given seed.
  */
 export function buildPracticeSet(s: ProgressData, opts: PracticeSetOptions): PracticeItem[] {
@@ -376,7 +376,7 @@ export function openMistakeCount(s: ProgressData): number {
   return n;
 }
 
-/** Every open mistake as a practice item, interleaved — for "Hepsini sırayla dene". */
+/** Every open mistake as a practice item, interleaved - for "Hepsini sırayla dene". */
 export function mistakeSession(s: ProgressData, seed: number, now: Date = new Date()): PracticeItem[] {
   const items: PracticeItem[] = [];
   for (const group of mistakeGroups(s, false))

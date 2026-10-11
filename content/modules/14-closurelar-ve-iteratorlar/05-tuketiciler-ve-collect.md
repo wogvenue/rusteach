@@ -13,7 +13,7 @@ keywords: [tüketici, consumer, sum, product, count, fold, any, all, find, posit
 
 Adaptörler bir boru hattı kurar ama musluğu açmaz. Musluğu açan, yani iterator'dan `None` gelene kadar
 (ya da yeterince bilgi toplayana kadar) `next()` çağıran metotlara **tüketici (consumer)** denir. Bu derste
-standart kütüphanenin en çok kullanılan tüketicilerini ve hepsinin en esnek olanını — **`collect`**'i —
+standart kütüphanenin en çok kullanılan tüketicilerini ve hepsinin en esnek olanını, **`collect`**'i,
 öğreneceksin. Ders bittiğinde yazdığın döngülerin yarısını tek bir satırla ifade edebileceksin.
 
 ## Topla, çarp, say: sum, product, count
@@ -35,7 +35,7 @@ fn main() {
 ```
 
 Tüketicilerin hepsi iterator'ı **`self` ile** alır, yani iterator'ı tüketir. Bir iterator'ı saydıktan sonra
-onunla bir daha işlem yapamazsın — ama koleksiyonun kendisi duruyor, yeni bir `iter()` alabilirsin.
+onunla bir daha işlem yapamazsın, ama koleksiyonun kendisi duruyor, yeni bir `iter()` alabilirsin.
 
 `sum` ve `product`'ta neden `let toplam: u32` diye tip yazdık? Çünkü `&u32`'lerin toplamı farklı tiplerde
 olabilir (`u32`, `u64`, hatta `Option<u32>`...) ve derleyici hangisini istediğini tahmin etmez:
@@ -77,7 +77,7 @@ answer: 1
 explanation: |
   Boş toplamın sonucu toplamanın **etkisiz elemanı** olan 0, boş çarpımınki çarpmanın etkisiz elemanı olan
   1'dir. Matematikteki tanımla aynı: böylece `toplam(a ++ b) = toplam(a) + toplam(b)` boş listeler için de
-  doğru kalır. Panik yok, `Option` yok — her zaman bir sonuç var.
+  doğru kalır. Panik yok, `Option` yok - her zaman bir sonuç var.
 ```
 
 :::warning Taşma
@@ -97,7 +97,7 @@ where
     F: FnMut(B, Self::Item) -> B,
 ```
 
-Closure iki şey alır: **biriktirici (accumulator)** — şimdiye kadarki sonuç — ve sıradaki eleman; yeni
+Closure iki şey alır: **biriktirici (accumulator)**, şimdiye kadarki sonuç, ve sıradaki eleman; yeni
 biriktiriciyi döndürür.
 
 ```rust
@@ -128,7 +128,7 @@ fn main() {
 }
 ```
 
-`fold`'un adımlarını bir tabloyla izleyelim — `notlar.iter().fold(0, |acc, n| acc + n)`:
+`fold`'un adımlarını bir tabloyla izleyelim, `notlar.iter().fold(0, |acc, n| acc + n)`:
 
 | adım | `acc` (gelen) | `n` | dönen `acc` |
 |---|---|---|---|
@@ -175,7 +175,7 @@ explanation: |
 
 ## Arama: any, all, find, position
 
-Bu dört tüketici bir **koşul** arar ve cevabı bulduğu anda durur. Buna **kısa devre (short-circuit)** denir —
+Bu dört tüketici bir **koşul** arar ve cevabı bulduğu anda durur. Buna **kısa devre (short-circuit)** denir,
 `&&` ve `||` operatörlerindeki gibi. Tahmin et:
 
 ```predict
@@ -242,8 +242,8 @@ options:
   - İkisi de panikler
 answer: 0
 explanation: |
-  `any` "koşulu sağlayan **bir** eleman var mı?" diye sorar — boş kümede yoktur: `false`. `all` "koşulu
-  **sağlamayan** bir eleman var mı?" sorusunun tersidir — boş kümede sağlamayan da yoktur: `true`.
+  `any` "koşulu sağlayan **bir** eleman var mı?" diye sorar - boş kümede yoktur: `false`. `all` "koşulu
+  **sağlamayan** bir eleman var mı?" sorusunun tersidir - boş kümede sağlamayan da yoktur: `true`.
   Mantıkta buna *boş doğruluk (vacuous truth)* denir. Pratikte önemlidir: "bütün ödevler teslim edildi mi?"
   sorusu hiç ödev yokken `true` döner; iş kuralın farklıysa boşluğu ayrıca kontrol et.
 feedback:
@@ -294,10 +294,10 @@ Hepsi `Option` döndürür, çünkü boş bir koleksiyonun en büyüğü yoktur.
 question: |
   `let v = [("Ada", 90), ("Cem", 90), ("Ece", 70)];` için `v.iter().max_by_key(|(_, p)| *p)` hangi elemanı verir?
 options:
-  - "`Some((\"Ada\", 90))` — eşitlikte ilk gelen"
-  - "`Some((\"Cem\", 90))` — eşitlikte son gelen"
-  - "`Some(90)` — en büyük anahtar"
-  - "`None` — en büyük tek değil"
+  - "`Some((\"Ada\", 90))`, eşitlikte ilk gelen"
+  - "`Some((\"Cem\", 90))`, eşitlikte son gelen"
+  - "`Some(90)`, en büyük anahtar"
+  - "`None`, en büyük tek değil"
 answer: 1
 explanation: |
   Belgelenmiş kural: birden çok eleman eşit derecede en büyükse `max`/`max_by_key` **sonuncusunu**,
@@ -310,7 +310,7 @@ feedback:
   - Eşitlik `None` sebebi değildir; `None` yalnızca iterator boşsa döner.
 ```
 
-`nth(n)` ise `n`'inci elemanı (0'dan başlayarak) verir — ama dikkat, bir tüketici gibi davranır ve
+`nth(n)` ise `n`'inci elemanı (0'dan başlayarak) verir, ama dikkat, bir tüketici gibi davranır ve
 **önündeki elemanları da tüketir**. Tahmin et:
 
 ```predict
@@ -427,7 +427,7 @@ output: aeiklmrsy
 explanation: |
   `BTreeSet` hem tekrarları atar hem de elemanları sıralı tutar (Modül 9). İlk `collect` turbofish ile
   `BTreeSet<_>`'e, ikincisi değişken anotasyonuyla `String`'e toplar. `char`'lardan `String` kurmak için
-  `FromIterator<char>` uygulaması kullanılır. Aynı tip hedefi, aynı veri — farklı koleksiyonlar: `collect`'in
+  `FromIterator<char>` uygulaması kullanılır. Aynı tip hedefi, aynı veri - farklı koleksiyonlar: `collect`'in
   gücü buradadır.
 ```
 
@@ -473,7 +473,7 @@ options:
 answer: 1
 explanation: |
   `Result`'a `collect` **kısa devre** yapar: ilk `Err` geldiğinde durur ve onu döndürür. `"5"` ve `"y"`
-  hiç ayrıştırılmaz — tembel boru hattı sayesinde iş boşa yapılmaz. Hataları sessizce atmak isteseydin
+  hiç ayrıştırılmaz - tembel boru hattı sayesinde iş boşa yapılmaz. Hataları sessizce atmak isteseydin
   önceki dersteki `filter_map(|s| s.parse().ok())` kullanırdın; burada ise hata **raporlanıyor**.
 ```
 
@@ -508,11 +508,11 @@ id: m14-e-market-sepeti
 title: Market sepeti raporu
 difficulty: 3
 prompt: |
-  Sepetteki her kalem bir `Kalem { ad, birim_fiyat, adet }`. İki fonksiyon yaz — ikisi de **döngüsüz**,
+  Sepetteki her kalem bir `Kalem { ad, birim_fiyat, adet }`. İki fonksiyon yaz - ikisi de **döngüsüz**,
   tüketicilerle:
 
-  1. `toplam_tutar(sepet: &[Kalem]) -> u32` — her kalem için `birim_fiyat * adet`'in toplamı.
-  2. `en_pahali_kalem(sepet: &[Kalem]) -> Option<&str>` — **kalem tutarı** (`birim_fiyat * adet`) en yüksek
+  1. `toplam_tutar(sepet: &[Kalem]) -> u32` - her kalem için `birim_fiyat * adet`'in toplamı.
+  2. `en_pahali_kalem(sepet: &[Kalem]) -> Option<&str>` - **kalem tutarı** (`birim_fiyat * adet`) en yüksek
      olan kalemin adı. Sepet boşsa `None`. Eşitlikte hangisinin döneceği testlerde kontrol edilmiyor.
 starter: |
   struct Kalem {
@@ -692,8 +692,8 @@ tests: |
       assert_eq!(notlari_oku("85, , 70"), Err(String::from("geçersiz not: ")), "boş parça da geçersizdir");
   }
 hints:
-  - "İskelet: `girdi.split(',').map(|parca| { ... }).collect()` — dönüş tipi `Result<Vec<u32>, String>` olduğu için `collect` neyi kuracağını bilir."
-  - "Closure'ın içinde: `let parca = parca.trim(); let n: u32 = parca.parse().map_err(|_| format!(\"geçersiz not: {parca}\"))?;` — `?` closure'dan `Err` döndürür, fonksiyondan değil!"
+  - "İskelet: `girdi.split(',').map(|parca| { ... }).collect()`, dönüş tipi `Result<Vec<u32>, String>` olduğu için `collect` neyi kuracağını bilir."
+  - "Closure'ın içinde: `let parca = parca.trim(); let n: u32 = parca.parse().map_err(|_| format!(\"geçersiz not: {parca}\"))?;` - `?` closure'dan `Err` döndürür, fonksiyondan değil!"
   - "Sonra `if n > 100 { return Err(...); }` ve son ifade `Ok(n)`. Closure'ın dönüş tipi `Result<u32, String>` olur."
 require:
   - pattern: "\\.collect"
@@ -751,7 +751,7 @@ answer: |
 - front: "`it.nth(1)` iki kez üst üste çağrılırsa (`[10,20,30,40,50]`) ne verir?"
   back: "`Some(20)` sonra `Some(40)`: `nth` önündeki elemanları tüketir ve kaldığı yerden sayar."
 - front: "`[\"3\", \"x\", \"5\"].iter().map(|s| s.parse::<i32>()).collect::<Result<Vec<_>, _>>()` ne verir?"
-  back: "`Err(...)` — `\"x\"`'in ayrıştırma hatası. `collect` ilk `Err`'de durur; `\"5\"` hiç işlenmez."
+  back: "`Err(...)`, `\"x\"`'in ayrıştırma hatası. `collect` ilk `Err`'de durur; `\"5\"` hiç işlenmez."
 - front: "`collect::<Vec<_>>()` içindeki `_` ne demek?"
   back: "\"Eleman tipini sen çıkar\": koleksiyon tipini söylerim, içindekini derleyici bulur."
 ```

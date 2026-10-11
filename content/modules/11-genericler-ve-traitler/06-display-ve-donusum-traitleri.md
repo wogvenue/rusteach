@@ -101,10 +101,10 @@ fn main() {
 
 İmzayı parça parça okuyalım:
 
-- `f: &mut fmt::Formatter` — çıktının yazılacağı yer. `println!`, `format!` ya da bir dosya olabilir;
+- `f: &mut fmt::Formatter`, çıktının yazılacağı yer. `println!`, `format!` ya da bir dosya olabilir;
   senin bilmen gerekmez. (Bazı kodlarda `Formatter<'_>` görürsün; `'_` bir yaşam süresidir, Modül 12.)
-- `write!(f, ...)` — `format!` gibi çalışır ama yeni bir `String` üretmek yerine doğrudan `f`'ye yazar.
-- `fmt::Result` — yazma başarılı mı? `Result<(), fmt::Error>`'un kısa adıdır. `write!` zaten bunu
+- `write!(f, ...)`, `format!` gibi çalışır ama yeni bir `String` üretmek yerine doğrudan `f`'ye yazar.
+- `fmt::Result`, yazma başarılı mı? `Result<(), fmt::Error>`'un kısa adıdır. `write!` zaten bunu
   döndürdüğü için son ifade olarak bırakman yeterli (Modül 3: noktalı virgülsüz son ifade).
 
 `use std::fmt;` yazıp `fmt::Display`, `fmt::Formatter` demek, Modül 8'deki deyimsel kullanımdır:
@@ -350,7 +350,7 @@ Neden `ad: &str` alıp içeride `ad.to_string()` demiyoruz? Çünkü çağıran�
 varsa, `impl Into<String>` onu **olduğu gibi taşır**; yeni bellek ayırmaz:
 
 ```memory
-title: Ogrenci::yeni — &str ile String arasındaki fark
+title: "Ogrenci::yeni: &str ile String arasındaki fark"
 steps:
   - caption: "`yeni(\"Ayşe\", 101)`: `ad` bir `&str`; programın içindeki sabit metni gösteriyor. `ad.into()` heap'te **yeni** bir alan ayırıp baytları oraya kopyalar."
     stack:
@@ -415,7 +415,7 @@ options:
   - "44 4294967295 3"
   - "255 0 4"
   - "300 -1 3.99"
-  - Derlenmez — değerler hedef tipe sığmıyor
+  - Derlenmez, değerler hedef tipe sığmıyor
 answer: 0
 explanation: |
   `as` **hiçbir zaman** hata vermez, ama sessizce bilgi kaybedebilir. `300 as u8` üst bitleri atar:

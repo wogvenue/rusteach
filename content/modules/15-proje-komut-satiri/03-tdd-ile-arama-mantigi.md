@@ -367,7 +367,7 @@ gösterir. Örneğin bir günlük (log) dosyasında `INFO` satırlarını eleyip
 
 ```exercise
 id: m15-e-ara-haric
-title: "ara_haric — sorguyu içermeyen satırlar"
+title: "ara_haric, sorguyu içermeyen satırlar"
 difficulty: 2
 prompt: |
   `ara_haric(sorgu, icerik)` fonksiyonunu yaz: `icerik`'in sorguyu **içermeyen** satırlarını, sırası

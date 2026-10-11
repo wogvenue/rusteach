@@ -1,6 +1,6 @@
 id: m22
 title: İleri Trait'ler ve Tipler
-subtitle: Tip sisteminin derin suları — operatörler, DST'ler, PhantomData ve GAT'ler
+subtitle: "Tip sisteminin derin suları: operatörler, DST'ler, PhantomData ve GAT'ler"
 icon: "🧬"
 description: |
   Rust'ın tip sistemini standart kütüphaneyi yazanlar gibi kullanmayı öğreneceksin: ilişkili tipler ve

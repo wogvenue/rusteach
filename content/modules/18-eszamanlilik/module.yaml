@@ -1,6 +1,6 @@
 id: m18
 title: Korkusuz Eşzamanlılık
-subtitle: Thread'ler, kanallar, kilitler — veri yarışı olmadan bütün çekirdekleri kullanmak
+subtitle: "Thread'ler, kanallar, kilitler: veri yarışı olmadan bütün çekirdekleri kullanmak"
 icon: "🧵"
 description: |
   Bilgisayarındaki bütün çekirdekleri işe koşmayı öğreneceksin: `thread::spawn` ile thread açmak,

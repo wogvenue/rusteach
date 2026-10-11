@@ -15,7 +15,7 @@ fn main() {
         .collect();
 
     let toplamlar: Vec<i32> = tutamaclar.into_iter().map(|t| t.join().unwrap()).collect();
-    println!("{toplamlar:?}"); // [200, 45, 60] — girdi sırasıyla, her çalıştırmada aynı
+    println!("{toplamlar:?}"); // [200, 45, 60] - girdi sırasıyla, her çalıştırmada aynı
 }
 ```
 

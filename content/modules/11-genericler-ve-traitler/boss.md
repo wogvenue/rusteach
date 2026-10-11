@@ -58,8 +58,8 @@ options:
   - |
     42 hediye
     43
-  - Derlenmez — `ikiye_katla` her `Kutu<T>` için tanımlı olmalı
-  - Derlenmez — `a`, `ikiye_katla`'dan sonra kullanılamaz
+  - Derlenmez, `ikiye_katla` her `Kutu<T>` için tanımlı olmalı
+  - Derlenmez, `a`, `ikiye_katla`'dan sonra kullanılamaz
 answer: 0
 explanation: |
   `ikiye_katla` yalnızca `Kutu<i32>` için var ve `a` tam olarak bir `Kutu<i32>`. `&self` aldığı için `a`'yı
@@ -73,9 +73,9 @@ question: |
   `goster(1); goster(2.5); goster(7); goster("a"); goster(String::from("b"));`
   Monomorfizasyon sonunda `goster`'in kaç somut kopyası derlenir?
 options:
-  - "1 — generic fonksiyon tek bir kopya olarak derlenir, tip çalışma anında kontrol edilir"
+  - "1, generic fonksiyon tek bir kopya olarak derlenir, tip çalışma anında kontrol edilir"
   - "4"
-  - "5 — her çağrı için bir kopya"
+  - "5, her çağrı için bir kopya"
 answer: 1
 explanation: |
   Her **farklı somut tip** için bir kopya üretilir, her çağrı için değil: `i32` (1 ve 7), `f64`, `&str` ve
@@ -226,7 +226,7 @@ options:
   - |
     Tekir der ki: ...
     Nemo der ki: ...
-  - Derlenmez — `Balik` `ses`'i uygulamıyor
+  - Derlenmez, `Balik` `ses`'i uygulamıyor
 answer: 0
 explanation: |
   `tanit` varsayılan bir metot ve `self.ses()`'i çağırıyor. Çağrı, o anki tipin uygulamasına gider: `Kedi`
@@ -442,7 +442,7 @@ options:
     Ok(6)
     Err(Negatif)
     tamam
-  - Derlenmez — `?` `ParseIntError`'ı `Hata`'ya çeviremez
+  - Derlenmez, `?` `ParseIntError`'ı `Hata`'ya çeviremez
 answer: 0
 explanation: |
   `impl From<ParseIntError> for Hata` sayesinde `?`, ayrıştırma hatalarını kendiliğinden `Hata::Sayi`'ya
@@ -669,8 +669,8 @@ options:
     3:<1><2><3>
     0:
     x
-  - Derlenmez — `kutula([])` çağrısında `N` çıkarılamaz
-  - Derlenmez — blanket impl `char`'ı kapsamaz, `etiket` yalnızca `i32` için var
+  - Derlenmez, `kutula([])` çağrısında `N` çıkarılamaz
+  - Derlenmez, blanket impl `char`'ı kapsamaz, `etiket` yalnızca `i32` için var
 answer: 0
 explanation: |
   `impl<T: Display> Etiket for T` bir **blanket impl**: `Display` uygulayan her tip, `i32` de `char` da,
@@ -711,7 +711,7 @@ options:
   - |
     3 renk
     3 1
-  - Derlenmez — enum'lar `HashMap` anahtarı olamaz
+  - Derlenmez, enum'lar `HashMap` anahtarı olamaz
 answer: 0
 explanation: |
   `Eq` ve `Hash` türetildiği için `Renk` bir `HashMap` anahtarı olabilir. `entry(r).or_insert(0)` anahtar

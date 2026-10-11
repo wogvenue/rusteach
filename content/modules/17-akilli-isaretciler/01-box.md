@@ -1,6 +1,6 @@
 ---
 id: m17-l01
-title: "Box<T> — heap'te tek sahip"
+title: "Box<T>, heap'te tek sahip"
 minutes: 22
 type: lesson
 objectives:
@@ -68,9 +68,9 @@ Tek bir `i32`'yi heap'e koymanın pratik bir faydası yok; bu sadece mekanizmay�
 kullanım alanlarına birazdan geleceğiz.
 
 :::info Diğer dillerle karşılaştırma
-- **C**: `int *p = malloc(sizeof(int)); *p = 5; ... free(p);` — `free`'yi unutursan sızıntı, iki kez
+- **C**: `int *p = malloc(sizeof(int)); *p = 5; ... free(p);`, `free`'yi unutursan sızıntı, iki kez
   çağırırsan *double free*, sonra kullanırsan *use-after-free*.
-- **C++**: `std::unique_ptr<int> p = std::make_unique<int>(5);` — `Box`'ın en yakın akrabası. Ama C++'ta
+- **C++**: `std::unique_ptr<int> p = std::make_unique<int>(5);`, `Box`'ın en yakın akrabası. Ama C++'ta
   taşınmış bir `unique_ptr`'ı kullanmak derlenir ve çalışma zamanında boş işaretçiye çarpar.
 - **Java/Python**: Her nesne zaten heap'te ve çöp toplayıcı (GC) temizler. Seçme şansın yoktur.
 
@@ -597,7 +597,7 @@ tests: |
 hints:
   - "`toplam` ve `uzunluk` için `match liste { Dugum(..) => ..., Bos => ... }` kullan ve kalan liste için fonksiyonu **yeniden çağır** (özyineleme)."
   - "`olustur` için listeyi **sondan başa** kurmak en kolayı: `let mut liste = Bos;` ile başla, fiyatları `fiyatlar.iter().rev()` ile tersten dolaş."
-  - "Döngü gövdesi: `liste = Dugum(*fiyat, Box::new(liste));` — eski liste yeni kutunun içine taşınır, sonra değişkene yeni baş düğüm atanır."
+  - "Döngü gövdesi: `liste = Dugum(*fiyat, Box::new(liste));`, eski liste yeni kutunun içine taşınır, sonra değişkene yeni baş düğüm atanır."
 explanation: |
   **Neden tersten?** Cons listesinde yalnızca **başa** eklemek ucuzdur: yeni bir düğüm oluşturup eski
   listeyi onun kutusuna taşırsın. Fiyatları sondan başa dolaşırsak son eklenen (ilk fiyat) en başta kalır.
@@ -766,7 +766,7 @@ tests: |
   }
 hints:
   - "`icerir`: önce `aranan == self.deger` mi diye bak. Değilse `ekle`'deki gibi doğru tarafı seç: `let taraf = if aranan < self.deger { &self.sol } else { &self.sag };`"
-  - "`en_kucuk` için döngü yeterli: `let mut simdiki = self; while let Some(sol) = &simdiki.sol { simdiki = sol; }` — `sol` bir `&Box<Dugum>`, `simdiki` ise `&Dugum`; atama deref zorlamasıyla çalışır."
+  - "`en_kucuk` için döngü yeterli: `let mut simdiki = self; while let Some(sol) = &simdiki.sol { simdiki = sol; }`, `sol` bir `&Box<Dugum>`, `simdiki` ise `&Dugum`; atama deref zorlamasıyla çalışır."
   - "`yukseklik`: iki tarafın yüksekliğini ayrı ayrı hesapla (çocuk yoksa 0), sonra `1 + sol.max(sag)` döndür."
 explanation: |
   **Neden hızlı?** `icerir` her adımda ağacın yarısını eler: dengeli bir ağaçta 1 milyon numara arasında
@@ -796,7 +796,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — derleyici neden her tipin boyutunu derleme zamanında bilmek ister ve `Box` özyinelemeli bir tipte bu sorunu nasıl çözer?
+prompt: Kendi cümlelerinle açıkla, derleyici neden her tipin boyutunu derleme zamanında bilmek ister ve `Box` özyinelemeli bir tipte bu sorunu nasıl çözer?
 answer: |
   Model cevap: Derleyici, bir değişkeni stack'e koymak, fonksiyona geçirmek ya da bir struct'ın alanları
   için yer ayırmak üzere tipin kaç bayt tuttuğunu önceden bilmek zorundadır. Kendini doğrudan içeren bir
@@ -814,11 +814,11 @@ answer: |
 - front: "`E0072: recursive type has infinite size` hatası ne demektir ve nasıl düzeltilir?"
   back: "Tip kendini doğrudan içeriyor, boyutu hesaplanamıyor. Araya bir dolaylılık koy: `Box<Liste>` (ya da `Rc`, `&`)."
 - front: "Ağaç düğümünde çocuk alanının idiomatik tipi nedir?"
-  back: "`Option<Box<Dugum>>` — çocuk yoksa `None` (tahsis yok), varsa heap'te kutulu düğüm."
+  back: "`Option<Box<Dugum>>`, çocuk yoksa `None` (tahsis yok), varsa heap'te kutulu düğüm."
 - front: "`Box` kullanmayı gerektiren üç tipik durum nedir?"
   back: "1) Boyutu derleme zamanında bilinmeyen (özyinelemeli) tipler, 2) büyük veriyi kopyalamadan taşımak, 3) trait nesneleri (`Box<dyn Trait>`)."
 - front: "`size_of::<Option<Box<T>>>()` neden `size_of::<Box<T>>()` ile aynıdır?"
   back: "`Box` asla null olamaz; derleyici `None`'u adres = 0 olarak kodlar (niş optimizasyonu). Ek etiket gerekmez."
 - front: "Bir `Box<String>`'in içindeki `String`'i nasıl dışarı taşırsın?"
-  back: "`let s = *kutu;` — `Box` tek sahip olduğu için `*` ile içinden taşımaya izin verir (bir `&String` ile bu yapılamaz)."
+  back: "`let s = *kutu;`, `Box` tek sahip olduğu için `*` ile içinden taşımaya izin verir (bir `&String` ile bu yapılamaz)."
 ```

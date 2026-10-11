@@ -854,7 +854,7 @@ bunu kullanarak gerçek bir dil kuralını kodlayacaksın.
 
 ````exercise
 id: m07-e-cogul-eki
-title: Ünlü uyumu — çoğul eki
+title: "Ünlü uyumu: çoğul eki"
 difficulty: 3
 prompt: |
   Türkçede çoğul eki, kelimenin **son ünlüsüne** göre seçilir (büyük ünlü uyumu):
@@ -989,7 +989,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `match`'in eksiksizlik denetimi büyüyen bir projede sana nasıl yardım
+  Kendi cümlelerinle açıkla - `match`'in eksiksizlik denetimi büyüyen bir projede sana nasıl yardım
   eder? Bir enum üzerinde `_` kolu kullanmak bu yardımı neden azaltabilir?
 answer: |
   Model cevap: Bir enum'a yeni bir varyant eklediğimde, o enum'u varyant varyant ele alan her `match`

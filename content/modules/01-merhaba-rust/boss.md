@@ -13,7 +13,7 @@ sonraki modülün kilidini açmak için **%80** başarı gerekiyor.
 :::tip Sınav taktiği
 Cevaplamadan önce derse dönüp bakmak yerine **önce hatırlamaya çalış**. Yanlış cevaplar dünyanın
 sonu değil: Hepsi tekrar kuyruğuna girer ve sana tam zamanında yeniden sorulur. Alıştırmalarda
-derleyicinin mesajlarını okumak serbest — hatta beklenen bu!
+derleyicinin mesajlarını okumak serbest, hatta beklenen bu!
 :::
 
 ## Programlar, derleyiciler ve araçlar
@@ -36,7 +36,7 @@ explanation: |
 feedback:
   - Kaynak kod, makine kodu değildir; tek başına çalışmaz.
   - Doğru!
-  - Tam tersi — Python yorumlanır, Rust derlenir.
+  - Tam tersi, Python yorumlanır, Rust derlenir.
   - "Mehmet'in arkadaşı derlenmiş `.exe`'yi doğrudan çalıştırabilir."
 ```
 
@@ -76,9 +76,9 @@ explanation: |
   `rustfmt` ve `clippy`'yi kurar, günceller ve sürümler arasında geçiş yapar. Projeleri derlemek,
   çalıştırmak ve bağımlılıkları indirmek ise **cargo**'nun işidir.
 feedback:
-  - Doğru — her 6 haftada bir yeni kararlı sürüm çıkar, `rustup update` onu getirir.
+  - Doğru, her 6 haftada bir yeni kararlı sürüm çıkar, `rustup update` onu getirir.
   - Bu `cargo build` / `cargo run`'ın işidir.
-  - Doğru — `rustup doc --book` resmî kitabı açar.
+  - Doğru, `rustup doc --book` resmî kitabı açar.
   - Bağımlılıkları Cargo indirir.
 ```
 
@@ -98,7 +98,7 @@ explanation: |
   `--release` ise optimizasyon yaptığı için en yavaş derlenen seçenektir.
 feedback:
   - Optimize derleme en yavaşıdır; dağıtım ve performans ölçümü içindir.
-  - Gereğinden fazlasını yapar — makine kodu üretir ve programı çalıştırır.
+  - Gereğinden fazlasını yapar, makine kodu üretir ve programı çalıştırır.
   - Doğru!
   - Bu yeni bir proje oluşturur.
 ```
@@ -381,7 +381,7 @@ hints:
     Etiketi bir argüman olarak verip 9 karakterlik alana sola yaslayabilirsin:
     `println!("{:<9}: {koltuk}", "Koltuk");`
   - |
-    Ücret satırı: `println!("{:<9}: {ucret:.2} TL", "Ücret");` — `Güzergâh` satırında ise iki
+    Ücret satırı: `println!("{:<9}: {ucret:.2} TL", "Ücret");` - `Güzergâh` satırında ise iki
     değişken ve aralarında ` -> ` var.
 explanation: |
   Etiketleri argüman olarak verip `{:<9}` ile aynı genişliğe yerleştirmek, iki nokta üst üstelerin

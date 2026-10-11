@@ -2,7 +2,7 @@
 title: "Özet Kartı: Değişkenler ve Veri Tipleri"
 ---
 
-# Değişkenler ve Veri Tipleri — Özet Kartı
+# Değişkenler ve Veri Tipleri: Özet Kartı
 
 ## Değişken, sabit, gölgeleme
 
@@ -11,7 +11,7 @@ title: "Özet Kartı: Değişkenler ve Veri Tipleri"
 | `let x = 5;` | değişmez değişken | Varsayılan! Tekrar atama → **E0384** |
 | `let mut x = 5;` | değiştirilebilir değişken | `x = 6;`, `x += 1;` (`x++` yok) |
 | `const MAKS: u32 = 100;` | derleme zamanı sabiti | Tip **zorunlu**, `SCREAMING_SNAKE_CASE`, `let` değeri kullanamaz → **E0435** |
-| `static AD: &str = "...";` | tek adresli global değer | `static mut` yalnızca `unsafe` ile (**E0133**); 2024'te `&STATIC_MUT` bile hata — kaçın |
+| `static AD: &str = "...";` | tek adresli global değer | `static mut` yalnızca `unsafe` ile (**E0133**); 2024'te `&STATIC_MUT` bile hata, kaçın |
 | `let x = x.len();` | gölgeleme (shadowing) | **Yeni** değişken; tip değişebilir. `{ }` bitince iç gölge biter |
 
 - Değişken isimleri `snake_case`. Değer **dönüşüyorsa** gölgeleme, zaman içinde **güncelleniyorsa** `mut`.
@@ -51,7 +51,7 @@ Sabit yazımları: `1_000_000`, `0xff`, `0o755`, `0b1010`, `b'A'` (`u8`), `5u8`,
 - `char`: tek tırnak `'ş'`, **4 bayt**, bir Unicode skaler değeri. `'🇹🇷'` iki değerdir → `char` olamaz.
 - Metin içinde karakterler UTF-8'dir: `.len()` **bayt** sayar (`"şeker".len()` → `6`).
 
-## as ile dönüşüm (çalışma zamanında asla hata vermez — sessizce keser!)
+## as ile dönüşüm (çalışma zamanında asla hata vermez: sessizce keser!)
 
 | Dönüşüm | Sonuç |
 |---------|-------|
@@ -60,7 +60,7 @@ Sabit yazımları: `1_000_000`, `0xff`, `0o755`, `0b1010`, `b'A'` (`u8`), `5u8`,
 | `7.9_f64 as i32` | `7` (keser) · `300.7 as u8` → `255` (sınırda durur) · NaN → `0` |
 | `82.6_f64.round() as i32` | `83` (yuvarlamak için önce `round`) |
 | `65_u8 as char` · `'ş' as u32` · `true as i32` | `'A'` · `351` · `1` |
-| `'ş' as u8` | `95` (son 8 bit!) — `as u8` yalnızca ASCII karakterlerde güvenli |
+| `'ş' as u8` | `95` (son 8 bit!), `as u8` yalnızca ASCII karakterlerde güvenli |
 
 Yalnızca `u8 → char` (`i32 as char` → **E0604**). Ortalama: `toplam as f64 / adet as f64` (bölmeden **önce** çevir).
 

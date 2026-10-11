@@ -1014,7 +1014,7 @@ starter: |
       let paket = kargo::Paket::new("kitap", 1200);
       let paket = paket.etiketle("Ankara");
       let paket = paket.kargoya_ver(42);
-      println!("{} — {} TL", paket.takip_no(), paket.ucret());
+      println!("{} - {} TL", paket.takip_no(), paket.ucret());
       println!("{}", paket.teslim_et("Ayşe"));
   }
 solution: |
@@ -1089,7 +1089,7 @@ solution: |
       let paket = kargo::Paket::new("kitap", 1200);
       let paket = paket.etiketle("Ankara");
       let paket = paket.kargoya_ver(42);
-      println!("{} — {} TL", paket.takip_no(), paket.ucret());
+      println!("{} - {} TL", paket.takip_no(), paket.ucret());
       println!("{}", paket.teslim_et("Ayşe"));
   }
 check: tests

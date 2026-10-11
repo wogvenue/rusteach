@@ -1,6 +1,6 @@
 ---
 id: m07-l02
-title: Option — null'suz dünya
+title: "Option: null'suz dünya"
 minutes: 20
 type: lesson
 objectives:
@@ -13,7 +13,7 @@ keywords: [Option, Some, None, null, unwrap_or, unwrap, expect, take, E0277, E02
 
 Bir öğrencinin telefon numarası olmayabilir. Bir listede aradığın eleman bulunmayabilir. Bir bölme
 işleminin sonucu olmayabilir (sıfıra bölme!). "Değer olmayabilir" programlamanın en sık karşılaşılan
-durumlarından biri — ve tarihin en pahalı hatalarından biri de tam burada yapıldı.
+durumlarından biri, ve tarihin en pahalı hatalarından biri de tam burada yapıldı.
 
 Bu derste Rust'ın bu soruna verdiği zarif cevabı öğreneceksin: **null** yok, onun yerine bir önceki
 derste öğrendiğin türden sıradan bir enum var: `Option<T>`.
@@ -21,7 +21,7 @@ derste öğrendiğin türden sıradan bir enum var: `Option<T>`.
 ## Milyar dolarlık hata
 
 1965'te bilgisayar bilimci **Tony Hoare**, ALGOL W dilini tasarlarken bir kolaylık ekledi: **null
-referansı** — hiçbir şeyi göstermeyen bir referans. 2009'daki bir konuşmasında bu kararı
+referansı**, hiçbir şeyi göstermeyen bir referans. 2009'daki bir konuşmasında bu kararı
 **"milyar dolarlık hatam"** diye andı: o günden bu yana sayısız çökme ve güvenlik açığı bu küçük
 kolaylıktan doğdu.
 
@@ -117,7 +117,7 @@ code: |
 answer: false
 error: E0282
 explanation: |
-  Derlenmez: **E0282** — *type annotations needed for `Option<_>`*. `Some(5)` yazınca derleyici içerideki
+  Derlenmez: **E0282** - *type annotations needed for `Option<_>`*. `Some(5)` yazınca derleyici içerideki
   değerden `T = i32` olduğunu çıkarır. `None` ise hiçbir ipucu taşımaz: boş kutunun neyin kutusu olduğu
   belli değil. Modül 2'deki tip çıkarımı kuralı: derleyici tipi bulamadığında senden açıkça yazmanı ister:
   `let bos: Option<i32> = None;`
@@ -208,7 +208,7 @@ code: |
 answer: false
 error: E0277
 explanation: |
-  Derlenmez: **E0277** — *cannot subtract `Option<i32>` from `i32`*. `indirim`'in tipi `i32` değil,
+  Derlenmez: **E0277** - *cannot subtract `Option<i32>` from `i32`*. `indirim`'in tipi `i32` değil,
   "belki bir `i32`". Rust bir sayıdan "belki bir sayıyı" nasıl çıkaracağını bilemez: ya `None` ise?
   Önce kutuyu açıp "boşsa ne olacak" sorusunu cevaplaman gerekir.
 ```
@@ -403,19 +403,19 @@ Option sıradan bir enum olduğu için Modül 4'teki sahiplik kuralları ona da 
 ```memory
 title: "`Option<String>`: boş kutu, dolu kutu, taşınan kutu"
 steps:
-  - caption: "`let mut ad: Option<String> = None;` — kutu boş: heap'te hiçbir şey ayrılmadı."
+  - caption: "`let mut ad: Option<String> = None;`, kutu boş: heap'te hiçbir şey ayrılmadı."
     stack:
       - frame: main
         vars:
           - { name: ad, type: "Option<String>", value: "None", mut: true }
-  - caption: "`ad = Some(String::from(\"Elif\"));` — kutuda bir `String` var: başlığı stack'te, harfleri heap'te."
+  - caption: "`ad = Some(String::from(\"Elif\"));`, kutuda bir `String` var: başlığı stack'te, harfleri heap'te."
     stack:
       - frame: main
         vars:
           - { name: ad, type: "Option<String>", value: "Some(ptr · len=4 · cap=4)", to: h1, mut: true }
     heap:
       - { id: h1, value: "E l i f" }
-  - caption: "`let baska = ad;` — `Option<String>` da `String` gibi **taşınır**; artık `ad` geçersiz."
+  - caption: "`let baska = ad;`, `Option<String>` da `String` gibi **taşınır**; artık `ad` geçersiz."
     stack:
       - frame: main
         vars:
@@ -539,7 +539,7 @@ code: |
 answer: false
 error: E0507
 explanation: |
-  Derlenmez: **E0507** — *cannot move out of `self.odunc_alan` which is behind a mutable reference*.
+  Derlenmez: **E0507** - *cannot move out of `self.odunc_alan` which is behind a mutable reference*.
   `self` yalnızca **ödünç alınmış** bir `&mut Kitap`; ödünç aldığın bir şeyin parçasını alıp götüremezsin
   (Modül 5). Hemen sonraki satırda alanı `None` ile doldurman da bunu kurtarmaz: Rust, bir referansın
   arkasındaki değerin **her an** tam ve geçerli olmasını ister. İki satırın arasında bir şey ters gitseydi
@@ -582,7 +582,7 @@ steps:
           - { name: kitap.odunc_alan, type: "Option<String>", value: "Some(ptr · len=3 · cap=3)", to: h1, mut: true }
     heap:
       - { id: h1, value: "A l i" }
-  - caption: "`let kimdeydi = kitap.iade_et();` — heap'teki metin yerinden kıpırdamadı; yalnızca sahibi değişti. Alanda artık `None` var."
+  - caption: "`let kimdeydi = kitap.iade_et();`, heap'teki metin yerinden kıpırdamadı; yalnızca sahibi değişti. Alanda artık `None` var."
     stack:
       - frame: main
         vars:

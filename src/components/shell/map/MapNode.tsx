@@ -1,5 +1,5 @@
 // One module on the journey map: a tactile "coin" (press-down 3D edge), its state decorations,
-// a side label and — for the current module — Ferris saying "Buradasın".
+// a side label and - for the current module - Ferris saying "Buradasın".
 import { forwardRef, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';

@@ -1,6 +1,6 @@
 ---
 id: m10-l01
-title: "panic! — Kurtarılamaz Hatalar"
+title: "panic!, Kurtarılamaz Hatalar"
 minutes: 16
 type: lesson
 objectives:
@@ -12,7 +12,7 @@ keywords: [panic!, unwinding, abort, RUST_BACKTRACE, backtrace, todo!, unreachab
 ---
 
 Şimdiye kadar yazdığın programlarda her şeyin yolunda gideceğini varsaydık. Gerçek dünya ise daha dağınık:
-kullanıcıya yaşını sorarsın, "yirmi" yazar; aradığın dosya silinmiştir; ağ bağlantısı kopar — ve bazen de
+kullanıcıya yaşını sorarsın, "yirmi" yazar; aradığın dosya silinmiştir; ağ bağlantısı kopar, ve bazen de
 biz programcılar hata yaparız. Rust hataları iki büyük aileye ayırır: **kurtarılabilir (recoverable)** ve
 **kurtarılamaz (unrecoverable)** hatalar. Bu modülün sonunda ikisini de bir usta gibi yöneteceksin.
 
@@ -26,7 +26,7 @@ bu modülde bitiyor. Hazırsan başlayalım! 🦀
 ## Önce tahmin et: dizinin dışına çıkmak
 
 Aşağıdaki program, 3 notluk bir listenin 6. elemanını okumaya çalışıyor. Açıklamaya geçmeden önce ne olacağını
-tahmin et — yanılsan bile tahmin etmek öğrenmeni güçlendirir.
+tahmin et, yanılsan bile tahmin etmek öğrenmeni güçlendirir.
 
 ````quiz
 question: |
@@ -67,10 +67,10 @@ thread 'main' (13) panicked at src/main.rs:5:26:
 index out of bounds: the len is 3 but the index is 5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
-Satır satır oku: **1)** `thread 'main' (13)` — paniği yaşayan thread, yani programın ana akışı (parantezdeki
-sayı thread'in kimlik numarasıdır, çalıştırmadan çalıştırmaya değişir). **2)** `src/main.rs:5:26` — paniğin
+Satır satır oku: **1)** `thread 'main' (13)`, paniği yaşayan thread, yani programın ana akışı (parantezdeki
+sayı thread'in kimlik numarasıdır, çalıştırmadan çalıştırmaya değişir). **2)** `src/main.rs:5:26`, paniğin
 yeri: 5. satır, 26. sütun (`notlar[i]` ifadesi). **3)** `index out of bounds: the len is 3 but the
-index is 5` — ne olduğu: "uzunluk 3, ama istenen dizin 5". **4)** `note` — daha fazla ayrıntı için bir ipucu
+index is 5`, ne olduğu: "uzunluk 3, ama istenen dizin 5". **4)** `note`, daha fazla ayrıntı için bir ipucu
 ("Backtrace ile iz sürmek" bölümünde kullanacağız).
 :::
 
@@ -97,7 +97,7 @@ explanation: |
   sabit bir `5`. Derleyici paniğin **kesin** olduğunu bildiği için kodu hiç derlemez:
   `error: this operation will panic at runtime` (Modül 2'de dizileri işlerken görmüştük).
   `Vec`'in uzunluğu ise ancak çalışırken belli olur; önceki örnekteki hata bu yüzden çalışma zamanında yakalandı.
-  Kural: Rust hatayı **mümkün olan en erken anda** yakalar — derleme zamanında yapamıyorsa çalışma zamanında.
+  Kural: Rust hatayı **mümkün olan en erken anda** yakalar - derleme zamanında yapamıyorsa çalışma zamanında.
 ```
 
 ## İki tür hata
@@ -117,18 +117,18 @@ dur, sesini yükselt, hatanın yerini göster.
 
 | Dil | Beklenen hatalar | Programlama hataları (bug) |
 |---|---|---|
-| C | dönüş kodu, `errno` — kontrol etmeyi unutmak çok kolay | tanımsız davranış: çökme ya da sessizce bozulan veri |
-| Java, Python, JS | istisna (exception) — çoğu zaman fonksiyonun imzasında görünmez | yine istisna |
+| C | dönüş kodu, `errno`, kontrol etmeyi unutmak çok kolay | tanımsız davranış: çökme ya da sessizce bozulan veri |
+| Java, Python, JS | istisna (exception), çoğu zaman fonksiyonun imzasında görünmez | yine istisna |
 | Go | `error` dönüş değeri | `panic` |
-| **Rust** | **`Result<T, E>`** — tipte görünür, yok sayılamaz | **`panic!`** |
+| **Rust** | **`Result<T, E>`**, tipte görünür, yok sayılamaz | **`panic!`** |
 
 Rust'ın farkı, iki türü **ayrı araçlarla** ele alması: beklenen hatalar tip sisteminin bir parçasıdır (derleyici
 onları ele almanı ister), programlama hataları ise programı durdurur.
 
 :::analogy Lastik patlaması mı, motor yangını mı?
-Yolda lastiğin patlarsa yedek lastiği takar, yoluna devam edersin: can sıkıcı ama **beklenen** bir aksilik —
+Yolda lastiğin patlarsa yedek lastiği takar, yoluna devam edersin: can sıkıcı ama **beklenen** bir aksilik,
 **kurtarılabilir**. Kaputtan duman yükseliyorsa durur ve araçtan inersin; "idare eder" diye sürmeye devam etmek
-felakete götürür — **kurtarılamaz**. Rust'ta yedek lastiğin adı `Result`, acil durdurmanın adı `panic!`.
+felakete götürür, **kurtarılamaz**. Rust'ta yedek lastiğin adı `Result`, acil durdurmanın adı `panic!`.
 :::
 
 ```quiz
@@ -158,7 +158,7 @@ Program, **asla olmaması gereken** bir duruma geldiğinde: örneğin bir fonksi
 uyması gereken şart) bozulduğunda.
 
 ```rust
-// Sözleşme: `toplam` asla 0 olmamalı — bunu çağıran garanti eder.
+// Sözleşme: `toplam` asla 0 olmamalı - bunu çağıran garanti eder.
 fn yuzde_hesapla(kismi: u32, toplam: u32) -> u32 {
     if toplam == 0 {
         panic!("yuzde_hesapla() toplam = 0 ile çağrıldı (kismi = {kismi})");
@@ -192,7 +192,7 @@ döndürür (başarılı bitiş 0'dır); betikler ve CI sistemleri programın ç
 | Makro | Ne zaman? | Panik mesajı |
 |---|---|---|
 | `panic!("...")` | genel amaçlı: "bu durum olmamalıydı" | senin mesajın |
-| `todo!()` | "henüz yazmadım" — kod derlenir, çalışınca panikler | `not yet implemented` |
+| `todo!()` | "henüz yazmadım", kod derlenir, çalışınca panikler | `not yet implemented` |
 | `unimplemented!()` | "bu yolu desteklemiyorum" | `not implemented` |
 | `unreachable!("...")` | "mantıken buraya asla gelinmez" | `internal error: entered unreachable code: ...` |
 | `assert!(kosul)` | bir koşulu doğrulamak (Modül 13'te testlerde) | `assertion failed: kosul` |
@@ -250,7 +250,7 @@ Bir panik başladığında Rust varsayılan olarak şunları yapar:
 
 1. Panik mesajını (konum + açıklama) standart hata akışına (stderr) yazar.
 2. **Geri sarma (unwinding)** yapar: çağrı yığınında (stack) geriye doğru, fonksiyon fonksiyon ilerler ve her
-   çerçevede (frame) **sahip olunan** değerleri `drop` eder — `String`'lerin, `Vec`'lerin heap belleği serbest
+   çerçevede (frame) **sahip olunan** değerleri `drop` eder, `String`'lerin, `Vec`'lerin heap belleği serbest
    kalır. Modül 4'te öğrendiğin "kapsam bitince temizle" kuralı (RAII) panikte de geçerlidir.
 3. Panik ana thread'deyse program **101** çıkış koduyla sonlanır.
 
@@ -385,7 +385,7 @@ feedback:
   - "Mesaj yine yazılır: mesajı basan mekanizma (panic hook) sonlandırmadan önce çalışır."
   - Doğru! abort'ta geri sarma ve temizlik yoktur.
   - Program her iki stratejide de sonlanır.
-  - "Bir süreç (process) bittiğinde belleğini her zaman işletim sistemi geri alır — abort'ta da."
+  - "Bir süreç (process) bittiğinde belleğini her zaman işletim sistemi geri alır, abort'ta da."
 ```
 
 :::deep Panik hakkında birkaç ayrıntı
@@ -465,7 +465,7 @@ explanation: |
   **ilk** satır paniğin yeridir: `ucuncu_not`, `main.rs:2`. Bir alttaki satır onu çağıranı gösterir:
   `karne_yazdir`, `main.rs:6`. En alttaki `main` ise zincirin başlangıcıdır.
 feedback:
-  - Bunlar std'nin iç fonksiyonları — paniği raporlayan mekanizma, hatanın kaynağı değil.
+  - Bunlar std'nin iç fonksiyonları, paniği raporlayan mekanizma, hatanın kaynağı değil.
   - Doğru! Backtrace yukarıdan aşağıya, "en son çağrılandan ilk çağırana" doğru okunur.
   - Ters okudun. Liste en son çağrılan fonksiyondan başlar; `main` en altta, zincirin başındadır.
 ```
@@ -565,7 +565,7 @@ answer: 0
 explanation: |
   `get(3)` geçersiz dizinde panik atmaz, `None` döner. `175 + 90 = 265` bir `u8`'e (0-255) sığmaz:
   `checked_add` taşmayı `None` ile bildirir, `saturating_add` ise sonucu üst sınırda (255) "doyurur".
-  `9` (265 - 256) değeri `wrapping_add`'in sonucu olurdu. Hiçbir satır panik atmadı — işte güvenli
+  `9` (265 - 256) değeri `wrapping_add`'in sonucu olurdu. Hiçbir satır panik atmadı - işte güvenli
   kardeşlerin gücü.
 ```
 
@@ -637,7 +637,7 @@ hints:
   - "`checked_add` zaten `Option<u8>` döndürür; `puan.checked_add(bonus)` ifadesini doğrudan fonksiyonun son ifadesi yapabilirsin."
 forbid:
   - pattern: "puanlar\\s*\\["
-    message: "`puanlar[...]` dizinlemesi geçersiz sırada panik atar — `get` kullan."
+    message: "`puanlar[...]` dizinlemesi geçersiz sırada panik atar, `get` kullan."
   - pattern: "\\.unwrap\\(|\\.expect\\("
     message: "Bu alıştırmada `unwrap`/`expect` yok: onlar da panik atabilir!"
 explanation: |
@@ -673,7 +673,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — Rust, dizinin dışına erişildiğinde C gibi "ne varsa okuyup devam etmek" yerine neden programı durdurmayı seçer? Bu seçimin bedeli ve kazancı nedir?
+prompt: Kendi cümlelerinle açıkla, Rust, dizinin dışına erişildiğinde C gibi "ne varsa okuyup devam etmek" yerine neden programı durdurmayı seçer? Bu seçimin bedeli ve kazancı nedir?
 answer: |
   Model cevap: Yanlış veriyle devam etmek durmaktan daha tehlikelidir. Dizinin dışındaki belleği okumak gizli
   bilgileri sızdırabilir (Heartbleed) ya da veriyi sessizce bozabilir; bu tür hatalar çoğu zaman çok sonra,
@@ -699,5 +699,5 @@ answer: |
 - front: "`todo!()` makrosu ne yapar?"
   back: "Kodun derlenmesini sağlar; çalışırken o satıra gelinirse `not yet implemented` mesajıyla panikler."
 - front: "`panic!` hangi tür hatalar için uygundur?"
-  back: Programlama hataları (bug), bozulmuş sözleşmeler ve "imkânsız" durumlar için — beklenen başarısızlıklar için değil.
+  back: Programlama hataları (bug), bozulmuş sözleşmeler ve "imkânsız" durumlar için, beklenen başarısızlıklar için değil.
 ```

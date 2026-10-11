@@ -228,7 +228,7 @@ code: |
 answer: false
 error: E0308
 explanation: |
-  Derlenmez: **E0308** — *expected `Result<i64, ParseIntError>`, found `()`*. Modül 3'teki tuzak:
+  Derlenmez: **E0308** - *expected `Result<i64, ParseIntError>`, found `()`*. Modül 3'teki tuzak:
   `Ok(n * n);` sonundaki noktalı virgül yüzünden bir **ifade (expression)** değil, bir **deyim (statement)**
   oldu. Fonksiyonun gövdesi bir değerle bitmediği için `()` döndürüyor. Derleyici çözümü de söylüyor:
   *help: remove this semicolon to return this value*.

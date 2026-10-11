@@ -66,9 +66,9 @@ explanation: |
 ```
 
 :::analogy Priz standardı
-Evindeki prizleri düşün. Elektrikçi duvarın içindeki gevşek bir kabloyu onarır: **PATCH** — hiçbir
-cihazın fark etmez. Prizin yanına bir USB girişi ekler: **MINOR** — eski fişler aynen takılır, yeni
-cihazlar ek özellikten faydalanır. Priz tipini değiştirir: **MAJOR** — eski fişler artık girmez; ya
+Evindeki prizleri düşün. Elektrikçi duvarın içindeki gevşek bir kabloyu onarır: **PATCH**, hiçbir
+cihazın fark etmez. Prizin yanına bir USB girişi ekler: **MINOR**, eski fişler aynen takılır, yeni
+cihazlar ek özellikten faydalanır. Priz tipini değiştirir: **MAJOR**, eski fişler artık girmez; ya
 adaptör alırsın ya da cihazlarını değiştirirsin. Semver, kütüphane yazarının "bu sefer priz tipini mi
 değiştirdim?" sorusuna dürüst cevap verme sözüdür.
 :::
@@ -107,7 +107,7 @@ answer: false
 error: E0004
 explanation: |
   Modül 7'yi hatırla: `match` **bütün** varyantları kapsamak zorundadır. Yeni `Iade` varyantı eklenince
-  senin `match`'in eksik kalır: **E0004 — non-exhaustive patterns: `Durum::Iade` not covered**. Yani
+  senin `match`'in eksik kalır: **E0004 - non-exhaustive patterns: `Durum::Iade` not covered**. Yani
   `pub` bir enum'a varyant eklemek, kulağa "yeni özellik" gibi gelse de **kırıcı bir değişikliktir** ve
   semver'e göre MAJOR artış (2.0.0) gerektirir. 1.3.0 olarak yayımlamak, kullanıcılara verilmiş bir sözü
   bozmaktır.
@@ -260,9 +260,9 @@ question: |
   `Cargo.toml`'da `rand = "0.9"` yazıyor. crates.io'da şu sürümler var: `0.8.5`, `0.9.0`, `0.9.2`,
   `0.10.3`. Yeni bir projede Cargo hangisini seçer?
 options:
-  - "`0.10.3` — en yeni sürüm"
+  - "`0.10.3`, en yeni sürüm"
   - "`0.9.2`"
-  - "`0.9.0` — tam olarak yazılan sürüm"
+  - "`0.9.0`, tam olarak yazılan sürüm"
   - "`0.8.5`"
 answer: 1
 explanation: |
@@ -353,9 +353,9 @@ question: |
   crates.io'da `1.13.1` ve `2.0.0` da var. Elif'in takım arkadaşı Can projeyi git'ten indirip
   `cargo build` diyor. Can hangi `regex` sürümüyle derler?
 options:
-  - "`2.0.0` — en yeni sürüm"
-  - "`1.13.1` — gereksinime uyan en yeni sürüm"
-  - "`1.12.2` — `Cargo.lock`'ta kilitli sürüm"
+  - "`2.0.0`, en yeni sürüm"
+  - "`1.13.1`, gereksinime uyan en yeni sürüm"
+  - "`1.12.2`, `Cargo.lock`'ta kilitli sürüm"
   - Her derlemede rastgele biri seçilir
 answer: 2
 explanation: |

@@ -14,8 +14,8 @@ keywords: [sahiplik, ownership, sahip, owner, kapsam, scope, drop, RAII, String:
 Önceki derste Rust'ın üçüncü yolunu gördün: heap belleğini ne programcı ne de bir çöp toplayıcı geri
 verir; değerin **sahibi** kapsamdan çıktığında, derleyicinin oraya yerleştirdiği kod geri verir.
 
-Bu derste o fikrin arkasındaki **üç kısa kuralı** öğreneceksin. Rust'ın bütün bellek güvenliği —
-sonraki modüllerde göreceğin ödünç alma, yaşam süreleri ve akıllı işaretçiler de dahil — bu üç cümlenin
+Bu derste o fikrin arkasındaki **üç kısa kuralı** öğreneceksin. Rust'ın bütün bellek güvenliği,
+sonraki modüllerde göreceğin ödünç alma, yaşam süreleri ve akıllı işaretçiler de dahil, bu üç cümlenin
 üzerine kurulu.
 
 ## Üç kural
@@ -65,7 +65,7 @@ sorumlu işini bitirdiği anda tabak yıkanıyordu. O sorumlunun Rust'taki adı 
 :::analogy Lunaparkta balonlar
 Bir lunaparkta her balonun ipini **bir çocuk** tutar (kural 1). Aynı ipi iki çocuk birden tutamaz;
 balon el değiştirebilir ama ipi tutan hep **tek kişidir** (kural 2). Çocuk lunaparktan çıkarken balonu
-bırakır — İngilizcesiyle *drop* — ve görevliler onu hemen toplar (kural 3). Böylece sahipsiz kalıp
+bırakır, İngilizcesiyle *drop*, ve görevliler onu hemen toplar (kural 3). Böylece sahipsiz kalıp
 unutulan balon olmaz (sızıntı yok), aynı balon da iki kez toplanmaz (double free yok).
 :::
 
@@ -74,8 +74,8 @@ question: |
   Sahipliğin 2. kuralı ("bir değerin aynı anda yalnızca bir sahibi olabilir") önceki derste gördüğün
   hangi hatayı doğrudan engeller?
 options:
-  - Double free — aynı belleği iki kez serbest bırakmak
-  - Bellek sızıntısı — belleği hiç geri vermemek
+  - Double free, aynı belleği iki kez serbest bırakmak
+  - Bellek sızıntısı, belleği hiç geri vermemek
   - Tam sayı taşması (integer overflow)
   - Stack taşması (stack overflow)
 answer: 0
@@ -260,7 +260,7 @@ fn main() {
 | | Gölgeleme: `let x = yeni;` | Yeniden atama: `x = yeni;` |
 |---|---|---|
 | Ne olur? | Aynı isimle **yeni** bir değişken doğar | **Aynı** değişkene yeni değer konur |
-| Eski değer | Kapsamın sonuna kadar yaşar (başka yere taşınmadıysa — Ders 3) | Atama anında drop edilir |
+| Eski değer | Kapsamın sonuna kadar yaşar (başka yere taşınmadıysa, Ders 3) | Atama anında drop edilir |
 | `mut` gerekir mi? | Hayır | Evet |
 
 :::deep `_` ile `_isim` aynı şey değil
@@ -353,7 +353,7 @@ steps:
           - { name: literal, type: "&str", value: "ptr · len=7", to: lit }
           - { name: metin, type: String, value: "ptr · len=7 · cap=7", to: h1, mut: true }
     heap:
-      - { id: lit, value: "m e r h a b a", label: "programın içinde, salt okunur — heap değil" }
+      - { id: lit, value: "m e r h a b a", label: "programın içinde, salt okunur, heap değil" }
       - { id: h1, value: "m e r h a b a" }
   - caption: "`push_str` ve `push` yalnızca `metin`'in heap verisini büyüttü; yer yetmeyince veri daha büyük bir alana taşındı. `literal`'in baytlarına dokunulmadı, dokunulamaz da."
     stack:
@@ -362,7 +362,7 @@ steps:
           - { name: literal, type: "&str", value: "ptr · len=7", to: lit }
           - { name: metin, type: String, value: "ptr · len=16 · cap=30", to: h1, mut: true }
     heap:
-      - { id: lit, value: "m e r h a b a", label: "programın içinde, salt okunur — heap değil" }
+      - { id: lit, value: "m e r h a b a", label: "programın içinde, salt okunur, heap değil" }
       - { id: h1, value: "merhaba, dünya!", label: "16 bayt kullanılıyor, 30 bayt ayrılmış" }
 ```
 
@@ -473,9 +473,9 @@ question: |
   } // (C)
   ```
 options:
-  - (A) — `_dosya`'nın kapsamı bittiğinde
-  - (B) — bir sonraki `println!` çalışırken
-  - (C) — `main` bittiğinde
+  - (A), `_dosya`'nın kapsamı bittiğinde
+  - (B) - bir sonraki `println!` çalışırken
+  - (C), `main` bittiğinde
   - Hiçbir zaman; `close()` çağrılmadığı için dosya açık kalır
 answer: 0
 explanation: |
@@ -658,7 +658,7 @@ explanation: |
   hemen drop eder.
 - String literali `&str`: baytlar programın içinde, salt okunur. `String`: heap'te, büyüyebilen, sahibi
   olunan metin. `String::from` baytları heap'e kopyalar; `push_str` / `push` büyütür (`mut` gerekir).
-- **RAII**: kaynağın ömrü sahibinin ömrüne bağlıdır. Bellek, dosya, kilit — hepsi drop anında bırakılır.
+- **RAII**: kaynağın ömrü sahibinin ömrüne bağlıdır. Bellek, dosya, kilit, hepsi drop anında bırakılır.
 :::
 
 ```reflect

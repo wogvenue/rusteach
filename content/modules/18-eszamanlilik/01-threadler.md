@@ -112,7 +112,7 @@ thread'e fırsat doğar. Ama uyku bile sırayı **garanti etmez**, sadece olası
 Bu kodda üç yeni parça var:
 
 1. `thread::spawn(closure)` yeni bir OS thread'i başlatır ve hemen döner; ana thread beklemeden yoluna devam eder.
-2. Dönen değer bir **`JoinHandle`** (birleştirme tutamacı) — thread'in "kumandası".
+2. Dönen değer bir **`JoinHandle`** (birleştirme tutamacı), thread'in "kumandası".
 3. `tutamac.join()` ana thread'i, o thread **bitene kadar** bekletir.
 
 Peki `join` hiç çağrılmazsa ne olur? Tahmin etmeye çalış:
@@ -414,7 +414,7 @@ output: "7"
 explanation: |
   `move` olmadan closure `isimler`'i ödünç almaya çalışır ve `E0373` alırsın. `join()` thread bitene kadar
   bekler ve closure'ın döndürdüğü `toplam`'ı `Result` içinde verir. `"Ayşe"` 4 harf: `chars().count()`
-  bayt değil karakter sayar (Modül 9) — `len()` kullansaydık `ş` 2 bayt olduğu için 8 çıkardı.
+  bayt değil karakter sayar (Modül 9) - `len()` kullansaydık `ş` 2 bayt olduğu için 8 çıkardı.
 ```
 
 ## Sıra belirsizliği ve deterministik sonuçlar
@@ -620,7 +620,7 @@ hints:
   - "Boş girdiyi en başta yakala: `chunks(0)` paniğe yol açar. Son adım: `tutamaclar.into_iter().map(|t| t.join().unwrap()).collect()`."
 require:
   - pattern: "thread::spawn"
-    message: Her bölgeyi ayrı bir thread'de topla — `thread::spawn` kullanmalısın.
+    message: Her bölgeyi ayrı bir thread'de topla, `thread::spawn` kullanmalısın.
 explanation: |
   Çözümün iskeleti eşzamanlı Rust kodunun en sık kalıbıdır: **böl → her parçayı bir thread'e taşı →
   tutamaçları topla → sırayla `join` et.** Sonuçların sırası, thread'lerin bitiş sırasından değil, `join`
@@ -648,7 +648,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — sen `join` çağırdığın hâlde derleyici neden `move`'suz closure'ı
+  Kendi cümlelerinle açıkla - sen `join` çağırdığın hâlde derleyici neden `move`'suz closure'ı
   (`E0373`) reddediyor?
 answer: |
   Derleyici kararını `thread::spawn`'ın **imzasına** bakarak verir: closure `'static` olmalıdır. İmza,

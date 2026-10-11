@@ -1,4 +1,4 @@
-// /istatistik — learning analytics: headline tiles, personal insights, study calendar, daily XP,
+// /istatistik - learning analytics: headline tiles, personal insights, study calendar, daily XP,
 // per-module accuracy, review forecast, memory strength and confidence calibration. All numbers
 // come from the pure functions in lib/stats.ts.
 import { useMemo } from 'react';

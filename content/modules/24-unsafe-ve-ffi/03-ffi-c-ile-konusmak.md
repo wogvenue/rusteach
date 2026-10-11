@@ -1,6 +1,6 @@
 ---
 id: m24-l03
-title: FFI — C ile konuşmak
+title: "FFI: C ile konuşmak"
 minutes: 26
 type: lesson
 objectives:
@@ -163,9 +163,9 @@ Rust ile C dizgileri çok farklıdır:
 
 Bu yüzden Rust'ın iki köprü tipi vardır (ikisi de `std::ffi` içinde):
 
-- **`CString`** — sahipli (owned), sonunda `\0` olan, heap'te bir C dizgisi. `String`'in C karşılığı.
+- **`CString`**, sahipli (owned), sonunda `\0` olan, heap'te bir C dizgisi. `String`'in C karşılığı.
   Rust'tan C'ye dizgi **gönderirken** kullanılır.
-- **`&CStr`** — ödünç alınmış bir C dizgisi. `&str`'nin C karşılığı. C'den gelen bir `*const c_char`'ı
+- **`&CStr`**, ödünç alınmış bir C dizgisi. `&str`'nin C karşılığı. C'den gelen bir `*const c_char`'ı
   **okurken** ya da `c"..."` literal'leriyle kullanılır.
 
 ```rust
@@ -358,7 +358,7 @@ tests: |
   }
 hints:
   - "`CString::new(s)` bir `Result` döndürür; içinde `\\0` varsa `Err` olur. `.ok()` onu `Option`'a çevirir (Modül 10)."
-  - "`let c = CString::new(s).ok()?;` — `?` `None` gelirse fonksiyondan hemen `None` ile çıkar."
+  - "`let c = CString::new(s).ok()?;`, `?` `None` gelirse fonksiyondan hemen `None` ile çıkar."
   - "Son satır: `Some(unsafe { strlen(c.as_ptr()) })`. `c` bir değişkene bağlı olduğu için işaretçi sarkmaz."
 forbid:
   - pattern: "\\.len\\(\\)"
@@ -757,7 +757,7 @@ Gerçek projelerde bildirimleri elle yazmak hem yorucu hem de hataya açıktır.
 
 :::remember
 - **FFI** = başka dillerle konuşmak; ortak dil **C ABI**'dir (`extern "C"`).
-- Edition 2024: `unsafe extern "C" { safe fn abs(x: c_int) -> c_int; fn strlen(s: *const c_char) -> usize; }` — işaretsiz öğeler `unsafe fn`'dir.
+- Edition 2024: `unsafe extern "C" { safe fn abs(x: c_int) -> c_int; fn strlen(s: *const c_char) -> usize; }`, işaretsiz öğeler `unsafe fn`'dir.
 - C tipleri için `std::ffi::{c_int, c_char, c_void, ...}` kullan.
 - Rust → C dizgi: `CString::new(s)?` + `.as_ptr()` (sahibi değişkende tut!). C → Rust: `CStr::from_ptr(p)`, `c"..."` literal.
 - Rust'ı dışa açmak: `#[unsafe(no_mangle)] pub extern "C" fn ...`; crate tipi `cdylib`/`staticlib`.
@@ -766,7 +766,7 @@ Gerçek projelerde bildirimleri elle yazmak hem yorucu hem de hataya açıktır.
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `unsafe extern "C"` bloğundaki bir bildirim neden "söz" sayılır ve yanlış yazılırsa ne olur?
+prompt: Kendi cümlelerinle açıkla, `unsafe extern "C"` bloğundaki bir bildirim neden "söz" sayılır ve yanlış yazılırsa ne olur?
 answer: |
   Model cevap: Rust derleyicisi C kodunu göremez; bildirimde yazdığım imzayı (parametre tipleri, dönüş
   tipi, ABI) olduğu gibi kabul eder. İmza C'deki gerçek tanımla uyuşmazsa, örneğin `int` yerine `double`
@@ -780,11 +780,11 @@ answer: |
 - front: "ABI nedir ve `extern \"C\"` neden kullanılır?"
   back: "Fonksiyon çağrısının ikili seviyedeki protokolü (argümanlar, dönüş değeri, yazmaçlar). Rust ABI'si kararsızdır; diller arası köprüde kararlı C ABI'si kullanılır."
 - front: "Edition 2024'te bir C fonksiyonunu güvenli koddan `unsafe` blok olmadan çağırmak için bildirimi nasıl yazarsın?"
-  back: "`unsafe extern \"C\" { safe fn abs(x: c_int) -> c_int; }` — `safe` ile işaretleyerek."
+  back: "`unsafe extern \"C\" { safe fn abs(x: c_int) -> c_int; }`, `safe` ile işaretleyerek."
 - front: "`CString` ile `&CStr` arasındaki fark nedir?"
   back: "`CString` sahipli, \\0 ile biten C dizgisi (Rust → C gönderirken); `&CStr` ödünç alınmış C dizgisi (C'den okurken, `c\"...\"`)."
 - front: "`CString::new(\"a\\0b\")` ne döndürür?"
-  back: "`Err(NulError)` — C dizgisinin içinde \\0 olamaz."
+  back: "`Err(NulError)`, C dizgisinin içinde \\0 olamaz."
 - front: "`let p = CString::new(\"x\").unwrap().as_ptr();` neden hatalıdır?"
   back: "Geçici `CString` ifadenin sonunda drop edilir; `p` sarkan işaretçi olur (uyarı: dangling_pointers_from_temporaries)."
 - front: "Bir Rust fonksiyonunu C'ye açmak için gereken iki şey nedir?"

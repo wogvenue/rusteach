@@ -1,4 +1,4 @@
-// Settings: about Rusteach — version, content size, credits and licenses.
+// Settings: about Rusteach - version, content size, credits and licenses.
 import { ExternalLink, Info } from 'lucide-react';
 import Ferris from '../../Ferris';
 import { totals } from '../../../lib/content';

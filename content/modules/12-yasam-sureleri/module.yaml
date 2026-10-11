@@ -1,6 +1,6 @@
 id: m12
 title: Yaşam Süreleri (Lifetimes)
-subtitle: Borrow checker'ın dilini konuşmak — referanslar ne kadar yaşar?
+subtitle: "Borrow checker'ın dilini konuşmak: referanslar ne kadar yaşar?"
 icon: "⏳"
 description: |
   Modül 5'ten beri derleyici "yeterince uzun yaşamıyor" dediğinde arka planda **yaşam süreleri (lifetimes)**

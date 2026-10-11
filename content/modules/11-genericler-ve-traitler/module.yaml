@@ -1,6 +1,6 @@
 id: m11
 title: Generic'ler ve Trait'ler
-subtitle: Bir kez yaz, her tiple kullan — çalışma zamanında sıfır maliyetle
+subtitle: "Bir kez yaz, her tiple kullan: çalışma zamanında sıfır maliyetle"
 icon: "🧩"
 description: |
   Kodunu tiplerden bağımsız hâle getirmeyi (**generic'ler**) ve farklı tiplere ortak davranış

@@ -25,7 +25,7 @@ Modül 2'de ikisiyle de tanışmıştın, ama aradaki fark burada önem kazanıy
 | Ne tanımlar? | Bir **değer**; her kullanıldığı yere kopyalanır (inline) | Bellekte **tek bir yer**; sabit bir adresi vardır |
 | Yaşam süresi | Her kullanımda yeni bir geçici değer | `'static`: program boyunca yaşar |
 | İç değişkenlik (`Atomic`, `Mutex`) | Anlamsız: her kullanım ayrı bir kopya | Anlamlı: herkes aynı nesneyi paylaşır |
-| Tip şartı | — | `Sync` olmalı (birden fazla thread görebilir) |
+| Tip şartı | - | `Sync` olmalı (birden fazla thread görebilir) |
 
 Bu tablonun neden önemli olduğunu bir sayaçla görelim. Tahmin et:
 
@@ -405,7 +405,7 @@ fn main() {
 ```
 
 ```memory
-title: "union Bitler — tek bellek, iki yorum"
+title: "union Bitler, tek bellek, iki yorum"
 steps:
   - caption: "`Bitler { f: 1.0 }`: 4 baytlık tek bir alan. `f` olarak yazıldı."
     stack:
@@ -532,7 +532,7 @@ tests: |
 hints:
   - "Önce union'ı `f` alanıyla oluştur: `let d = Donusum { f: x };`"
   - "Sonra aynı belleği `u` alanı üzerinden oku. Union alanı okumak süper güç #5'tir."
-  - "`unsafe { d.u }` — üstüne neden güvenli olduğunu anlatan bir `// SAFETY:` yorumu eklemeyi unutma."
+  - "`unsafe { d.u }` - üstüne neden güvenli olduğunu anlatan bir `// SAFETY:` yorumu eklemeyi unutma."
 forbid:
   - pattern: "to_bits|transmute|as\\s+u32"
     message: "Bu alıştırmayı `union` ile çöz (`to_bits`, `transmute` ve `as u32` olmadan)."
@@ -656,7 +656,7 @@ std'nin kendisi de Miri ile test edilir. Tamamlayıcı araçlar olarak derleyici
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — tanımsız davranış neden bir çökmeden (panik) daha tehlikelidir?
+prompt: Kendi cümlelerinle açıkla, tanımsız davranış neden bir çökmeden (panik) daha tehlikelidir?
 answer: |
   Model cevap: Panik, programın bir hatayı fark edip kontrollü biçimde durmasıdır; ne olduğu bellidir ve
   bellek bozulmaz. Tanımsız davranışta ise programın ne yapacağı hiçbir kurala bağlı değildir. Derleyici
@@ -674,10 +674,10 @@ answer: |
 - front: "`static mut` yerine sayaç, karmaşık veri ve tek seferlik başlatma için ne kullanılır?"
   back: "Sayaç: `AtomicU32`; karmaşık veri: `Mutex<T>`; tek seferlik: `OnceLock`/`LazyLock`."
 - front: "`impl Send for Tip {}` yazınca hangi hata çıkar?"
-  back: "`E0200` — the trait `Send` requires an `unsafe impl` declaration."
+  back: "`E0200`, the trait `Send` requires an `unsafe impl` declaration."
 - front: "`unsafe trait` ile `unsafe fn` arasındaki fark nedir?"
   back: "`unsafe trait`: sözleşmeyi **uygulayan** sağlar (unsafe impl). `unsafe fn`: sözleşmeyi **çağıran** sağlar (unsafe blok)."
-- front: Union'da hangi işlem `unsafe`'tir — oluşturmak, alana yazmak, alanı okumak?
+- front: Union'da hangi işlem `unsafe`'tir, oluşturmak, alana yazmak, alanı okumak?
   back: "Sadece alanı **okumak** (süper güç #5). Oluşturmak ve yazmak güvenlidir."
 - front: "Bir `Vec`'te `v[10]` sınır dışı erişimi UB midir?"
   back: Hayır. Kontrollü bir **paniktir**; bellek bozulmaz. UB ancak kontrolsüz erişimde (ham işaretçi, `get_unchecked`) olur.

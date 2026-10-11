@@ -537,7 +537,7 @@ explanation: |
 :::
 
 ```reflect
-prompt: Kendi cümlelerinle açıkla — `println!` neden bir fonksiyon değil de makro olarak yazılmış? En az iki neden ver.
+prompt: Kendi cümlelerinle açıkla - `println!` neden bir fonksiyon değil de makro olarak yazılmış? En az iki neden ver.
 answer: |
   Model cevap: Birincisi, Rust fonksiyonlarının parametre sayısı sabittir ama `println!` sıfır, bir
   ya da onlarca argüman alabilmelidir; makrolar değişken sayıda girdiyi kabul edebilir. İkincisi,

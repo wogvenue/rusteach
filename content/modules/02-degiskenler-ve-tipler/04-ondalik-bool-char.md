@@ -361,7 +361,7 @@ kullanabilirsin: `kahve_istiyor != cay_istiyor` sonucu, ikisinden sadece biri `t
 (`bool` için `^` operatörü de aynı işi yapar: `kahve_istiyor ^ cay_istiyor`.)
 :::
 
-## char — tek bir Unicode karakteri
+## char: tek bir Unicode karakteri
 
 **`char`** tek bir karakteri tutar ve **tek tırnakla** yazılır: `'a'`. Çift tırnak (`"a"`) ise bir
 **metindir** (string). Rust'ın `char`'ı İngilizce harflerle sınırlı değildir:

@@ -50,7 +50,7 @@ answer: 0
 explanation: |
   Her `next()` çağrısı sıradaki elemanı `Some(...)` içinde verir. Elemanlar bitince `None` döner ve
   bundan sonra da `None` dönmeye devam eder; iterator başa sarmaz. (Burada `Some(85)` aslında
-  `Some(&85)`'tir — `iter()` referans verir — ama `{:?}` referansları görünmez biçimde yazdırır.)
+  `Some(&85)`'tir - `iter()` referans verir - ama `{:?}` referansları görünmez biçimde yazdırır.)
 ```
 
 İşte standart kütüphanedeki tanımın özü:
@@ -81,7 +81,7 @@ derleyicinin kontrol ettiği bir `None`.
 
 :::analogy Kitap ayracı
 Koleksiyon bir **kitaptır**, iterator ise içine koyduğun **ayraç**. `notlar.iter()` kitaba yeni bir ayraç
-yerleştirir — kitabın kendisi değişmez. `next()` "ayracın gösterdiği sayfayı oku ve ayracı bir sayfa ilerlet"
+yerleştirir, kitabın kendisi değişmez. `next()` "ayracın gösterdiği sayfayı oku ve ayracı bir sayfa ilerlet"
 demektir. Kitap bitince ayraç arka kapakta durur: kaç kez bakarsan bak, "bitti" (`None`) dersin. Aynı kitaba
 birden çok ayraç koyabilirsin; her biri kendi yerini bilir.
 :::
@@ -120,20 +120,20 @@ answer: false
 error: E0596
 explanation: |
   `next(&mut self)` iterator'ı değiştirir (ayracı ilerletir), dolayısıyla `it` `mut` olmalı:
-  `let mut it = v.iter();`. Dikkat: değişen şey **iterator**, vektör değil — `v` hâlâ `mut` değil ve
+  `let mut it = v.iter();`. Dikkat: değişen şey **iterator**, vektör değil - `v` hâlâ `mut` değil ve
   olması da gerekmiyor.
 ```
 
 ## Tembellik: iterator'lar istenmeden çalışmaz
 
 Iterator oluşturmak **hiçbir iş yapmaz**; iş, biri `next()` dediğinde yapılır. Bunu en net aralıklarda
-(range) görürsün — `1..4` aslında kendi durumunu taşıyan bir iterator'dır:
+(range) görürsün, `1..4` aslında kendi durumunu taşıyan bir iterator'dır:
 
 ```rust
 fn main() {
     let mut r = 1..4;
     println!("{:?}", r.next()); // Some(1)
-    println!("kalan aralık: {r:?}"); // 2..4 — aralığın kendisi ilerledi!
+    println!("kalan aralık: {r:?}"); // 2..4 - aralığın kendisi ilerledi!
 
     // Sonsuz bir aralık bile sorun değil: kimse hepsini istemiyor
     let mut sonsuz = 1..;
@@ -199,7 +199,7 @@ warning: unused `Map` that must be used
   |
   = note: iterators are lazy and do nothing unless consumed
 ```
-*"iterators are lazy and do nothing unless consumed"* — iterator'lar tembeldir ve **tüketilmedikçe** hiçbir
+*"iterators are lazy and do nothing unless consumed"*, iterator'lar tembeldir ve **tüketilmedikçe** hiçbir
 şey yapmazlar. Bir iterator'ı sonuna kadar çalıştıran şeylere **tüketici (consumer)** denir: `for` döngüsü,
 `sum`, `collect`... Onları 5. derste göreceğiz.
 :::
@@ -275,7 +275,7 @@ help: consider iterating over a slice of the `Vec<String>`'s content to avoid mo
     |                 +
 ```
 Derleyici az önce anlattığımız çeviriyi kendisi söylüyor: *"the `for` loop is desugared into a call to
-`IntoIterator::into_iter`"*. Çözüm `&isimler` üzerinde dönmek — ki bu bizi aşağıdaki "Üç yol" bölümüne götürüyor.
+`IntoIterator::into_iter`"*. Çözüm `&isimler` üzerinde dönmek, ki bu bizi aşağıdaki "Üç yol" bölümüne götürüyor.
 :::
 
 Çeviriyi kendin kur:
@@ -317,18 +317,18 @@ ikinci sütunu birinci sütunun kısa yazımıdır.
 fn main() {
     let mut kitaplar = vec![String::from("Tutunamayanlar"), String::from("Kürk Mantolu Madonna")];
 
-    // 1) iter(): &String — sadece oku
+    // 1) iter(): &String - sadece oku
     for k in kitaplar.iter() {
         println!("okunuyor: {k} ({} bayt)", k.len());
     }
 
-    // 2) iter_mut(): &mut String — yerinde değiştir
+    // 2) iter_mut(): &mut String - yerinde değiştir
     for k in kitaplar.iter_mut() {
         k.push_str(" ★");
     }
     println!("{kitaplar:?}");
 
-    // 3) into_iter(): String — sahipliği al, başka yere taşı
+    // 3) into_iter(): String - sahipliği al, başka yere taşı
     let mut raf: Vec<String> = Vec::new();
     for k in kitaplar.into_iter() {
         raf.push(k); // k bir String; kopyalamadan taşıyoruz
@@ -385,7 +385,7 @@ feedback:
 
 :::tip Tanıdık iterator'lar
 `s.chars()`, `s.bytes()`, `s.split_whitespace()`, `s.lines()`, `s.split(',')` (Modül 9), `m.keys()`,
-`m.values()`, `0..n`, `(0..n).rev()` — hepsi `Iterator` uygulayan tipler döndürür. Bir dizi `[1, 2, 3]`
+`m.values()`, `0..n`, `(0..n).rev()`, hepsi `Iterator` uygulayan tipler döndürür. Bir dizi `[1, 2, 3]`
 üzerinde `for x in dizi` ise (edition 2021'den beri) elemanları **değerle** verir.
 :::
 
@@ -394,7 +394,7 @@ feedback:
 C++'ta çok bilinen bir hata türü vardır. Bir vektörü gezerken ona eleman eklersin:
 
 ```text
-// C++ — derlenir, ama tanımsız davranış!
+// C++ - derlenir, ama tanımsız davranış!
 for (int& x : v) {
     if (x == 2) v.push_back(4);   // vektör yeniden boyutlanırsa x sarkan bir referans olur
 }
@@ -473,7 +473,7 @@ fn main() {
 
 :::ferris
 C++ programcılarının yıllarca kod incelemelerinde aradığı bir hatayı, Rust'ın derleyicisi senin yerine her
-derlemede arıyor. Hem de yeni bir kural uydurmadan — Modül 5'te öğrendiğin ödünç alma kurallarıyla! 🦀
+derlemede arıyor. Hem de yeni bir kural uydurmadan, Modül 5'te öğrendiğin ödünç alma kurallarıyla! 🦀
 :::
 
 ## Alıştırma: depo ve sınav kâğıdı
@@ -577,7 +577,7 @@ explanation: |
 ```
 
 İkinci alıştırmada `next()`'in güzel bir özelliğini kullanacaksın: bir iterator'dan birkaç eleman elle
-aldıktan sonra, **geri kalanını** `for` ile gezmeye devam edebilirsin — ayraç kaldığı yerden devam eder.
+aldıktan sonra, **geri kalanını** `for` ile gezmeye devam edebilirsin, ayraç kaldığı yerden devam eder.
 
 ```exercise
 id: m14-e-sinav-kagidi
@@ -640,7 +640,7 @@ tests: |
   }
 hints:
   - "`let mut it = veri.iter();` sonra `it.next()` bir `Option<&u32>` verir. Boşsa `None` olur."
-  - "`let numara = *it.next()?;` — `?` `None` ise fonksiyondan hemen `None` döndürür; `*` ise `&u32`'yi `u32`'ye çevirir."
+  - "`let numara = *it.next()?;`, `?` `None` ise fonksiyondan hemen `None` döndürür; `*` ise `&u32`'yi `u32`'ye çevirir."
   - "Numarayı aldıktan sonra `for puan in it { toplam += puan; }` kalan elemanları gezer: `it` zaten bir iterator, `for` onu kaldığı yerden sürdürür."
 forbid:
   - pattern: "veri\\s*\\["
@@ -650,7 +650,7 @@ require:
     message: "Öğrenci numarasını `next()` ile al."
 explanation: |
   Çözüm iterator'ın bir **durum** taşıdığını gösteriyor: `next()` ilk elemanı tüketti, `for puan in it`
-  ise `IntoIterator::into_iter(it)` çağırır — bir iterator'ın `into_iter`'i kendisini döndürür — ve kalan
+  ise `IntoIterator::into_iter(it)` çağırır - bir iterator'ın `into_iter`'i kendisini döndürür - ve kalan
   elemanlardan devam eder. Numara iki kez sayılmaz.
 
   `*it.next()?` küçük ama yoğun bir ifade: `next()` → `Option<&u32>`, `?` → `None` ise erken dönüş, değilse

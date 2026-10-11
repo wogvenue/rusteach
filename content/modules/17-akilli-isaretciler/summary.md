@@ -1,4 +1,4 @@
-# Özet Kartı — Akıllı İşaretçiler
+# Özet Kartı: Akıllı İşaretçiler
 
 **Akıllı işaretçi** = işaretçi gibi davranan (`Deref`), çoğu zaman verinin sahibi olan ve kapsam bitince
 temizlik yapan (`Drop`) bir struct. `String` ve `Vec` de birer akıllı işaretçidir.
@@ -12,13 +12,13 @@ temizlik yapan (`Drop`) bir struct. `String` ve `Vec` de birer akıllı işaret�
 | `Cell<T>` | tek | `&self` ile, kopyalayarak (`T: Copy`) | gerekmez | sayaç, bayrak |
 | `RefCell<T>` | tek | `&self` ile, `borrow_mut()` | **çalışma zamanı** (ihlal = panik) | önbellek, mock, `Rc` ile paylaşılan durum |
 | `Rc<RefCell<T>>` | çok | evet | çalışma zamanı | birden çok sahibin değiştirdiği veri |
-| `Weak<T>` | **sahip değil** | `upgrade()` ile | — | çocuk → ebeveyn, gözlemci, döngü kırma |
+| `Weak<T>` | **sahip değil** | `upgrade()` ile | - | çocuk → ebeveyn, gözlemci, döngü kırma |
 
 Karar sırası: **Kaç sahip?** (tek → `Box`/düz değer, çok → `Rc`) → **Değişecek mi?** (çok sahip + değişiklik
 → `Rc<RefCell<T>>`) → **Geri bağlantı var mı?** (evet → `Weak`). `Rc`, `Cell` ve `RefCell` tek thread
 içindir; thread'ler arası karşılıkları `Arc`, `Mutex`, `RwLock` (Modül 18).
 
-## `Box<T>` — heap'te tek sahip
+## `Box<T>`: heap'te tek sahip
 
 ```rust
 enum Liste {
@@ -66,7 +66,7 @@ impl<T> DerefMut for Kutum<T> {
 - İzinli yönler: `&T → &U`, `&mut T → &mut U`, `&mut T → &U`. **Asla** `&T → &mut U`.
 - `Deref`'i akıllı işaretçiler ve ince sarmalayıcılar (newtype) için kullan; kalıtım taklidi için değil.
 
-## `Drop` — temizlik kodu
+## `Drop`: temizlik kodu
 
 ```rust,ignore
 impl Drop for Zamanlayici {
@@ -81,7 +81,7 @@ impl Drop for Zamanlayici {
 | `let _ = x;` | hemen (bağlanmaz) |
 | `let _x = x;` | kapsam sonunda |
 | yeniden atama `x = yeni;` | eski değer hemen |
-| `drop(x)` (`std::mem::drop`) | o anda — işi **taşıma** yapar |
+| `drop(x)` (`std::mem::drop`) | o anda, işi **taşıma** yapar |
 
 - **RAII koruyucu**: kaynağı kurucuda al, `drop`'ta bırak; `return`, `?` ve panikte bile çalışır.
 - `x.drop()` yasak (**E0040**); `Drop` + `Copy` birlikte olmaz (**E0184**).

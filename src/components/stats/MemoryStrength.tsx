@@ -139,7 +139,7 @@ export default function MemoryStrength({
               day: p.day === 0 ? 'Tekrar anı' : `${p.day}. gün`,
               typical: formatPercent(p.typical),
               fresh: formatPercent(p.fresh),
-              measured: p.measured !== undefined ? `${formatPercent(p.measured)} (${p.measuredN})` : '—',
+              measured: p.measured !== undefined ? `${formatPercent(p.measured)} (${p.measuredN})` : '-',
             }))}
         />
       }
@@ -153,7 +153,7 @@ export default function MemoryStrength({
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <ProgressRing value={avg} size={76} stroke={7} color="var(--lx-chart-1)" label="Ortalama hatırlama olasılığı">
-              <span className="text-lg font-semibold tracking-tight text-fg">{hasCards ? formatPercent(avg) : '—'}</span>
+              <span className="text-lg font-semibold tracking-tight text-fg">{hasCards ? formatPercent(avg) : '-'}</span>
             </ProgressRing>
             <div className="min-w-0">
               <div className="text-sm font-semibold leading-snug text-fg">Ortalama hatırlama</div>

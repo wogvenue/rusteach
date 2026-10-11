@@ -29,7 +29,7 @@ const C = {
   glow: '#ffe0b0',
   shell: ['#fffaf3', '#ffe2c6'], // the crab: warm cream, lit from above
   limb: '#fff0e0',
-  ink: '#1a1f2e', // eyes and smile — the app's night-navy
+  ink: '#1a1f2e', // eyes and smile - the app's night-navy
   blush: '#ff8a52',
   shadow: '#7c2300',
   night: ['#141a27', '#0b0e14'], // installer art background (= app --c-bg)
@@ -39,7 +39,7 @@ const C = {
 
 const f = (n) => Number(n.toFixed(2));
 
-/** Superellipse ("squircle") path — softer, more even corners than a rounded rect. */
+/** Superellipse ("squircle") path - softer, more even corners than a rounded rect. */
 function squircle(x, y, w, h, n = 5, steps = 240) {
   const cx = x + w / 2;
   const cy = y + h / 2;
@@ -152,7 +152,7 @@ function shellSpikes() {
     .join(' ');
 }
 
-/** Ferris, raising both claws — drawn in a 1024 box, centred. */
+/** Ferris, raising both claws - drawn in a 1024 box, centred. */
 function crab(id) {
   const limb = `stroke="${C.limb}" stroke-linecap="round" fill="none"`;
   const leftLegs = ['M300 700 Q232 700 206 760', 'M326 734 Q270 752 258 812', 'M368 756 Q328 784 330 836'];

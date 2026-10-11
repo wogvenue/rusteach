@@ -1,6 +1,6 @@
 // Rust runner for the Electron main process: RunRequest -> RunResult (see src/types/bridge.ts).
 //
-// Pure Node — no electron import — so it can be required from plain Node tests
+// Pure Node - no electron import - so it can be required from plain Node tests
 // (node electron/runner.test.mjs). main.cjs injects the directories and Electron's net.fetch.
 //
 // Backends
@@ -33,7 +33,7 @@ const LIMITS = {
   stdin: 256 * 1024,
 };
 
-/** Crates of the local cargo sandbox — the set CONTENT_SPEC.md allows in lessons. */
+/** Crates of the local cargo sandbox - the set CONTENT_SPEC.md allows in lessons. */
 const SANDBOX_DEPS = {
   rand: '"0.9"',
   serde: '{ version = "1", features = ["derive"] }',
@@ -48,7 +48,7 @@ const SANDBOX_DEPS = {
   futures: '"0.3"',
 };
 
-const SANDBOX_MANIFEST = `# Rusteach yerel çalıştırma alanı — derslerde kullanılan crate'ler.
+const SANDBOX_MANIFEST = `# Rusteach yerel çalıştırma alanı, derslerde kullanılan crate'ler.
 # Bu dosya Rusteach tarafından yönetilir; değişiklikler bir sonraki çalıştırmada geri alınır.
 [package]
 name = "rusteach"
@@ -685,7 +685,7 @@ function createRunner(options = {}) {
     return r;
   };
 
-  /** auto mode: the local toolchain could not run the code at all — try the Playground instead. */
+  /** auto mode: the local toolchain could not run the code at all - try the Playground instead. */
   async function viaPlaygroundOr(req, local) {
     const online = await runPlayground(req, Date.now());
     return online.infraError ? strip(local) : online;

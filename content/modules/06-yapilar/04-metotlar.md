@@ -72,7 +72,7 @@ neler yapabildiğini keşfetmenin en kolay yolu budur.
 :::info Diğer dillerde
 Python'daki `def alan(self):` ile çok benzer: `self` orada da açıkça yazılır. Java ve C++'ta ise `this`
 gizlidir. Rust'ı ikisinden de ayıran şey, `self`'in **nasıl** alındığını (okuma, değiştirme, sahiplenme)
-imzada açıkça yazmandır — birazdan göreceğin üç seçenek.
+imzada açıkça yazmandır, birazdan göreceğin üç seçenek.
 :::
 
 ```quiz
@@ -297,9 +297,9 @@ kütüphanede böyle metotların adı genellikle `into_` ile başlar: `String::i
 tüketip baytlarını verir.
 
 :::analogy Araban ve sen
-**`&self`**: Arabanın gösterge paneline bakmak — kilometreyi okursun, araba aynen kalır.
-**`&mut self`**: Arabayı tamire vermek — usta üzerinde değişiklik yapar ama araba **sana geri döner**.
-**`self`**: Arabayı satmak — anahtarı teslim ettikten sonra o araba artık **senin değildir**; ona binmeye
+**`&self`**: Arabanın gösterge paneline bakmak, kilometreyi okursun, araba aynen kalır.
+**`&mut self`**: Arabayı tamire vermek, usta üzerinde değişiklik yapar ama araba **sana geri döner**.
+**`self`**: Arabayı satmak, anahtarı teslim ettikten sonra o araba artık **senin değildir**; ona binmeye
 kalkarsan noter (borrow checker) seni durdurur.
 :::
 
@@ -583,9 +583,9 @@ difficulty: 2
 prompt: |
   Bir dijital bankanın hesap modelini yazıyorsun. Bakiye **kuruş** cinsinden tutuluyor.
 
-  - `bakiye(&self) -> u64` — bakiyeyi döndüren getter.
-  - `yatir(&mut self, miktar: u64)` — bakiyeyi `miktar` kadar artırır.
-  - `cek` — bu metodu **imzasıyla birlikte sen yaz**: bir `miktar: u64` alır; bakiye yetiyorsa düşer ve
+  - `bakiye(&self) -> u64`, bakiyeyi döndüren getter.
+  - `yatir(&mut self, miktar: u64)`, bakiyeyi `miktar` kadar artırır.
+  - `cek`, bu metodu **imzasıyla birlikte sen yaz**: bir `miktar: u64` alır; bakiye yetiyorsa düşer ve
     `true` döndürür, yetmiyorsa **hiçbir şeyi değiştirmeden** `false` döndürür. Hangi alıcıyı
     kullanacağına sen karar ver.
 starter: |
@@ -679,7 +679,7 @@ tests: |
 hints:
   - "`bakiye` ve `yatir` tek satırlık: `self.bakiye` döndür; `self.bakiye += miktar;`."
   - "`cek` hesabı değiştirebilir, o hâlde alıcısı `&mut self` olmalı: `fn cek(&mut self, miktar: u64) -> bool`."
-  - "Gövde: önce kontrol et — `if miktar > self.bakiye { return false; }` — sonra `self.bakiye -= miktar;` ve son ifade olarak `true`."
+  - "Gövde: önce kontrol et, `if miktar > self.bakiye { return false; }`, sonra `self.bakiye -= miktar;` ve son ifade olarak `true`."
 explanation: |
   `cek` hesabı değiştirebileceği için `&mut self` alıyor; ama değiştirmeden **önce** kontrol ediyor.
   Bu sıra önemli: `u64` negatif olamaz, kontrol etmeden `self.bakiye -= miktar` yazsaydın yetersiz
@@ -706,13 +706,13 @@ prompt: |
   Bir köyün su deposu için kontrol yazılımı yazıyorsun. `SuDeposu` struct'ı hazır; aşağıdaki metotları
   **imzalarıyla birlikte** yaz:
 
-  - `doldur` — bir `litre: u32` alır ve depoya ekler. Depo kapasitesini **aşamaz**; sığmayan su taşar.
+  - `doldur`, bir `litre: u32` alır ve depoya ekler. Depo kapasitesini **aşamaz**; sığmayan su taşar.
     Metot **taşan** litre miktarını `u32` olarak döndürür (taşma yoksa `0`).
-  - `kullan` — bir `litre: u32` alır; depoda o kadar su varsa düşer ve `true` döndürür, yoksa hiçbir
+  - `kullan`, bir `litre: u32` alır; depoda o kadar su varsa düşer ve `true` döndürür, yoksa hiçbir
     şeyi değiştirmeden `false` döndürür.
-  - `doluluk_yuzdesi` — deponun yüzde kaç dolu olduğunu `u32` olarak döndürür (tamsayı bölmesi, aşağı
+  - `doluluk_yuzdesi`, deponun yüzde kaç dolu olduğunu `u32` olarak döndürür (tamsayı bölmesi, aşağı
     yuvarlanır). Örneğin 1000 litrelik depoda 333 litre varsa `33`.
-  - `bos_mu` — depoda hiç su yoksa `true` döndürür.
+  - `bos_mu`, depoda hiç su yoksa `true` döndürür.
 
   Depoyu değiştirmeyen metotlar, değişmez bir depo (`let d = ...`) üzerinde de çağrılabilmeli.
 starter: |
@@ -847,13 +847,13 @@ answer: |
 - front: "`impl Tip { ... }` bloğu ne işe yarar?"
   back: "İçindeki fonksiyonları (metotları ve ilişkili fonksiyonları) o tipe bağlar; böylece `deger.metot()` ile çağrılabilirler."
 - front: "`&self` neyin kısaltmasıdır?"
-  back: "`self: &Self` — `Self`, `impl` bloğunun ait olduğu tiptir."
+  back: "`self: &Self`, `Self`, `impl` bloğunun ait olduğu tiptir."
 - front: "Bir metot ne zaman `&mut self`, ne zaman `self` almalıdır?"
   back: "Örneği yerinde değiştiriyorsa `&mut self`; örneği tüketiyor, kapatıyor ya da başka bir şeye dönüştürüyorsa `self`. Diğer her durumda `&self`."
 - front: "`let h = Hesap {..}; h.yatir(5);` (`yatir(&mut self)`) neden derlenmez?"
   back: "`&mut self` için değişebilir ödünç gerekir ama `h` `mut` değil (**E0596**). `let mut h` yaz."
 - front: "`h.yatir(5)` çağrısının açık (otomatik referanslamasız) yazımı nedir?"
-  back: "`Hesap::yatir(&mut h, 5)` — Rust nokta çağrısında alıcıya `&`/`&mut`/`*`'ı kendisi ekler."
+  back: "`Hesap::yatir(&mut h, 5)`, Rust nokta çağrısında alıcıya `&`/`&mut`/`*`'ı kendisi ekler."
 - front: "`a.transfer(&mut a, 10)` neden derlenmez?"
   back: "Aynı değerden iki `&mut` ödünç alınıyor: biri alıcı, biri argüman (**E0499**)."
 - front: Rust'ta bir getter nasıl adlandırılır?

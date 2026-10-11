@@ -16,7 +16,7 @@ Hayat kararlarla dolu: Hava yağmurluysa şemsiyeni alırsın, değilse güneş 
 Rust'ın karar aracını, `if`'i öğreneceksin.
 
 Rust'taki `if` diğer dillerdekinden biraz daha katı, ama bir o kadar da güçlü: Koşulu **her zaman**
-`bool`'dur ve kendisi bir **ifadedir** — yani önceki derste öğrendiğin gibi bir değer üretebilir.
+`bool`'dur ve kendisi bir **ifadedir**, yani önceki derste öğrendiğin gibi bir değer üretebilir.
 
 ## İlk kararın
 
@@ -102,7 +102,7 @@ Pek çok dil, `bool` olmayan değerleri de koşul olarak kabul eder ve onları g
 | C | `0` ve boş (NULL) işaretçi |
 | Python | `0`, `""`, `[]`, `None`... |
 | JavaScript | `0`, `""`, `null`, `undefined`, `NaN`... ama `"0"` ve `[]` **doğru** sayılır! |
-| Rust | Hiçbiri — koşul **yalnızca** `bool` olabilir |
+| Rust | Hiçbiri, koşul **yalnızca** `bool` olabilir |
 
 JavaScript'te `"0"` metninin doğru sayılması gibi sürprizler gerçek hatalara yol açar. Rust bu
 belirsizliği tümden kaldırır: Ne kastettiğini yazarsın (`sayi != 0`, `sayi > 0`...). Kod biraz uzar ama
@@ -121,7 +121,7 @@ help: you might have meant to compare for equality
 3 |     if x == 5 {
   |           +
 ```
-C'de `if (x = 5)` derlenir: `x`'e 5 atanır ve koşul her zaman doğru olur — klasik ve sinsi bir hata.
+C'de `if (x = 5)` derlenir: `x`'e 5 atanır ve koşul her zaman doğru olur, klasik ve sinsi bir hata.
 Rust'ta iki kat koruma var: Atamanın değeri `()`'dir (önceki ders!) ve koşul `bool` olmak zorundadır.
 Derleyici niyetini tahmin edip `==` bile öneriyor.
 :::
@@ -208,22 +208,22 @@ explanation: |
   koşulu en üste koymak.
 ```
 
-Doğru sıralanmış bir zincir — okulda kullanılan 5'lik not sistemi:
+Doğru sıralanmış bir zincir, okulda kullanılan 5'lik not sistemi:
 
 ```rust
 fn main() {
     let puan = 72;
 
     if puan >= 85 {
-        println!("5 — Pekiyi");
+        println!("5 - Pekiyi");
     } else if puan >= 70 {
-        println!("4 — İyi");
+        println!("4 - İyi");
     } else if puan >= 60 {
-        println!("3 — Orta");
+        println!("3 - Orta");
     } else if puan >= 50 {
-        println!("2 — Geçer");
+        println!("2 - Geçer");
     } else {
-        println!("1 — Geçmez");
+        println!("1 - Geçmez");
     }
 }
 ```
@@ -297,7 +297,7 @@ deyimdir ve noktalı virgülle biter.
 :::info Peki dersin başındaki `if`'lerden sonra neden `;` yoktu?
 `if sicaklik > 30 { ... } else { ... }` hiçbir değişkene bağlanmıyordu; orada `if` bir **deyim** olarak
 kullanıldı. Süslü parantezle biten ifadeler (`if`, bloklar ve sonraki derste göreceğin döngüler)
-deyim olarak kullanıldığında sonlarına `;` gerekmez — **yeter ki değerleri `()` olsun**. Dalları
+deyim olarak kullanıldığında sonlarına `;` gerekmez, **yeter ki değerleri `()` olsun**. Dalları
 `println!` gibi `()` üreten işlerle bittiği için sorun yoktu. Deyim olarak kullanılan bir `if`'in
 dalı bir sayı üretseydi (`if x > 3 { 1 } else { 2 }` tek başına bir satırda), derleyici
 `expected (), found integer` (`E0308`) derdi: Üretilen değerle ne yapacağını söylememişsin.
@@ -343,7 +343,7 @@ explanation: |
   `else` olmadığı için koşul yanlış olduğunda `if` ifadesi `()` üretir, ama ilk dal bir `bool` üretiyor.
   Derleyici `E0317` ile *`if` may be missing an `else` clause* der ve şu notu ekler: *`if` expressions
   without `else` evaluate to `()`*. Çözüm `else { false }` eklemek. Bu örnekte en sadesi ise `if`'i hiç
-  kullanmamak: `let gecti_mi = puan >= 50;` — karşılaştırma zaten bir `bool` üretir.
+  kullanmamak: `let gecti_mi = puan >= 50;` - karşılaştırma zaten bir `bool` üretir.
 ```
 
 ```fill
@@ -403,7 +403,7 @@ fn basvuru_gecerli_mi(yas: u32, goz_raporu: bool, kurs_bitti: bool) -> bool {
 Çalışıyor, ama sağa doğru büyüyen bu "piramidi" okumak zor: Her `false`'un hangi koşula ait olduğunu
 bulmak için parantez saymak gerekiyor. İki sadeleştirme yolu var.
 
-**1. Mantıksal operatörler** — koşullar yalnızca birleştiriliyorsa:
+**1. Mantıksal operatörler**, koşullar yalnızca birleştiriliyorsa:
 
 ```rust
 fn basvuru_gecerli_mi(yas: u32, goz_raporu: bool, kurs_bitti: bool) -> bool {
@@ -414,7 +414,7 @@ fn basvuru_gecerli_mi(yas: u32, goz_raporu: bool, kurs_bitti: bool) -> bool {
 # }
 ```
 
-**2. Erken dönüş (guard clause)** — her başarısızlık için ayrı bir şey yapmak gerekiyorsa, örneğin
+**2. Erken dönüş (guard clause)**, her başarısızlık için ayrı bir şey yapmak gerekiyorsa, örneğin
 kullanıcıya sebebini söylemek:
 
 ```rust
@@ -564,7 +564,7 @@ tests: |
       assert_eq!(karne_notu(250), 0, "250 puan geçersizdir → 0");
   }
 hints:
-  - "Bir `if / else if / else` zinciri kur. Koşullar yukarıdan aşağıya denenir ve ilk doğru olan kazanır — sıralama çok önemli."
+  - "Bir `if / else if / else` zinciri kur. Koşullar yukarıdan aşağıya denenir ve ilk doğru olan kazanır, sıralama çok önemli."
   - "Önce geçersiz durumu yakala: `if puan > 100 { 0 }`. Sonra büyükten küçüğe in: `else if puan >= 85 { 5 } else if puan >= 70 { 4 } ...`"
   - "Zincirin tamamı tek bir ifade: Gövdenin son ifadesi olarak noktalı virgülsüz bırak ve en sona `else { 1 }` koy."
 explanation: |
@@ -586,11 +586,11 @@ difficulty: 3
 prompt: |
   Bir takvim uygulaması Şubat'ın kaç gün çektiğini bilmeli. İki fonksiyonu tamamla:
 
-  1. `artik_yil_mi(yil: u32) -> bool` — Gregoryen takvimin kuralları:
+  1. `artik_yil_mi(yil: u32) -> bool` - Gregoryen takvimin kuralları:
      - 4'e bölünebilen yıllar artık yıldır,
      - **ama** 100'e bölünebilenler artık yıl değildir,
      - **ama** 400'e bölünebilenler yine artık yıldır.
-  2. `subat_gun_sayisi(yil: u32) -> u32` — Artık yılda 29, diğer yıllarda 28 döndürsün. İçinde
+  2. `subat_gun_sayisi(yil: u32) -> u32` - Artık yılda 29, diğer yıllarda 28 döndürsün. İçinde
      `artik_yil_mi` fonksiyonunu çağır ve `if`'i bir ifade olarak kullan.
 
   Örnekler: 2024 artık yıl, 2023 değil; 1900 değil (100'e bölünüyor), 2000 artık yıl (400'e bölünüyor).
@@ -690,7 +690,7 @@ explanation: |
   Peki bu tuhaf kural nereden geliyor? Mevsimlerin bir tam döngüsü (tropikal yıl) yaklaşık **365,2422**
   gündür. Her 4 yılda bir gün eklemek ortalama yılı 365,25 gün yapar, yani biraz fazla düzeltir. Bu
   fazlalık 400 yılda yaklaşık 3 güne ulaşır; 100'e bölünen yıllardan üçünü artık yıl saymamak bu farkı
-  kapatır ve ortalama yıl 365,2425 güne iner — gerçeğe çok yakın. Fonksiyonun gerçek dünyayı modellediği
+  kapatır ve ortalama yıl 365,2425 güne iner - gerçeğe çok yakın. Fonksiyonun gerçek dünyayı modellediği
   güzel bir örnek!
 ````
 
@@ -723,7 +723,7 @@ answer: |
 - front: "`if elma_sayisi { ... }` (`elma_sayisi: i32`) neden derlenmez?"
   back: "Koşul `bool` olmalı (`E0308`); Rust tamsayıyı doğru/yanlışa çevirmez. Doğrusu: `if elma_sayisi > 0`."
 - front: "C'deki `kosul ? a : b` üçlü operatörünün Rust'taki karşılığı nedir?"
-  back: "`if kosul { a } else { b }` — çünkü `if` zaten bir ifadedir."
+  back: "`if kosul { a } else { b }`, çünkü `if` zaten bir ifadedir."
 - front: "`E0317` hatası neyi anlatır?"
   back: "Değer olarak kullanılan bir `if`'in `else` dalı yok; koşul yanlışsa `()` üretilir ve tipler uyuşmaz."
 - front: '`let x = if k { 1 } else { "bir" };` neden derlenmez?'
@@ -733,7 +733,7 @@ answer: |
 - front: "`bolen != 0 && bolunen / bolen > 2` ifadesi `bolen` 0 iken neden panik yapmaz?"
   back: "`&&` kısa devre yapar: Sol taraf `false` olduğu için sağdaki bölme hiç hesaplanmaz."
 - front: Python'daki `0 <= puan <= 100` Rust'ta nasıl yazılır?
-  back: "`0 <= puan && puan <= 100` — Rust'ta karşılaştırma operatörleri zincirlenemez."
+  back: "`0 <= puan && puan <= 100`, Rust'ta karşılaştırma operatörleri zincirlenemez."
 - front: "`if kosul { true } else { false }` nasıl sadeleştirilir?"
   back: "Doğrudan `kosul` yazılır."
 ```

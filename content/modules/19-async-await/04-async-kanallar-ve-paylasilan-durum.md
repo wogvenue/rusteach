@@ -16,7 +16,7 @@ mesajlaşmak (kanallar) ya da durumu paylaşmak (`Arc<Mutex<T>>`). Async dünyad
 önemli bir farkla: **bekleyen bir görev thread'i bloklamamalı.** `std::sync::mpsc::Receiver::recv()` thread'i
 uyutur; async'te bunun yerine `.await` edilebilen araçlar kullanırız. Hepsi `tokio::sync` modülünde.
 
-## tokio::sync::mpsc — üretici ve tüketici
+## tokio::sync::mpsc: üretici ve tüketici
 
 ```rust
 use std::time::Duration;
@@ -153,7 +153,7 @@ explanation: |
 `mpsc::unbounded_channel()` da vardır: `send` async değildir ve hiç beklemez. Üreticinin hızının doğal olarak
 sınırlı olduğundan eminsen (örneğin kullanıcı tıklamaları) kullanılabilir; emin değilsen **sınırlı kanal** seç.
 
-## oneshot — tek seferlik cevap ve aktör deseni
+## oneshot: tek seferlik cevap ve aktör deseni
 
 `mpsc` tek yönlüdür: gönderen, cevap alamaz. Peki bir göreve "bakiye ne kadar?" diye sorup **cevabını** almak
 istersen? Cevap için tek kullanımlık bir kanal yaratıp isteğin içine koyarsın: **`tokio::sync::oneshot`**.
@@ -234,7 +234,7 @@ explanation: |
   `Err` gelir, bu yüzden `unwrap` burada "cevap mutlaka gelir" varsayımıdır.
 ```
 
-## broadcast — herkese duyuru
+## broadcast: herkese duyuru
 
 `mpsc`'de her mesajı **tek** bir alıcı alır. Bir mesajın **bütün** dinleyicilere ulaşmasını istiyorsan
 `tokio::sync::broadcast` kullanılır: her `subscribe()` çağrısı yeni bir alıcı verir ve her alıcı, abone olduktan
@@ -402,7 +402,7 @@ async fn main() {
 - Çoğu zaman en iyisi hiç kilit paylaşmamak: durumu bir **aktör** göreve ver ve kanallarla konuş.
 :::
 
-## Semaphore — eşzamanlılığı sınırla
+## Semaphore: eşzamanlılığı sınırla
 
 10.000 görevi aynı anda başlatabilmek harika; ama karşı taraftaki servis aynı anda yalnızca 5 isteğe izin veriyorsa?
 **`tokio::sync::Semaphore`** (semafor) belirli sayıda **izin (permit)** dağıtır. Bir iş başlamadan önce

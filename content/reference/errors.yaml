@@ -1,4 +1,4 @@
-# Rusteach — derleyici hata rehberi (rustc hata kodları)
+# Rusteach - derleyici hata rehberi (rustc hata kodları)
 # Her "bad" programı tam olarak belirtilen hata koduyla derlenmez, her "fix" programı derlenir
 # (main varsa başarıyla çalışır). Doğrulama:
 #   node scripts/verify-rust.mjs --reference

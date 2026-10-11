@@ -2,7 +2,7 @@
 title: "Özet Kartı: Komut Satırı Aracı (minigrep)"
 ---
 
-# Proje: ara (minigrep) — Özet Kartı
+# Proje: ara (minigrep): Özet Kartı
 
 ## Proje düzeni
 

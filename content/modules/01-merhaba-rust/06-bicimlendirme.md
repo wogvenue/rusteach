@@ -1,6 +1,6 @@
 ---
 id: m01-l06
-title: Çıktıyı biçimlendirmek — hizalama, hassasiyet ve format!
+title: "Çıktıyı biçimlendirmek: hizalama, hassasiyet ve format!"
 minutes: 18
 type: lesson
 objectives:
@@ -13,8 +13,8 @@ keywords: [biçimlendirme, genişlik, hizalama, dolgu, hassasiyet, "print!", "ep
 
 Bir market fişini düşün: Ürün adları solda, fiyatlar sağda, kuruşlar alt alta, en altta kalın bir
 çizgi ve toplam. Bu düzen olmasa fişi okumak bir bulmacaya dönerdi. Önceki derste değerleri metne
-yerleştirmeyi öğrendin; bu derste onları **nasıl** yerleştireceğini — kaç karakterlik yer
-kaplayacaklarını, sağa mı sola mı yaslanacaklarını, kaç basamak gösterileceğini — öğreneceksin. Bir
+yerleştirmeyi öğrendin; bu derste onları **nasıl** yerleştireceğini, kaç karakterlik yer
+kaplayacaklarını, sağa mı sola mı yaslanacaklarını, kaç basamak gösterileceğini, öğreneceksin. Bir
 de ekrana yazmanın `println!`'den başka yollarını.
 
 ## Genişlik: sütunları hizalamak
@@ -385,7 +385,7 @@ feedback:
 
 Bazen biçimlendirilmiş metni hemen yazdırmak yerine **saklamak** istersin: Daha sonra kullanmak,
 birkaç yerde tekrar etmek ya da başka bir metnin parçası yapmak için. **`format!`** tam olarak
-`println!` gibi çalışır — aynı yer tutucular, aynı belirteçler — ama ekrana yazmak yerine sonucu bir
+`println!` gibi çalışır, aynı yer tutucular, aynı belirteçler, ama ekrana yazmak yerine sonucu bir
 **`String`** değeri olarak **döndürür**:
 
 ```rust
@@ -413,7 +413,7 @@ Bütün yazdırma makrolarını bir arada görelim:
 | `println!` | stdout | Evet |
 | `eprint!` | stderr | Hayır |
 | `eprintln!` | stderr | Evet |
-| `format!` | Hiçbir yere; bir `String` döndürür | — |
+| `format!` | Hiçbir yere; bir `String` döndürür | - |
 
 Hepsi aynı biçim "dilini" konuşur; birini öğrenmek hepsini öğrenmek demektir. (Arkalarında aynı
 `format_args!` makrosu çalışır; 3. dersteki "Derinlemesine" kutusunu hatırla.)
@@ -616,12 +616,12 @@ require:
     message: "Sıcaklıklarda tek basamak için hassasiyet belirteci (`.1`) kullanmalısın."
 hints:
   - |
-    Başlık: `let baslik = format!("{:=^25}", " HAVA DURUMU ");` — sonra `println!("{baslik}");`.
+    Başlık: `let baslik = format!("{:=^25}", " HAVA DURUMU ");` - sonra `println!("{baslik}");`.
   - |
     Bir satırın kalıbı: önce 10 karakter sola yaslı şehir, sonra ` | `, sonra 6 karakter sağa yaslı
     ve 1 basamaklı sıcaklık. Yani `{sehir1:<10}` ve `{derece1:>6.1}`.
   - |
-    `println!("{sehir1:<10} | {derece1:>6.1} °C");` — diğer iki şehri aynı kalıpla yaz. Uyarı için
+    `println!("{sehir1:<10} | {derece1:>6.1} °C");` - diğer iki şehri aynı kalıpla yaz. Uyarı için
     `eprintln!("Uyarı: {sehir3}'da sıcaklık sıfırın altında!");`
 explanation: |
   `.1` hassasiyeti her sıcaklığı tek basamağa yuvarladı: `21.456` → `21.5`, `31.04` → `31.0`
@@ -671,7 +671,7 @@ answer: |
 - front: "`{:<8}`, `{:>8}` ve `{:^8}` ne yapar?"
   back: Değeri 8 karakterlik alanda sırasıyla sola, sağa yaslar ve ortalar.
 - front: "`println!(\"{:*^7}\", \"ab\");` ne yazdırır?"
-  back: "`**ab***` — dolgu tam bölünmezse fazla karakter sağa gelir."
+  back: "`**ab***`, dolgu tam bölünmezse fazla karakter sağa gelir."
 - front: "`{:05}` biçimiyle `42` nasıl yazılır?"
   back: "`00042`"
 - front: "`{:.2}` bir ondalık sayıya ve bir metne uygulanınca ne yapar?"

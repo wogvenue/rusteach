@@ -1,6 +1,6 @@
 id: m13
 title: Test Yazmak
-subtitle: Kodunun doğru çalıştığını kanıtla — bugün, yarın ve her değişiklikten sonra
+subtitle: "Kodunun doğru çalıştığını kanıtla: bugün, yarın ve her değişiklikten sonra"
 icon: "🧪"
 description: |
   Rust'ın dile gömülü test altyapısıyla **otomatik testler** yazmayı öğreneceksin: `#[test]`,

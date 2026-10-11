@@ -1,6 +1,6 @@
 id: m21
 title: Desenler Derinlemesine
-subtitle: Değerin şeklini oku — yapı bozma, bağlama kipleri, guard'lar ve dilim desenleri
+subtitle: "Değerin şeklini oku: yapı bozma, bağlama kipleri, guard'lar ve dilim desenleri"
 icon: "🧩"
 description: |
   Modül 7'de `match` ile tanıştığın desenlerin (pattern) aslında Rust'ın her köşesinde olduğunu

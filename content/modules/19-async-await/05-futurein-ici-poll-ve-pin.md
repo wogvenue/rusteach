@@ -1,6 +1,6 @@
 ---
 id: m19-l05
-title: "Future'ın içi — poll, Waker ve Pin"
+title: "Future'ın içi, poll, Waker ve Pin"
 minutes: 22
 type: lesson
 objectives:
@@ -274,7 +274,7 @@ alıştırmanın eksik parçası buydu: "boşa dürtme, uyandırılınca dürt."
 
 ```exercise
 id: m19-e-pide-future
-title: Fırındaki pide — elle Future
+title: "Fırındaki pide: elle Future"
 difficulty: 3
 prompt: |
   Fırındaki bir pideyi temsil eden `Pide` future'ını uygula. Her **yoklama** (poll) bir dakika pişirme demek:
@@ -480,9 +480,9 @@ async fn main() {
 ile göreve verince heap'e konur; çok büyük future'ları kendin de `Box::pin` ile heap'e koyabilirsin.
 
 ```memory
-title: selamla("Ayşe") future'ı — durum makinesi
+title: selamla("Ayşe") future'ı, durum makinesi
 steps:
-  - caption: "`let f = selamla(isim);` — future oluştu ama gövde çalışmadı. İçinde yalnızca argüman var."
+  - caption: "`let f = selamla(isim);`, future oluştu ama gövde çalışmadı. İçinde yalnızca argüman var."
     stack:
       - frame: main
         vars:

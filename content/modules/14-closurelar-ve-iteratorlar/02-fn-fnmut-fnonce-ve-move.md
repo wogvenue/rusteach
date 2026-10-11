@@ -43,14 +43,14 @@ Bu üçü iç içe geçer:
 ```
 
 Her `Fn` aynı zamanda bir `FnMut`'tır, her `FnMut` aynı zamanda bir `FnOnce`'tır. Mantığı basit: sadece okuyan
-bir closure'ı "değiştirme izni olan" birine vermekte sakınca yoktur — izni kullanmaz. Ama tüketen bir
+bir closure'ı "değiştirme izni olan" birine vermekte sakınca yoktur, izni kullanmaz. Ama tüketen bir
 closure'ı "iki kez çağıracağım" diyen birine veremezsin.
 
 :::analogy Ödünç alınan kitap
 Bir arkadaşın sana bir kitap emanet etti. Kitapla üç şey yapabilirsin:
-**okumak** (`Fn`) — kitap aynı kalır, istediğin kadar okursun, aynı anda başkası da omzunun üstünden okuyabilir;
-**kenarına not almak** (`FnMut`) — kitap değişir, yine defalarca yapabilirsin ama o sırada başkası elleyemez;
-**birine hediye etmek** (`FnOnce`) — kitap senden çıkar, bunu ancak **bir kez** yapabilirsin.
+**okumak** (`Fn`), kitap aynı kalır, istediğin kadar okursun, aynı anda başkası da omzunun üstünden okuyabilir;
+**kenarına not almak** (`FnMut`), kitap değişir, yine defalarca yapabilirsin ama o sırada başkası elleyemez;
+**birine hediye etmek** (`FnOnce`), kitap senden çıkar, bunu ancak **bir kez** yapabilirsin.
 Closure'ın hangi trait'i taşıdığını belirleyen şey de budur: yakaladıklarıyla ne yapıyor?
 :::
 
@@ -276,12 +276,12 @@ note: this value implements `FnOnce`, which causes it to be moved when called
 4 |     let a = tuket();
   |             ^^^^^
 ```
-Tanıdık E0382 — taşınmış bir değerin kullanımı. Bu kez taşınan şey **closure'ın kendisi**. İki `note`
+Tanıdık E0382, taşınmış bir değerin kullanımı. Bu kez taşınan şey **closure'ın kendisi**. İki `note`
 satırı nedenini anlatır: closure `mesaj`'ı ortamından dışarı taşıdığı için `FnOnce`'tır ve `FnOnce`
 closure'lar çağrıldıklarında tükenir.
 :::
 
-Aynı sorun, tüketen bir closure'ı `Fn` isteyen bir fonksiyona verdiğinde de çıkar — bu kez hata kodu farklı:
+Aynı sorun, tüketen bir closure'ı `Fn` isteyen bir fonksiyona verdiğinde de çıkar, bu kez hata kodu farklı:
 
 ```rust,compile_fail,E0525
 fn iki_kez<F: Fn()>(f: F) {
@@ -404,10 +404,10 @@ steps:
 ### `move` ne zaman gerekir?
 
 Closure, yakaladığı değişkenlerden **daha uzun yaşayacaksa**. Referansla yakalanan bir değişken kapsamdan
-çıktığında closure'ın elindeki referans sarkardı (Modül 5) — Rust buna izin vermez. İki tipik durum:
+çıktığında closure'ın elindeki referans sarkardı (Modül 5), Rust buna izin vermez. İki tipik durum:
 
-1. **Closure'ı bir fonksiyondan döndürmek** — yerel değişkenler fonksiyon bitince yok olur ("Closure döndürmek" bölümünde).
-2. **Closure'ı başka bir thread'e vermek** — thread, onu başlatan fonksiyondan uzun yaşayabilir.
+1. **Closure'ı bir fonksiyondan döndürmek**, yerel değişkenler fonksiyon bitince yok olur ("Closure döndürmek" bölümünde).
+2. **Closure'ı başka bir thread'e vermek**, thread, onu başlatan fonksiyondan uzun yaşayabilir.
    `std::thread::spawn(move || ...)` kalıbını Modül 18'de çok göreceksin.
 
 İki kopya gerekiyorsa yaygın kalıp, `move`'dan **önce** klonlamaktır:
@@ -435,7 +435,7 @@ code: |
 answer: false
 error: E0382
 explanation: |
-  `goster` iki kez çağrılabilir — gövde `liste`'yi sadece okuyor, yani closure `Fn`. Sorun son satırda:
+  `goster` iki kez çağrılabilir - gövde `liste`'yi sadece okuyor, yani closure `Fn`. Sorun son satırda:
   `move` yüzünden `Vec` closure'ın içine **taşındı**, `liste` artık geçersiz. `move` ile `FnOnce`
   karıştırılmamalı: `move` **yakalamayı**, trait ise **gövdeyi** anlatır.
 ```
@@ -443,7 +443,7 @@ explanation: |
 ## Closure döndürmek
 
 Closure "üreten" fonksiyonlar çok kullanışlıdır: bir kez yapılandırırsın, sonra defalarca kullanırsın.
-Her closure'ın kendine özgü, **adı olmayan** bir tipi olduğu için dönüş tipini yazamayız — Modül 11'deki
+Her closure'ın kendine özgü, **adı olmayan** bir tipi olduğu için dönüş tipini yazamayız, Modül 11'deki
 `-> impl Trait` tam bunun için var:
 
 ```compiles
@@ -533,7 +533,7 @@ error[E0308]: `if` and `else` have incompatible types
   = note: no two closures, even if identical, have the same type
   = help: consider boxing your closure and/or using it as a trait object
 ```
-*"no two closures, even if identical, have the same type"* — closure'lar hakkında aklında tutman gereken
+*"no two closures, even if identical, have the same type"*, closure'lar hakkında aklında tutman gereken
 cümle bu.
 :::
 
@@ -618,10 +618,10 @@ difficulty: 3
 prompt: |
   Bir market zinciri için iki fonksiyon yaz:
 
-  1. `indirim_olustur(yuzde: u32) -> impl Fn(u32) -> u32` — bir fiyatı alıp **yüzde `yuzde` indirimli**
+  1. `indirim_olustur(yuzde: u32) -> impl Fn(u32) -> u32` - bir fiyatı alıp **yüzde `yuzde` indirimli**
      fiyatı döndüren bir closure üretir. Hesap tamsayı bölmesiyle: `fiyat * (100 - yuzde) / 100`.
      `yuzde` 100'den büyükse fiyat **0** olmalı (negatif fiyat olmaz, taşma paniği de olmamalı).
-  2. `hepsine_uygula<F: Fn(u32) -> u32>(fiyatlar: &mut Vec<u32>, f: F)` — vektördeki **her** fiyatı
+  2. `hepsine_uygula<F: Fn(u32) -> u32>(fiyatlar: &mut Vec<u32>, f: F)` - vektördeki **her** fiyatı
      `f`'ten geçirip yerinde günceller.
 starter: |
   fn indirim_olustur(yuzde: u32) -> impl Fn(u32) -> u32 {
@@ -691,7 +691,7 @@ tests: |
 hints:
   - "Dönen closure `yuzde`'yi (ya da ondan hesapladığın bir değeri) yakalar. Fonksiyon bittikten sonra da yaşayacağı için `move` gerekir (E0373)."
   - "`100 - yuzde` `yuzde > 100` iken taşar ve debug modda panikler. Modül 2'deki `saturating_sub` 0'da durur: `100u32.saturating_sub(yuzde)`."
-  - "`hepsine_uygula` içinde `for fiyat in fiyatlar.iter_mut() { *fiyat = f(*fiyat); }` — `iter_mut()` `for x in &mut v` ile aynıdır, bir sonraki derste detaylı göreceğiz."
+  - "`hepsine_uygula` içinde `for fiyat in fiyatlar.iter_mut() { *fiyat = f(*fiyat); }`, `iter_mut()` `for x in &mut v` ile aynıdır, bir sonraki derste detaylı göreceğiz."
 require:
   - pattern: "move\\s*\\|"
     message: "Dönen closure'ın `yuzde`'yi (ya da türettiğin değeri) sahiplenmesi için `move` kullan."
@@ -705,7 +705,7 @@ explanation: |
   `yaz_indirimi`'ni taşımadan defalarca kullanabiliriz.
 
   `hepsine_uygula`'nın `F: Fn` istemesi en katı seçenek; gövde `f`'i sırayla çağırdığı için
-  `F: FnMut` (ve `mut f: F`) da yeterli olurdu ve çağıranlara daha fazla esneklik verirdi — örneğin
+  `F: FnMut` (ve `mut f: F`) da yeterli olurdu ve çağıranlara daha fazla esneklik verirdi - örneğin
   kaç fiyat güncellendiğini sayan bir closure'ı da kabul ederdi.
 ```
 
@@ -719,7 +719,7 @@ prompt: |
   değerleri döndürür (100, 105, 110, ...).
 
   Her numaratör **kendi** durumunu tutmalı: iki ayrı numaratör birbirini etkilememeli.
-  Dönüş tipinin `impl FnMut() -> u32` olduğuna dikkat et — neden `Fn` değil?
+  Dönüş tipinin `impl FnMut() -> u32` olduğuna dikkat et - neden `Fn` değil?
 starter: |
   fn numarator(baslangic: u32, adim: u32) -> impl FnMut() -> u32 {
       // Yer tutucu: bunu durumu hatırlayan bir closure ile değiştir.
@@ -771,12 +771,12 @@ tests: |
 hints:
   - "Closure'ın çağrılar arasında hatırlaması gereken bir durum var: sıradaki numara. Bunu fabrikada `let mut siradaki = baslangic;` ile oluştur."
   - "Closure bu değişkeni sahiplenmeli (fonksiyon bitince yok olacak) → `move || { ... }`. Gövdede önce mevcut değeri sakla, sonra artır, sonra saklananı döndür."
-  - "`move || { let simdiki = siradaki; siradaki += adim; simdiki }` — kendi alanını değiştirdiği için closure `FnMut`'tır."
+  - "`move || { let simdiki = siradaki; siradaki += adim; simdiki }`, kendi alanını değiştirdiği için closure `FnMut`'tır."
 explanation: |
   `move` ile `siradaki` (bir `u32`, yani `Copy`) closure'ın **içine kopyalanır** ve closure'ın kendi alanı
   olur. Her `numarator` çağrısı yeni bir closure ve dolayısıyla **yeni bir alan** üretir; bu yüzden
   numaratörler bağımsızdır. Bu, nesne yönelimli dillerdeki "özel alanı olan bir nesne"nin closure'la
-  yapılmış hâlidir — JavaScript'te sayaç fabrikaları tam olarak böyle yazılır.
+  yapılmış hâlidir - JavaScript'te sayaç fabrikaları tam olarak böyle yazılır.
 
   `Fn` olamaz çünkü gövde yakaladığı `siradaki`'yi **değiştiriyor**; bunun için closure'ın `&mut self` ile
   çağrılması gerekir. Bu yüzden çağıran tarafta da `let mut gise` yazmak zorundayız.
@@ -812,7 +812,7 @@ answer: |
 ```
 
 ```flashcards
-- front: "`Fn`, `FnMut`, `FnOnce` — closure'ı hangisi yapan nedir?"
+- front: "`Fn`, `FnMut`, `FnOnce`, closure'ı hangisi yapan nedir?"
   back: "Gövdenin yakaladıklarıyla ne yaptığı: sadece okursa `Fn`, değiştirirse `FnMut`, dışarı taşırsa (tüketirse) yalnızca `FnOnce`."
 - front: Bir fonksiyon closure'ı yalnızca bir kez çağıracaksa hangi sınırı istemeli? Neden?
   back: "`FnOnce`. En gevşek sınırdır; her closure onu uygular, çağıranlara en çok esnekliği verir."

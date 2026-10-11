@@ -41,7 +41,7 @@ export default function ForecastChart({ days, className }: { days: ForecastDay[]
     { label: 'Bugün', value: formatNumber(sum.today) },
     { label: '7 gün', value: formatNumber(sum.week) },
     { label: '30 gün', value: formatNumber(sum.total) },
-    { label: 'En yoğun gün', value: sum.peak ? `${sum.peak.offset === 0 ? 'Bugün' : sum.peak.offset === 1 ? 'Yarın' : sum.peak.label} (${sum.peak.total})` : '—' },
+    { label: 'En yoğun gün', value: sum.peak ? `${sum.peak.offset === 0 ? 'Bugün' : sum.peak.offset === 1 ? 'Yarın' : sum.peak.label} (${sum.peak.total})` : '-' },
   ];
 
   return (

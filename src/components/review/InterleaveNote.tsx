@@ -1,4 +1,4 @@
-// "Neden karışık sırayla?" — a tiny dual-coded explanation of interleaving.
+// "Neden karışık sırayla?" - a tiny dual-coded explanation of interleaving.
 import { Shuffle } from 'lucide-react';
 
 const BLOCKED = [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2];

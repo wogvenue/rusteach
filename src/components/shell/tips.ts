@@ -1,4 +1,4 @@
-// "Günün ipucu" — short, evidence-based learning tips shown on the dashboard.
+// "Günün ipucu" - short, evidence-based learning tips shown on the dashboard.
 export interface LearningTip {
   icon: string;
   title: string;

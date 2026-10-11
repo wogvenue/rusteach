@@ -1,6 +1,6 @@
 id: m19
 title: Async/Await
-subtitle: Binlerce işi tek thread'de bekletmeden yürütmek — future'lar, tokio ve görevler
+subtitle: "Binlerce işi tek thread'de bekletmeden yürütmek: future'lar, tokio ve görevler"
 icon: "⚡"
 description: |
   Ağdan cevap, diskten veri, zamanlayıcıdan sinyal beklerken thread'leri boşa harcamadan binlerce işi aynı anda

@@ -110,7 +110,7 @@ fn main() -> Result<()> {
 | `correctness` | **deny** (derlemeyi durdurur) |
 | `suspicious`, `style`, `complexity`, `perf` | warn |
 | `pedantic`, `nursery`, `cargo` | allow (pedantic'i açmak yaygın) |
-| `restriction` | allow — topluca açma, tek tek seç |
+| `restriction` | allow, topluca açma, tek tek seç |
 
 | Lint | Kötü | İdiomatik |
 |---|---|---|

@@ -164,7 +164,7 @@ output: |
   1042,Çay,3,45.90
   true
 explanation: |
-  Bayt uzunlukları toplanıp (`Ç` iki bayt, `len()` bayt sayar — tam da istediğimiz) virgül sayısı
+  Bayt uzunlukları toplanıp (`Ç` iki bayt, `len()` bayt sayar - tam da istediğimiz) virgül sayısı
   eklenince gereken kapasite kesin olarak bilinir. `String::with_capacity` bu kadar yer ayırır,
   `push`/`push_str` çağrıları da asla yeniden tahsis yapmaz. Son satırdaki `true` bunun kanıtı:
   kapasite tam olarak uzunluk kadar. `saturating_sub(1)` boş dilimde `0 - 1` taşmasını önler
@@ -706,7 +706,7 @@ Unutma: **önce ölç**.
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `Cow<'_, str>` döndüren bir fonksiyon, her zaman `String` döndüren
+  Kendi cümlelerinle açıkla - `Cow<'_, str>` döndüren bir fonksiyon, her zaman `String` döndüren
   bir fonksiyona göre hangi durumda daha verimlidir, hangi durumda hiçbir kazanç sağlamaz?
 answer: |
   Model cevap: Girdinin çoğu zaman değişmeden döndüğü durumlarda (örneğin çoğu yorumda kaçışlanacak
@@ -732,5 +732,5 @@ answer: |
 - front: "64 bit sistemde `size_of::<String>()` ve `size_of::<Box<str>>()` kaçtır, neden farklıdır?"
   back: "24 ve 16. `String`'in kapasite alanı vardır; `Box<str>` büyüyemez, yalnızca işaretçi + uzunluk tutar."
 - front: "Sadece okuyan bir fonksiyon için `fn f(s: String)` yerine hangi imza tercih edilir?"
-  back: "`fn f(s: &str)` — çağıranı kopya oluşturmaya zorlamaz; `&String`, literal ve dilimlerle çalışır."
+  back: "`fn f(s: &str)`, çağıranı kopya oluşturmaya zorlamaz; `&String`, literal ve dilimlerle çalışır."
 ```

@@ -170,7 +170,7 @@ options:
   - |
     Ok(4.25)
     Err("':' işareti eksik")
-  - Derlenmez — `parse()?` için turbofish gerekir
+  - Derlenmez, `parse()?` için turbofish gerekir
 answer: 0
 explanation: |
   İlk çağrı: 13 × 60 + 30 − (9 × 60 + 5) = 810 − 545 = 265 dakika. İkinci çağrıda `"13.30"` içinde `:`
@@ -329,9 +329,9 @@ bir `Path` verebilirsin (Modül 15'te kullanacaksın).
 question: |
   Bir kütüphane sistemi için üç fonksiyon yazıyorsun. Hangisinde `AsRef<str>` **en uygun** seçimdir?
 options:
-  - "`fn kitap_ekle(baslik: ...)` — başlığı `Kitap` struct'ında saklayacak"
-  - "`fn yazar_ara(yazarlar: &[...], aranan: &str)` — çağıranlarda yazarlar bazen `Vec<String>`, bazen `&str` dizisi"
-  - "`fn baslik_uzunlugu(baslik: ...)` — tek bir başlığın bayt sayısını döndürecek"
+  - "`fn kitap_ekle(baslik: ...)`, başlığı `Kitap` struct'ında saklayacak"
+  - "`fn yazar_ara(yazarlar: &[...], aranan: &str)`, çağıranlarda yazarlar bazen `Vec<String>`, bazen `&str` dizisi"
+  - "`fn baslik_uzunlugu(baslik: ...)`, tek bir başlığın bayt sayısını döndürecek"
 answer: 1
 explanation: |
   `AsRef<str>` asıl gücünü **koleksiyonlarda** gösterir: `&[String]` ile `&[&str]` arasında deref

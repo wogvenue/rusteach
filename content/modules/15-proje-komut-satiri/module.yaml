@@ -1,6 +1,6 @@
 id: m15
 title: "Proje: Komut Satırı Aracı (minigrep)"
-subtitle: Öğrendiklerinle gerçek bir grep klonu yaz — ara
+subtitle: "Öğrendiklerinle gerçek bir grep klonu yaz: ara"
 icon: "🔎"
 description: |
   Bu modülde, dosyalarda metin arayan `ara` adlı gerçek bir komut satırı aracını sıfırdan kuracaksın.

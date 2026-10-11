@@ -58,7 +58,7 @@ fn harf_notu(puan: u32) -> char {
 
 | Döngü | Ne zaman? | Değer döndürür mü? |
 |---|---|---|
-| `for x in koleksiyon` | Her eleman için / belli sayıda tekrar — **ilk tercih** | Hayır |
+| `for x in koleksiyon` | Her eleman için / belli sayıda tekrar, **ilk tercih** | Hayır |
 | `while kosul` | Koşul doğru olduğu sürece (0 kez çalışabilir) | Hayır |
 | `loop` | Bitiş anı gövdede belli oluyor, en az 1 tur | Evet: `break deger` |
 

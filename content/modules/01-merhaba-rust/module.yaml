@@ -1,6 +1,6 @@
 id: m01
 title: Merhaba Rust
-subtitle: Programlamaya ilk adım — Rust'ı kur, ilk programını yaz, derleyiciyle dost ol
+subtitle: "Programlamaya ilk adım: Rust'ı kur, ilk programını yaz, derleyiciyle dost ol"
 icon: "🦀"
 description: |
   Programın ne olduğunu, Rust'ın hangi sorunu çözmek için doğduğunu ve bu uygulamayla en verimli

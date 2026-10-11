@@ -107,7 +107,7 @@ export default function ActivityHeatmap({ data, goal, streak }: { data: HeatmapD
           lessons: d.activity.lessons,
           reviews: d.activity.reviews,
           checks: d.activity.checks,
-          time: d.activity.seconds ? formatDuration(d.activity.seconds) : '—',
+          time: d.activity.seconds ? formatDuration(d.activity.seconds) : '-',
         })),
     [weeks],
   );
@@ -119,7 +119,7 @@ export default function ActivityHeatmap({ data, goal, streak }: { data: HeatmapD
     {
       icon: Trophy,
       label: 'En iyi gün',
-      value: data.best ? `${formatNumber(data.best.activity.xp)} XP` : '—',
+      value: data.best ? `${formatNumber(data.best.activity.xp)} XP` : '-',
       hint: data.best ? shortDate(data.best.key) : 'Henüz yok',
     },
   ];

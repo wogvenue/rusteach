@@ -179,7 +179,7 @@ steps:
 ```
 
 Tipin adı uzun ama derleyici onu tamamen bilir; `f` ve `p` closure'ları da bu tipin parçasıdır. Bu yüzden
-derleyici bütün zinciri tek bir döngüye **satır içi (inline)** açabilir — son derste bunun performansa
+derleyici bütün zinciri tek bir döngüye **satır içi (inline)** açabilir, son derste bunun performansa
 etkisini konuşacağız.
 
 ## Sıra, eşleşme ve kesme adaptörleri
@@ -191,7 +191,7 @@ fn main() {
     let isimler = ["Ada", "Bora", "Cem"];
     let notlar = [88, 95, 71, 60];
 
-    // enumerate: (indeks, eleman) çiftleri — indeks 0'dan başlar
+    // enumerate: (indeks, eleman) çiftleri - indeks 0'dan başlar
     for (i, isim) in isimler.iter().enumerate() {
         println!("{}. {isim}", i + 1);
     }
@@ -212,10 +212,10 @@ fn main() {
 `zip`'te dikkat: `isimler` 3, `notlar` 4 eleman. Dördüncü not (60) ne oldu?
 
 ```quiz
-question: "`a.iter().zip(b.iter())` — `a`'da 3, `b`'de 4 eleman varsa sonuç kaç çift üretir?"
+question: "`a.iter().zip(b.iter())`, `a`'da 3, `b`'de 4 eleman varsa sonuç kaç çift üretir?"
 options:
-  - "3 — kısa olan bitince `zip` durur"
-  - "4 — eksik eleman için `None` kullanılır"
+  - "3, kısa olan bitince `zip` durur"
+  - "4, eksik eleman için `None` kullanılır"
   - Program panikler, uzunluklar eşit olmalı
   - Derlenmez, uzunluklar eşit olmalı
 answer: 0
@@ -234,7 +234,7 @@ feedback:
 
 ```rust
 fn main() {
-    // take(n): ilk n eleman — sonsuz iterator'larla harika çalışır
+    // take(n): ilk n eleman - sonsuz iterator'larla harika çalışır
     let ilk_bes: Vec<u32> = (1..).take(5).collect();
     // skip(n): ilk n elemanı atla
     let basliksiz: Vec<&str> = ["ad;not", "Ada;88", "Cem;71"].iter().skip(1).copied().collect();
@@ -281,12 +281,12 @@ answer: 1
 explanation: |
   `filter` her elemana bakar. `take_while` ise koşul **ilk kez** `false` olduğunda (21) **tamamen durur**;
   sonradan gelen 9 koşulu sağlasa bile alınmaz. `skip_while` tam tersi: koşul doğru olduğu sürece atlar,
-  ilk `false`'tan (21) itibaren **her şeyi** verir — 9 dahil, çünkü artık koşula bakılmıyor.
+  ilk `false`'tan (21) itibaren **her şeyi** verir - 9 dahil, çünkü artık koşula bakılmıyor.
 ```
 
 `take_while` sıralı verilerde ya da sonsuz iterator'larda çok kullanışlıdır: *"karesi 100'ü geçmeyen doğal
 sayılar"* `(1..).take_while(|n| n * n <= 100)` ile yazılır ve `filter` ile yazsaydın program **hiç
-bitmezdi** — `filter` sonsuza kadar bir sonraki sayıya bakmaya devam ederdi.
+bitmezdi**, `filter` sonsuza kadar bir sonraki sayıya bakmaya devam ederdi.
 
 :::warning `rev` her iterator'da çalışmaz
 `rev()` iterator'ın **iki uçtan da** gezilebilmesini ister (`DoubleEndedIterator` trait'i). Aralıklar,
@@ -297,7 +297,7 @@ bitmezdi** — `filter` sonsuza kadar bir sonraki sayıya bakmaya devam ederdi.
 
 **`flat_map(f)`**: her eleman için `f` bir iterator (ya da bir koleksiyon) üretir; `flat_map` bunların
 elemanlarını **tek bir akışa** düzleştirir. **`filter_map(f)`**: `f` bir `Option` döndürür; `Some(x)`'ler
-`x` olarak geçer, `None`'lar atılır — `filter` ve `map` tek adımda.
+`x` olarak geçer, `None`'lar atılır, `filter` ve `map` tek adımda.
 
 ```rust
 fn main() {
@@ -345,7 +345,7 @@ blanks:
 output: "[23.25, 19.0, 21.5]"
 explanation: |
   `filter_map` closure'ın `Some` döndürdüklerini tutar; `parse()`'ın `Result`'ını `.ok()` ile `Option`'a
-  çeviriyoruz. `parse`'ın hedef tipi (`f64`) en sondaki `Vec<f64>` anotasyonundan çıkarılıyor — tip bilgisi
+  çeviriyoruz. `parse`'ın hedef tipi (`f64`) en sondaki `Vec<f64>` anotasyonundan çıkarılıyor - tip bilgisi
   zincir boyunca geriye doğru akar. `rev()` `filter_map`'ten sonra da çalışır, çünkü dilim iterator'ı iki
   uçludur ve `FilterMap` bu özelliği korur.
 ```
@@ -356,7 +356,7 @@ explanation: |
 
 Bazen bir elemanı **almadan önce** ne olduğuna bakmak istersin. `peekable()` iterator'a bir **`peek()`**
 metodu ekler: sıradaki elemanı `Option<&Item>` olarak gösterir ama ilerlemez. Klasik örnek, bir ifadeyi
-parçalara ayırmak — çok basamaklı sayıları bir arada tutmak için "sıradaki karakter de rakam mı?" diye
+parçalara ayırmak, çok basamaklı sayıları bir arada tutmak için "sıradaki karakter de rakam mı?" diye
 bakmamız gerekir:
 
 ```rust
@@ -396,13 +396,13 @@ Bu ikisi aslında `Iterator` metodu değil, **dilim (slice)** metotlarıdır ve 
 fn main() {
     let gunluk = [12, 15, 11, 18, 18];
 
-    // windows(2): kayan pencere — [12,15], [15,11], [11,18], [18,18]
+    // windows(2): kayan pencere - [12,15], [15,11], [11,18], [18,18]
     for w in gunluk.windows(2) {
         let fark = w[1] - w[0];
         println!("{} → {}: değişim {fark}", w[0], w[1]);
     }
 
-    // chunks(2): örtüşmeyen gruplar — sonuncusu eksik kalabilir
+    // chunks(2): örtüşmeyen gruplar - sonuncusu eksik kalabilir
     let ogrenciler = ["Ada", "Bora", "Cem", "Defne", "Ece"];
     for (i, grup) in ogrenciler.chunks(2).enumerate() {
         println!("Grup {}: {grup:?}", i + 1);
@@ -424,7 +424,7 @@ explanation: |
   Eksik son grubu istemiyorsan `chunks_exact(3)` kullan.
 feedback:
   - Doğru!
-  - Tam tersi — pencereler örtüştüğü için daha fazladır.
+  - Tam tersi, pencereler örtüştüğü için daha fazladır.
   - Pencereler örtüşür, gruplar örtüşmez; sayıları farklı olur.
   - Pencere boyutu 3 olduğu için tek elemanlık pencere olmaz.
 ```
@@ -495,7 +495,7 @@ tests: |
 hints:
   - "`isimler.iter().zip(notlar.iter())` sana `(&&str, &u32)` çiftleri verir."
   - "`filter`'ın closure'ı çifti ödünç alır; desenle açabilirsin: `.filter(|(_, not)| **not >= esik)`."
-  - "Son adım: `.map(|(isim, not)| format!(\"{isim} ({not})\")).collect()` — dönüş tipi `Vec<String>` olduğu için `collect` neyi kuracağını bilir."
+  - "Son adım: `.map(|(isim, not)| format!(\"{isim} ({not})\")).collect()` - dönüş tipi `Vec<String>` olduğu için `collect` neyi kuracağını bilir."
 forbid:
   - pattern: "\\bfor\\b"
     message: "Bu alıştırmayı `for` döngüsü olmadan, adaptör zinciriyle çöz."
@@ -591,7 +591,7 @@ tests: |
   }
 hints:
   - "İskelet: `let mut it = metin.chars().peekable(); while let Some(c) = it.next() { ... }`."
-  - "İç döngü: `while it.peek() == Some(&c) { it.next(); adet += 1; }` — `peek()` `Option<&char>` verdiği için `Some(&c)` ile karşılaştırılır."
+  - "İç döngü: `while it.peek() == Some(&c) { it.next(); adet += 1; }`, `peek()` `Option<&char>` verdiği için `Some(&c)` ile karşılaştırılır."
   - "Grubu bitirince `sonuc.push(c);` ve `adet > 1` ise `sonuc.push_str(&adet.to_string());`."
 require:
   - pattern: "peekable\\(\\)"
@@ -601,7 +601,7 @@ explanation: |
   iç döngü `peek` ile aynı karakterden devam edildiği sürece tüketir. Her karakter tam bir kez `next()` ile
   alındığı için çözüm doğrusal zamanda çalışır.
 
-  `peek()`'in dönüş tipi `Option<&char>`'dır — iterator elemanı henüz vermediği için sana sadece bakma izni
+  `peek()`'in dönüş tipi `Option<&char>`'dır - iterator elemanı henüz vermediği için sana sadece bakma izni
   verir. Bu yüzden `Some(&c)` ile karşılaştırıyoruz. Alternatif olarak `it.next_if_eq(&c)` metodu
   "eşitse al" işini tek adımda yapar: `while it.next_if_eq(&c).is_some() { adet += 1; }`.
 
@@ -644,7 +644,7 @@ answer: |
 - front: "`zip` iki farklı uzunluktaki iterator'da ne yapar?"
   back: Kısa olan bittiğinde durur; uzun olanın fazla elemanları atlanır.
 - front: "`[12, 15, 21, 9].iter().take_while(|&&t| t < 20)` ne verir?"
-  back: "`12, 15` — koşul ilk kez bozulduğunda (21) durur; 9'a hiç bakılmaz."
+  back: "`12, 15`, koşul ilk kez bozulduğunda (21) durur; 9'a hiç bakılmaz."
 - front: "`filter_map(|s| s.parse().ok())` ne işe yarar?"
   back: "Ayrıştırılabilen girdileri değer olarak geçirir, hatalıları (`None`) atar: `filter` + `map` tek adımda."
 - front: "`windows(2)` ile `chunks(2)` farkı?"

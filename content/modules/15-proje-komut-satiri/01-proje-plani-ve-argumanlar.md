@@ -483,7 +483,7 @@ explanation: |
 
 ```exercise
 id: m15-e-config-new
-title: Config::new — anlaşılır panik mesajı
+title: "Config::new: anlaşılır panik mesajı"
 difficulty: 2
 prompt: |
   `Config::new` fonksiyonunu tamamla:

@@ -1,6 +1,6 @@
 id: m23
 title: Makrolar
-subtitle: Kod yazan kod — macro_rules!'ten prosedürel makrolara
+subtitle: "Kod yazan kod: macro_rules!'ten prosedürel makrolara"
 icon: "🪄"
 description: |
   `println!` ve `vec!`'in perde arkasını öğrenecek, `macro_rules!` ile kendi bildirimsel makrolarını

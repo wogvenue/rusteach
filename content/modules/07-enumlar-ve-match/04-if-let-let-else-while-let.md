@@ -1028,7 +1028,7 @@ explanation: |
 
 ```reflect
 prompt: |
-  Kendi cümlelerinle açıkla — `let ... else` ile iç içe `if let` arasındaki fark nedir? `else` bloğu
+  Kendi cümlelerinle açıkla - `let ... else` ile iç içe `if let` arasındaki fark nedir? `else` bloğu
   neden akıştan çıkmak (return, break, panic!...) zorundadır?
 answer: |
   Model cevap: İç içe `if let`'te bağlanan değişken yalnızca kendi bloğunda yaşar; her yeni kontrol

@@ -1,4 +1,4 @@
-// /antrenman — practice beyond the lessons. Tabs (?sekme=): karma antrenman (default), hata defteri,
+// /antrenman - practice beyond the lessons. Tabs (?sekme=): karma antrenman (default), hata defteri,
 // alıştırma kataloğu, hız turu. ?modul=<id> preselects a module in the mixed practice and the catalog.
 // While a run is in progress the page header and tabs step aside (focus mode).
 import { useCallback, useMemo, useState } from 'react';

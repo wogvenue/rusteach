@@ -1,6 +1,6 @@
 ---
 id: m09-l03
-title: HashMap — anahtar-değer depoları
+title: "HashMap: anahtar-değer depoları"
 minutes: 25
 type: lesson
 objectives:
@@ -105,7 +105,7 @@ feedback:
   - "Panikleyen yol `m[\"ali\"]` indekslemesidir; `get` asla paniklemez."
 ```
 
-## Sahiplik — haritaya giren kimin?
+## Sahiplik: haritaya giren kimin?
 
 Bir haritaya `String` gibi sahip olunan değerler koyduğunda ne olur? Tahmin et:
 
@@ -217,7 +217,7 @@ fn main() {
 } // önce uzunluklar, sonra cumle drop edilir: referanslar hiç sarkmaz
 ```
 
-## Dolaşmak — ve sıra neden garanti değil?
+## Dolaşmak: ve sıra neden garanti değil?
 
 Bir haritayı `for` ile dolaşmak, vektördekine çok benzer: `&harita` üzerinden dolaşınca her adımda bir
 `(&K, &V)` çifti alırsın.
@@ -277,7 +277,7 @@ eklenme sırasına değil. Üstelik Rust, her program başladığında hash fonk
 tohum (seed)** seçer (hatta aynı programdaki iki harita bile farklı tohum alır): aynı anahtarlar her
 çalıştırmada başka kovalara düşebilir. Peki neden bu kadar zahmet?
 
-:::deep HashDoS — hash tablosuna saldırı
+:::deep HashDoS, hash tablosuna saldırı
 2011'de iki güvenlik araştırmacısı, PHP, Java, Python, Ruby ve ASP.NET ile yazılmış web sunucularını
 **tek bir HTTP isteğiyle** dakikalarca kilitleyebildiklerini gösterdi. Yöntem basitti: bu dillerin hash
 fonksiyonları herkesçe bilindiği için, hepsi **aynı kovaya düşen** binlerce özel form alanı adı üretip
@@ -321,7 +321,7 @@ feedback:
   - "Aksine: güvenli SipHash, basit hash fonksiyonlarından biraz yavaştır. Rust burada hız yerine güvenliği seçiyor."
 ```
 
-## Güncellemek — üzerine yazmak, `entry` ve `&mut`
+## Güncellemek: üzerine yazmak, `entry` ve `&mut`
 
 Bir anahtar zaten varken ne yapacağına göre üç durum var:
 
@@ -456,7 +456,7 @@ fn main() {
 ```
 :::
 
-## Uygulama — sayaçlar ve gruplar
+## Uygulama: sayaçlar ve gruplar
 
 HashMap'in en klasik iki kullanımı **saymak** ve **gruplamak**tır. Önce çözümlü bir örnek: bir
 tekerlemede hangi harfin kaç kez geçtiğini sayalım.
@@ -753,7 +753,7 @@ answer: |
 
 ```flashcards
 - front: "`HashMap`'i kullanmak için dosyanın başına ne yazarsın? Yazmazsan hangi hata çıkar?"
-  back: "`use std::collections::HashMap;` — prelude'da olmadığı için yazmazsan **E0433** (*cannot find type*)."
+  back: "`use std::collections::HashMap;`, prelude'da olmadığı için yazmazsan **E0433** (*cannot find type*)."
 - front: "`m.get(&k)` ne döndürür, neden?"
   back: "`Option<&V>`: anahtar olmayabilir (`Option`), değer haritada kalır ve sadece ödünç verilir (`&V`)."
 - front: "Var olan bir anahtarla `m.insert(k, v)` çağırırsan ne olur?"

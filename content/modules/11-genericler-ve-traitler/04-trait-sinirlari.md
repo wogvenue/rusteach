@@ -12,7 +12,7 @@ keywords: [trait sınırı, trait bound, "impl Trait", where, çoklu sınır, ko
 ---
 
 Önceki derste `Ozet` trait'ini tanımlayıp `Haber` ve `Gonderi` tiplerine uyguladık. Ama bu trait'i
-**kullanan** bir fonksiyon henüz yazmadık — priz benzetmesindeki “priz” eksik. Bu derste 1. dersteki trait
+**kullanan** bir fonksiyon henüz yazmadık, priz benzetmesindeki “priz” eksik. Bu derste 1. dersteki trait
 sınırlarını (`T: PartialOrd`) kendi trait'lerimizle birleştiriyoruz: *“`Ozet` uygulayan her tipi kabul eden”*
 fonksiyonlar. Böylece generic'ler ile trait'ler sonunda buluşuyor.
 
@@ -61,7 +61,7 @@ fn main() {
 
 `oge: &impl Ozet` şöyle okunur: *“`oge`, `Ozet` trait'ini uygulayan **herhangi bir** tipe referanstır.”*
 Gövdede `oge` ile yalnızca `Ozet`'in vaat ettiğini yapabilirsin (`ozetle`). `oge.baslik` yazamazsın,
-çünkü her `Ozet` tipinin bir başlığı yoktur — 1. dersteki iş ilanı kuralı.
+çünkü her `Ozet` tipinin bir başlığı yoktur, 1. dersteki iş ilanı kuralı.
 
 Sözleşmeye uymayan bir tip verirsek ne olur?
 
@@ -158,9 +158,9 @@ explanation: |
   **aynıdır**. İkinci imzada ise tek bir `T` var: ilk argüman `T = Haber` yapar, ikincisi `Gonderi`
   olduğu için `E0308` (*expected `&Haber`, found `&Gonderi`*) alırsın.
 feedback:
-  - Doğru — her `impl Ozet` kendi tipini seçer.
+  - Doğru, her `impl Ozet` kendi tipini seçer.
   - "Tek bir `T` var; `Haber` ve `Gonderi` aynı anda `T` olamaz (`E0308`)."
-  - "Doğru — `T` ve `U` bağımsız; bu, ilk imzanın uzun yazımıdır."
+  - "Doğru, `T` ve `U` bağımsız; bu, ilk imzanın uzun yazımıdır."
 ```
 
 Bir incelik: turbofish yalnızca **adı konmuş** tip parametrelerine verilebilir. `bildir_uzun::<Haber>(&h)`
@@ -489,7 +489,7 @@ help: you could change the return type to be a boxed trait object
 ```
 Derleyici bir çözüm öneriyor: **trait nesnesi** (`Box<dyn Ozet>`). Bu, tipi çalışma anında belirleyen
 dinamik bir mekanizmadır ve Modül 20'nin konusu. Bugünkü bilgilerinle diğer çözüm: seçenekleri bir
-**enum**'da toplamak (Modül 7) — `enum Icerik { H(Haber), G(Gonderi) }`.
+**enum**'da toplamak (Modül 7), `enum Icerik { H(Haber), G(Gonderi) }`.
 :::
 
 ## Koşullu metotlar
@@ -585,7 +585,7 @@ note: the following trait bounds were not satisfied:
 ```
 2. ve 3. derste gördüğün `E0599`'lardan (metot o tip için hiç yok / trait kapsamda değil) farklı olarak
 mesaj “metot **var**, ama sınırlar sağlanmadı” diyor ve eksik sınırları tek tek listeliyor. (Tam mesajda derleyici `#[derive(PartialEq, PartialOrd)]` eklemeyi de
-öneriyor — `derive` bir sonraki dersin konusu.)
+öneriyor, `derive` bir sonraki dersin konusu.)
 :::
 
 :::tip Sınırları struct'a değil, impl'e koy
@@ -607,10 +607,10 @@ prompt: |
   Okulun yarışma uygulamasında hem öğrenciler hem futbol takımları puanlanıyor. Ortak davranış `Puanli`
   trait'inde: her tip `puan()` döndürebiliyor. Trait ve iki tip hazır; sen üç fonksiyon yaz:
 
-  1. **`toplam_puan`** — `impl Trait` sözdizimiyle (imza hazır): dilimdeki puanların toplamı.
-  2. **`en_iyi`** — generic sözdizimiyle (imza hazır): en yüksek puanlı elemana referans; dilim boşsa
+  1. **`toplam_puan`** - `impl Trait` sözdizimiyle (imza hazır): dilimdeki puanların toplamı.
+  2. **`en_iyi`** - generic sözdizimiyle (imza hazır): en yüksek puanlı elemana referans; dilim boşsa
      `None`. Eşitlikte **ilk gelen** kazanır.
-  3. **`esigi_gecenler`** — imzadaki `<T: Puanli>` sınırını bir **`where` cümlesine taşı** ve gövdeyi yaz:
+  3. **`esigi_gecenler`** - imzadaki `<T: Puanli>` sınırını bir **`where` cümlesine taşı** ve gövdeyi yaz:
      puanı `esik`'e **eşit ya da büyük** olan eleman sayısını `usize` olarak döndürsün.
 starter: |
   trait Puanli {
@@ -800,8 +800,8 @@ explanation: |
   denktir; `where` sadece okunabilirlik içindir.
 
   Önemli bir ayrıntı: `&[impl Puanli]` **karışık** bir liste değildir! Her çağrıda dilimin tamamı tek bir
-  somut tipten oluşur — ya hepsi `Ogrenci` ya hepsi `Takim` (monomorfizasyon her tip için ayrı kopya üretir).
-  Öğrencileri ve takımları **aynı listede** tutmak için trait nesneleri gerekir: `Vec<Box<dyn Puanli>>` —
+  somut tipten oluşur - ya hepsi `Ogrenci` ya hepsi `Takim` (monomorfizasyon her tip için ayrı kopya üretir).
+  Öğrencileri ve takımları **aynı listede** tutmak için trait nesneleri gerekir: `Vec<Box<dyn Puanli>>`,
   Modül 20'de.
 
   `en_iyi` 1. dersteki `en_buyuk`'un trait'li hâli: karşılaştırmayı `T`'nin kendisiyle değil, trait'in
@@ -846,7 +846,7 @@ answer: |
 - front: "`-> impl Ozet` dönen bir fonksiyon `if` ile bir dalda `Haber`, diğerinde `Gonderi` döndürebilir mi?"
   back: "Hayır. `impl Trait` tek bir somut tiptir (`E0308`). Çözüm: enum ya da `Box<dyn Ozet>` (Modül 20)."
 - front: "`impl<T: Display + PartialOrd> Cift<T>` bloğundaki bir metodu `Cift<Renk>` üzerinde (Renk bu trait'leri uygulamıyor) çağırırsan ne olur?"
-  back: "`E0599`: metot var ama trait sınırları sağlanmadı — metot o tip için yoktur."
+  back: "`E0599`: metot var ama trait sınırları sağlanmadı, metot o tip için yoktur."
 - front: "`E0277: the trait bound X: Ozet is not satisfied` neyi anlatır?"
   back: "`Ozet` sınırı isteyen bir yere, `Ozet`'i uygulamayan bir `X` tipi verildi."
 - front: Statik dağıtım (static dispatch) nedir?

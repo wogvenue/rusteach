@@ -181,9 +181,9 @@ explanation: |
 ```quiz
 question: "Birden çok görevin paylaştığı bir `HashMap` önbelleğin var. Her görev önbelleğe kısa bir okuma/yazma yapıyor, kilitliyken hiç `.await` yok. Hangisi en doğru seçim?"
 options:
-  - "`Arc<std::sync::Mutex<HashMap<..>>>` — kilitli bölgeyi bir blokla sınırla"
-  - "`Arc<tokio::sync::Mutex<HashMap<..>>>` — async kodda her zaman tokio'nun Mutex'i kullanılmalı"
-  - "`Rc<RefCell<HashMap<..>>>` — tek runtime içinde olduğumuz için yeterli"
+  - "`Arc<std::sync::Mutex<HashMap<..>>>`, kilitli bölgeyi bir blokla sınırla"
+  - "`Arc<tokio::sync::Mutex<HashMap<..>>>`, async kodda her zaman tokio'nun Mutex'i kullanılmalı"
+  - "`Rc<RefCell<HashMap<..>>>`, tek runtime içinde olduğumuz için yeterli"
   - "Kilide gerek yok; görevler aynı anda çalışmaz"
 answer: 0
 explanation: |

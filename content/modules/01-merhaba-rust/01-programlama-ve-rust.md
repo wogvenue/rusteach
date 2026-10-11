@@ -13,7 +13,7 @@ keywords: [programlama, derleyici, yorumlayıcı, makine kodu, bellek güvenliğ
 
 Bilgisayarın saniyede milyarlarca işlem yapabilir, ama kendi başına hiçbir şey **bilmez**. Ne
 yapacağını ona birinin adım adım, hiçbir belirsizlik bırakmadan anlatması gerekir. Bu yolculuğun
-sonunda o "birisi" sen olacaksın — hem de dünyanın en güvenli ve en hızlı dillerinden biriyle.
+sonunda o "birisi" sen olacaksın, hem de dünyanın en güvenli ve en hızlı dillerinden biriyle.
 
 Bu ilk derste büyük resmi kuruyoruz: Program nedir, Rust neden icat edildi, kimler kullanıyor ve
 beynin en iyi nasıl öğrenir? Asıl kod yazmaya sonraki derslerde başlayacağız; ama ilk Rust kodunu
@@ -21,7 +21,7 @@ daha bu derste çalıştıracaksın.
 
 :::ferris
 Merhaba, ben Ferris! 🦀 Rust topluluğunun maskotuyum ve bu yolculukta hep yanında olacağım. Hiç kod
-yazmamış olman sorun değil — her Rust uzmanı bir zamanlar tam olarak senin olduğun yerdeydi.
+yazmamış olman sorun değil, her Rust uzmanı bir zamanlar tam olarak senin olduğun yerdeydi.
 :::
 
 ## Program: çok hızlı ama harfiyen çalışan bir işçi
@@ -40,8 +40,8 @@ Rust:                  a + b           ← senin yazacağın kod
 ```
 
 İnsanların bayt dizileriyle program yazması hem çok yavaş hem de hataya çok açık olurdu. Bu yüzden
-**programlama dilleri** var: Okunabilir bir metin yazarız — buna **kaynak kod (source code)** denir
-— ve bir araç bu metni makine koduna çevirir.
+**programlama dilleri** var: Okunabilir bir metin yazarız, buna **kaynak kod (source code)** denir,
+ve bir araç bu metni makine koduna çevirir.
 
 Unutma: Bilgisayar **ne demek istediğini değil, ne yazdığını** yapar. Bir virgül, tek bir harf
 hatası bile sonucu değiştirir. Programlamanın büyük kısmı, talimatları bu kadar kesin yazmayı
@@ -84,7 +84,7 @@ answer: 1
 explanation: |
   `println!` "satır yazdır" (*print line*) demektir: Metni yazar ve bir **alt satıra** geçer. İki
   `println!` olduğu için iki ayrı satır görürsün. Talimatlar da **yukarıdan aşağıya, sırayla**
-  çalışır — programlamanın en temel kuralı budur. Yanıldıysan dert etme: Tahmin etmek, yanlış olsa
+  çalışır - programlamanın en temel kuralı budur. Yanıldıysan dert etme: Tahmin etmek, yanlış olsa
   bile, doğru cevabı daha iyi hatırlamanı sağlar.
 ```
 
@@ -98,14 +98,14 @@ options:
   - Türkçe yazılmış talimatları
 answer: 1
 explanation: |
-  İşlemci yalnızca **makine kodunu** — basit komutları temsil eden sayıları — anlar. Rust, Python ya
+  İşlemci yalnızca **makine kodunu** - basit komutları temsil eden sayıları - anlar. Rust, Python ya
   da başka bir dilde yazılan kaynak kod, çalışabilmek için önce bir şekilde makine koduna
   çevrilmelidir.
 feedback:
   - "Rust kodu insanlar için yazılmış bir metindir; önce makine koduna **çevrilmesi** gerekir."
   - Doğru! İşlemcinin anladığı tek dil makine kodudur.
   - Python kodu da bir metindir; onu Python yorumlayıcısı adlı başka bir program çalıştırır.
-  - İşlemci insan dillerini anlamaz — programlama dilleri tam da bu yüzden var.
+  - İşlemci insan dillerini anlamaz, programlama dilleri tam da bu yüzden var.
 ```
 
 ## Çevirmenler: derleyici ve yorumlayıcı
@@ -148,7 +148,7 @@ print("Gündüz raporu")
 ```
 
 Bu program sorunsuz çalışır ve "Gündüz raporu" yazar. Yazım hatası ancak bir gün `gece_raporu`
-gerçekten çağrıldığında patlar — belki gece 03.00'te, gerçek kullanıcılar varken. Rust ise kodun
+gerçekten çağrıldığında patlar, belki gece 03.00'te, gerçek kullanıcılar varken. Rust ise kodun
 **tamamını** derlerken denetler; o satır hiç çalışmayacak olsa bile:
 
 ```rust,compile_fail
@@ -161,8 +161,8 @@ fn main() {
 }
 ```
 
-Derleyici `pirntln` adında bir makro bulamadığını söyler, hatta `println`'i kastettiğini tahmin eder
-— ve hatalı program **hiç oluşmaz**. (`fn` ile kendi fonksiyonlarını yazmayı Modül 3'te
+Derleyici `pirntln` adında bir makro bulamadığını söyler, hatta `println`'i kastettiğini tahmin eder,
+ve hatalı program **hiç oluşmaz**. (`fn` ile kendi fonksiyonlarını yazmayı Modül 3'te
 öğreneceksin.)
 
 Rust'ın derleyicisinin adı **`rustc`**'dir. Perde arkasında **LLVM** adlı güçlü bir altyapıyla
@@ -191,9 +191,9 @@ explanation: |
   hatayı da yakalar. Ortaya çıkan dosya derleyici olmadan çalışır. Ama kaynak kodu değiştirirsen,
   değişikliğin programa yansıması için **yeniden derlemen** gerekir.
 feedback:
-  - Doğru — çeviri baştan, bir kez yapılır.
+  - Doğru, çeviri baştan, bir kez yapılır.
   - Hayır; derlenmiş dosya zaten makine kodu içerir, derleyiciye ihtiyaç duymaz. (Yorumlanan dillerde ise yorumlayıcı gerekir.)
-  - Doğru — derleyici kodu çevirirken birçok hatayı yakalar.
+  - Doğru, derleyici kodu çevirirken birçok hatayı yakalar.
   - Hayır; eski çalıştırılabilir dosya eski kodun çevirisidir. Değişikliğin yansıması için yeniden derlemelisin.
 ```
 
@@ -206,7 +206,7 @@ verir.
 C ve C++ gibi dillerde bu işi **programcı elle yapar**: Yer ister (`malloc`), işi bitince iade eder
 (`free`). İnsanlar hata yapar ve bu hataların adları korkutucudur:
 
-- **Arabellek taşması (buffer overflow):** 10 çekmece ayırıp 11.'ye yazmak — yani başkasının
+- **Arabellek taşması (buffer overflow):** 10 çekmece ayırıp 11.'ye yazmak, yani başkasının
   verisinin üstüne yazmak.
 - **Serbest bırakıldıktan sonra kullanım (use-after-free):** İade ettiğin çekmeceyi kullanmaya devam
   etmek.
@@ -278,7 +278,7 @@ feedback:
   - Arabellek taşması, ayrılan alanın **sınırlarının dışına** taşmaktır.
   - Doğru!
   - Çöp toplama bir hata değil, belleği otomatik yönetme yöntemidir (sıradaki adımda).
-  - C derleyicisi bu kodu hatasız derler — sorun ancak program çalışırken ortaya çıkar.
+  - C derleyicisi bu kodu hatasız derler, sorun ancak program çalışırken ortaya çıkar.
 ```
 
 ## Üç yol: elle yönetim, çöp toplayıcı ve Rust
@@ -291,7 +291,7 @@ da yapamaz.
 Ama bu güvenliğin bir bedeli var:
 
 - Çöp toplayıcının kendisi de çalışırken işlemci ve ek bellek kullanır.
-- Zaman zaman programı kısa süreliğine **duraklatır** — ve bunun ne zaman olacağını sen seçemezsin.
+- Zaman zaman programı kısa süreliğine **duraklatır**, ve bunun ne zaman olacağını sen seçemezsin.
 - Programla birlikte bir **çalışma zamanı (runtime)** gerekir. Bu da işletim sistemi çekirdekleri,
   gömülü sistemler ya da milisaniyelerin önemli olduğu servisler için sorun olabilir.
 
@@ -305,7 +305,7 @@ ortadan kalktı.
 - **Çöp toplayıcı:** Belirli aralıklarla bir temizlik ekibi gelir, mutfağı bir anlığına durdurur ve
   kullanılmayan tabakları toplar. Güvenlidir ama servis zaman zaman aksar.
 - **Rust:** Her tabağın tek bir sorumlusu vardır ve kurallar restoran **açılmadan önce** bir müfettiş
-  tarafından denetlenir. Sorumlu işini bitirdiği anda tabak yıkanır — ne temizlik ekibi var ne de
+  tarafından denetlenir. Sorumlu işini bitirdiği anda tabak yıkanır, ne temizlik ekibi var ne de
   bekleme.
 :::
 
@@ -320,17 +320,17 @@ options:
   - Programların hiç derlenememesi
 answer: [0, 1]
 explanation: |
-  Çöp toplayıcı belleği güvenli hâle getirir — use-after-free gibi hataları önler — ama bunu
+  Çöp toplayıcı belleği güvenli hâle getirir - use-after-free gibi hataları önler - ama bunu
   **çalışma zamanında** yapar: Ek kaynak tüketir ve programı zaman zaman duraklatabilir.
 feedback:
-  - Doğru — çöp toplayıcının kendisi de çalışan bir programdır.
-  - Doğru — bu duraklamalar özellikle düşük gecikme gereken sistemlerde sorun olur.
+  - Doğru, çöp toplayıcının kendisi de çalışan bir programdır.
+  - Doğru, bu duraklamalar özellikle düşük gecikme gereken sistemlerde sorun olur.
   - Hayır; çöp toplayıcının asıl amacı tam da bu hataları önlemektir.
   - Hayır; Java, C# ve Go gibi GC'li diller de derlenebilir. Bedel çalışma zamanında ödenir.
 ```
 
-**Rust üçüncü bir yol seçti.** Bellek kuralları — hangi verinin **sahibinin** kim olduğu, veriyi
-kimin ne kadar süreyle **ödünç** alabileceği — **derleme sırasında** denetlenir. Kuralları çiğneyen
+**Rust üçüncü bir yol seçti.** Bellek kuralları, hangi verinin **sahibinin** kim olduğu, veriyi
+kimin ne kadar süreyle **ödünç** alabileceği, **derleme sırasında** denetlenir. Kuralları çiğneyen
 kod derlenmez. Program çalışırken arka planda dolaşan bir çöp toplayıcı yoktur; bu denetimin
 çalışma zamanında hiçbir maliyeti yoktur.
 
@@ -382,7 +382,7 @@ explanation: |
   dolayısıyla hatalı program hiç çalışmaz. Üstelik bu denetim, çalışma zamanında hiçbir ek maliyet
   getirmez.
 feedback:
-  - Hayır — o satıra hiç gelinmez, çünkü program derlenmez.
+  - Hayır, o satıra hiç gelinmez, çünkü program derlenmez.
   - Doğru! Hata derleme sırasında yakalandı.
   - Rust'ta çöp toplayıcı yoktur.
   - Hayır; derlenmeyen bir program çalışamaz, dolayısıyla çökemez de.
@@ -415,7 +415,7 @@ derlenmeye devam edeceği garanti edilir.
   yazdı.
 - **Google**, Android'de yeni kodu ağırlıkla Rust gibi bellek güvenli dillerle yazmaya başladıktan
   sonra, bellek güvenliği açıklarının oranının 2019'daki %76'dan 2024'te %24'e düştüğünü açıkladı.
-- **Firefox**'un CSS motoru Rust ile yazıldı — dili doğuran Mozilla'nın tarayıcısında.
+- **Firefox**'un CSS motoru Rust ile yazıldı, dili doğuran Mozilla'nın tarayıcısında.
 - **Cloudflare**, internet trafiğinin önemli bir kısmını taşıyan vekil sunucusu Pingora'yı Rust ile
   yazdı.
 - **AWS**, Lambda ve Fargate servislerinin altındaki Firecracker sanallaştırma teknolojisini Rust ile
@@ -424,7 +424,7 @@ derlenmeye devam edeceği garanti edilir.
 
 Geliştiriciler de onu çok seviyor: Stack Overflow'un on binlerce geliştiriciyle yaptığı yıllık
 ankette Rust, **2016'dan 2025'e kadar her yıl** "en çok sevilen" (2023'ten itibaren adıyla "en çok
-beğenilen — *most admired*") dil seçildi.
+beğenilen, *most admired*") dil seçildi.
 
 Dürüst olalım, bedelleri de var: Rust'ın **öğrenme eğrisi diktir.** Sahiplik ve ödünç alma (Modül
 4-5) yeni bir düşünme biçimi ister ve derleyici ilk başta sana "kızıyormuş" gibi gelebilir. Derleme
@@ -457,10 +457,10 @@ feedback:
   - Hayır; Rust çok çekirdekli programlar yazmaya çok uygundur.
   - Doğru!
   - Hayır; iş parçacıkları Rust'ın standart kütüphanesinin bir parçasıdır.
-  - Hayır; Rust hataları düzeltmez, **önler** — hem de derleme zamanında.
+  - Hayır; Rust hataları düzeltmez, **önler**, hem de derleme zamanında.
 ```
 
-## Beynin nasıl öğrenir — ve Rusteach bunu nasıl kullanır?
+## Beynin nasıl öğrenir: ve Rusteach bunu nasıl kullanır?
 
 Rust öğrenmek bir maraton. İyi haber şu: Bilişsel bilim beynin en iyi nasıl öğrendiğini oldukça iyi
 biliyor ve Rusteach bu bulgular üzerine kuruldu. Aşağıdaki tablo ilkeleri ve uygulamadaki
@@ -510,7 +510,7 @@ feedback:
   - Sıkıştırılmış çalışma hızla unutulur; aralıklı çalışma çok daha kalıcıdır.
 ```
 
-Şimdi ilkelerden birini — **kendin üret** — hemen uygulayalım. İşte ilk alıştırman! Alıştırmalarda
+Şimdi ilkelerden birini, **kendin üret**, hemen uygulayalım. İşte ilk alıştırman! Alıştırmalarda
 kodu sen yazarsın; **Kontrol et**'e bastığında program çalıştırılır ve çıktısı beklenenle
 karşılaştırılır.
 
@@ -527,7 +527,7 @@ prompt: |
   Rust yolculuğum başlıyor.
   ```
 
-  Büyük-küçük harf, virgül ve nokta dahil her karakter önemli — bilgisayar harfiyen çalışır!
+  Büyük-küçük harf, virgül ve nokta dahil her karakter önemli - bilgisayar harfiyen çalışır!
   Takılırsan ipuçlarını **birer birer** aç; her ipucu bir öncekinden biraz daha fazlasını söyler.
 starter: |
   fn main() {
@@ -550,7 +550,7 @@ hints:
     Her `println!` bir satır yazar. İkinci satır için `println!(...);` satırının tamamını kopyalayıp
     hemen altına yapıştır, sonra tırnakların içini değiştir.
   - |
-    İkinci satır tam olarak şöyle olmalı: `println!("Rust yolculuğum başlıyor.");` — sondaki noktalı
+    İkinci satır tam olarak şöyle olmalı: `println!("Rust yolculuğum başlıyor.");` - sondaki noktalı
     virgülü (`;`) unutma.
 explanation: |
   Her `println!` metnini yazar ve satır sonuna geçer; iki satır için iki `println!` kullandık.
@@ -600,7 +600,7 @@ answer: |
 - front: Çöp toplayıcının (GC) bedeli nedir?
   back: Çalışma zamanında ek işlemci ve bellek kullanımı, önceden bilinemeyen duraklamalar.
 - front: Rust bellek güvenliğini **ne zaman** ve nasıl sağlar?
-  back: Derleme zamanında, sahiplik ve ödünç alma kurallarını denetleyerek — çöp toplayıcı olmadan.
+  back: Derleme zamanında, sahiplik ve ödünç alma kurallarını denetleyerek, çöp toplayıcı olmadan.
 - front: Rust'ın üç büyük vaadi nedir?
   back: Güvenlik, hız ve korkusuz eşzamanlılık.
 - front: "**Geri çağırma pratiği** (retrieval practice) nedir ve neden tekrar okumaktan daha etkilidir?"

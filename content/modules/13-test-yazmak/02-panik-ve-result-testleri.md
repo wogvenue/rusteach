@@ -14,7 +14,7 @@ keywords: [should_panic, expected, Result, "?", ignore, cargo test, no-capture, 
 doğru girdide doğru sonuç vermesi değildir; **yanlış girdide doğru şekilde reddetmesi** de en az o kadar
 önemlidir. Bankanın parayı doğru yatırması kadar, bakiyesi yetmeyen çekimi **reddetmesi** de kritiktir.
 
-Modül 10'dan hatırla: Rust'ta bir şeyin ters gitmesinin iki yolu var — kurtarılamaz hatalar için
+Modül 10'dan hatırla: Rust'ta bir şeyin ters gitmesinin iki yolu var, kurtarılamaz hatalar için
 **`panic!`**, beklenen hatalar için **`Result`**. Bu derste ikisini de test etmeyi, sonra da `cargo test`'in
 dümenine geçmeyi öğreneceksin.
 
@@ -82,16 +82,16 @@ question: |
   }
   ```
 options:
-  - "`ok` — `#[should_panic]` testleri her zaman geçer"
-  - "`FAILED` — fonksiyon panik yapmadı ama panik bekleniyordu"
-  - "Derlenmez — `yuzde`'nin dönüş değeri kullanılmıyor"
+  - "`ok`, `#[should_panic]` testleri her zaman geçer"
+  - "`FAILED`, fonksiyon panik yapmadı ama panik bekleniyordu"
+  - "Derlenmez, `yuzde`'nin dönüş değeri kullanılmıyor"
 answer: 1
 explanation: |
   `yuzde(1, 4)` sorunsuzca `25` döndürür; panik olmaz. Test **panik bekliyordu**, bu yüzden kalır.
   Gerçek çıktı: `note: test did not panic as expected at src/lib.rs:46:8`. Bu iyi bir şey:
   `#[should_panic]` testi, bir gün biri `assert!` satırını silerse (ve fonksiyon sessizce yanlış bir
   sonuç döndürmeye başlarsa) seni uyaracaktır. Dönüş değerini kullanmamak ise en fazla bir uyarıdır,
-  hata değil — `u32` için uyarı bile yoktur.
+  hata değil - `u32` için uyarı bile yoktur.
 feedback:
   - Hayır; panik olmazsa `should_panic` testi kalır.
   - Doğru! Beklenen panik gelmediği için test kalır.
@@ -127,7 +127,7 @@ mod tests {
 Bu test **geçer**. Ama neden? Fonksiyonda boş liste için bilinçli bir kontrol yok; panik, sıfıra bölmeden
 (`attempt to divide by zero`) geliyor. Test "boş liste düzgün şekilde reddediliyor" iddiasını kanıtlamıyor,
 sadece "bir şeyler patlıyor" diyor. Yarın biri koda bir dizin hatası eklese (`notlar[0]` gibi), test yine
-geçerdi — yanlış sebepten.
+geçerdi, yanlış sebepten.
 
 Çözüm, beklenen panik mesajının bir **parçasını** vermek: `#[should_panic(expected = "...")]`. Test ancak
 panik mesajı bu alt dizgeyi (substring) **içeriyorsa** geçer. Fonksiyonu değiştirmeden testi
@@ -195,7 +195,7 @@ feedback:
 :::tip Debug modunda taşma da paniktir
 `cargo test` varsayılan olarak `test` profilinde derler; bu profil ayarlarını **debug** (`dev`) profilinden
 alır. Modül 2'den hatırla: debug modunda tamsayı taşması (`u8` için `255 + 1`) panik yapar:
-`attempt to add with overflow`. Bu, testlerin taşma hatalarını da yakalamasını sağlar — ama
+`attempt to add with overflow`. Bu, testlerin taşma hatalarını da yakalamasını sağlar, ama
 `#[should_panic]` testinin yanlış sebepten geçmesine de yol açabilir. Bir sebep daha: `expected` kullan.
 (`cargo test --release` ile release ayarlarına geçersen taşma kontrolleri varsayılan olarak kapanır; aynı
 test bu kez panik yerine sessizce sarmalanmış bir sonuç görür.)
@@ -268,7 +268,7 @@ explanation: |
   döndüren fonksiyonlarda kullanılabilir. Dönüş tipi `()` olan bir fonksiyonda derleyici şunu söyler:
   ``the `?` operator can only be used in a function that returns `Result` or `Option` `` (E0277) ve
   hemen bir düzeltme önerir: `fn kontrol() -> Result<(), Box<dyn std::error::Error>>` ve sonda `Ok(())`.
-  Test fonksiyonları da aynı kurala tabidir — çözüm de aynıdır.
+  Test fonksiyonları da aynı kurala tabidir - çözüm de aynıdır.
 ```
 
 Rust test fonksiyonlarının `Result<(), E>` döndürmesine izin verir. Kural: **`Ok(())` dönerse test geçer,
@@ -308,9 +308,9 @@ Hata yolunu test etmenin üç yolu var, güçlüden zayıfa:
 
 | yöntem | ne kontrol eder? | ne zaman? |
 |---|---|---|
-| `assert_eq!(sonuc, Err(...))` | Hatanın **tam** değerini, alanlarıyla birlikte | Hata tipi `PartialEq` + `Debug` ise — en güçlüsü |
+| `assert_eq!(sonuc, Err(...))` | Hatanın **tam** değerini, alanlarıyla birlikte | Hata tipi `PartialEq` + `Debug` ise, en güçlüsü |
 | `assert!(matches!(sonuc, Err(Hata::X { .. })))` | Sadece **varyantı** (Modül 7'deki `matches!`) | Alanlar önemsizse ya da tip `PartialEq` değilse |
-| `assert!(sonuc.is_err())` | Sadece "bir hata oldu" | Son çare — `#[should_panic]`'in `expected`'siz hâli kadar zayıf |
+| `assert!(sonuc.is_err())` | Sadece "bir hata oldu" | Son çare, `#[should_panic]`'in `expected`'siz hâli kadar zayıf |
 
 Farkı kendin gör: aşağıda **yanlış** hata dönüyor (`SifirTutar`), ama `is_err()` yine de memnun:
 
@@ -400,7 +400,7 @@ options:
 answer: 1
 explanation: |
   İlk çekimden sonra bakiye `50` olur ve `"50 TL çekildi"` yazdırılır. İkinci tur `80 > 50` olduğu için
-  `Err` ile **erkenden döner** — sonraki satırlar çalışmaz. Gerçek testlerde `?` aynısını yapar: ilk `Err`'de
+  `Err` ile **erkenden döner** - sonraki satırlar çalışmaz. Gerçek testlerde `?` aynısını yapar: ilk `Err`'de
   test fonksiyonundan çıkılır ve koşucu `Err` değerini görüp testi `FAILED` sayar.
 ```
 
@@ -430,7 +430,7 @@ blanks:
   - ["Ok(())"]
 explanation: |
   Test `Result<(), E>` döndürdüğünde `?`, `Err` gelirse testi o anda bitirir (test kalır). Son ifade
-  `Ok(())` testin başarıyla bittiğini söyler — unutursan `E0308: mismatched types` alırsın, çünkü
+  `Ok(())` testin başarıyla bittiğini söyler - unutursan `E0308: mismatched types` alırsın, çünkü
   fonksiyon `()` döndürüyor olur. `Box<dyn std::error::Error>` de çalışır ve farklı hata tiplerini
   aynı testte `?` ile kullanmanı sağlar.
 ```
@@ -480,7 +480,7 @@ sonunda hepsini raporlar), ve çok çekirdekli işlemcilerde testler çok daha h
 :::analogy Sınav salonu
 Testleri bir sınav salonundaki öğrenciler gibi düşün. Herkes kendi masasında, kendi kâğıdıyla aynı anda
 çalışır; birinin kalemi kırılırsa (panik) diğerleri yazmaya devam eder. Ama iki öğrenciye **aynı kâğıdı**
-verirsen (ortak bir dosya, ortak bir ortam değişkeni) birbirlerinin cevaplarını karalarlar — sonuç,
+verirsen (ortak bir dosya, ortak bir ortam değişkeni) birbirlerinin cevaplarını karalarlar, sonuç,
 kimin önce yazdığına göre değişir.
 :::
 
@@ -581,17 +581,17 @@ feedback:
 
 ```exercise
 id: m13-e-depo-stok
-title: Depo stoğu — panik mi, Result mı?
+title: "Depo stoğu: panik mi, Result mı?"
 difficulty: 3
 prompt: |
   Bir e-ticaret deposunu modelliyoruz. `Depo` yapısını tamamla:
 
-  - `Depo::yeni(kapasite)` — kapasite **0 ise** `"kapasite sıfır olamaz"` mesajını içeren bir mesajla
+  - `Depo::yeni(kapasite)`, kapasite **0 ise** `"kapasite sıfır olamaz"` mesajını içeren bir mesajla
     **panik** yapmalı (bu bir programcı hatasıdır). Aksi hâlde boş (stok = 0) bir depo döndürür.
-  - `ekle(adet)` — stok + adet kapasiteyi **aşarsa** `Err(StokHatasi::KapasiteAsildi { bos_yer })`
+  - `ekle(adet)`, stok + adet kapasiteyi **aşarsa** `Err(StokHatasi::KapasiteAsildi { bos_yer })`
     döndürür (`bos_yer` = kapasite - stok); aksi hâlde stoğu artırır ve `Ok(yeni_stok)` döndürür.
     `ekle(u32::MAX)` gibi devasa bir değer de **taşma paniği değil**, bu hatayı vermeli.
-  - `cikar(adet)` — stoktan fazlası istenirse `Err(StokHatasi::Yetersiz { mevcut })` döndürür; aksi hâlde
+  - `cikar(adet)`, stoktan fazlası istenirse `Err(StokHatasi::Yetersiz { mevcut })` döndürür; aksi hâlde
     stoğu azaltır ve `Ok(yeni_stok)` döndürür. Hata durumunda stok **değişmemeli**.
 
   Gizli testler `#[should_panic(expected = ...)]`, `Result` döndüren testler ve `assert_eq!(.., Err(..))`
@@ -738,7 +738,7 @@ explanation: |
   `ekle` içinde neden `self.stok + adet > self.kapasite` yerine boş yeri hesapladık? Çünkü toplama
   `u32` sınırını aşabilir: `ekle(u32::MAX)` çağrısı debug modda **taşma paniği** verirdi (gizli
   `devasa_ekleme_tasma_panigi_vermez` testi tam bunu yakalar). Çıkarma ise güvenli, çünkü `stok` hiçbir
-  zaman `kapasite`'yi geçemez — bu bir **değişmez (invariant)**. Modül 2'deki `checked_add` de aynı işi
+  zaman `kapasite`'yi geçemez - bu bir **değişmez (invariant)**. Modül 2'deki `checked_add` de aynı işi
   görür: `None` taşma demektir, `Some(yeni)` ise `yeni <= self.kapasite` koşuluyla ayrıca kontrol edilir
   (bu koşulu desenin içine yazmanı sağlayan *match guard*'ları Modül 21'de göreceksin).
 
@@ -755,9 +755,9 @@ difficulty: 3
 prompt: |
   Sinema uygulamasının iki fonksiyonu yazılmış ve doğru çalışıyor:
 
-  - `koltuk_kodu(sira, no)` — `no` 1 ile 20 arasında değilse `"koltuk numarası 1-20 arası olmalı"`
+  - `koltuk_kodu(sira, no)`, `no` 1 ile 20 arasında değilse `"koltuk numarası 1-20 arası olmalı"`
     mesajıyla panik yapar; aksi hâlde `"C7"` gibi bir kod döndürür.
-  - `yas_coz(girdi)` — metni `u8`'e çevirir; çeviremezse `Err` döndürür.
+  - `yas_coz(girdi)`, metni `u8`'e çevirir; çeviremezse `Err` döndürür.
 
   `tests` modülüne şu iki testi **sen** yaz:
 
@@ -842,7 +842,7 @@ hints:
   - "Result testinin son satırı noktalı virgülsüz `Ok(())` olmalı; ondan önce `assert_eq!(yas, 18);`."
 require:
   - pattern: "should_panic\\s*\\(\\s*expected\\s*=\\s*\"[^\"]+\""
-    message: "Panik testinde boş olmayan bir mesaj parçasıyla `#[should_panic(expected = \"...\")]` kullanmalısın — `expected`'siz (ya da `expected = \"\"`) hâli her paniği kabul eder."
+    message: "Panik testinde boş olmayan bir mesaj parçasıyla `#[should_panic(expected = \"...\")]` kullanmalısın, `expected`'siz (ya da `expected = \"\"`) hâli her paniği kabul eder."
   - pattern: "koltuk_kodu\\s*\\(\\s*'[^']+'\\s*,\\s*0\\s*\\)"
     message: "Panik testi `koltuk_kodu('A', 0)` çağrısını denemeli."
   - pattern: "->\\s*Result\\s*<\\s*\\(\\s*\\)"
@@ -854,7 +854,7 @@ explanation: |
   ifadesi her geçersiz numarada aynıdır, sondaki `"0 verildi"` ise girdiye göre değişir.
 
   Result testinde hata tipi olarak `std::num::ParseIntError` yazdık; çünkü `?` ile yükselen hata tam
-  olarak bu tiptedir. `Box<dyn std::error::Error>` yazsaydın da çalışırdı — farklı hata tiplerini aynı
+  olarak bu tiptedir. `Box<dyn std::error::Error>` yazsaydın da çalışırdı - farklı hata tiplerini aynı
   testte `?` ile kullanmak istediğinde daha esnektir.
 
   Dikkat: Result testi **mutlu yolu** test ediyor (`?` başarısızlık beklemiyor). Hata yolunu test etmek
@@ -872,7 +872,7 @@ explanation: |
 - Test `Result<(), E>` döndürebilir (`E: Debug`): `Ok(())` → geçer, `Err` → kalır. İçinde `?` kullanılabilir. `#[should_panic]` ile birlikte kullanılamaz.
 - Hata yolunu test et: `assert_eq!(sonuc, Err(..))` > `matches!` > `is_err()`. Yan etkileri de kontrol et.
 - Testler paralel thread'lerde çalışır; panik sadece kendi thread'ini durdurur. Testler **bağımsız** olmalı.
-- `cargo test filtre -- --ignored | --include-ignored | --no-capture | --test-threads=1 | --exact` — `--`'den sonrası test programına gider.
+- `cargo test filtre -- --ignored | --include-ignored | --no-capture | --test-threads=1 | --exact`, `--`'den sonrası test programına gider.
 :::
 
 ```reflect
@@ -890,7 +890,7 @@ answer: |
 
 ```flashcards
 - front: "`#[should_panic]` bir testin sonucunu nasıl değiştirir?"
-  back: Mantığı tersine çevirir — test fonksiyonu panik yaparsa **geçer**, panik yapmadan biterse kalır (`test did not panic as expected`).
+  back: Mantığı tersine çevirir, test fonksiyonu panik yaparsa **geçer**, panik yapmadan biterse kalır (`test did not panic as expected`).
 - front: "`#[should_panic(expected = \"x\")]` ne kontrol eder?"
   back: Panik mesajının `"x"` alt dizgesini (büyük/küçük harf duyarlı) içerdiğini. İçermezse test kalır.
 - front: "`expected`'siz `#[should_panic]` neden tehlikelidir?"

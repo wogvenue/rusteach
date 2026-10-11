@@ -1,6 +1,6 @@
 id: m05
 title: Ödünç Alma ve Dilimler
-subtitle: Sahipliği vermeden kullanmak — referanslar, kurallar ve dilimler
+subtitle: "Sahipliği vermeden kullanmak: referanslar, kurallar ve dilimler"
 icon: "🔗"
 description: |
   Bir değeri sahipliğini devretmeden **ödünç vermeyi** öğreneceksin: `&` ile okumak, `&mut` ile

@@ -20,7 +20,7 @@ export function isTypingTarget(target: EventTarget | null): boolean {
  * Global single-key shortcuts (e.g. { ' ': reveal, '1': again }). Ignored while typing, with modifier
  * keys, on key repeat, or when another element already handled the event. A handler that returns
  * `false` did not use the key, so the event stays available to others (e.g. a quiz's number keys).
- * Pass only the keys that make sense right now — the map is read at key-press time.
+ * Pass only the keys that make sense right now - the map is read at key-press time.
  */
 export function useHotkeys(map: Record<string, (e: KeyboardEvent) => boolean | void>, enabled = true) {
   const ref = useRef(map);
@@ -32,7 +32,7 @@ export function useHotkeys(map: Record<string, (e: KeyboardEvent) => boolean | v
       if (isTypingTarget(e.target)) return;
       const fn = ref.current[e.key];
       if (!fn) return;
-      // Space/Enter on a focused button would also "click" it — let the button do its own job.
+      // Space/Enter on a focused button would also "click" it - let the button do its own job.
       if ((e.key === ' ' || e.key === 'Enter') && e.target instanceof HTMLElement && e.target.closest('button, a, [role="button"], [role="tab"], [role="radio"]')) return;
       if (fn(e) !== false) e.preventDefault();
     };
@@ -117,7 +117,7 @@ export function writeLocal(key: string, value: unknown) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
-    /* storage unavailable — the value simply is not remembered */
+    /* storage unavailable - the value simply is not remembered */
   }
 }
 

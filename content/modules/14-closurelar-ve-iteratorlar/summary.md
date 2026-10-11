@@ -1,4 +1,4 @@
-# Özet Kartı — Closure'lar ve Iterator'lar
+# Özet Kartı: Closure'lar ve Iterator'lar
 
 ## Closure sözdizimi
 
@@ -27,7 +27,7 @@ fn main() {
 
 - Her `Fn` bir `FnMut`, her `FnMut` bir `FnOnce`'tır. Trait'i **gövde** belirler, `move` değil.
 - `move ||` yakalamayı **değerle** yapmaya zorlar (`Copy` tipler kopyalanır). Closure yakaladığından
-  uzun yaşayacaksa (`return`, thread — Modül 18) gerekir, yoksa **E0373**.
+  uzun yaşayacaksa (`return`, thread, Modül 18) gerekir, yoksa **E0373**.
 
 ## Closure alan ve döndüren fonksiyonlar
 
@@ -96,11 +96,11 @@ Zincir **eleman eleman** akar; ara `Vec` oluşmaz. `take(2)` ikinci elemanı ald
 | tüketici | sonuç | boş iterator'da |
 |---|---|---|
 | `sum()` / `product()` / `count()` | sayı | `0` / `1` / `0` |
-| `fold(baslangic, f)` — `f(acc, x)` | biriktirici | `baslangic` |
+| `fold(baslangic, f)`, `f(acc, x)` | biriktirici | `baslangic` |
 | `any(p)` / `all(p)` | `bool`, **kısa devre** | `false` / `true` |
 | `find(p)` / `position(p)` | `Option<Item>` / `Option<usize>` | `None` |
-| `max()` / `min()` / `max_by_key(f)` / `max_by(cmp)` | `Option` | `None` — eşitlikte `max` **sonuncuyu**, `min` **ilkini** verir |
-| `last()` / `nth(n)` | `Option` | `None` — `nth` önündekileri tüketir |
+| `max()` / `min()` / `max_by_key(f)` / `max_by(cmp)` | `Option` | `None`, eşitlikte `max` **sonuncuyu**, `min` **ilkini** verir |
+| `last()` / `nth(n)` | `Option` | `None`, `nth` önündekileri tüketir |
 | `collect()` | `Vec`, `String`, `HashMap`, `HashSet`, `BTreeMap`... | boş koleksiyon |
 
 ```rust
