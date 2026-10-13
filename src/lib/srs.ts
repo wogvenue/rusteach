@@ -92,7 +92,8 @@ export function formatInterval(ms: number): string {
 
 /** Probability the learner still remembers the card right now (0..1). */
 export function retrievability(card: SerializedCard, now = new Date()): number {
-  if (card.state === State.New) return 0;
+  // a card without a review date (e.g. a hand-edited import) would make ts-fsrs throw and take the page down
+  if (card.state === State.New || !card.last_review) return 0;
   return scheduler.get_retrievability(toCard(card), now, false) as number;
 }
 

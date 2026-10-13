@@ -1,5 +1,6 @@
 // Focus-mode top bar: exit, module + lesson title, segmented step progress, session XP and notes.
 // Doubles as the Electron window drag region; on Windows the native caption buttons sit at the right.
+// On phones the progress bar drops to its own row under the title.
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -77,10 +78,10 @@ export default function LessonTopBar({
   const electron = typeof window !== 'undefined' && !!window.rusteach;
   return (
     <header
-      className="drag-region relative z-30 grid h-14 shrink-0 grid-cols-[minmax(0,1fr)_minmax(8rem,22rem)_minmax(0,1fr)] items-center gap-4 border-b border-border bg-[color-mix(in_oklab,var(--c-bg)_84%,transparent)] pl-3 backdrop-blur-md"
-      style={{ paddingRight: electron ? OVERLAY_WIDTH + 8 : 16 }}
+      className="lesson-topbar drag-region relative z-30 grid shrink-0 items-center border-b border-border bg-[color-mix(in_oklab,var(--c-bg)_84%,transparent)] pl-3 backdrop-blur-md max-md:grid-cols-[minmax(0,1fr)_auto] max-md:gap-x-2 max-md:gap-y-1.5 max-md:pb-2.5 md:h-14 md:grid-cols-[minmax(0,1fr)_minmax(8rem,22rem)_minmax(0,1fr)] md:gap-4"
+      style={{ paddingRight: electron ? OVERLAY_WIDTH + 8 : 12, paddingTop: 'var(--safe-area-inset-top,env(safe-area-inset-top))' }}
     >
-      <div className="flex min-w-0 items-center gap-2.5">
+      <div className="flex min-w-0 items-center gap-2.5 max-md:h-12">
         <button
           type="button"
           onClick={onExit}
@@ -100,7 +101,9 @@ export default function LessonTopBar({
         </div>
       </div>
 
-      <SegmentedProgress segments={segments} onJump={onJump} />
+      <div className="max-md:order-last max-md:col-span-2 max-md:pl-1 max-md:pr-1">
+        <SegmentedProgress segments={segments} onJump={onJump} />
+      </div>
 
       <div className="flex min-w-0 items-center justify-end gap-1.5">
         {right}

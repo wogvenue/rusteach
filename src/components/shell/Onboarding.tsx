@@ -176,7 +176,7 @@ function OnboardingFlow() {
                     autoComplete="given-name"
                     className="mt-2 h-12 w-full rounded-xl border border-border-strong bg-surface-2 px-4 text-[17px] font-medium text-fg outline-none transition-colors focus:border-accent focus:bg-surface"
                   />
-                  <p className="mt-2 text-[13px] text-muted">Bilgilerin yalnızca bu bilgisayarda saklanır. İstersen boş bırakabilirsin.</p>
+                  <p className="mt-2 text-[13px] text-muted">Bilgilerin yalnızca bu cihazda saklanır. İstersen boş bırakabilirsin.</p>
                 </StepBody>
               )}
 

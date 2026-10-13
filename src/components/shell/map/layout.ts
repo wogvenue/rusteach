@@ -24,6 +24,9 @@ export interface NodeLayout {
   y: number;
   /** Which side of the node its label sits on (the other side is free for Ferris). */
   labelSide: 'left' | 'right';
+  /** Gap between node and label, and the label width that still fits inside the canvas (phones). */
+  labelGap: number;
+  labelW: number;
 }
 
 export interface BandLayout {
@@ -66,7 +69,11 @@ export function computeLayout(width: number): MapLayout {
         const w = WAVE[k % 4];
         const next = WAVE[(k + 1) % 4];
         const labelSide: 'left' | 'right' = w > 0 ? 'left' : w < 0 ? 'right' : next > 0 ? 'left' : 'right';
-        const node: NodeLayout = { module, tier, k, x: center + w * amp, y: top + FIRST_NODE + i * GAP_Y, labelSide };
+        const x = center + w * amp;
+        const labelGap = width < 560 ? 12 : 20;
+        const room = labelSide === 'left' ? x - NODE / 2 - labelGap : width - (x + NODE / 2 + labelGap);
+        const labelW = Math.min(LABEL_W, room);
+        const node: NodeLayout = { module, tier, k, x, y: top + FIRST_NODE + i * GAP_Y, labelSide, labelGap, labelW };
         band.nodes.push(node);
         nodes.push(node);
         k++;

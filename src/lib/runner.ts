@@ -1,6 +1,8 @@
 // Renderer-side Rust runner. Electron: IPC to the main process (local rustc/cargo or Playground).
 // Browser dev mode: Rust Playground through the Vite proxy (/playground -> play.rust-lang.org).
+// Built web/Android app: the Playground directly (it allows cross-origin requests).
 import type { RunRequest, RunResult } from '../types/bridge';
+import { isNative } from './native';
 
 export const EDITION = '2024';
 
@@ -62,6 +64,8 @@ export function parseTestOutput(stdout: string): { passed: string[]; failed: str
   return { passed, failed, total: passed.length + failed.length };
 }
 
+const PLAYGROUND = import.meta.env.DEV ? '/playground' : 'https://play.rust-lang.org';
+
 async function runViaPlayground(req: RunRequest): Promise<RunResult> {
   const t0 = performance.now();
   const crateType = req.crateType ?? (hasMain(req.code) ? 'bin' : 'lib');
@@ -74,7 +78,7 @@ async function runViaPlayground(req: RunRequest): Promise<RunResult> {
   try {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 60_000);
-    const res = await fetch(`/playground/${endpoint}`, {
+    const res = await fetch(`${PLAYGROUND}/${endpoint}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body),
@@ -106,7 +110,9 @@ async function runViaPlayground(req: RunRequest): Promise<RunResult> {
     return {
       ok: false, stdout: '', stderr: '', compileError: false, timedOut: false,
       durationMs: Math.round(performance.now() - t0), backend: 'online',
-      infraError: 'Rust Playground\'a ulaşılamadı. İnternet bağlantını kontrol et ya da Rust\'ı bilgisayarına kur.',
+      infraError: isNative
+        ? 'Rust Playground\'a ulaşılamadı. İnternet bağlantını kontrol edip yeniden dene.'
+        : 'Rust Playground\'a ulaşılamadı. İnternet bağlantını kontrol et ya da Rust\'ı bilgisayarına kur.',
     };
   }
 }

@@ -212,6 +212,29 @@ body,
   height: 100%;
 }
 
+/* Phone layout: height of the bottom tab bar including the gesture-bar inset. */
+:root {
+  --bottom-nav-h: calc(4rem + var(--safe-area-inset-bottom,env(safe-area-inset-bottom)));
+}
+
+/* Touch devices: no grey tap flash, no pull-to-refresh / overscroll glow on the app frame. */
+@media (pointer: coarse) {
+  html,
+  body {
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+}
+
+/* Keyboard shortcut hints mean nothing on a touch-only device; .touch-only is their replacement. */
+.touch-only { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  kbd,
+  .kbd-hint,
+  .kbd-only { display: none !important; }
+  .touch-only { display: revert; }
+}
+
 body {
   margin: 0;
   background: var(--c-bg);

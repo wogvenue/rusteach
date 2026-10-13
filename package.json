@@ -19,9 +19,19 @@
     "icon": "node scripts/make-icon.mjs",
     "pack": "npm run build && electron-builder --win --dir",
     "dist": "npm run build && electron-builder --win",
+    "android:sync": "npm run build && cap sync android",
+    "android:bundle": "npm run android:sync && cd android && gradlew.bat bundleRelease",
+    "play": "node scripts/play.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4",
     "@codemirror/lang-rust": "^6.0.2",
     "@codemirror/language": "^6.13.1",
     "@codemirror/state": "^6.7.6",
@@ -45,6 +55,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
     "@tailwindcss/vite": "^4.3.3",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^26.6.5",

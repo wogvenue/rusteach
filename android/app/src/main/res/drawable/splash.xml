@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launch window for Android < 12 (12+ draws the system splash from the theme attributes). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/rusteach_night" />
+    <item android:width="112dp" android:height="112dp" android:gravity="center">
+        <bitmap android:src="@drawable/splash_icon" android:filter="true" />
+    </item>
+</layer-list>

@@ -265,7 +265,7 @@ export default function ReviewSession({ entries, onClose, onMore }: { entries: S
             <Button size="lg" icon={<Eye className="size-4" />} onClick={reveal} className="min-w-64">
               Cevabı göster
             </Button>
-            <span className="text-xs text-subtle">
+            <span className="kbd-only text-xs text-subtle">
               <Kbd>Boşluk</Kbd> tuşu da çevirir
             </span>
           </div>

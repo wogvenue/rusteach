@@ -112,7 +112,10 @@ export default function FlashcardsBlock({ block, mode }: BlockProps<FlashcardsBl
                     </div>
                     <Html html={card.front} className="flex-1 font-medium" />
                     <div className="mt-3 inline-flex items-center gap-1.5 text-xs text-subtle">
-                      <RefreshCw className="size-3.5" /> Çevirmek için tıkla ya da <span className="kbd-hint">Boşluk</span>
+                      <RefreshCw className="size-3.5" /> <span className="kbd-only">
+                        Çevirmek için tıkla ya da <span className="kbd-hint">Boşluk</span>
+                      </span>
+                      <span className="touch-only">Çevirmek için dokun</span>
                     </div>
                   </div>
                   <div className="flip-face flip-back" aria-hidden={!flipped}>

@@ -9,6 +9,7 @@ import { Kbd } from '../../ui/primitives';
 import { useProgress } from '../../../store/progress';
 import { effectiveRunner, isElectron, openExternal, useToolchain } from '../toolchain';
 import { SettingRow, SettingsSection } from './SettingRow';
+import { isNative } from '../../../lib/native';
 
 type Runner = 'auto' | 'local' | 'online';
 
@@ -31,27 +32,29 @@ export default function RunnerSection() {
       description="Yazdığın kodun nerede derlenip çalışacağı"
       icon={<SquareTerminal className="size-[18px]" />}
     >
-      <SettingRow
-        title="Çalıştırma yeri"
-        description={
-          electron
-            ? 'Otomatik: bilgisayarında Rust kuruluysa onu, değilse çevrimiçi Rust Playground’u kullanır.'
-            : 'Tarayıcı sürümünde kod her zaman çevrimiçi Rust Playground’da çalışır.'
-        }
-        control={({ labelId }) => (
-          <Segmented<Runner>
-            labelledBy={labelId}
-            value={electron ? runner : 'online'}
-            onChange={(v) => useProgress.getState().updateSettings({ runner: v })}
-            options={[
-              { value: 'auto', label: 'Otomatik', icon: <Sparkles className="size-3.5" /> },
-              { value: 'local', label: 'Yerel', icon: <Laptop className="size-3.5" /> },
-              { value: 'online', label: 'Çevrimiçi', icon: <Globe className="size-3.5" /> },
-            ]}
-            className={clsx(!electron && 'pointer-events-none opacity-60')}
-          />
-        )}
-      />
+      {!isNative && (
+        <SettingRow
+          title="Çalıştırma yeri"
+          description={
+            electron
+              ? 'Otomatik: bilgisayarında Rust kuruluysa onu, değilse çevrimiçi Rust Playground’u kullanır.'
+              : 'Tarayıcı sürümünde kod her zaman çevrimiçi Rust Playground’da çalışır.'
+          }
+          control={({ labelId }) => (
+            <Segmented<Runner>
+              labelledBy={labelId}
+              value={electron ? runner : 'online'}
+              onChange={(v) => useProgress.getState().updateSettings({ runner: v })}
+              options={[
+                { value: 'auto', label: 'Otomatik', icon: <Sparkles className="size-3.5" /> },
+                { value: 'local', label: 'Yerel', icon: <Laptop className="size-3.5" /> },
+                { value: 'online', label: 'Çevrimiçi', icon: <Globe className="size-3.5" /> },
+              ]}
+              className={clsx(!electron && 'pointer-events-none opacity-60')}
+            />
+          )}
+        />
+      )}
 
       <div className="py-4">
         <div
@@ -91,7 +94,9 @@ export default function RunnerSection() {
               </dl>
             ) : (
               <p className="mt-1 text-[13px] leading-5 text-muted">
-                İnternet bağlantısı gerekir. Masaüstü uygulamasında Rust’ı kurarsan kodun çevrimdışı ve daha hızlı çalışır.
+                {isNative
+                  ? 'İnternet bağlantısı gerekir. Kodun Rust’ın resmi Playground sunucularında derlenir, sonuç birkaç saniyede gelir.'
+                  : 'İnternet bağlantısı gerekir. Masaüstü uygulamasında Rust’ı kurarsan kodun çevrimdışı ve daha hızlı çalışır.'}
               </p>
             )}
             {kind === 'missing' && (
@@ -108,7 +113,7 @@ export default function RunnerSection() {
         </div>
       </div>
 
-      {(!electron || !hasRust) && <InstallGuide electron={electron} />}
+      {!isNative && (!electron || !hasRust) && <InstallGuide electron={electron} />}
     </SettingsSection>
   );
 }

@@ -12,7 +12,7 @@
 //   /oyun-alani          PlaygroundPage      (lesson)  free Rust scratchpad
 //   /ayarlar             SettingsPage        (shell)
 import { useEffect } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import AppShell from './components/layout/AppShell';
 import Dashboard from './pages/Dashboard';
@@ -28,7 +28,9 @@ import PlaygroundPage from './pages/PlaygroundPage';
 import SettingsPage from './pages/SettingsPage';
 import { useProgress } from './store/progress';
 import Toaster from './components/ui/Toaster';
+import ErrorBoundary from './components/shell/ErrorBoundary';
 import { useAchievementWatcher } from './lib/achievements';
+import { syncSystemBars } from './lib/native';
 
 function useThemeSync() {
   const theme = useProgress((s) => s.settings.theme);
@@ -39,6 +41,7 @@ function useThemeSync() {
       const dark = theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.dataset.theme = dark ? 'dark' : 'light';
       window.rusteach?.setTitleBarTheme?.(dark ? 'dark' : 'light');
+      void syncSystemBars(dark);
     };
     apply();
     const mq = matchMedia('(prefers-color-scheme: dark)');
@@ -62,23 +65,32 @@ export default function App() {
     <MotionConfig reducedMotion={reducedMotion ? 'always' : 'user'}>
       <HashRouter>
         <Toaster />
-        <Routes>
-          <Route path="/ders/:lessonId" element={<LessonPage />} />
-          <Route element={<AppShell />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/harita" element={<MapPage />} />
-            <Route path="/modul/:moduleId" element={<ModulePage />} />
-            <Route path="/tekrar" element={<ReviewPage />} />
-            <Route path="/antrenman" element={<PracticePage />} />
-            <Route path="/istatistik" element={<StatsPage />} />
-            <Route path="/profil" element={<ProfilePage />} />
-            <Route path="/sozluk" element={<GlossaryPage />} />
-            <Route path="/oyun-alani" element={<PlaygroundPage />} />
-            <Route path="/ayarlar" element={<SettingsPage />} />
-            <Route path="*" element={<Dashboard />} />
-          </Route>
-        </Routes>
+        <AppRoutes />
       </HashRouter>
     </MotionConfig>
+  );
+}
+
+function AppRoutes() {
+  const { pathname } = useLocation();
+  return (
+    <ErrorBoundary resetKey={pathname}>
+      <Routes>
+        <Route path="/ders/:lessonId" element={<LessonPage />} />
+        <Route element={<AppShell />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/harita" element={<MapPage />} />
+          <Route path="/modul/:moduleId" element={<ModulePage />} />
+          <Route path="/tekrar" element={<ReviewPage />} />
+          <Route path="/antrenman" element={<PracticePage />} />
+          <Route path="/istatistik" element={<StatsPage />} />
+          <Route path="/profil" element={<ProfilePage />} />
+          <Route path="/sozluk" element={<GlossaryPage />} />
+          <Route path="/oyun-alani" element={<PlaygroundPage />} />
+          <Route path="/ayarlar" element={<SettingsPage />} />
+          <Route path="*" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </ErrorBoundary>
   );
 }

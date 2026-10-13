@@ -8,7 +8,7 @@ import { ChevronsRight, Crown, Lock, Swords } from 'lucide-react';
 import Ferris from '../../Ferris';
 import type { ModuleStatus } from '../../../store/progress';
 import { STATUS_LABEL } from '../stats';
-import { LABEL_W, NODE, type NodeLayout } from './layout';
+import { NODE, type NodeLayout } from './layout';
 
 export interface MapNodeInfo {
   status: ModuleStatus;
@@ -29,7 +29,7 @@ export const MapNode = forwardRef<HTMLAnchorElement, {
   onHover: (node: NodeLayout | null) => void;
 }>(function MapNode({ node, info, current, reduced, onHover }, ref) {
   const navigate = useNavigate();
-  const { module: m, x, y, labelSide } = node;
+  const { module: m, x, y, labelSide, labelGap, labelW } = node;
   const { status } = info;
   const locked = status === 'locked';
   const mastered = status === 'mastered';
@@ -59,7 +59,7 @@ export const MapNode = forwardRef<HTMLAnchorElement, {
   }${current ? '. Buradasın' : ''}.`;
 
   const labelLeft = labelSide === 'left';
-  const labelX = labelLeft ? x - NODE / 2 - 20 - LABEL_W : x + NODE / 2 + 20;
+  const labelX = labelLeft ? x - NODE / 2 - labelGap - labelW : x + NODE / 2 + labelGap;
 
   return (
     <>
@@ -156,7 +156,7 @@ export const MapNode = forwardRef<HTMLAnchorElement, {
       {/* label */}
       <div
         className={clsx('absolute', labelLeft ? 'text-right' : 'text-left')}
-        style={{ left: labelX, top: y - 36, width: LABEL_W, ['--tier' as string]: node.tier.color }}
+        style={{ left: labelX, top: y - 36, width: labelW, ['--tier' as string]: node.tier.color }}
       >
         <div
           aria-hidden

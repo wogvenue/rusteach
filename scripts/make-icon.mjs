@@ -8,6 +8,11 @@
 //   build/installerHeader.bmp      150 × 57 NSIS inner page header
 //   public/icon.png                512 px  (BrowserWindow icon; Vite copies it to dist/)
 //
+//   when android/ exists (Capacitor):
+//   android/.../res/mipmap-*/      adaptive layers (background, foreground, monochrome) + legacy icons
+//   android/.../res/drawable-*/splash_icon.png   splash fallback for Android < 12
+//   store/icon-512.png, store/feature-graphic.png  Play Store listing art
+//
 //   node scripts/make-icon.mjs [--preview <file.png>]
 //
 // Ferris the crab is the Rust community's public-domain mascot. Sizes up to 32 px use a separately
@@ -266,6 +271,119 @@ function headerSvg() {
 </svg>`;
 }
 
+// ------------------------------------------------------------------ Android / Play Store art
+
+// Ferris' bounding box in the 1024 artwork (claw tips to leg ends, after the -46 lift), centre y 548.
+const CRAB_CY = 548;
+
+/** Adaptive icon background: the ember plate, full bleed (the launcher applies its own mask). */
+function adaptiveBackgroundSvg() {
+  const box = [0, 0, 1024, 1024];
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>${plateDefs('b', box)}</defs>
+  <rect width="1024" height="1024" fill="url(#b-ember)"/>
+  <rect width="1024" height="1024" fill="url(#b-glow)"/>
+  <rect width="1024" height="1024" fill="url(#b-floor)"/>
+</svg>`;
+}
+
+/** Ferris alone, shrunk into the adaptive icon's 66/108 safe circle. */
+function adaptiveForegroundSvg(scale = 0.64) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>${crabDefs('c')}</defs>
+  <g transform="translate(${f(512 - 512 * scale)} ${f(512 - CRAB_CY * scale)}) scale(${scale})">${crab('c')}</g>
+</svg>`;
+}
+
+/** Pre-Oreo round launcher icon: a full ember disc. */
+function roundIconSvg() {
+  const box = [0, 0, 1024, 1024];
+  const s = 0.8;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>${plateDefs('r', box)}${crabDefs('c')}</defs>
+  <circle cx="512" cy="512" r="488" fill="url(#r-ember)"/>
+  <circle cx="512" cy="512" r="488" fill="url(#r-glow)"/>
+  <circle cx="512" cy="512" r="488" fill="url(#r-floor)"/>
+  <g transform="translate(${f(512 - 512 * s)} ${f(512 - CRAB_CY * s)}) scale(${s})">${crab('c')}</g>
+</svg>`;
+}
+
+/** Play Store feature graphic (1024 × 500): night background, forge glow, icon and wordmark. */
+function featureGraphicSvg() {
+  const s = 0.34;
+  const box = [44, 44, 936, 936];
+  const ix = 120;
+  const iy = 250 - 512 * s;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="${C.night[0]}"/><stop offset="1" stop-color="${C.night[1]}"/>
+    </linearGradient>
+    <radialGradient id="forge" cx="294" cy="250" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff6a1f" stop-opacity="0.42"/>
+      <stop offset="0.5" stop-color="#f74c00" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#f74c00" stop-opacity="0"/>
+    </radialGradient>
+    ${plateDefs('fp', box)}${crabDefs('fc')}
+  </defs>
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <rect width="1024" height="500" fill="url(#forge)"/>
+  <g transform="translate(${f(ix)} ${f(iy)}) scale(${s})">${plate('fp', box)}${crab('fc')}</g>
+  <g font-family="Segoe UI, Inter, Arial, sans-serif">
+    <text x="520" y="236" font-size="96" font-weight="800" fill="#f4f1ec" letter-spacing="-2">Rusteach</text>
+    <text x="524" y="300" font-size="36" font-weight="500" fill="#ffb27a">Türkçe Rust kursu</text>
+    <text x="524" y="350" font-size="26" font-weight="400" fill="#9aa3b5">Dersler, alıştırmalar, canlı kod</text>
+  </g>
+</svg>`;
+}
+
+/** White silhouette for Android 13 themed icons: keeps bright pixels, drops ink and shadow. */
+async function monochrome(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  for (let i = 0; i < data.length; i += 4) {
+    const lum = (0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]) / 255;
+    const keep = Math.min(1, Math.max(0, (lum - 0.45) / 0.2));
+    data[i] = data[i + 1] = data[i + 2] = 255;
+    data[i + 3] = Math.round(data[i + 3] * keep);
+  }
+  return sharp(data, { raw: info }).png({ compressionLevel: 9 }).toBuffer();
+}
+
+const DENSITIES = { mdpi: 1, hdpi: 1.5, xhdpi: 2, xxhdpi: 3, xxxhdpi: 4 };
+
+async function androidAssets(res) {
+  const adaptive = `<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+    <monochrome android:drawable="@mipmap/ic_launcher_monochrome"/>
+</adaptive-icon>
+`;
+  const bg = adaptiveBackgroundSvg();
+  const fg = adaptiveForegroundSvg();
+  const square = iconSvg();
+  const round = roundIconSvg();
+  for (const [name, d] of Object.entries(DENSITIES)) {
+    const dir = path.join(res, `mipmap-${name}`);
+    fs.mkdirSync(dir, { recursive: true });
+    const layer = Math.round(108 * d);
+    fs.writeFileSync(path.join(dir, 'ic_launcher_background.png'), await render(bg, layer));
+    const fgPng = await render(fg, layer);
+    fs.writeFileSync(path.join(dir, 'ic_launcher_foreground.png'), fgPng);
+    fs.writeFileSync(path.join(dir, 'ic_launcher_monochrome.png'), await monochrome(fgPng));
+    fs.writeFileSync(path.join(dir, 'ic_launcher.png'), await render(square, Math.round(48 * d)));
+    fs.writeFileSync(path.join(dir, 'ic_launcher_round.png'), await render(round, Math.round(48 * d)));
+    // splash fallback for Android < 12: the icon centred on the night background (drawable/splash.xml)
+    const sdir = path.join(res, `drawable-${name}`);
+    fs.mkdirSync(sdir, { recursive: true });
+    fs.writeFileSync(path.join(sdir, 'splash_icon.png'), await render(square, Math.round(112 * d)));
+  }
+  fs.mkdirSync(path.join(res, 'mipmap-anydpi-v26'), { recursive: true });
+  fs.writeFileSync(path.join(res, 'mipmap-anydpi-v26', 'ic_launcher.xml'), adaptive);
+  fs.writeFileSync(path.join(res, 'mipmap-anydpi-v26', 'ic_launcher_round.xml'), adaptive);
+  return { fg, bg };
+}
+
 // ------------------------------------------------------------------ rendering
 
 const render = (svg, size) =>
@@ -346,10 +464,49 @@ fs.writeFileSync(path.join(BUILD, 'icon.ico'), await pngToIco([16, 24, 32, 48, 6
 fs.writeFileSync(path.join(BUILD, 'installerSidebar.bmp'), await bmp(sidebarSvg(), 164, 314));
 fs.writeFileSync(path.join(BUILD, 'installerHeader.bmp'), await bmp(headerSvg(), 150, 57));
 
+const ANDROID_RES = path.join(ROOT, 'android', 'app', 'src', 'main', 'res');
+const STORE = path.join(ROOT, 'store');
+let android = null;
+if (fs.existsSync(ANDROID_RES)) {
+  android = await androidAssets(ANDROID_RES);
+  fs.mkdirSync(STORE, { recursive: true });
+  fs.writeFileSync(path.join(STORE, 'icon-512.png'), icons[512]);
+  await sharp(Buffer.from(featureGraphicSvg())).flatten({ background: C.night[1] }).png().toFile(path.join(STORE, 'feature-graphic.png'));
+  console.log('Android simgeleri: android/app/src/main/res/mipmap-*, store/icon-512.png, store/feature-graphic.png');
+}
+
 const previewArg = process.argv.indexOf('--preview');
 if (previewArg > 0 && process.argv[previewArg + 1]) {
   const out = path.resolve(process.argv[previewArg + 1]);
   await preview(out, icons);
+  if (android) {
+    // the adaptive icon under the masks launchers use: circle, squircle, rounded square
+    const layer = 432;
+    const bgPng = await render(android.bg, layer);
+    const fgPng = await render(android.fg, layer);
+    const full = await sharp(bgPng).composite([{ input: fgPng }]).png().toBuffer();
+    const inset = Math.round((layer * 18) / 108); // launchers show the middle 72 of 108
+    const visible = await sharp(full).extract({ left: inset, top: inset, width: layer - 2 * inset, height: layer - 2 * inset }).png().toBuffer();
+    const v = layer - 2 * inset;
+    const masks = [
+      `<circle cx="${v / 2}" cy="${v / 2}" r="${v / 2}"/>`,
+      `<path d="${squircle(0, 0, v, v, 4)}"/>`,
+      `<rect width="${v}" height="${v}" rx="${v * 0.2}"/>`,
+    ];
+    const tiles = await Promise.all(
+      masks.map((m) =>
+        sharp(visible)
+          .composite([{ input: Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${v}" height="${v}">${m}</svg>`), blend: 'dest-in' }])
+          .png()
+          .toBuffer(),
+      ),
+    );
+    const mono = await monochrome(fgPng);
+    await sharp({ create: { width: v * 4 + 100, height: v + 40, channels: 4, background: '#2a2f3a' } })
+      .composite([...tiles.map((t, i) => ({ input: t, left: 20 + i * (v + 20), top: 20 })), { input: await sharp(mono).extract({ left: inset, top: inset, width: v, height: v }).png().toBuffer(), left: 20 + 3 * (v + 20), top: 20 }])
+      .png()
+      .toFile(out.replace(/\.png$/, '-android.png'));
+  }
   await sharp(Buffer.from(sidebarSvg())).resize(164 * 2, 314 * 2, { kernel: 'nearest' }).png().toFile(out.replace(/\.png$/, '-sidebar.png'));
   await sharp(Buffer.from(headerSvg())).resize(300, 114, { kernel: 'nearest' }).png().toFile(out.replace(/\.png$/, '-header.png'));
   console.log(`önizleme: ${out}`);

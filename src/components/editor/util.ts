@@ -16,11 +16,7 @@ export function detectCrates(code: string): string[] {
   return [...found];
 }
 
-/** Opens a URL in the system browser (Electron) or a new tab. */
-export function openExternal(url: string) {
-  if (window.rusteach) void window.rusteach.openExternal(url);
-  else window.open(url, '_blank', 'noopener,noreferrer');
-}
+export { openUrl as openExternal } from '../../lib/native';
 
 export async function copyText(text: string): Promise<boolean> {
   try {

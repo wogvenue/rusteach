@@ -6,6 +6,7 @@ import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
 import { dayKey, useProgress } from '../../../store/progress';
 import { toast } from '../../../store/ui';
+import { isNative, shareTextFile } from '../../../lib/native';
 import { SettingRow, SettingsSection } from './SettingRow';
 
 const CONFIRM_WORD = 'SIFIRLA';
@@ -26,6 +27,10 @@ export default function DataSection() {
       if (window.rusteach) {
         const saved = await window.rusteach.saveTextFile(name, json);
         if (saved) toast({ kind: 'success', title: 'İlerlemen kaydedildi', description: 'Dosyayı başka bir bilgisayara taşıyıp içe aktarabilirsin.' });
+        return;
+      }
+      if (isNative) {
+        await shareTextFile(name, json); // share sheet: Drive, Dosyalar, e-posta...
         return;
       }
       const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
@@ -83,7 +88,7 @@ export default function DataSection() {
   };
 
   return (
-    <SettingsSection id="veriler" title="Verilerin" description="İlerlemen yalnızca bu bilgisayarda saklanır" icon={<HardDrive className="size-[18px]" />}>
+    <SettingsSection id="veriler" title="Verilerin" description="İlerlemen yalnızca bu cihazda saklanır" icon={<HardDrive className="size-[18px]" />}>
       <SettingRow
         title="Dışa aktar"
         description="Bütün ilerlemeni, notlarını ve ayarlarını tek bir dosyaya kaydet. Yedek almak ya da başka bilgisayara taşımak için."

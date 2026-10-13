@@ -152,9 +152,9 @@ export default function FillBlock({ block, lessonId, mode, onComplete, fresh }: 
             {emptyWarn ? (
               <span className="text-warning">Önce tüm boşlukları doldur.</span>
             ) : (
-              <>
+              <span className="kbd-only">
                 Boşluklar arasında <span className="kbd-hint">Tab</span> ile gez, <span className="kbd-hint">Enter</span> ile kontrol et.
-              </>
+              </span>
             )}
           </span>
         </div>

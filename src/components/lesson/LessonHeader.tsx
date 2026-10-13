@@ -124,7 +124,7 @@ export default function LessonHeader({
                 <Button size="lg" onClick={onStart} autoFocus>
                   Derse başla
                 </Button>
-                <span className="text-xs text-muted">
+                <span className="kbd-only text-xs text-muted">
                   ya da <Kbd>Enter</Kbd>
                 </span>
               </div>

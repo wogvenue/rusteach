@@ -125,7 +125,7 @@ function Intro({ poolSize, onStart }: { poolSize: number; onStart: () => void })
           <Button size="lg" icon={<Play className="size-4" />} onClick={onStart} className="mt-6 min-w-56">
             Turu başlat
           </Button>
-          <span className="mt-2 text-xs text-subtle">
+          <span className="kbd-only mt-2 text-xs text-subtle">
             ya da <Kbd>Enter</Kbd>
           </span>
         </div>

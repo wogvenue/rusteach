@@ -6,6 +6,7 @@ import { ChevronDown, Keyboard, Terminal, Trash2 } from 'lucide-react';
 import RunOutput from '../RunOutput';
 import type { RunnerState } from '../useRunner';
 import { Kbd } from '../../ui/primitives';
+import { isNative } from '../../../lib/native';
 
 export default function OutputPane({
   runner,
@@ -53,14 +54,18 @@ export default function OutputPane({
               </div>
               <p className="mt-4 text-sm font-medium text-fg">Programın çıktısı burada görünecek.</p>
               <p className="mt-1.5 text-xs leading-relaxed text-muted">
-                Çalıştırmak için <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd>
-                {hasTests ? (
-                  <>
-                    , testler için <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Enter</Kbd>.
-                  </>
-                ) : (
-                  <>. Test yazmak istersen fonksiyonunun üstüne #[test] ekle.</>
-                )}
+                <span className="kbd-only">
+                  Çalıştırmak için <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd>
+                  {hasTests ? (
+                    <>
+                      , testler için <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Enter</Kbd>.
+                    </>
+                  ) : (
+                    <>. </>
+                  )}
+                </span>
+                <span className="touch-only">Kodu çalıştırmak için yukarıdaki Çalıştır düğmesine dokun. </span>
+                {!hasTests && <>Test yazmak istersen fonksiyonunun üstüne #[test] ekle.</>}
               </p>
             </div>
           </div>
@@ -76,48 +81,51 @@ export default function OutputPane({
         )}
       </div>
 
-      <div className="shrink-0 border-t border-[var(--code-border)]">
-        <button
-          type="button"
-          onClick={() => setStdinOpen((o) => !o)}
-          aria-expanded={stdinOpen}
-          disabled={!stdinAvailable}
-          className="flex h-10 w-full items-center gap-2 px-4 text-left text-[0.8rem] font-semibold text-muted transition-colors hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-default disabled:hover:text-muted"
-        >
-          <Keyboard className="size-4 text-subtle" aria-hidden="true" />
-          Girdi (stdin)
-          {stdinAvailable ? (
-            <>
-              {stdin && !stdinOpen && <span className="truncate font-mono text-[0.72rem] font-normal text-subtle">{stdin.split('\n')[0]}</span>}
-              <span className="flex-1" />
-              <ChevronDown className={clsx('size-4 transition-transform', stdinOpen && 'rotate-180')} aria-hidden="true" />
-            </>
-          ) : (
-            <span className="ml-auto text-[0.72rem] font-normal text-subtle">yalnızca yerel Rust ile</span>
-          )}
-        </button>
-        <AnimatePresence initial={false}>
-          {stdinOpen && stdinAvailable && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 420, damping: 38 }}
-              className="overflow-hidden"
-            >
-              <textarea
-                value={stdin}
-                onChange={(e) => onStdin(e.target.value)}
-                rows={4}
-                spellCheck={false}
-                placeholder={'Programın okuyacağı satırlar…\nörneğin: 42'}
-                aria-label="Programa verilecek girdi (stdin)"
-                className="block w-full resize-none border-0 bg-[var(--code-bg)] px-4 py-3 font-mono text-[0.8rem] leading-relaxed text-[var(--code-fg)] outline-none placeholder:text-[var(--code-gutter)] focus:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--c-accent)_45%,transparent)]"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* phones never have a local toolchain, so the disabled stdin row would only take space */}
+      {!isNative && (
+        <div className="shrink-0 border-t border-[var(--code-border)]">
+          <button
+            type="button"
+            onClick={() => setStdinOpen((o) => !o)}
+            aria-expanded={stdinOpen}
+            disabled={!stdinAvailable}
+            className="flex h-10 w-full items-center gap-2 px-4 text-left text-[0.8rem] font-semibold text-muted transition-colors hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent disabled:cursor-default disabled:hover:text-muted"
+          >
+            <Keyboard className="size-4 text-subtle" aria-hidden="true" />
+            Girdi (stdin)
+            {stdinAvailable ? (
+              <>
+                {stdin && !stdinOpen && <span className="truncate font-mono text-[0.72rem] font-normal text-subtle">{stdin.split('\n')[0]}</span>}
+                <span className="flex-1" />
+                <ChevronDown className={clsx('size-4 transition-transform', stdinOpen && 'rotate-180')} aria-hidden="true" />
+              </>
+            ) : (
+              <span className="ml-auto text-[0.72rem] font-normal text-subtle">yalnızca yerel Rust ile</span>
+            )}
+          </button>
+          <AnimatePresence initial={false}>
+            {stdinOpen && stdinAvailable && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 38 }}
+                className="overflow-hidden"
+              >
+                <textarea
+                  value={stdin}
+                  onChange={(e) => onStdin(e.target.value)}
+                  rows={4}
+                  spellCheck={false}
+                  placeholder={'Programın okuyacağı satırlar…\nörneğin: 42'}
+                  aria-label="Programa verilecek girdi (stdin)"
+                  className="block w-full resize-none border-0 bg-[var(--code-bg)] px-4 py-3 font-mono text-[0.8rem] leading-relaxed text-[var(--code-fg)] outline-none placeholder:text-[var(--code-gutter)] focus:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--c-accent)_45%,transparent)]"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
     </section>
   );
 }

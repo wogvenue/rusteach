@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rusteach Gizlilik Politikası</title>
+<meta name="description" content="Rusteach uygulamasının gizlilik politikası: hesap yok, reklam yok, ilerleme yalnızca cihazında.">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f6f7f9;
+    --fg: #14171f;
+    --muted: #586070;
+    --border: #e2e5ea;
+    --accent: #d9530f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0e14;
+      --surface: #131720;
+      --fg: #e8eaef;
+      --muted: #9aa2b1;
+      --border: #232938;
+      --accent: #f5651f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .logo { font-size: 32px; line-height: 1; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0; }
+  .date { color: var(--muted); font-size: 14px; margin: 0 0 32px; }
+  h2 { font-size: 19px; margin: 36px 0 8px; }
+  p, li { color: var(--fg); }
+  ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .summary ul { margin: 0; }
+  a { color: var(--accent); }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 0.92em; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="logo" aria-hidden="true">🦀</span>
+    <h1>Rusteach Gizlilik Politikası</h1>
+  </header>
+  <p class="date">Son güncelleme: 13 Ekim 2026</p>
+
+  <div class="summary">
+    <ul>
+      <li>Hesap açman gerekmez; adını, e-postanı ya da başka bir kişisel bilgini istemeyiz.</li>
+      <li>İlerlemen, notların ve ayarların yalnızca kendi cihazında saklanır.</li>
+      <li>Reklam yok, analiz ya da takip aracı yok.</li>
+      <li>Yalnızca "Çalıştır" ya da "Test et" düğmesine bastığında, yazdığın Rust kodu derlenmek üzere Rust Playground'a gönderilir.</li>
+    </ul>
+  </div>
+
+  <h2>1. Kim olduğumuz</h2>
+  <p>Rusteach, Rust programlama dilini Türkçe öğreten bağımsız bir eğitim uygulamasıdır. Bu politika Android, masaüstü ve web sürümlerinin tamamı için geçerlidir.</p>
+
+  <h2>2. Cihazında saklanan veriler</h2>
+  <p>Uygulama şu bilgileri yalnızca cihazının yerel depolama alanında tutar:</p>
+  <ul>
+    <li>Ders ilerlemen, alıştırma sonuçların, XP, seviye ve günlük serin</li>
+    <li>Tekrar kartlarının zamanlaması</li>
+    <li>Ders notların, oyun alanındaki dosyaların ve ayarların</li>
+    <li>Ana sayfada görünen, isteğe bağlı olarak girdiğin takma ad</li>
+  </ul>
+  <p>Bu veriler bize ya da başka birine gönderilmez. Ayarlar sayfasından dışa aktarabilir, içe aktarabilir ya da tamamen silebilirsin. Uygulamayı kaldırdığında hepsi cihazından silinir.</p>
+
+  <h2>3. Kod çalıştırma</h2>
+  <p>Bir kodu çalıştırdığında ya da testlerini koştuğunda, yalnızca o kodun metni Rust projesinin resmi derleme hizmeti olan <a href="https://play.rust-lang.org">Rust Playground</a>'a (play.rust-lang.org) şifreli bağlantı (HTTPS) üzerinden gönderilir ve derleme sonucu geri alınır. Bu istekle birlikte kimliğini belirleyen bir bilgi göndermeyiz. Rust Playground'ın kendi uygulamalarını <a href="https://foundation.rust-lang.org/policies/privacy-policy/">Rust Foundation gizlilik politikasında</a> okuyabilirsin.</p>
+  <p>Masaüstü sürümünde bilgisayarında Rust kuruluysa kod tamamen yerelde de çalıştırılabilir; bu durumda hiçbir şey internete çıkmaz.</p>
+
+  <h2>4. İnternet bağlantısı</h2>
+  <p>Dersler, alıştırmalar, sözlük ve tekrar kartları internetsiz çalışır. Bağlantı yalnızca kod çalıştırırken ve dersteki bir dış bağlantıya (ör. Rust belgeleri) dokunduğunda kullanılır.</p>
+
+  <h2>5. Paylaşmadığımız şeyler</h2>
+  <p>Kişisel veri toplamadığımız için satacak, paylaşacak ya da reklam için kullanacak bir verimiz de yoktur. Uygulamada üçüncü taraf reklam, analiz, çökme raporlama ya da sosyal ağ kitaplığı bulunmaz.</p>
+
+  <h2>6. Çocuklar</h2>
+  <p>Rusteach programlama öğrenmek isteyen herkes için tasarlanmıştır ve çocuklardan bilerek kişisel bilgi toplamaz.</p>
+
+  <h2>7. İzinler</h2>
+  <p>Android sürümü yalnızca internet erişimi izni ister. İlerlemeni dışa aktardığında dosya, Android'in paylaşım ekranı üzerinden senin seçtiğin yere gönderilir.</p>
+
+  <h2>8. Değişiklikler</h2>
+  <p>Bu politika değişirse güncel hali bu sayfada yayımlanır ve yukarıdaki tarih yenilenir.</p>
+
+  <h2>9. İletişim</h2>
+  <p>Soruların ya da isteklerin için projenin GitHub sayfasında bir kayıt açabilirsin: <a href="https://github.com/wogvenue/rusteach/issues">github.com/wogvenue/rusteach/issues</a>.</p>
+
+  <footer>Rusteach bağımsız bir eğitim projesidir; Rust Foundation ile bağlantılı değildir.</footer>
+</main>
+</body>
+</html>

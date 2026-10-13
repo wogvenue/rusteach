@@ -74,7 +74,7 @@ export default function ReviewStart({ due, onStart }: { due: SrsEntry[]; onStart
             <Button size="lg" icon={<Play className="size-4" />} onClick={() => onStart(size)} className="min-w-56">
               Tekrara başla
             </Button>
-            <span className="text-xs text-subtle">
+            <span className="kbd-only text-xs text-subtle">
               ya da <Kbd>Enter</Kbd>
             </span>
           </div>

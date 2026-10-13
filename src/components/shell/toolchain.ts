@@ -42,8 +42,5 @@ export function effectiveRunner(setting: 'auto' | 'local' | 'online', info: Tool
   return hasRust ? 'local' : 'online';
 }
 
-/** Opens a URL in the system browser (Electron) or a new tab. */
-export function openExternal(url: string) {
-  if (window.rusteach) void window.rusteach.openExternal(url);
-  else window.open(url, '_blank', 'noopener,noreferrer');
-}
+/** Opens a URL in the system browser (Electron), a Custom Tab (Android) or a new tab. */
+export { openUrl as openExternal } from '../../lib/native';

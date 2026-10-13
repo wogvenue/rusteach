@@ -158,7 +158,7 @@ export default function PredictBlock({ block, lessonId, mode, onComplete, fresh 
               >
                 Kontrol et
               </button>
-              <span className="text-xs text-muted">
+              <span className="kbd-only text-xs text-muted">
                 <span className="kbd-hint">Ctrl</span> + <span className="kbd-hint">Enter</span>
               </span>
             </div>

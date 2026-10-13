@@ -21,7 +21,7 @@ export default function TemplatesMenu({ onPick }: { onPick: (t: PlaygroundTempla
           )}
         >
           <LayoutTemplate className="size-3.5" aria-hidden="true" />
-          Şablonlar
+          <span className="max-md:sr-only">Şablonlar</span>
           <ChevronDown className={clsx('size-3.5 transition-transform', open && 'rotate-180')} aria-hidden="true" />
         </button>
       )}

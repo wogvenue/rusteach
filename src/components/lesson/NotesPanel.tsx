@@ -49,8 +49,9 @@ export default function NotesPanel({ lessonId, open, onClose }: { lessonId: stri
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: '100%', opacity: 0.6 }}
           transition={{ type: 'spring', stiffness: 360, damping: 36 }}
-          className="fixed bottom-0 right-0 top-14 z-40 flex w-[min(380px,100vw)] flex-col border-l border-border bg-elevated shadow-pop"
+          className="fixed bottom-0 right-0 z-40 flex w-[min(380px,100vw)] max-md:top-0 max-md:pt-[var(--safe-area-inset-top,env(safe-area-inset-top))] md:top-14 flex-col border-l border-border bg-elevated shadow-pop"
           aria-label="Notlarım"
+          data-back-closes
         >
           <div className="flex items-center gap-2.5 border-b border-border px-4 py-3">
             <NotebookPen className="size-4 text-accent" />

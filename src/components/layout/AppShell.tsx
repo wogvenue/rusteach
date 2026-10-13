@@ -1,11 +1,13 @@
-// App shell: collapsible sidebar, top bar (Electron drag region), animated page transitions and
-// the first-run onboarding.
+// App shell: collapsible sidebar (bottom tab bar on phones), top bar (Electron drag region),
+// animated page transitions and the first-run onboarding.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useOutlet } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useProgress } from '../../store/progress';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
+import BottomNav from './BottomNav';
+import { useIsMobile } from './useIsMobile';
 import Onboarding from '../shell/Onboarding';
 
 const SIDEBAR_KEY = 'rusteach-sidebar-collapsed';
@@ -40,6 +42,7 @@ export default function AppShell() {
   const outlet = useOutlet();
   const onboarded = useProgress((s) => s.profile.onboarded);
   const [collapsed, toggle] = useSidebarCollapsed();
+  const mobile = useIsMobile();
   const main = useRef<HTMLElement>(null);
 
   // Ctrl+B toggles the sidebar (outside text fields / editors)
@@ -64,7 +67,7 @@ export default function AppShell() {
       >
         İçeriğe geç
       </button>
-      <Sidebar collapsed={collapsed} onToggle={toggle} />
+      {!mobile && <Sidebar collapsed={collapsed} onToggle={toggle} />}
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar />
         <main
@@ -72,6 +75,7 @@ export default function AppShell() {
           id="main"
           tabIndex={-1}
           className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden outline-none [scrollbar-gutter:stable]"
+          style={mobile ? { paddingBottom: 'var(--bottom-nav-h)' } : undefined}
         >
           <AnimatePresence mode="wait" initial={false} onExitComplete={() => main.current?.scrollTo({ top: 0 })}>
             <motion.div
@@ -86,6 +90,7 @@ export default function AppShell() {
           </AnimatePresence>
         </main>
       </div>
+      {mobile && <BottomNav />}
       <Onboarding open={!onboarded} />
     </div>
   );

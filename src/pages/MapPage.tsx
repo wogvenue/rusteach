@@ -171,7 +171,7 @@ export default function MapPage() {
           );
         })}
 
-        <div className="mx-auto w-full max-w-[920px] px-6">
+        <div className="mx-auto w-full max-w-[920px] px-4 sm:px-6">
           <div ref={canvasRef} className="relative" style={{ height: layout?.height ?? 1200 }}>
             {layout && (
               <>

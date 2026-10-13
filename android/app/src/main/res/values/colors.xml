@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the app's dark background color, shown while the WebView boots -->
+    <color name="rusteach_night">#0B0E14</color>
+    <color name="colorPrimary">#F5651F</color>
+    <color name="colorPrimaryDark">#0B0E14</color>
+    <color name="colorAccent">#F5651F</color>
+</resources>

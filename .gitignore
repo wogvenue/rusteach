@@ -5,3 +5,5 @@ release/
 src/generated/
 *.rs.out
 *.log
+.claude/
+tsconfig.tsbuildinfo

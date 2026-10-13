@@ -387,9 +387,10 @@ export default function ParsonsBlock({ block, lessonId, mode, onComplete, fresh 
           >
             Kontrol et
           </button>
-          <span className="text-xs text-muted">
+          <span className="kbd-only text-xs text-muted">
             Sürükle-bırak ya da satıra odaklanıp <span className="kbd-hint">Boşluk</span> ile tut, oklarla taşı.
           </span>
+          <span className="touch-only text-xs text-muted">Satırları sürükle ya da dokunarak ekle.</span>
         </div>
       )}
 
