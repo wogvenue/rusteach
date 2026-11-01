@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Search } from 'lucide-react';
+import { useUi } from '../../store/ui';
 import { getModule } from '../../lib/content';
 import { titleForPath } from './routes';
 import FocusTimer from './FocusTimer';
@@ -49,6 +50,17 @@ export default function TopBar() {
         )}
       </div>
       <div className="flex shrink-0 items-center gap-1">
+        <button
+          type="button"
+          onClick={() => useUi.getState().setSearchOpen(true)}
+          aria-label="Ara (Ctrl+K)"
+          title="Ara (Ctrl+K)"
+          className="no-drag flex h-8 items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-muted transition-colors hover:bg-surface-2 hover:text-fg"
+        >
+          <Search className="size-4" aria-hidden />
+          {!mobile && <span className="hidden lg:inline">Ara</span>}
+          {!mobile && <kbd className="hidden rounded border border-border-strong px-1 font-mono text-[10px] text-subtle lg:inline">Ctrl K</kbd>}
+        </button>
         {!mobile && (
           <>
             <FocusTimer />

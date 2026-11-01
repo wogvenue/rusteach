@@ -28,6 +28,7 @@ import PlaygroundPage from './pages/PlaygroundPage';
 import SettingsPage from './pages/SettingsPage';
 import { useProgress } from './store/progress';
 import Toaster from './components/ui/Toaster';
+import SearchPalette from './components/shell/SearchPalette';
 import ErrorBoundary from './components/shell/ErrorBoundary';
 import { useAchievementWatcher } from './lib/achievements';
 import { syncSystemBars } from './lib/native';
@@ -65,6 +66,7 @@ export default function App() {
     <MotionConfig reducedMotion={reducedMotion ? 'always' : 'user'}>
       <HashRouter>
         <Toaster />
+        <SearchPalette />
         <AppRoutes />
       </HashRouter>
     </MotionConfig>

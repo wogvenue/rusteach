@@ -79,6 +79,7 @@ Not: `tokio`, `serde`, `rand`, `regex` gibi crate'leri kullanan örneklerin **il
 | --- | --- | --- |
 | `Ctrl` + `Enter` | Kod editörü, çıktı tahmini, yansıtma alanları | Kodu çalıştır / cevabı kontrol et |
 | `Ctrl` + `Shift` + `Enter` | Kod editörü | İkincil eylem (örneğin yalnızca derle / test) |
+| `Ctrl` + `K` | Her yer (kod editörü dahil) | Arama: derslerde, sözlükte ve hata kodlarında ara |
 | `Ctrl` + `B` | Her yer (yazı alanları dışında) | Kenar çubuğunu daralt / genişlet |
 | `1` `2` `3` `4` | Çoktan seçmeli sorular, bilgi kartı notlama | Seçeneği seç / kartı derecelendir (Tekrar, 1 = Yeniden … 4 = Kolay) |
 | `Boşluk` / `Enter` | Bilgi kartları, tekrar oturumu | Kartı çevir / cevabı göster |

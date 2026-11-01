@@ -1,6 +1,7 @@
 // "Sözlük" tab: Turkish-aware search over TR / EN terms and definitions, alphabetical sections
 // with a letter jump bar, and a chip linking each term to the module that teaches it.
 import { useDeferredValue, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { SearchX } from 'lucide-react';
 import Ferris from '../../Ferris';
 import { Button } from '../../ui/Button';
@@ -43,7 +44,8 @@ function score(x: Indexed, q: string): number {
 }
 
 export default function GlossaryList({ onShowErrors }: { onShowErrors: () => void }) {
-  const [query, setQuery] = useState('');
+  const [params] = useSearchParams();
+  const [query, setQuery] = useState(() => params.get('ara') ?? '');
   const deferred = useDeferredValue(query);
   const q = fold(deferred.trim());
 

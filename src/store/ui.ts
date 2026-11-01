@@ -17,12 +17,17 @@ interface UiState {
   toasts: Toast[];
   push(t: Omit<Toast, 'id'>): number;
   dismiss(id: number): void;
+  /** Global search palette (Ctrl+K). */
+  searchOpen: boolean;
+  setSearchOpen(open: boolean): void;
 }
 
 let seq = 1;
 
 export const useUi = create<UiState>()((set) => ({
   toasts: [],
+  searchOpen: false,
+  setSearchOpen: (open) => set({ searchOpen: open }),
   push: (t) => {
     const id = seq++;
     set((s) => ({ toasts: [...s.toasts, { ...t, id }].slice(-5) }));
