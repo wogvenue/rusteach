@@ -42,7 +42,7 @@ export function Segmented<T extends string | number>({
       role="radiogroup"
       aria-label={labelledBy ? undefined : label}
       aria-labelledby={labelledBy}
-      className={clsx('inline-flex rounded-xl border border-border bg-surface-2 p-1', className)}
+      className={clsx('inline-flex max-w-full overflow-x-auto rounded-xl border border-border bg-surface-2 p-1 [scrollbar-width:none]', className)}
       onKeyDown={(e) => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
           e.preventDefault();
@@ -69,7 +69,7 @@ export function Segmented<T extends string | number>({
             onClick={() => onChange(o.value)}
             className={clsx(
               'relative inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg font-semibold transition-colors',
-              size === 'sm' ? 'h-7 px-2.5 text-xs' : 'h-8 px-3.5 text-[13px]',
+              size === 'sm' ? 'h-7 px-2.5 text-xs max-sm:px-2' : 'h-8 px-3.5 text-[13px] max-sm:px-2.5',
               active ? 'text-fg' : 'text-muted hover:text-fg',
             )}
           >

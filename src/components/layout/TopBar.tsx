@@ -34,15 +34,16 @@ export default function TopBar() {
       }}
     >
       <div className="flex min-w-0 flex-1 items-center gap-1.5 text-sm">
-        {mod ? (
+        {mod && mobile ? (
+          // the module page has its own back link; the bar keeps the room for the title
+          <span className="truncate px-1 font-semibold text-fg">{`${mod.number}. ${mod.title}`}</span>
+        ) : mod ? (
           <>
             <Link to="/harita" className="no-drag shrink-0 rounded-md px-1 font-medium text-muted transition-colors hover:text-fg">
-              {mobile ? 'Harita' : 'Yolculuk Haritası'}
+              Yolculuk Haritası
             </Link>
             <ChevronRight className="size-4 shrink-0 text-subtle" aria-hidden />
-            <span className="truncate font-semibold text-fg">
-              {mobile ? `${mod.number}. ${mod.title}` : `Modül ${mod.number}: ${mod.title}`}
-            </span>
+            <span className="truncate font-semibold text-fg">{`Modül ${mod.number}: ${mod.title}`}</span>
           </>
         ) : (
           <span className="truncate px-1 font-semibold text-fg">{title}</span>

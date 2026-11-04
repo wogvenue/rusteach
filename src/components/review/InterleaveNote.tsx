@@ -8,9 +8,9 @@ function Row({ label, order, colors }: { label: string; order: number[]; colors:
   return (
     <div className="flex items-center gap-3">
       <span className="w-[72px] shrink-0 text-xs font-medium text-muted">{label}</span>
-      <div className="flex gap-1">
+      <div className="flex gap-0.5 sm:gap-1">
         {order.map((c, i) => (
-          <span key={i} className="size-3.5 rounded-[4px]" style={{ background: colors[c % colors.length] }} />
+          <span key={i} className="size-3 rounded-[4px] sm:size-3.5" style={{ background: colors[c % colors.length] }} />
         ))}
       </div>
     </div>

@@ -64,11 +64,13 @@ export default function SessionHeader({
   extra?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3 sm:gap-4">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:flex-nowrap sm:gap-4">
       <Button variant="ghost" size="sm" icon={<X className="size-4" />} onClick={onExit}>
         {exitLabel}
       </Button>
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+      {/* phones: the progress bar gets its own full-width row under the controls */}
+      <span className="flex-1 sm:hidden" aria-hidden />
+      <div className="flex min-w-0 flex-1 items-center gap-3 max-sm:order-last max-sm:basis-full">
         <ProgressBar value={total ? done / total : 0} height={10} />
         <span className="shrink-0 text-sm font-semibold text-muted lx-tabular" aria-label={`${total} öğeden ${done} tamamlandı`}>
           {done}/{total}

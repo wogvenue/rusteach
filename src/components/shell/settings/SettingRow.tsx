@@ -17,7 +17,7 @@ export function SettingsSection({
 }) {
   return (
     <section id={id} aria-labelledby={`${id}-h`} className="scroll-mt-6 rounded-3xl border border-border bg-surface shadow-card">
-      <header className="flex items-center gap-3 px-6 pb-2 pt-5">
+      <header className="flex items-center gap-3 px-5 pb-2 pt-5 sm:px-6">
         <span className="grid size-9 place-items-center rounded-xl bg-surface-2 text-muted" aria-hidden>
           {icon}
         </span>
@@ -28,7 +28,7 @@ export function SettingsSection({
           {description && <p className="text-[13px] text-muted">{description}</p>}
         </div>
       </header>
-      <div className="divide-y divide-border px-6 pb-2">{children}</div>
+      <div className="divide-y divide-border px-5 pb-2 sm:px-6">{children}</div>
     </section>
   );
 }
@@ -57,8 +57,8 @@ export function SettingRow({
   const descId = `${base}-d`;
   return (
     <div className="py-4">
-      <div className={clsx('flex gap-x-6 gap-y-3', stack ? 'flex-col' : 'flex-wrap items-center justify-between')}>
-        <div className="min-w-0 flex-1 basis-[260px]">
+      <div className={clsx('flex gap-x-4 gap-y-3 sm:gap-x-6', stack ? 'flex-col' : 'flex-wrap items-center justify-between')}>
+        <div className="min-w-0 flex-1 basis-[200px] sm:basis-[260px]">
           <div id={labelId} className="text-sm font-semibold text-fg">
             {title}
           </div>
@@ -68,7 +68,7 @@ export function SettingRow({
             </p>
           )}
         </div>
-        {control && <div className="shrink-0">{control({ labelId, descId })}</div>}
+        {control && <div className="min-w-0 max-w-full shrink-0">{control({ labelId, descId })}</div>}
       </div>
       {children}
     </div>
@@ -100,7 +100,7 @@ export function RangeControl({
     <div className="flex items-center gap-3">
       <input
         type="range"
-        className="range"
+        className="range min-w-0 max-w-[calc(100vw-9.5rem)]"
         min={min}
         max={max}
         step={step}
@@ -110,7 +110,7 @@ export function RangeControl({
         onChange={(e) => onChange(Number(e.target.value))}
         style={{ width, ['--fill' as string]: `${fill}%` }}
       />
-      <span className="w-14 text-right text-[13px] font-semibold tabular-nums text-fg">{format(value)}</span>
+      <span className="w-14 shrink-0 text-right text-[13px] font-semibold tabular-nums text-fg">{format(value)}</span>
     </div>
   );
 }

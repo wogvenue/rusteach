@@ -71,7 +71,7 @@ export default function RegionBanner({
         color={tier.color}
         muted={locked}
         strength={locked ? 0.55 : 1}
-        className="absolute inset-x-0 bottom-0 -z-10 h-[78%] w-full"
+        className="absolute inset-x-0 bottom-0 -z-10 h-[78%] w-full max-sm:h-[50%]"
       />
       <div className="relative p-5 pb-6">
         <div className="flex items-start justify-between gap-4">

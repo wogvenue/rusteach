@@ -88,7 +88,7 @@ export function ModuleNav({ s, m }: { s: ProgressData; m: Module }) {
   const next = nextModule(m);
   if (!prev && !next) return null;
   return (
-    <nav aria-label="Diğer modüller" className="grid gap-3 @2xl:grid-cols-2">
+    <nav aria-label="Diğer modüller" className="grid grid-cols-1 gap-3 @2xl:grid-cols-2">
       {prev ? <NavCard s={s} m={prev} dir="prev" /> : <span className="hidden @2xl:block" />}
       {next && <NavCard s={s} m={next} dir="next" />}
     </nav>

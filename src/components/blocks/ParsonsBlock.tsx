@@ -71,7 +71,7 @@ function lcsMarks(program: Item[], target: ParsonsLine[]): boolean[] {
 function LineText({ text }: { text: string }) {
   const tokens = useMemo(() => highlightRust(text.trim())[0] ?? [], [text]);
   return (
-    <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-pre">
+    <span className="min-w-0 flex-1 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
       {tokens.map((t, i) => (
         <span key={i} className={t.cls || undefined}>
           {t.text}

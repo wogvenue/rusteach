@@ -157,7 +157,7 @@ export default function MixedPractice({
   const allSelected = selected.size === available.length;
 
   return (
-    <div className="grid gap-5 @4xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-5 @4xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       <SectionCard title="Antrenmanını ayarla" description="Bitirdiğin derslerden karışık bir tur oluşturulur.">
         <div className="space-y-5">
           <fieldset>

@@ -125,7 +125,7 @@ export default function ReviewEmpty({ now, onBrowse }: { now: Date; onBrowse: ()
   // Brand new learner: explain what this page will do once lessons are finished.
   if (data.total === 0) {
     return (
-      <div className="grid gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <section className="relative overflow-hidden rounded-3xl border border-border bg-surface px-6 py-10 text-center" aria-labelledby="review-empty-title">
           <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />
           <div className="relative mx-auto flex max-w-md flex-col items-center">
@@ -164,7 +164,7 @@ export default function ReviewEmpty({ now, onBrowse }: { now: Date; onBrowse: ()
   }
 
   return (
-    <div className="grid gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

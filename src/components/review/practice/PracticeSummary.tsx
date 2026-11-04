@@ -79,7 +79,7 @@ export default function PracticeSummary({
       initial={{ opacity: 0, y: 16, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-      className="relative mx-auto max-w-[760px] overflow-hidden rounded-[32px] border border-border bg-surface px-6 pb-8 pt-8 sm:px-10"
+      className="relative mx-auto max-w-[760px] overflow-hidden rounded-[32px] border border-border bg-surface px-5 pb-7 pt-7 sm:px-10 sm:pb-8 sm:pt-8"
       aria-labelledby="practice-summary-title"
     >
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />

@@ -93,7 +93,7 @@ export default function PredictBlock({ block, lessonId, mode, onComplete, fresh 
       {hasOptions ? (
         <>
           <p className="mt-4 mb-2 text-xs font-medium text-muted">Programın çıktısı hangisi?</p>
-          <div className="grid gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="Çıktı seçenekleri">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2" role="radiogroup" aria-label="Çıktı seçenekleri">
             {block.options!.map((opt, i) => {
               const res = optionResult(i);
               const isSel = choice === i;

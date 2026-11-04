@@ -93,7 +93,7 @@ export default function ErrorGuide({ selected, onSelect }: { selected: string | 
   };
 
   return (
-    <div className="grid gap-5 @3xl:grid-cols-[260px_minmax(0,1fr)] @5xl:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-5 @3xl:grid-cols-[260px_minmax(0,1fr)] @5xl:grid-cols-[300px_minmax(0,1fr)]">
       <div className="min-w-0 @3xl:sticky @3xl:top-4 @3xl:self-start">
         <SearchField value={query} onChange={setQuery} label="Hata kodu ya da başlık ara" placeholder="E0382, ödünç, taşınmış…" />
         <p className="mt-2 px-1 text-xs text-subtle" aria-live="polite">

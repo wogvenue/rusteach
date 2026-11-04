@@ -48,7 +48,7 @@ export function BossIntro({
       transition={{ type: 'spring', stiffness: 240, damping: 28 }}
       className="mx-auto w-full max-w-2xl px-4 pb-16 pt-10 sm:pt-14"
     >
-      <div className="relative overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-9">
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-surface p-5 shadow-card sm:p-9">
         <div
           className="pointer-events-none absolute -right-20 -top-28 size-80 rounded-full opacity-70 blur-3xl"
           style={{ background: `radial-gradient(circle, color-mix(in srgb, ${module?.color ?? 'var(--c-accent)'} 26%, transparent), transparent 70%)` }}

@@ -53,12 +53,12 @@ export default function ReviewStart({ due, onStart }: { due: SrsEntry[]; onStart
   useHotkeys({ Enter: () => onStart(size) });
 
   return (
-    <div className="grid gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-5 @4xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 220, damping: 26 }}
-        className="relative overflow-hidden rounded-3xl border border-border bg-surface px-6 pb-8 pt-8 text-center"
+        className="relative overflow-hidden rounded-3xl border border-border bg-surface px-5 pb-6 pt-6 text-center sm:px-6 sm:pb-8 sm:pt-8"
         aria-labelledby="review-hero-title"
       >
         <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />

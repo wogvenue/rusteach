@@ -5,11 +5,11 @@ import { formatNumber } from '../../lib/stats';
 export default function DeckHero({ count, colors, caption }: { count: number; colors: string[]; caption: string }) {
   const back = [colors[1] ?? colors[0] ?? 'var(--c-accent)', colors[2] ?? colors[0] ?? 'var(--c-info)'];
   return (
-    <motion.div className="relative mx-auto h-[232px] w-[300px] select-none" initial="rest" animate="rest" whileHover="hover" aria-hidden>
+    <motion.div className="relative mx-auto h-[180px] w-[250px] select-none sm:h-[232px] sm:w-[300px]" initial="rest" animate="rest" whileHover="hover" aria-hidden>
       {[1, 0].map((i) => (
         <motion.div
           key={i}
-          className="absolute inset-x-6 top-4 h-[196px] rounded-[26px] border border-border bg-surface-2"
+          className="absolute inset-x-6 top-4 h-[150px] rounded-[26px] sm:h-[196px] border border-border bg-surface-2"
           style={{ transformOrigin: '50% 100%' }}
           variants={{
             rest: { rotate: i ? -7 : 5, x: i ? -14 : 12, y: i ? 6 : 2 },
@@ -25,12 +25,12 @@ export default function DeckHero({ count, colors, caption }: { count: number; co
         </motion.div>
       ))}
       <motion.div
-        className="lx-card-surface absolute inset-x-6 top-4 flex h-[196px] flex-col items-center justify-center rounded-[26px] border border-border-strong"
+        className="lx-card-surface absolute inset-x-6 top-4 flex h-[150px] flex-col sm:h-[196px] items-center justify-center rounded-[26px] border border-border-strong"
         variants={{ rest: { y: 0 }, hover: { y: -6 } }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
         <div className="absolute inset-x-5 top-4 h-1.5 rounded-full bg-accent" />
-        <div className="text-[76px] font-semibold leading-none tracking-[-0.04em] text-fg">{formatNumber(count)}</div>
+        <div className="text-[60px] font-semibold leading-none sm:text-[76px] tracking-[-0.04em] text-fg">{formatNumber(count)}</div>
         <div className="mt-2 text-sm font-medium text-muted">{caption}</div>
       </motion.div>
     </motion.div>

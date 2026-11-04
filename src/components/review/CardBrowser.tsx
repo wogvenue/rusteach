@@ -120,10 +120,10 @@ function Detail({ row }: { row: Row }) {
     ['Planlanan', row.entry.suspended ? 'Askıda' : dateLabel(c.due)],
   ];
   return (
-    <div className="grid gap-4 px-4 pb-4 pt-1 @3xl:grid-cols-[minmax(0,1fr)_260px] sm:px-5">
+    <div className="grid grid-cols-1 gap-4 px-4 pb-4 pt-1 @3xl:grid-cols-[minmax(0,1fr)_260px] sm:px-5">
       <div className="min-w-0 space-y-3">
         {row.frontHtml ? (
-          <div className="grid gap-3 @2xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 @2xl:grid-cols-2">
             <div className="rounded-2xl border border-border bg-surface-2/60 p-3.5">
               <div className="mb-1.5 text-xs font-semibold text-muted">Ön yüz</div>
               <Prose html={row.frontHtml} className="text-sm text-fg" />
@@ -177,7 +177,7 @@ function CardRow({ row, open, onToggle, now }: { row: Row; open: boolean; onTogg
         >
           <span
             className={clsx(
-              'grid size-9 shrink-0 place-items-center rounded-xl border border-border',
+              'grid size-9 shrink-0 place-items-center rounded-xl border border-border max-sm:hidden',
               row.entry.kind === 'flashcard' ? 'bg-accent-soft text-accent' : 'bg-info-soft text-info',
               suspended && 'opacity-50',
             )}
@@ -196,7 +196,7 @@ function CardRow({ row, open, onToggle, now }: { row: Row; open: boolean; onTogg
           <ChevronDown className={clsx('size-4 shrink-0 text-subtle transition-transform', open && 'rotate-180')} aria-hidden />
         </button>
 
-        <div className="order-last col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 pl-12 @3xl:order-none @3xl:col-span-3 @3xl:grid @3xl:grid-cols-[128px_132px_118px] @3xl:gap-x-3 @3xl:pl-0">
+        <div className="order-last col-span-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 sm:pl-12 @3xl:order-none @3xl:col-span-3 @3xl:grid @3xl:grid-cols-[128px_132px_118px] @3xl:gap-x-3 @3xl:pl-0">
           <span>
             <span className="sr-only">Durum: </span>
             {suspended ? (
@@ -314,7 +314,7 @@ export default function CardBrowser({ now }: { now: Date }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 rounded-3xl border border-border bg-surface p-4">
-        <div className="grid gap-2.5 @3xl:grid-cols-[minmax(0,1fr)_220px_150px_170px]">
+        <div className="grid grid-cols-1 gap-2.5 @3xl:grid-cols-[minmax(0,1fr)_220px_150px_170px]">
           <SearchField value={query} onChange={resetPaging(setQuery)} placeholder="Kartlarda ara…" label="Kartlarda ara" />
           <SelectField value={moduleId} onChange={resetPaging(setModuleId)} options={moduleOptions} label="Modül" />
           <SelectField

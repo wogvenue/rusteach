@@ -166,7 +166,7 @@ function InstallGuide({ electron }: { electron: boolean }) {
     <div className="py-4">
       <h3 className="text-sm font-semibold text-fg">Rust’ı bilgisayarına kur</h3>
       <p className="mt-0.5 text-[13px] text-muted">Yaklaşık 10 dakika sürer ve bir kez yapılır.</p>
-      <ol className="mt-3 grid gap-2.5 @3xl:grid-cols-2">
+      <ol className="mt-3 grid grid-cols-1 gap-2.5 @3xl:grid-cols-2">
         {steps.map((st, i) => (
           <li key={st.title} className="flex gap-3 rounded-2xl border border-border p-3.5">
             <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent-soft text-[13px] font-bold text-accent" aria-hidden>

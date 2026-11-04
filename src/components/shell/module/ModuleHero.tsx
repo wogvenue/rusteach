@@ -8,6 +8,7 @@ import { Button } from '../../ui/Button';
 import { Badge, ProgressRing } from '../../ui/primitives';
 import TierScenery from '../TierScenery';
 import { tierVars } from '../RegionBanner';
+import { useIsMobile } from '../../layout/useIsMobile';
 import { STATUS_LABEL } from '../stats';
 import { fmtDate, fmtNum, fmtPct } from '../turkish';
 import { BOSS_PASS_THRESHOLD, canTakeSkipTest, moduleProgress, type ModuleStatus, type ProgressData } from '../../../store/progress';
@@ -16,6 +17,7 @@ import type { Module, Tier } from '../../../types/content';
 import { MODULE_STATUS_TONE, moduleNext, moduleTotals, lessonsDone } from './moduleInfo';
 
 export default function ModuleHero({ s, m, tier, status }: { s: ProgressData; m: Module; tier?: Tier; status: ModuleStatus }) {
+  const mobile = useIsMobile();
   const color = tier?.color ?? m.color;
   const totals = moduleTotals(m);
   const progress = moduleProgress(s, m);
@@ -27,7 +29,7 @@ export default function ModuleHero({ s, m, tier, status }: { s: ProgressData; m:
   return (
     <section
       aria-labelledby="module-title"
-      className="glow-mesh relative isolate overflow-hidden rounded-3xl border p-6 shadow-card lg:p-8"
+      className="glow-mesh relative isolate overflow-hidden rounded-3xl border p-5 shadow-card sm:p-6 lg:p-8"
       style={{
         ...tierVars(color),
         ['--glow-color' as string]: locked ? 'var(--c-subtle)' : color,
@@ -44,7 +46,7 @@ export default function ModuleHero({ s, m, tier, status }: { s: ProgressData; m:
         />
       )}
 
-      <div className="flex flex-col gap-7 @3xl:flex-row @3xl:items-start">
+      <div className="flex flex-col gap-5 sm:gap-7 @3xl:flex-row @3xl:items-start">
         <div className="flex min-w-0 flex-1 gap-5">
           <ModuleIcon m={m} locked={locked} mastered={mastered} />
           <div className="min-w-0 flex-1">
@@ -68,10 +70,10 @@ export default function ModuleHero({ s, m, tier, status }: { s: ProgressData; m:
                 {STATUS_LABEL[status]}
               </Badge>
             </div>
-            <h1 id="module-title" className="mt-2 text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] text-fg">
+            <h1 id="module-title" className="mt-2 text-[26px] font-semibold leading-[1.1] sm:text-[32px] tracking-[-0.03em] text-fg">
               {m.title}
             </h1>
-            {m.subtitle && <p className="mt-1.5 text-[16px] leading-6 text-muted">{m.subtitle}</p>}
+            {m.subtitle && <p className="mt-1.5 text-[15px] leading-6 text-muted sm:text-[16px]">{m.subtitle}</p>}
             {m.description && (
               <div className="lesson-prose prose-sm mt-4 max-w-[64ch] text-muted" dangerouslySetInnerHTML={{ __html: m.description }} />
             )}
@@ -90,13 +92,13 @@ export default function ModuleHero({ s, m, tier, status }: { s: ProgressData; m:
         <div className="flex shrink-0 items-center gap-4 @3xl:w-[200px] @3xl:flex-col @3xl:items-center @3xl:pt-1 @3xl:text-center">
           <ProgressRing
             value={mastered ? 1 : progress}
-            size={128}
-            stroke={10}
+            size={mobile ? 96 : 128}
+            stroke={mobile ? 8 : 10}
             color={mastered ? 'var(--c-gold)' : 'var(--tier)'}
             label="Modül ilerlemesi"
           >
             <span className="flex flex-col items-center">
-              <span className="text-[28px] font-semibold leading-none tracking-[-0.03em] text-fg">{fmtPct(mastered ? 1 : progress)}</span>
+              <span className="text-[22px] font-semibold leading-none tracking-[-0.03em] text-fg sm:text-[28px]">{fmtPct(mastered ? 1 : progress)}</span>
               <span className="mt-1 text-[11px] font-medium text-muted">tamamlandı</span>
             </span>
           </ProgressRing>

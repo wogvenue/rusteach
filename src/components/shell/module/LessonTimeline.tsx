@@ -41,13 +41,13 @@ function LessonRow({ s, lesson, index, last }: { s: ProgressData; lesson: Lesson
 
   const action =
     status === 'completed'
-      ? { label: 'Tekrar gözden geçir', icon: <RotateCcw className="size-4" />, variant: 'secondary' as const }
+      ? { label: 'Gözden geçir', icon: <RotateCcw className="size-4" />, variant: 'secondary' as const }
       : status === 'in_progress'
         ? { label: 'Devam et', icon: <Play className="size-4 fill-current" />, variant: 'primary' as const }
         : { label: 'Başla', icon: <Play className="size-4 fill-current" />, variant: 'primary' as const };
 
   return (
-    <li className="relative flex gap-4 pb-3">
+    <li className="relative flex gap-3 pb-3 sm:gap-4">
       {/* rail */}
       {!last && (
         <span
@@ -72,8 +72,8 @@ function LessonRow({ s, lesson, index, last }: { s: ProgressData; lesson: Lesson
           !locked && 'hover:border-border-strong',
         )}
       >
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-3 p-4">
-          <div className="min-w-0 flex-1 basis-[260px]">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5 p-3.5 sm:p-4">
+          <div className="min-w-0 flex-1 basis-[220px]">
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-muted">
               <span>Ders {index + 1}</span>
               {lesson.minutes > 0 && (
@@ -102,7 +102,7 @@ function LessonRow({ s, lesson, index, last }: { s: ProgressData; lesson: Lesson
             </h3>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-1.5 max-sm:-ml-2.5 max-sm:w-[calc(100%+0.625rem)] max-sm:justify-between">
             {lesson.objectives.length > 0 && (
               <button
                 type="button"

@@ -7,6 +7,7 @@ import Ferris, { type FerrisMood } from '../Ferris';
 import { Dialog } from '../ui/Dialog';
 import { Button } from '../ui/Button';
 import { useProgress, type Profile } from '../../store/progress';
+import { useIsMobile } from '../layout/useIsMobile';
 import { modules, tiers } from '../../lib/content';
 import { play } from '../../lib/sound';
 import { celebrateSmall } from '../../lib/celebrate';
@@ -58,7 +59,7 @@ const METHOD = [
 
 export default function Onboarding({ open }: { open: boolean }) {
   return (
-    <Dialog open={open} dismissible={false} labelledBy="onboarding-title" className="max-w-[860px] overflow-hidden">
+    <Dialog open={open} dismissible={false} labelledBy="onboarding-title" className="max-w-[860px] overflow-hidden max-sm:rounded-2xl">
       <OnboardingFlow />
     </Dialog>
   );
@@ -73,6 +74,7 @@ function OnboardingFlow() {
   const [experience, setExperience] = useState<Experience | undefined>(profile.experience);
   const [goal, setGoal] = useState(GOALS.some((g) => g.xp === currentGoal) ? currentGoal : 100);
   const heading = useRef<HTMLHeadingElement>(null);
+  const mobile = useIsMobile();
   const last = STEPS.length - 1;
 
   useEffect(() => {
@@ -106,9 +108,9 @@ function OnboardingFlow() {
   const primaryLabel = ['Tanışalım', 'Devam', 'Devam', 'Devam', 'Yolculuğa başla'][step];
 
   return (
-    <form onSubmit={submit} className="grid min-h-[520px] grid-cols-[minmax(0,300px)_1fr]">
+    <form onSubmit={submit} className="grid grid-cols-1 md:min-h-[520px] md:grid-cols-[minmax(0,300px)_1fr]">
       {/* illustration */}
-      <div className="relative flex flex-col items-center justify-center overflow-hidden border-r border-border bg-surface-2 px-6">
+      <div className="relative flex flex-col items-center justify-center overflow-hidden border-border bg-surface-2 px-6 max-md:border-b max-md:py-4 md:border-r">
         <div
           aria-hidden
           className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_35%,color-mix(in_oklab,var(--c-accent)_26%,transparent),transparent_70%)]"
@@ -128,13 +130,13 @@ function OnboardingFlow() {
               {STEPS[step].bubble}
               <span className="absolute -bottom-[7px] left-1/2 size-3 -translate-x-1/2 rotate-45 border-b border-r border-border-strong bg-elevated" />
             </div>
-            <Ferris mood={STEPS[step].mood} size={200} />
+            <Ferris mood={STEPS[step].mood} size={mobile ? 96 : 200} />
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* content */}
-      <div className="flex min-w-0 flex-col p-8 pb-6">
+      <div className="flex min-w-0 flex-col p-5 sm:p-8 sm:pb-6">
         <div className="relative flex-1">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div
@@ -151,7 +153,7 @@ function OnboardingFlow() {
                   title="Merhaba, ben Ferris!"
                   lead="Rust topluluğunun maskotuyum ve bu yolculukta rehberin olacağım. Rusteach’te Rust’ı hiç bilmeden başlayıp uzmanlık seviyesine kadar öğreneceksin: kısa derslerle, gerçek kodla ve bol pratikle."
                 >
-                  <ul className="mt-6 space-y-2.5 text-[15px]">
+                  <ul className="mt-5 space-y-2.5 text-[14px] sm:mt-6 sm:text-[15px]">
                     <Fact icon="🗺️">
                       {tiers.length} bölgeye yayılmış {Math.max(modules.length, 1)} modüllük bir yolculuk
                     </Fact>
@@ -205,7 +207,7 @@ function OnboardingFlow() {
 
               {step === 3 && (
                 <StepBody headingRef={heading} title="Günlük hedefini seç" lead="Her gün biraz çalışmak, haftada bir uzun oturumdan çok daha kalıcıdır.">
-                  <div role="radiogroup" aria-labelledby="onboarding-title" className="mt-5 grid grid-cols-3 gap-2.5">
+                  <div role="radiogroup" aria-labelledby="onboarding-title" className="mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                     {GOALS.map((g) => (
                       <button
                         key={g.xp}
@@ -214,23 +216,23 @@ function OnboardingFlow() {
                         aria-checked={goal === g.xp}
                         onClick={() => setGoal(g.xp)}
                         className={clsx(
-                          'relative flex flex-col items-start rounded-2xl border p-4 text-left transition-colors',
+                          'relative flex flex-col items-start rounded-2xl border p-4 text-left transition-colors max-sm:flex-row max-sm:items-center max-sm:gap-3 max-sm:py-3',
                           goal === g.xp
                             ? 'border-accent bg-accent-soft'
                             : 'border-border-strong bg-surface-2 hover:border-subtle',
                         )}
                       >
                         {g.recommended && (
-                          <span className="absolute right-2.5 top-2.5 rounded-full bg-accent px-2 text-[10px] font-bold leading-5 text-accent-fg">
+                          <span className="absolute right-2.5 top-2.5 rounded-full bg-accent px-2 text-[10px] font-bold leading-5 text-accent-fg max-sm:-top-2.5 max-sm:right-3">
                             Önerilen
                           </span>
                         )}
                         <span className="text-[15px] font-semibold text-fg">{g.title}</span>
-                        <span className="mt-2 text-2xl font-bold tracking-tight tabular-nums text-fg">
+                        <span className="mt-2 text-2xl font-bold tracking-tight tabular-nums text-fg max-sm:order-last max-sm:ml-auto max-sm:mt-0 max-sm:text-xl">
                           {g.xp}
                           <span className="ml-1 text-sm font-semibold text-muted">XP</span>
                         </span>
-                        <span className="mt-1 text-xs text-muted">{g.text}</span>
+                        <span className="mt-1 text-xs text-muted max-sm:mt-0">{g.text}</span>
                       </button>
                     ))}
                   </div>
@@ -262,7 +264,7 @@ function OnboardingFlow() {
         </div>
 
         {/* footer */}
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <ol className="flex items-center gap-1.5" aria-label={`Adım ${step + 1} / ${STEPS.length}`}>
             {STEPS.map((_, i) => (
               <li
@@ -308,10 +310,10 @@ function StepBody({
 }) {
   return (
     <div>
-      <h2 id="onboarding-title" ref={headingRef} tabIndex={-1} className="text-[28px] font-semibold leading-tight tracking-[-0.025em] text-fg outline-none">
+      <h2 id="onboarding-title" ref={headingRef} tabIndex={-1} className="text-[23px] font-semibold leading-tight tracking-[-0.025em] text-fg outline-none sm:text-[28px]">
         {title}
       </h2>
-      <p className="mt-2 max-w-[46ch] text-[15px] leading-6 text-muted">{lead}</p>
+      <p className="mt-2 max-w-[46ch] text-[14px] leading-6 text-muted sm:text-[15px]">{lead}</p>
       {children}
     </div>
   );
@@ -320,7 +322,7 @@ function StepBody({
 function Fact({ icon, children }: { icon: string; children: ReactNode }) {
   return (
     <li className="flex items-center gap-3">
-      <span className="grid size-9 place-items-center rounded-xl bg-surface-2 text-lg" aria-hidden>
+      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-2 text-lg" aria-hidden>
         {icon}
       </span>
       <span className="text-fg">{children}</span>

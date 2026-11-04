@@ -1,5 +1,5 @@
 // Tabs with an animated underline; arrow keys move between tabs (automatic activation).
-import { useId, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
@@ -33,6 +33,14 @@ export function Tabs<T extends string>({
   const underline = useId();
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const idx = Math.max(0, tabs.findIndex((t) => t.id === value));
+  useEffect(() => {
+    // keep the active tab visible when the strip scrolls sideways (phones)
+    const el = refs.current[idx];
+    const strip = el?.parentElement;
+    if (el && strip && strip.scrollWidth > strip.clientWidth) {
+      strip.scrollTo({ left: el.offsetLeft - (strip.clientWidth - el.offsetWidth) / 2, behavior: 'smooth' });
+    }
+  }, [idx]);
   const go = (i: number) => {
     const n = (i + tabs.length) % tabs.length;
     onChange(tabs[n].id);
@@ -42,7 +50,8 @@ export function Tabs<T extends string>({
     <div
       role="tablist"
       aria-label={label}
-      className={clsx('flex items-center gap-1 border-b border-border', className)}
+      // the bottom rule is an inset shadow so the strip can scroll sideways on phones without clipping it
+      className={clsx('flex items-center gap-1 overflow-x-auto shadow-[inset_0_-1px_0_var(--c-border)] [scrollbar-width:none]', className)}
       onKeyDown={(e) => {
         if (e.key === 'ArrowRight') {
           e.preventDefault();
@@ -76,7 +85,7 @@ export function Tabs<T extends string>({
             tabIndex={active ? 0 : -1}
             onClick={() => onChange(t.id)}
             className={clsx(
-              'relative -mb-px inline-flex h-11 items-center gap-2 rounded-t-lg px-3.5 text-sm font-semibold transition-colors',
+              'relative inline-flex h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-t-lg px-3.5 text-sm font-semibold transition-colors max-sm:px-2.5 max-sm:[&>svg]:hidden',
               active ? 'text-fg' : 'text-muted hover:text-fg',
             )}
           >
@@ -95,7 +104,7 @@ export function Tabs<T extends string>({
             {active && (
               <motion.span
                 layoutId={underline}
-                className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-accent"
+                className="absolute inset-x-2 bottom-0 h-[2px] rounded-full bg-accent"
                 transition={{ type: 'spring', stiffness: 500, damping: 38 }}
               />
             )}

@@ -14,7 +14,7 @@ export function LearnPage({ children, className }: { children: ReactNode; classN
   const reduced = useReducedMotionSetting();
   return (
     <MotionConfig reducedMotion={reduced ? 'always' : 'user'}>
-      <div className={clsx('@container mx-auto w-full max-w-[1240px] px-6 pb-14 pt-7 lg:px-8', className)}>{children}</div>
+      <div className={clsx('@container mx-auto w-full max-w-[1240px] px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:px-8', className)}>{children}</div>
     </MotionConfig>
   );
 }
@@ -32,7 +32,7 @@ export function PageHeader({
   return (
     <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <h1 className="text-[30px] font-semibold leading-tight tracking-[-0.03em] text-fg">{title}</h1>
+        <h1 className="text-[26px] font-semibold leading-tight sm:text-[30px] tracking-[-0.03em] text-fg">{title}</h1>
         {subtitle && <p className="mt-1.5 max-w-[72ch] text-[15px] leading-6 text-muted">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}

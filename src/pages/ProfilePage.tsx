@@ -23,9 +23,9 @@ export default function ProfilePage() {
   }, [hash]);
 
   return (
-    <div className="@container mx-auto w-full max-w-[1240px] px-6 pb-14 pt-7 lg:px-8">
+    <div className="@container mx-auto w-full max-w-[1240px] px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:px-8">
       <ProfileHero s={s} />
-      <div className="mt-6 grid gap-6 @5xl:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mt-6 grid grid-cols-1 gap-6 @5xl:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-6">
           <AchievementsSection s={s} />
         </div>

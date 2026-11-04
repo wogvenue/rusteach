@@ -51,13 +51,13 @@ function useActiveSection(): string {
 export default function SettingsPage() {
   const active = useActiveSection();
   return (
-    <div className="@container mx-auto w-full max-w-[1120px] px-6 pb-14 pt-7 lg:px-8">
+    <div className="@container mx-auto w-full max-w-[1120px] px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:px-8">
       <header className="mb-6">
-        <h1 className="text-[30px] font-semibold leading-tight tracking-[-0.03em] text-fg">Ayarlar</h1>
+        <h1 className="text-[26px] font-semibold leading-tight sm:text-[30px] tracking-[-0.03em] text-fg">Ayarlar</h1>
         <p className="mt-1.5 text-[15px] text-muted">Değişiklikler hemen uygulanır ve otomatik kaydedilir.</p>
       </header>
 
-      <div className="grid gap-6 @4xl:grid-cols-[200px_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-[200px_minmax(0,1fr)]">
         <nav aria-label="Ayar bölümleri" className="hidden @4xl:block">
           <ul className="sticky top-6 space-y-0.5">
             {SECTIONS.map(({ id, label, icon: Icon }) => (

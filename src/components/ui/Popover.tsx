@@ -1,7 +1,7 @@
 // Click-to-open popover anchored below its trigger. Closes on outside click and Escape
 // (returning focus to the trigger). Rendered inline (absolute), so place it inside a
 // container that does not clip overflow.
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode, type Ref } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode, type Ref } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 
@@ -34,6 +34,25 @@ export function Popover({
   const wrap = useRef<HTMLDivElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+
+  // horizontal nudge that keeps the panel inside the viewport (narrow phone screens)
+  const [shift, setShift] = useState(0);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setShift(0);
+      return;
+    }
+    const el = panel.current;
+    if (!el || !wrap.current) return;
+    // layout box, not the rect: the entry animation is still scaling the panel at this point
+    const left = wrap.current.getBoundingClientRect().left + el.offsetLeft - (align === 'center' ? el.offsetWidth / 2 : 0);
+    const right = left + el.offsetWidth;
+    const margin = 8;
+    const vw = document.documentElement.clientWidth;
+    if (left < margin) setShift(margin - left);
+    else if (right > vw - margin) setShift(vw - margin - right);
+  }, [open, align]);
 
   const close = useCallback((focusTrigger = false) => {
     setOpen(false);
@@ -85,12 +104,13 @@ export function Popover({
             role="dialog"
             aria-label={label}
             className={clsx(
-              'no-drag absolute top-full z-[90] mt-2 origin-top rounded-2xl border border-border-strong bg-elevated text-fg shadow-pop',
+              'no-drag absolute top-full z-[90] mt-2 max-w-[calc(100vw-16px)] origin-top rounded-2xl border border-border-strong bg-elevated text-fg shadow-pop',
               align === 'end' && 'right-0 origin-top-right',
               align === 'start' && 'left-0 origin-top-left',
               align === 'center' && 'left-1/2 -translate-x-1/2',
               panelClassName,
             )}
+            style={{ x: shift }}
             initial={{ opacity: 0, y: -6, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98, transition: { duration: 0.12 } }}

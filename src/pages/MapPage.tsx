@@ -116,10 +116,10 @@ export default function MapPage() {
 
   return (
     <div className="pb-20">
-      <header className="mx-auto w-full max-w-[1100px] px-6 pt-7 lg:px-8">
+      <header className="mx-auto w-full max-w-[1100px] px-4 pt-5 sm:px-6 sm:pt-7 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="min-w-0 max-w-[620px]">
-            <h1 className="text-[30px] font-semibold leading-tight tracking-[-0.03em] text-fg">Yolculuk Haritası</h1>
+            <h1 className="text-[26px] font-semibold leading-tight sm:text-[30px] tracking-[-0.03em] text-fg">Yolculuk Haritası</h1>
             <p className="mt-2 text-[15px] leading-6 text-muted">
               Başlangıç Koyu’ndan Uzman Zirvesi’ne {tiers.length} bölge, {modules.length} modül. Her modül bir sınavla biter:
               {' '}

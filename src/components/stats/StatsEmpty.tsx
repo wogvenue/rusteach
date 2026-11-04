@@ -52,7 +52,7 @@ export default function StatsEmpty() {
       >
         <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />
         <div className="lx-hairline-grid pointer-events-none absolute inset-0 opacity-30" aria-hidden />
-        <div className="relative grid items-center gap-8 px-8 py-10 @4xl:grid-cols-[minmax(0,1fr)_auto]">
+        <div className="relative grid grid-cols-1 items-center gap-8 px-8 py-10 @4xl:grid-cols-[minmax(0,1fr)_auto]">
           <div className="flex flex-col items-center gap-6 text-center @2xl:flex-row @2xl:items-center @2xl:text-left">
             <Ferris mood="wave" size={128} />
             <div className="max-w-lg">
@@ -87,7 +87,7 @@ export default function StatsEmpty() {
         </div>
       </motion.section>
 
-      <ul className="grid gap-3 @3xl:grid-cols-2 @5xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-3 @3xl:grid-cols-2 @5xl:grid-cols-4">
         {FEATURES.map((f, i) => (
           <motion.li
             key={f.title}

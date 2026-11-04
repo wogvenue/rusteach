@@ -166,7 +166,7 @@ export const MapNode = forwardRef<HTMLAnchorElement, {
           onPointerLeave={() => onHover(null)}
         >
           <div className={clsx('text-xs font-semibold', locked ? 'text-subtle' : 'tier-ink')}>Modül {m.number}</div>
-          <div className={clsx('mt-0.5 line-clamp-2 text-[15px] font-semibold leading-snug tracking-[-0.01em]', locked ? 'text-muted' : 'text-fg')}>
+          <div className={clsx('mt-0.5 font-semibold leading-snug tracking-[-0.01em]', labelW < 160 ? 'line-clamp-3 text-[14px]' : 'line-clamp-2 text-[15px]', locked ? 'text-muted' : 'text-fg')}>
             {m.title}
           </div>
           <div

@@ -131,10 +131,10 @@ export function ChartCard({
             type="button"
             onClick={() => setShowTable((v) => !v)}
             aria-pressed={showTable}
-            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-border px-2.5 text-xs font-semibold text-muted outline-none transition-colors hover:border-border-strong hover:text-fg focus-visible:ring-2 focus-visible:ring-accent"
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-border px-2.5 text-xs max-sm:w-8 max-sm:justify-center max-sm:px-0 font-semibold text-muted outline-none transition-colors hover:border-border-strong hover:text-fg focus-visible:ring-2 focus-visible:ring-accent"
           >
             {showTable ? <BarChart3 className="size-3.5" aria-hidden /> : <Table2 className="size-3.5" aria-hidden />}
-            {showTable ? 'Grafik' : 'Tablo'}
+            <span className="max-sm:sr-only">{showTable ? 'Grafik' : 'Tablo'}</span>
           </button>
         )}
       </div>

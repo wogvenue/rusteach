@@ -25,7 +25,7 @@ export function AppearanceSection() {
     <SettingsSection id="gorunum" title="Görünüm" description="Tema, hareket ve yazı boyutları" icon={<Palette className="size-[18px]" />}>
       <SettingRow
         title="Tema"
-        description="Sistem seçeneği Windows’un açık / koyu ayarını izler."
+        description="Sistem seçeneği cihazının açık / koyu ayarını izler."
         control={({ labelId }) => (
           <Segmented<Settings['theme']>
             labelledBy={labelId}

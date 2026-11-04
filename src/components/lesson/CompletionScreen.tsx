@@ -27,8 +27,8 @@ function mergeSummary(note: string, summary: string): string {
 
 function Stat({ icon, value, label, tone }: { icon: ReactNode; value: ReactNode; label: string; tone: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface px-4 py-3.5">
-      <div className={clsx('flex items-center gap-2 text-2xl font-bold tabular-nums tracking-tight', tone)}>
+    <div className="min-w-0 rounded-2xl border border-border bg-surface px-3 py-3 sm:px-4 sm:py-3.5">
+      <div className={clsx('flex items-center gap-1.5 text-xl font-bold tabular-nums tracking-tight sm:gap-2 sm:text-2xl', tone)}>
         {icon}
         {value}
       </div>
@@ -97,7 +97,7 @@ export default function CompletionScreen({
         >
           <Ferris mood={mood} size={150} />
         </motion.div>
-        <h1 id="complete-title" className="mt-4 text-3xl font-bold tracking-[-0.025em] text-fg">
+        <h1 id="complete-title" className="mt-4 text-2xl font-bold tracking-[-0.025em] text-fg sm:text-3xl">
           {repeat ? 'Ders yeniden tamamlandı!' : 'Ders tamamlandı!'}
         </h1>
         <p className="mt-1.5 text-muted">{lesson.title}</p>
@@ -107,7 +107,7 @@ export default function CompletionScreen({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, type: 'spring', stiffness: 220, damping: 26 }}
-        className="mt-8 grid grid-cols-3 gap-3"
+        className="mt-8 grid grid-cols-3 gap-2 sm:gap-3"
       >
         <Stat
           icon={<Zap className="size-5 fill-current" />}

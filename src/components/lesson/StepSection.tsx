@@ -1,6 +1,7 @@
 // One lesson step on the "forge rail": numbered node, title and the step's blocks.
 import { forwardRef, memo } from 'react';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 import { Check } from 'lucide-react';
 import type { Step } from '../../types/content';
 import BlockRenderer from '../blocks/BlockRenderer';
@@ -30,7 +31,7 @@ const StepSection = memo(
         ref={ref}
         id={`adim-${index + 1}`}
         data-state={state}
-        className="step-section relative pb-14 pl-[3.25rem] sm:pl-[3.6rem]"
+        className="step-section relative pb-12 pl-[2.6rem] sm:pb-14 sm:pl-[3.6rem]"
         initial={animateIn ? { opacity: 0, y: 18 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 220, damping: 30 }}
@@ -46,7 +47,7 @@ const StepSection = memo(
             Giriş
           </h2>
         )}
-        <div className={step.titleHtml ? 'mt-5 space-y-7' : 'space-y-7 pt-1'}>
+        <div className={clsx('step-blocks space-y-7', step.titleHtml ? 'mt-5' : 'pt-1')}>
           {step.blocks.map((b, bi) => (
             <BlockRenderer
               key={'id' in b ? b.id : `md-${bi}`}

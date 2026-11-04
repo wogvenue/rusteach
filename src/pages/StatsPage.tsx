@@ -62,11 +62,11 @@ export default function StatsPage() {
           <StatTiles o={data.overview} weekXp={data.week.xp} weekSeconds={data.week.seconds} />
           <InsightList insights={data.insights} />
           <ActivityHeatmap data={data.heatmap} goal={state.settings.dailyGoalXp} streak={state.streak} />
-          <div className="grid gap-5 @5xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 @5xl:grid-cols-2">
             <XpChart days={data.xp} goal={state.settings.dailyGoalXp} />
             <ForecastChart days={data.forecast} />
           </div>
-          <div className="grid gap-5 @5xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+          <div className="grid grid-cols-1 gap-5 @5xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
             <ModuleAccuracy rows={data.modules} />
             <MemoryStrength snap={data.memory} retention={data.retention} projected={data.projected} />
           </div>

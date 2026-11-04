@@ -33,7 +33,7 @@ export default function LessonHeader({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 260, damping: 30 }}
-      className="relative overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-8"
+      className="relative overflow-hidden rounded-3xl border border-border bg-surface p-5 shadow-card sm:p-8"
       aria-labelledby="lesson-title"
     >
       <div

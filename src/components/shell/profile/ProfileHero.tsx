@@ -11,19 +11,21 @@ import { modules } from '../../../lib/content';
 import { useProgress, type ProgressData } from '../../../store/progress';
 import { completedLessonCount, effectiveStreak, journeyComplete, learnedCardCount, masteredModules, solvedExerciseCount } from '../stats';
 import { fmtDate, fmtDuration, fmtNum } from '../turkish';
+import { useIsMobile } from '../../layout/useIsMobile';
 
 export default function ProfileHero({ s }: { s: ProgressData }) {
+  const mobile = useIsMobile();
   const info = levelInfo(s.xp);
   const toNext = info.needed - info.current;
   const done = journeyComplete(s);
 
   return (
-    <section aria-labelledby="profile-name" className="glow-mesh relative isolate overflow-hidden rounded-3xl border border-border p-6 shadow-card lg:p-8">
-      <div className="flex flex-col gap-6 @3xl:flex-row @3xl:items-center">
+    <section aria-labelledby="profile-name" className="glow-mesh relative isolate overflow-hidden rounded-3xl border border-border p-5 shadow-card sm:p-6 lg:p-8">
+      <div className="flex flex-col gap-5 sm:gap-6 @3xl:flex-row @3xl:items-center">
         <div className="relative shrink-0 self-start @3xl:self-center">
-          <ProgressRing value={info.progress} size={148} stroke={8} color="var(--c-xp)" label={`Seviye ${info.level} ilerlemesi`}>
-            <span className="grid size-[118px] place-items-center rounded-full bg-[radial-gradient(circle_at_50%_35%,color-mix(in_oklab,var(--c-accent)_22%,var(--c-surface-2)),var(--c-surface-2))]">
-              <Ferris size={92} mood={done ? 'celebrate' : 'happy'} />
+          <ProgressRing value={info.progress} size={mobile ? 112 : 148} stroke={mobile ? 7 : 8} color="var(--c-xp)" label={`Seviye ${info.level} ilerlemesi`}>
+            <span className="grid size-[88px] place-items-center rounded-full sm:size-[118px] bg-[radial-gradient(circle_at_50%_35%,color-mix(in_oklab,var(--c-accent)_22%,var(--c-surface-2)),var(--c-surface-2))]">
+              <Ferris size={mobile ? 68 : 92} mood={done ? 'celebrate' : 'happy'} />
             </span>
           </ProgressRing>
           <span className="absolute -bottom-1 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-full border-2 border-surface bg-xp px-2.5 py-0.5 text-[13px] font-bold text-[#1f1600] shadow">
@@ -33,7 +35,7 @@ export default function ProfileHero({ s }: { s: ProgressData }) {
 
         <div className="min-w-0 flex-1">
           <NameEditor name={s.profile.name} />
-          <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] text-muted">
+          <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[14px] text-muted sm:text-[15px]">
             <span className="inline-flex items-center gap-1.5 font-semibold text-fg">
               <span aria-hidden>{info.emoji}</span>
               {info.title}
@@ -70,7 +72,7 @@ export default function ProfileHero({ s }: { s: ProgressData }) {
         </div>
       </div>
 
-      <dl className="mt-7 grid grid-cols-2 gap-2.5 @2xl:grid-cols-4">
+      <dl className="mt-6 grid grid-cols-2 gap-2 sm:mt-7 sm:gap-2.5 @2xl:grid-cols-4">
         <Total icon={<Flame className="size-4 text-streak" />} label="Güncel seri" value={`${fmtNum(effectiveStreak(s))} gün`} />
         <Total icon={<Sparkles className="size-4 text-streak" />} label="En uzun seri" value={`${fmtNum(s.streak.best)} gün`} />
         <Total icon={<BookOpen className="size-4 text-info" />} label="Biten ders" value={fmtNum(completedLessonCount(s))} />
@@ -155,7 +157,7 @@ function NameEditor({ name }: { name: string }) {
 
   return (
     <div className="flex min-w-0 items-center gap-2">
-      <h1 id="profile-name" className="truncate text-[32px] font-semibold leading-tight tracking-[-0.03em] text-fg">
+      <h1 id="profile-name" className="truncate text-[26px] font-semibold leading-tight sm:text-[32px] tracking-[-0.03em] text-fg">
         {name.trim() || 'Rustacean'}
       </h1>
       <IconButton ref={editBtn} label="Adını düzenle" onClick={start}>

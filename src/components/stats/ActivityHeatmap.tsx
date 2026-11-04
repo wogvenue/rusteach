@@ -147,7 +147,7 @@ export default function ActivityHeatmap({ data, goal, streak }: { data: HeatmapD
         )
       }
     >
-      <div className="grid gap-6 @4xl:grid-cols-[minmax(0,1fr)_220px]">
+      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-[minmax(0,1fr)_220px]">
         <div className="min-w-0 max-w-[820px]">
           <div className="grid grid-cols-[2rem_repeat(26,minmax(0,1fr))] gap-[3px]" aria-hidden>
             {data.monthLabels.map((m) => (

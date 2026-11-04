@@ -64,7 +64,7 @@ export default function AchievementsSection({ s }: { s: ProgressData }) {
                   {ACHIEVEMENTS.filter((a) => a.category === g.cat).length}
                 </span>
               </h3>
-              <ul className="grid gap-2.5 @2xl:grid-cols-2 @5xl:grid-cols-3">
+              <ul className="grid grid-cols-1 gap-2.5 @2xl:grid-cols-2 @5xl:grid-cols-3">
                 {g.items.map((a) => (
                   <li key={a.id}>
                     <AchievementTile def={a} unlockedAt={s.achievements[a.id]} state={s} className="h-full" />

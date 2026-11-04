@@ -1043,3 +1043,25 @@
   30%, 50%, 70% { transform: translateX(-5px); }
   40%, 60% { transform: translateX(5px); }
 }
+
+/* ---------------------------------------------------------------- phones */
+
+@media (max-width: 639px) {
+  .lesson-prose {
+    font-size: calc(1rem * var(--content-scale, 1));
+    line-height: 1.7;
+  }
+  .lesson-prose.prose-sm { font-size: calc(0.9rem * var(--content-scale, 1)); }
+  .step-title { font-size: calc(1.3rem * var(--content-scale, 1)); }
+  .step-rail { width: 1.9rem; }
+  .step-node { width: 1.9rem; height: 1.9rem; }
+  .step-rail::before { top: 2.3rem; }
+  .lesson-prose table { font-size: 0.88em; }
+  .lesson-prose th,
+  .lesson-prose td { padding: 0.5em 0.65em; }
+  /* code tokens ("println!", "main") read badly when broken mid-word; spaces may still wrap */
+  .lesson-prose td code { overflow-wrap: normal; }
+  /* interactive blocks and code use the full width; the rail line runs behind them */
+  .step-blocks > .block-card,
+  .step-blocks > figure { margin-left: -2.6rem; }
+}

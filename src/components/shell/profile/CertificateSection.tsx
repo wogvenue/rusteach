@@ -58,7 +58,7 @@ export default function CertificateSection({ s }: { s: ProgressData }) {
             <div aria-hidden className="pointer-events-none select-none opacity-60 blur-[5px] saturate-50">
               <Certificate data={{ ...data, date: new Date().toISOString() }} />
             </div>
-            <div className="absolute inset-0 grid place-items-center bg-[color-mix(in_oklab,var(--c-bg)_45%,transparent)] p-4">
+            <div className="absolute inset-0 grid grid-cols-1 place-items-center bg-[color-mix(in_oklab,var(--c-bg)_45%,transparent)] p-4">
               <div className="w-full max-w-[380px] rounded-2xl border border-border-strong bg-surface p-5 text-center shadow-pop">
                 <span className="mx-auto grid size-11 place-items-center rounded-full bg-gold-soft text-gold" aria-hidden>
                   <Lock className="size-5" />

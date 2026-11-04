@@ -84,7 +84,7 @@ export default function CalibrationChart({ data, className }: { data: Calibratio
         ) : undefined
       }
     >
-      <div className="grid gap-6 @4xl:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <div className="flex flex-col">
           <ul className="grid grid-cols-3 items-end gap-2" aria-label="Güven seviyesine göre doğruluk">
             {data.rows.map((r, i) => (

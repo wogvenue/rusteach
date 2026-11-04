@@ -38,18 +38,18 @@ export default function Dashboard() {
   const mood: FerrisMood = brandNew ? 'wave' : goalDone ? 'celebrate' : g.mood === 'night' ? 'sleep' : 'happy';
 
   return (
-    <div className="@container mx-auto w-full max-w-[1240px] px-6 pb-14 pt-7 lg:px-8">
+    <div className="@container mx-auto w-full max-w-[1240px] px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:px-8">
       <header className="mb-6 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <p className="text-sm font-medium text-muted">{fmtDayLong(now)}</p>
-          <h1 className="mt-1 text-[30px] font-semibold leading-tight tracking-[-0.03em] text-fg">
+          <h1 className="mt-1 text-[26px] font-semibold leading-tight sm:text-[30px] tracking-[-0.03em] text-fg">
             {g.text}
             {name ? `, ${name}` : ''}
           </h1>
         </div>
       </header>
 
-      <div className="grid gap-5 @2xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-5 @2xl:grid-cols-12">
         <ContinueHero s={s} mood={mood} brandNew={brandNew} className="@2xl:col-span-7 @5xl:col-span-8" />
         <TodayPlan s={s} now={now} className="@2xl:col-span-5 @5xl:col-span-4" />
 
@@ -124,13 +124,13 @@ function ContinueHero({ s, mood, brandNew, className }: { s: ProgressState; mood
   return (
     <section
       aria-label="Kaldığın yer"
-      className={clsx('glow-mesh relative isolate overflow-hidden rounded-3xl border border-border p-6 shadow-card lg:p-7', className)}
+      className={clsx('glow-mesh relative isolate overflow-hidden rounded-3xl border border-border p-5 shadow-card sm:p-6 lg:p-7', className)}
       style={{ ['--glow-color' as string]: color, ...(tier ? tierVars(tier.color) : {}) }}
     >
       <div className="pointer-events-none absolute -bottom-3 right-3 -z-10 hidden @lg:block" aria-hidden>
         <Ferris size={150} mood={mood} />
       </div>
-      <div className="max-w-[min(520px,72%)]">{body}</div>
+      <div className="@lg:max-w-[min(520px,72%)]">{body}</div>
     </section>
   );
 }
@@ -139,7 +139,7 @@ function HeroText({ eyebrow, title, text }: { eyebrow: string; title: string; te
   return (
     <>
       <p className="tier-ink text-sm font-semibold">{eyebrow}</p>
-      <h2 className="mt-2 text-[26px] font-semibold leading-tight tracking-[-0.025em] text-fg">{title}</h2>
+      <h2 className="mt-2 text-[22px] font-semibold leading-tight sm:text-[26px] tracking-[-0.025em] text-fg">{title}</h2>
       <p className="mt-2 text-[15px] leading-6 text-muted">{text}</p>
     </>
   );
@@ -163,7 +163,7 @@ function NextLesson({ s, lesson, module, brandNew }: { s: ProgressState; lesson:
   return (
     <>
       <p className="tier-ink text-sm font-semibold">{eyebrow}</p>
-      <h2 className="mt-2 text-[26px] font-semibold leading-tight tracking-[-0.025em] text-fg">
+      <h2 className="mt-2 text-[22px] font-semibold leading-tight sm:text-[26px] tracking-[-0.025em] text-fg">
         {isBoss ? `${module.title}: Modül Sınavı` : lesson.title}
       </h2>
       <p className="mt-2 text-[15px] leading-6 text-muted">
@@ -425,7 +425,7 @@ function HowItWorks({ className }: { className?: string }) {
   return (
     <section aria-labelledby="how-title" className={clsx('rounded-3xl border border-border bg-surface p-5 shadow-card', className)}>
       <SectionHeader id="how-title" title="Rusteach nasıl öğretir?" description="Bilimsel olarak işe yaradığı gösterilen üç alışkanlık." />
-      <ol className="mt-4 grid gap-3 @xl:grid-cols-3">
+      <ol className="mt-4 grid grid-cols-1 gap-3 @xl:grid-cols-3">
         {steps.map((st, i) => (
           <li key={st.title} className="rounded-2xl bg-surface-2 p-4">
             <div className="flex items-center gap-2">
@@ -457,7 +457,7 @@ function CurrentRegion({ s, className }: { s: ProgressState; className?: string 
   return (
     <RegionBanner tier={tier} index={index} statuses={statuses} locked={locked} id="region-title" className={clsx('shadow-card', className)}>
       {ms.length > 0 ? (
-        <ol className="relative mt-5 grid gap-2 @xl:grid-cols-2 @5xl:grid-cols-3">
+        <ol className="relative mt-5 grid grid-cols-1 gap-2 @xl:grid-cols-2 @5xl:grid-cols-3">
           {ms.map((m, i) => (
             <li key={m.id}>
               <Link
@@ -588,7 +588,7 @@ function Achievements({ s, className }: { s: ProgressState; className?: string }
           </Link>
         }
       />
-      <div className="mt-3 grid gap-3 @2xl:grid-cols-3">
+      <div className="mt-3 grid grid-cols-1 gap-3 @2xl:grid-cols-3">
         {recent.map(({ def, at }) => (
           <AchievementTile key={def.id} def={def} unlockedAt={at} state={s} />
         ))}

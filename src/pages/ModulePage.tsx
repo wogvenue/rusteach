@@ -44,7 +44,7 @@ function ModuleView({ s, m }: { s: ProgressState; m: Module }) {
   const ids = (t: TabId) => tabIds('module', t);
 
   return (
-    <div className="@container mx-auto w-full max-w-[1240px] px-6 pb-14 pt-6 lg:px-8" style={tierVars(tier?.color ?? m.color)}>
+    <div className="@container mx-auto w-full max-w-[1240px] px-4 pb-10 pt-4 sm:px-6 sm:pb-14 sm:pt-6 lg:px-8" style={tierVars(tier?.color ?? m.color)}>
       <Link
         to="/harita"
         className="mb-4 inline-flex items-center gap-1 rounded-lg py-1 pr-2 text-[13px] font-semibold text-muted transition-colors hover:text-fg"
@@ -55,7 +55,7 @@ function ModuleView({ s, m }: { s: ProgressState; m: Module }) {
 
       <ModuleHero s={s} m={m} tier={tier} status={status} />
 
-      <div className="mt-8 grid gap-6 @5xl:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="mt-8 grid grid-cols-1 gap-6 @5xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0">
           <Tabs<TabId>
             idBase="module"

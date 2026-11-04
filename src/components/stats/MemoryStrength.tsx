@@ -149,7 +149,7 @@ export default function MemoryStrength({
           : `Tipik kartının kararlılığı ${formatDays(retention.stability)}: bu sürenin sonunda hatırlama olasılığı %90’a iner. %90 hedefi, zamanlayıcının kartı tekrar göstermeden önce izin verdiği en düşük olasılık.`
       }
     >
-      <div className="grid gap-5 @2xl:grid-cols-[minmax(0,14rem)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 @2xl:grid-cols-[minmax(0,14rem)_minmax(0,1fr)]">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <ProgressRing value={avg} size={76} stroke={7} color="var(--lx-chart-1)" label="Ortalama hatırlama olasılığı">

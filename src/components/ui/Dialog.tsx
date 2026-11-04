@@ -118,7 +118,7 @@ function DialogInner({
 
   return (
     <motion.div
-      className="no-drag fixed inset-0 z-[110] grid place-items-center overflow-y-auto p-4 sm:p-8"
+      className="no-drag fixed inset-0 z-[110] grid place-items-center-safe overflow-y-auto p-3 sm:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.18 } }}

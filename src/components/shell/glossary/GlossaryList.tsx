@@ -118,7 +118,7 @@ export default function GlossaryList({ onShowErrors }: { onShowErrors: () => voi
           <p className="mt-1 text-sm text-muted">Daha kısa bir kelime dene ya da İngilizce karşılığıyla ara.</p>
         </div>
       ) : q ? (
-        <ul className="mt-5 grid gap-2.5 @4xl:grid-cols-2">
+        <ul className="mt-5 grid grid-cols-1 gap-2.5 @4xl:grid-cols-2">
           {results.map((x) => (
             <Term key={x.key} e={x.e} />
           ))}
@@ -134,7 +134,7 @@ export default function GlossaryList({ onShowErrors }: { onShowErrors: () => voi
                 {letter}
                 <span aria-hidden className="h-px flex-1 bg-border" />
               </h2>
-              <ul className="grid gap-2.5 @4xl:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-2.5 @4xl:grid-cols-2">
                 {items.map((x) => (
                   <Term key={x.key} e={x.e} />
                 ))}

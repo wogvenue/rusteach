@@ -11,7 +11,7 @@ export default function Toaster() {
   const ordered = [...toasts].reverse(); // newest on top
   return (
     <div
-      className="no-drag pointer-events-none fixed right-4 top-[60px] z-[100] flex w-[min(380px,calc(100vw-32px))] flex-col items-end gap-2"
+      className="no-drag pointer-events-none fixed right-4 top-[calc(60px+var(--safe-area-inset-top,env(safe-area-inset-top)))] z-[100] flex w-[min(380px,calc(100vw-32px))] flex-col items-end gap-2 max-md:right-3 max-md:w-[calc(100vw-24px)]"
       role="region"
       aria-label="Bildirimler"
     >
@@ -24,7 +24,7 @@ export default function Toaster() {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 32, scale: 0.96, transition: { duration: 0.18 } }}
             transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-            className="pointer-events-auto"
+            className={clsx('pointer-events-auto', t.kind !== 'xp' && 'w-full')}
             role={t.kind === 'error' ? 'alert' : 'status'}
           >
             <ToastView t={t} onClose={() => dismiss(t.id)} />

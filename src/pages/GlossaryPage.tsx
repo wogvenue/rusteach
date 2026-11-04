@@ -32,9 +32,9 @@ export default function GlossaryPage() {
   const ids = tabIds('glossary', tab);
 
   return (
-    <div className="@container mx-auto w-full max-w-[1240px] px-6 pb-14 pt-7 lg:px-8">
+    <div className="@container mx-auto w-full max-w-[1240px] px-4 pb-10 pt-5 sm:px-6 sm:pb-14 sm:pt-7 lg:px-8">
       <header className="mb-5">
-        <h1 className="text-[30px] font-semibold leading-tight tracking-[-0.03em] text-fg">Sözlük ve Hata Rehberi</h1>
+        <h1 className="text-[26px] font-semibold leading-tight sm:text-[30px] tracking-[-0.03em] text-fg">Sözlük ve Hata Rehberi</h1>
         <p className="mt-1.5 max-w-[64ch] text-[15px] leading-6 text-muted">
           Rust terimlerinin Türkçe karşılıkları ve derleyicinin hata kodlarının ne anlama geldiği, nasıl düzeltildiği.
         </p>

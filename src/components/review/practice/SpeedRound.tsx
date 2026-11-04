@@ -19,6 +19,7 @@ import { Kbd, ProgressRing } from '../../ui/primitives';
 import ItemSheet from '../ItemSheet';
 import { EmptyState, SectionCard } from '../shared/ui';
 import { readLocal, useHotkeys, useStudyClock, writeLocal } from '../shared/hooks';
+import { useIsMobile } from '../../layout/useIsMobile';
 
 const BEST_KEY = 'rusteach-speed-best';
 const HISTORY_KEY = 'rusteach-speed-history';
@@ -93,24 +94,25 @@ function Intro({ poolSize, onStart }: { poolSize: number; onStart: () => void })
   const best = readLocal<SpeedBest | null>(BEST_KEY, null);
   const history = readLocal<SpeedRun[]>(HISTORY_KEY, []);
   const count = Math.min(SPEED_ROUND.size, poolSize);
+  const mobile = useIsMobile();
   useHotkeys({ Enter: onStart });
   return (
-    <div className="grid gap-5 @4xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-5 @4xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       <motion.section
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl border border-border bg-surface px-6 py-9 text-center"
+        className="relative overflow-hidden rounded-3xl border border-border bg-surface px-5 py-7 text-center sm:px-6 sm:py-9"
         aria-labelledby="speed-title"
       >
         <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />
         <div className="relative mx-auto flex max-w-md flex-col items-center">
-          <div className="relative grid size-40 place-items-center">
-            <ProgressRing value={1} size={160} stroke={10} label="Süre: 3 dakika">
+          <div className="relative grid size-32 place-items-center sm:size-40">
+            <ProgressRing value={1} size={mobile ? 128 : 160} stroke={mobile ? 8 : 10} label="Süre: 3 dakika">
               <span />
             </ProgressRing>
             <div className="absolute inset-0 grid place-items-center">
               <div>
-                <div className="text-[44px] font-semibold leading-none tracking-[-0.03em] text-fg lx-tabular">{formatClock(SPEED_ROUND.seconds)}</div>
+                <div className="text-[36px] font-semibold leading-none tracking-[-0.03em] text-fg lx-tabular sm:text-[44px]">{formatClock(SPEED_ROUND.seconds)}</div>
                 <div className="mt-1.5 text-sm font-medium text-muted">{count} soru</div>
               </div>
             </div>
@@ -191,7 +193,7 @@ function Results({ result, onAgain, onClose, onOpenMistakes }: { result: Finishe
       initial={{ opacity: 0, y: 16, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-      className="relative mx-auto max-w-[760px] overflow-hidden rounded-[32px] border border-border bg-surface px-6 pb-8 pt-9 sm:px-10"
+      className="relative mx-auto max-w-[760px] overflow-hidden rounded-[32px] border border-border bg-surface px-5 pb-7 pt-7 sm:px-10 sm:pb-8 sm:pt-9"
       aria-labelledby="speed-result-title"
     >
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-ember)' }} aria-hidden />
@@ -199,7 +201,7 @@ function Results({ result, onAgain, onClose, onOpenMistakes }: { result: Finishe
         <h2 id="speed-result-title" className="text-sm font-semibold text-muted">
           {result.finishedAll ? 'Tur tamamlandı' : 'Süre doldu'}
         </h2>
-        <div className="mt-2 text-[72px] font-semibold leading-none tracking-[-0.04em] text-fg">
+        <div className="mt-2 text-[56px] font-semibold leading-none sm:text-[72px] tracking-[-0.04em] text-fg">
           <AnimatedNumber value={result.score.total} duration={1.2} />
         </div>
         <div className="mt-1 text-sm text-muted">puan</div>

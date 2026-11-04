@@ -42,8 +42,8 @@ export default function ContinueBar({
         : `Devam etmek için ${joined}.`;
   }
   return (
-    <div className="pointer-events-none sticky bottom-0 z-20 -mx-4 bg-gradient-to-t from-bg from-55% to-transparent px-4 pb-5 pt-10">
-      <div className="pointer-events-auto flex min-h-12 flex-wrap items-center justify-end gap-3 pl-[3.25rem] sm:pl-[3.6rem]">
+    <div className="pointer-events-none sticky bottom-0 z-20 -mx-4 bg-gradient-to-t from-bg from-55% to-transparent px-4 pb-5 pt-10 max-sm:from-75% max-sm:pb-[calc(0.75rem+var(--safe-area-inset-bottom,env(safe-area-inset-bottom)))] max-sm:pt-8">
+      <div className="pointer-events-auto flex min-h-12 flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:pl-[3.6rem]">
         <AnimatePresence mode="popLayout" initial={false}>
           {!ready && (
             <motion.p
@@ -51,7 +51,7 @@ export default function ContinueBar({
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              className="mr-auto text-sm text-muted"
+              className="mr-auto text-sm text-muted max-sm:w-full max-sm:text-[13px]"
               aria-live="polite"
             >
               {hint}

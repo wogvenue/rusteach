@@ -28,7 +28,7 @@ const BlockFrame = forwardRef<HTMLElement, BlockFrameProps>(function BlockFrame(
       data-state={state}
       aria-label={ariaLabel ?? label}
     >
-      <header className="flex items-center gap-2.5 px-5 pb-1 pt-4">
+      <header className="flex items-center gap-2.5 px-4 pb-1 pt-4 sm:px-5">
         <span className="block-icon" aria-hidden="true">
           {icon}
         </span>
@@ -36,7 +36,7 @@ const BlockFrame = forwardRef<HTMLElement, BlockFrameProps>(function BlockFrame(
         <span className="flex-1" />
         {right}
       </header>
-      <div className={clsx('px-5 pb-5 pt-2', bodyClassName)}>{children}</div>
+      <div className={clsx('px-4 pb-4 pt-2 sm:px-5 sm:pb-5', bodyClassName)}>{children}</div>
       {footer}
     </section>
   );
