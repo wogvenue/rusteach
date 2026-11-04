@@ -39,7 +39,17 @@ fs.mkdirSync(CACHE_DIR, { recursive: true });
 fs.mkdirSync(LOCK_DIR, { recursive: true });
 
 // ------------------------------------------------------------------ backends
-const LOCAL_RUSTC = !FORCE_PLAYGROUND && spawnSync('rustc', ['--version'], { encoding: 'utf8', shell: false }).status === 0;
+// rustc on PATH, else rustup's bin dir (a shell opened before installing rustup has no PATH entry for it).
+function findRustc() {
+  const exe = process.platform === 'win32' ? 'rustc.exe' : 'rustc';
+  const dirs = [process.env.CARGO_HOME && path.join(process.env.CARGO_HOME, 'bin'), path.join(os.homedir(), '.cargo', 'bin')];
+  for (const cmd of ['rustc', ...dirs.filter(Boolean).map((d) => path.join(d, exe))]) {
+    if (spawnSync(cmd, ['--version'], { encoding: 'utf8', shell: false }).status === 0) return cmd;
+  }
+  return null;
+}
+const RUSTC = FORCE_PLAYGROUND ? null : findRustc();
+const LOCAL_RUSTC = RUSTC !== null;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function acquireSlot() {
@@ -111,14 +121,16 @@ function runLocal(kind, code, { crateType, tests }) {
     fs.writeFileSync(src, code);
     const exe = path.join(dir, process.platform === 'win32' ? 'prog.exe' : 'prog');
     const args = ['--edition', EDITION, '--crate-name', 'playground', '-o'];
+    // What cargo would set for the Playground's crate, so env!("CARGO_PKG_*") compiles like it does there.
+    const env = { ...process.env, CARGO_PKG_NAME: 'playground', CARGO_PKG_VERSION: '0.0.1' };
     if (kind === 'compile' || (crateType === 'lib' && !tests)) {
-      const c = spawnSync('rustc', [...args, path.join(dir, 'out.rmeta'), '--emit=metadata', '--crate-type', crateType, src], {
-        encoding: 'utf8', timeout: 60_000,
+      const c = spawnSync(RUSTC, [...args, path.join(dir, 'out.rmeta'), '--emit=metadata', '--crate-type', crateType, src], {
+        env, encoding: 'utf8', timeout: 60_000,
       });
       return { success: c.status === 0, stdout: '', stderr: c.stderr ?? '' };
     }
-    const c = spawnSync('rustc', [...args, exe, ...(tests ? ['--test'] : ['--crate-type', 'bin']), src], {
-      encoding: 'utf8', timeout: 90_000,
+    const c = spawnSync(RUSTC, [...args, exe, ...(tests ? ['--test'] : ['--crate-type', 'bin']), src], {
+      env, encoding: 'utf8', timeout: 90_000,
     });
     if (c.status !== 0) return { success: false, stdout: '', stderr: c.stderr ?? '' };
     const r = spawnSync(exe, tests ? ['--test-threads=1'] : [], { encoding: 'utf8', timeout: 10_000 });
