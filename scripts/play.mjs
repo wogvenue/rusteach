@@ -5,25 +5,31 @@
 //   node scripts/play.mjs check                  access test, version codes per track
 //   node scripts/play.mjs next                   next free version code (max over all tracks + 1)
 //   node scripts/play.mjs release [notes]        next code -> signed AAB -> upload to PLAY_TRACK
+//   node scripts/play.mjs build [code]           signed AAB only, no Play access (first upload by hand)
 //   node scripts/play.mjs upload <aab> [notes]   upload an already built AAB to PLAY_TRACK
 //   node scripts/play.mjs listing [json]         store texts (default store/listing.tr-TR.json)
 //   node scripts/play.mjs images                 icon, feature graphic and phone screenshots from store/
 //   node scripts/play.mjs promote <from> <to>    copies the live release of one track to another
 //   node scripts/play.mjs info                   prints the current store listing
 //
-// env: PLAY_PACKAGE (com.rusteach.app), PLAY_TRACK (internal), PLAY_KEY_FILE
-//      (C:/dev/keys/play-service.json), RUSTEACH_KEY_PROPS (upload key, read by Gradle only)
+// env: PLAY_PACKAGE (com.wogvenue.rusteach), PLAY_TRACK (internal), PLAY_STATUS (completed),
+//      PLAY_KEY_FILE (<keys>/play-service.json), RUSTEACH_KEY_PROPS (upload key, read by Gradle only)
+//      <keys> is C:/dev/keys on Windows, ~/dev/keys elsewhere. Linux builds use JAVA_HOME
+//      (~/.local/share/jdk-21) and ANDROID_HOME (~/Android/Sdk).
 import { createSign } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { request } from 'node:https';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PACKAGE = process.env.PLAY_PACKAGE || 'com.rusteach.app';
+const IS_WIN = process.platform === 'win32';
+const KEY_DIR = IS_WIN ? 'C:/dev/keys' : path.join(os.homedir(), 'dev/keys');
+const PACKAGE = process.env.PLAY_PACKAGE || 'com.wogvenue.rusteach';
 const TRACK = process.env.PLAY_TRACK || 'internal';
-const KEY_FILE = process.env.PLAY_KEY_FILE || 'C:/dev/keys/play-service.json';
+const KEY_FILE = process.env.PLAY_KEY_FILE || path.join(KEY_DIR, 'play-service.json');
 const LANG = 'tr-TR';
 const API = `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${PACKAGE}`;
 const UPLOAD_API = `https://androidpublisher.googleapis.com/upload/androidpublisher/v3/applications/${PACKAGE}`;
@@ -126,6 +132,15 @@ const nextCode = async () => Math.max(0, ...(await withEdit(trackCodes, false)).
 
 // Gradle needs the Android Studio JDK and a short temp dir (the user profile path has spaces).
 function gradle(...args) {
+  if (!IS_WIN) {
+    const env = {
+      ...process.env,
+      JAVA_HOME: process.env.JAVA_HOME || path.join(os.homedir(), '.local/share/jdk-21'),
+      ANDROID_HOME: process.env.ANDROID_HOME || path.join(os.homedir(), 'Android/Sdk'),
+    };
+    execFileSync('./gradlew', args, { cwd: path.join(ROOT, 'android'), env, stdio: 'inherit' });
+    return;
+  }
   const tmp = 'C:\\Android\\tmp';
   fs.mkdirSync(tmp, { recursive: true });
   const env = {
@@ -175,6 +190,12 @@ async function main() {
     execFileSync('npm', ['run', 'android:sync'], { cwd: ROOT, stdio: 'inherit', shell: true });
     gradle('bundleRelease', `-PversionCode=${code}`, '--console=plain', '-q');
     await upload(AAB, rest.join(' '));
+  } else if (cmd === 'build') {
+    // the very first AAB of a new app goes up by hand in Play Console, before the API can see the app
+    const code = rest[0] || 1;
+    execFileSync('npm', ['run', 'android:sync'], { cwd: ROOT, stdio: 'inherit', shell: true });
+    gradle('bundleRelease', `-PversionCode=${code}`, '--console=plain', '-q');
+    console.log(`Hazır (sürüm kodu ${code}): ${AAB}`);
   } else if (cmd === 'upload' && rest[0]) {
     await upload(rest[0], rest.slice(1).join(' '));
   } else if (cmd === 'listing') {
@@ -232,7 +253,7 @@ async function main() {
       }
     }, false);
   } else {
-    console.log('Kullanım: node scripts/play.mjs check | next | release [notlar] | upload <aab> [notlar] | listing [json] | images | promote <kaynak> <hedef> | info');
+    console.log('Kullanım: node scripts/play.mjs check | next | release [notlar] | build [kod] | upload <aab> [notlar] | listing [json] | images | promote <kaynak> <hedef> | info');
     process.exit(2);
   }
 }

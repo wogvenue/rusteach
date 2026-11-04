@@ -2,7 +2,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.rusteach.app',
+  appId: 'com.wogvenue.rusteach',
   appName: 'Rusteach',
   webDir: 'dist',
   backgroundColor: '#0b0e14',

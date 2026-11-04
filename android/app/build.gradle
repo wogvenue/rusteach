@@ -1,15 +1,20 @@
 apply plugin: 'com.android.application'
 
 // Upload key lives outside the repo; release builds stay unsigned when the file is missing.
-def keyPropsFile = file(System.getenv('RUSTEACH_KEY_PROPS') ?: 'C:/dev/keys/rusteach-key.properties')
+// Default spot: C:/dev/keys on Windows, ~/dev/keys elsewhere.
+def keyDir = new File('C:/dev/keys').exists() ? 'C:/dev/keys' : "${System.getProperty('user.home')}/dev/keys"
+def keyPropsFile = file(System.getenv('RUSTEACH_KEY_PROPS') ?: "${keyDir}/rusteach-key.properties")
 def keyProps = new Properties()
 if (keyPropsFile.exists()) keyPropsFile.withInputStream { keyProps.load(it) }
+// storeFile may hold the other OS's path; fall back to the keystore next to the properties file
+def keyStore = keyPropsFile.exists() ? file(keyProps['storeFile']) : null
+if (keyStore != null && !keyStore.exists()) keyStore = new File(keyPropsFile.parentFile, keyStore.name)
 
 android {
     namespace = "com.rusteach.app"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.rusteach.app"
+        applicationId "com.wogvenue.rusteach"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // scripts/play.mjs passes the next free Play version code; versionName follows package.json
@@ -25,7 +30,7 @@ android {
     signingConfigs {
         if (keyPropsFile.exists()) {
             release {
-                storeFile file(keyProps['storeFile'])
+                storeFile keyStore
                 storePassword keyProps['storePassword']
                 keyAlias keyProps['keyAlias']
                 keyPassword keyProps['keyPassword']
