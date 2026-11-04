@@ -125,7 +125,11 @@ async function withEdit(fn, commit) {
 
 async function trackCodes(editId) {
   const { tracks = [] } = await call('GET', `${API}/edits/${editId}/tracks`);
-  return tracks.map((t) => ({ track: t.track, codes: (t.releases || []).flatMap((r) => (r.versionCodes || []).map(Number)) }));
+  return tracks.map((t) => ({
+    track: t.track,
+    codes: (t.releases || []).flatMap((r) => (r.versionCodes || []).map(Number)),
+    states: (t.releases || []).map((r) => `${(r.versionCodes || []).join('+') || '-'} ${r.status}`),
+  }));
 }
 
 const nextCode = async () => Math.max(0, ...(await withEdit(trackCodes, false)).flatMap((t) => t.codes)) + 1;
@@ -180,7 +184,7 @@ async function main() {
 
   if (cmd === 'check') {
     const tracks = await withEdit(trackCodes, false);
-    for (const t of tracks) console.log(`${t.track}: ${t.codes.join(', ') || '(boş)'}`);
+    for (const t of tracks) console.log(`${t.track}: ${t.states.join(', ') || '(boş)'}`);
     console.log(`Erişim tamam (${PACKAGE}).`);
   } else if (cmd === 'next') {
     console.log(await nextCode());
