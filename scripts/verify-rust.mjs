@@ -14,7 +14,7 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync, spawn } from 'node:child_process';
-import { createMarkdown, wrapTests, normalizeOutput, fillCode, hasMain, parseLesson } from './lib/lesson-parser.mjs';
+import { createMarkdown, wrapTests, normalizeOutput, fillCode, hasMain, parseLesson, detectCrates } from './lib/lesson-parser.mjs';
 import { loadContent, printProblems, ROOT } from './lib/content-loader.mjs';
 
 // ------------------------------------------------------------------ args
@@ -278,8 +278,9 @@ function blockChecks(file, b) {
     case 'parsons': {
       if (b.verify === false) return;
       const code = b.source;
-      if (!hasMain(code)) return add(file, L, 'parsons (lib)', 'compile', code, { crateType: 'lib' }, expect.ok);
-      return add(file, L, 'parsons', 'execute', code, { crateType: 'bin' }, expect.ok);
+      const crates = detectCrates(code);
+      if (!hasMain(code)) return add(file, L, 'parsons (lib)', 'compile', code, { crateType: 'lib', crates }, expect.ok);
+      return add(file, L, 'parsons', 'execute', code, { crateType: 'bin', crates }, expect.ok);
     }
     case 'exercise': {
       const name = `exercise "${b.title}"`;
