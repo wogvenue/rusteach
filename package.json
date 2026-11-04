@@ -19,6 +19,8 @@
     "icon": "node scripts/make-icon.mjs",
     "pack": "npm run build && electron-builder --win --dir",
     "dist": "npm run build && electron-builder --win",
+    "pack:linux": "npm run build && electron-builder --linux --dir",
+    "install:linux": "npm run pack:linux && node scripts/install-linux.mjs",
     "android:sync": "npm run build && cap sync android",
     "android:bundle": "npm run android:sync && cd android && gradlew.bat bundleRelease",
     "play": "node scripts/play.mjs",
@@ -126,6 +128,14 @@
         }
       ],
       "icon": "build/icon.ico"
+    },
+    "linux": {
+      "target": [
+        "dir"
+      ],
+      "icon": "build/icon.png",
+      "executableName": "rusteach",
+      "category": "Education"
     },
     "nsis": {
       "oneClick": false,

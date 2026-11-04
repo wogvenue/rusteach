@@ -45,6 +45,15 @@ npm run dist
 
 Çıktılar `release/` klasörüne yazılır. Sadece paketlenmiş klasörü denemek için `npm run pack` yeterlidir (`release/win-unpacked/Rusteach.exe`).
 
+### Linux'ta kurmak
+
+```bash
+npm install
+npm run install:linux
+```
+
+Uygulama yalnızca kullanıcıya kurulur (root gerekmez): `~/.local/opt/rusteach`, menü kaydı ve `rusteach` komutu. Yeni sürümü kurmak için aynı komutu tekrar çalıştırın; kaldırmak için `node scripts/install-linux.mjs --uninstall`.
+
 ## Bilgisayarınıza Rust kurmak (önerilir)
 
 Uygulama **iki şekilde** kod çalıştırabilir:
@@ -53,6 +62,16 @@ Uygulama **iki şekilde** kod çalıştırabilir:
 2. **Çevrimiçi (Rust Playground):** Rust kurulu değilse uygulama otomatik olarak buna geçer. Çalışır, ama internet ister, yavaş olabilir ve `stdin` desteklemez.
 
 Sağ üstteki durum rozeti hangisinin kullanıldığını gösterir (Yerel Rust / Çevrimiçi / Rust bulunamadı).
+
+### Linux'ta
+
+<https://rustup.rs> adresindeki komutla kurun (root gerekmez, `~/.cargo` altına kurulur):
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Bağlayıcı için `gcc` kurulu olmalıdır. Güncellemek için `rustup update`.
 
 ### Windows'ta adım adım
 
@@ -96,6 +115,8 @@ Tüm ilerlemeniz (tamamlanan dersler, XP, tekrar kartları, ayarlar) **yalnızca
 ```
 %APPDATA%\Rusteach
 ```
+
+Linux'ta bu klasör `~/.config/Rusteach` olur.
 
 Hiçbir veri sunucuya gönderilmez. Kod, yalnızca çevrimiçi çalıştırma kullanılırken Rust Playground'a gönderilir.
 
